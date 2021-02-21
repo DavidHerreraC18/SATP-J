@@ -1,22 +1,36 @@
 package com.satpj.project.modelo.supervisor;
 
+import java.util.List;
+
+import lombok.Getter;
+import lombok.Setter;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.OneToMany;
+import javax.persistence.Table;
+import javax.validation.constraints.NotNull;
+
+import org.hibernate.annotations.Polymorphism;
+import org.hibernate.annotations.PolymorphismType;
+
 import com.satpj.project.modelo.paciente.Paciente;
 import com.satpj.project.modelo.usuario.Usuario;
 
-import java.util.List;
 
-import javax.persistence.Column;
-import javax.persistence.OneToMany;
-import javax.persistence.OneToOne;
-import javax.validation.constraints.NotNull;
-
+/**
+ * Entidad supervisor
+ * Son los Supervisores de los diferentes enfoques con los que 
+ * se realizán las Terapias y los encargados de monitorear a los
+ * Practicantes 
+ */
+@Getter
+@Setter
 @Entity
 @Table(name = "supervisor")
-public class Supervisor {
+@Polymorphism(type = PolymorphismType.EXPLICIT)
+public class Supervisor extends Usuario {
     
-    @OneToOne
-    Usuario usuario;
-
     @NotNull(message="El Enfoque es obligatorio")
 	@Column(name = "enfoque", nullable = false)
 	private String enfoque;

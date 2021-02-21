@@ -1,4 +1,4 @@
-package com.satpj.project.modelo.grupo;
+package com.satpj.project.modelo.alerta;
 
 import java.util.List;
 
@@ -14,29 +14,28 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 
-import com.satpj.project.modelo.paciente.Paciente;
-
 
 /**
- * Entidad grupo
- * Es un Grupo de Pacientes que reciben atención conjuntamente y
- * asisten a las Sesiones de Terapia juntos
+ * Clase Alerta
+ * Son los tipos de notificaciones que tiene la plataforma  
  */
 @Getter
 @Setter
 @Entity
-@Table(name = "grupo")
-public class Grupo {
+@Table(name = "alerta")
+public class Alerta {
     
     @Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name = "grupo_id")
+	@Column(name = "alerta_id")
 	private Long id;
+    
+	/*Relación con la tabla intermedia generada por la relación muchos a muchos */ 
+	@OneToMany(mappedBy = "alerta")
+	List<AlertaUsuario> alertasUsuario;
 
-    @NotNull(message="El Tipo es obligatorio")
+    @NotNull(message="El Tipo de la Alarma es obligatorio")
 	@Column(name = "tipo", nullable = false)
-	private String tipo;
+    private String tipo;
 
-    @OneToMany
-    private List<Paciente> integrantes;
 }
