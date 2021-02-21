@@ -23,6 +23,8 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
+  firebase_core: ^0.7.0
+  firebase_auth: ^0.20.1
 
 
   # The following adds the Cupertino Icons font to your application.
@@ -45,9 +47,8 @@ flutter:
   uses-material-design: true
 
   # To add assets to your application, add an assets section, like this:
-  # assets:
-  #   - images/a_dot_burr.jpeg
-  #   - images/a_dot_ham.jpeg
+  assets:
+    - lib/src/utils/images/
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.
@@ -60,11 +61,13 @@ flutter:
   # "family" key with the font family name, and a "fonts" key with a
   # list giving the asset and other descriptors for the font. For
   # example:
-  # fonts:
-  #   - family: Schyler
-  #     fonts:
-  #       - asset: fonts/Schyler-Regular.ttf
-  #       - asset: fonts/Schyler-Italic.ttf
+  fonts:
+   - family: Dubai
+     fonts:
+       - asset: lib/src/utils/fonts/Dubai-Bold.ttf
+       - asset: lib/src/utils/fonts/Dubai-Light.ttf
+       - asset: lib/src/utils/fonts/Dubai-Medium.ttf
+       - asset: lib/src/utils/fonts/Dubai-Regular.ttf
   #         style: italic
   #   - family: Trajan Pro
   #     fonts:
