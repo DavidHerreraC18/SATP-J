@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:satpj_front_end_web/src/utils/widgets/toolbar_auxiliar_administrativo.dart';
 import 'package:satpj_front_end_web/src/utils/widgets/toolbar_inicio.dart';
+import 'package:satpj_front_end_web/src/utils/widgets/toolbar_paciente.dart';
+import 'package:satpj_front_end_web/src/utils/widgets/toolbar_practicante.dart';
 
 class ContadorPage extends StatefulWidget {
 
@@ -18,7 +21,7 @@ class _ContadorPageState extends State<ContadorPage>{
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: toolbarInicio(),
+      appBar: toolbarAuxiliarAdministrativo(),
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,

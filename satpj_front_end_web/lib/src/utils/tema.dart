@@ -6,6 +6,9 @@ ThemeData temaSatpj(){
     //brightness: Brightness.dark,
     primaryColor: Colors.white,
     accentColor: Color(0xFF23D797),
+    /*iconTheme: IconThemeData(
+      color: Color(0xFF23D797) 
+    ),*/
 
     // Define the default font family.
     fontFamily: 'Dubai',
