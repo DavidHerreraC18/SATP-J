@@ -20,7 +20,7 @@ class MyApp extends StatelessWidget{
         builder: (context, snapshot) {
           // Check for errors
           if (snapshot.hasError) {
-            return Text("ERROR");
+            return Text("ERROR !!!!");
           }
 
           // Once complete, show your application
