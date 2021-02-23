@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-AppBar toolbarInicio(){
+AppBar toolbarInicio(BuildContext context){
   return AppBar(
     leading: Image.asset(
       'lib/src/utils/images/logo_plataforma.png',
@@ -89,7 +89,7 @@ AppBar toolbarInicio(){
                 enableFeedback: true,
               ),
               onPressed: () {
-                // To do
+                Navigator.pushNamed(context, 'login');
               },
             ),
           ],
