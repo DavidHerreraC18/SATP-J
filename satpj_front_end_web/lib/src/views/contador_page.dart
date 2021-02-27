@@ -14,20 +14,21 @@ class ContadorPage extends StatefulWidget {
 
 class _ContadorPageState extends State<ContadorPage>{
 
-  final _estiloTexto = new TextStyle(fontSize : 25);
+  //final _estiloTexto = Theme.of(context)
 
   int _conteo = 0;
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: toolbarAuxiliarAdministrativo(),
+      //backgroundColor: Color(0xFFD4EDEB),
+      appBar: toolbarAuxiliarAdministrativo(context),
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Text('Número de taps:',style: _estiloTexto),
-            Text('$_conteo' ,style: _estiloTexto),
+            Text('Número de taps:',style: Theme.of(context).textTheme.headline1),
+            Text('$_conteo' ,style: Theme.of(context).textTheme.subtitle1),
           ],
         ),
       ),

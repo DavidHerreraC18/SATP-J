@@ -10,7 +10,7 @@ AppBar toolbarInicio(BuildContext context){
     title: Text(
       "SATP-J", 
       style: TextStyle(
-        color: Color(0xFF2E5EAA)
+        color: Theme.of(context).colorScheme.primary
         )
       ),
     actions: [
@@ -26,7 +26,7 @@ AppBar toolbarInicio(BuildContext context){
                 ),
               ),
               onPressed: () {
-                // To do
+                Navigator.pushNamed(context, '/');
               },
             ),
             SizedBox(width: 30.0),

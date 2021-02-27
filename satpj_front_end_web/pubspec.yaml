@@ -65,8 +65,11 @@ flutter:
    - family: Dubai
      fonts:
        - asset: lib/src/utils/fonts/Dubai-Bold.ttf
+         weight: 900
        - asset: lib/src/utils/fonts/Dubai-Light.ttf
+         weight: 100
        - asset: lib/src/utils/fonts/Dubai-Medium.ttf
+         weight: 700
        - asset: lib/src/utils/fonts/Dubai-Regular.ttf
   #         style: italic
   #   - family: Trajan Pro

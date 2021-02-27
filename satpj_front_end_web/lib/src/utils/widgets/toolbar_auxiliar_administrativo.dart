@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 
-AppBar toolbarAuxiliarAdministrativo(){
+AppBar toolbarAuxiliarAdministrativo(BuildContext context){
   return AppBar(
     leading: Image.asset(
       'lib/src/utils/images/logo_plataforma.png',
@@ -18,8 +18,8 @@ AppBar toolbarAuxiliarAdministrativo(){
       ButtonBar(
           children: <Widget>[
             Ink(
-              decoration: const ShapeDecoration(
-              color: Color(0xFF2E5EAA),
+              decoration: ShapeDecoration(
+              color: Theme.of(context).colorScheme.primary,
               shape: CircleBorder(),
               ),
               child: IconButton(
@@ -32,13 +32,13 @@ AppBar toolbarAuxiliarAdministrativo(){
             ),
             SizedBox(width: 5.0),
             Ink(
-              decoration: const ShapeDecoration(
-              color: Color(0xFF2E5EAA),
+              decoration: ShapeDecoration(
+              color: Theme.of(context).colorScheme.primary,
               shape: CircleBorder(),
               ),
               child: IconButton(
                 icon: Icon(Icons.mail),
-                color: Colors.white,
+                color:  Colors.white,
                 onPressed: () {
                   // To do
                 },
@@ -46,8 +46,8 @@ AppBar toolbarAuxiliarAdministrativo(){
             ),
             SizedBox(width: 5.0),
             Ink(
-              decoration: const ShapeDecoration(
-              color: Color(0xFF2E5EAA),
+              decoration: ShapeDecoration(
+              color: Theme.of(context).colorScheme.primary,
               shape: CircleBorder(),
               ),
               child: IconButton(
@@ -60,8 +60,8 @@ AppBar toolbarAuxiliarAdministrativo(){
             ),
             SizedBox(width: 5.0),
             Ink(
-              decoration: const ShapeDecoration(
-              color: Color(0xFF2E5EAA),
+              decoration: ShapeDecoration(
+              color: Theme.of(context).colorScheme.primary,
               shape: CircleBorder(),
               ),
               child: PopupMenuButton(
@@ -81,9 +81,7 @@ AppBar toolbarAuxiliarAdministrativo(){
                         SizedBox(width: 2.0),
                         Text(
                           "Inicio",
-                          style: TextStyle(
-                            color: Color(0xFF2E5EAA) 
-                            ),
+                          style: Theme.of(context).textTheme.bodyText1
                           )
                       ],
                     ),
@@ -99,9 +97,7 @@ AppBar toolbarAuxiliarAdministrativo(){
                         SizedBox(width: 2.0),
                         Text(
                           "Perfíl",
-                          style: TextStyle(
-                            color: Color(0xFF2E5EAA) 
-                            ),
+                          style: Theme.of(context).textTheme.bodyText1
                           )
                       ],
                     ),
@@ -117,9 +113,7 @@ AppBar toolbarAuxiliarAdministrativo(){
                         SizedBox(width: 2.0),
                         Text(
                           "Pacientes",
-                          style: TextStyle(
-                            color: Color(0xFF2E5EAA) 
-                            ),
+                          style: Theme.of(context).textTheme.bodyText1
                           )
                       ],
                     ),
@@ -135,9 +129,7 @@ AppBar toolbarAuxiliarAdministrativo(){
                         SizedBox(width: 2.0),
                         Text(
                           "Supervisores",
-                          style: TextStyle(
-                            color: Color(0xFF2E5EAA) 
-                            ),
+                          style: Theme.of(context).textTheme.bodyText1
                           )
                       ],
                     ),
@@ -153,9 +145,7 @@ AppBar toolbarAuxiliarAdministrativo(){
                         SizedBox(width: 2.0),
                         Text(
                           "Practicantes",
-                          style: TextStyle(
-                            color: Color(0xFF2E5EAA) 
-                            ),
+                          style: Theme.of(context).textTheme.bodyText1
                           )
                       ],
                     ),
@@ -171,9 +161,7 @@ AppBar toolbarAuxiliarAdministrativo(){
                         SizedBox(width: 2.0),
                         Text(
                           "Reportes",
-                          style: TextStyle(
-                            color: Color(0xFF2E5EAA) 
-                            ),
+                          style: Theme.of(context).textTheme.bodyText1
                           )
                       ],
                     ),
@@ -189,9 +177,7 @@ AppBar toolbarAuxiliarAdministrativo(){
                         SizedBox(width: 2.0),
                         Text(
                           "Tareas",
-                          style: TextStyle(
-                            color: Color(0xFF2E5EAA) 
-                            ),
+                          style: Theme.of(context).textTheme.bodyText1
                           )
                       ],
                     ),
@@ -207,9 +193,7 @@ AppBar toolbarAuxiliarAdministrativo(){
                         SizedBox(width: 2.0),
                         Text(
                           "Certificaciones",
-                          style: TextStyle(
-                            color: Color(0xFF2E5EAA) 
-                            ),
+                          style: Theme.of(context).textTheme.bodyText1
                           )
                       ],
                     ),
@@ -225,9 +209,7 @@ AppBar toolbarAuxiliarAdministrativo(){
                         SizedBox(width: 2.0),
                         Text(
                           "Cerrar Sesión",
-                          style: TextStyle(
-                            color: Color(0xFF2E5EAA) 
-                            ),
+                          style: Theme.of(context).textTheme.bodyText1
                           )
                       ],
                     ),
