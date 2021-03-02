@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:satpj_front_end_web/src/utils/widgets/dialogo_autenticacion.dart';
 import 'package:satpj_front_end_web/src/utils/widgets/toolbar_inicio.dart';
 
 class HomePage extends StatelessWidget{
@@ -81,7 +82,10 @@ class HomePage extends StatelessWidget{
                               enableFeedback: true,
                           ),
                           onPressed: (){
-                            Navigator.pushNamed(context, 'login');
+                            //Navigator.pushNamed(context, 'login');
+                             showDialog(
+                                        context: context,
+                                        builder: (context) => AuthDialog());
                           }, 
                           child: Text(
                             "INICIAR SESIÓN",

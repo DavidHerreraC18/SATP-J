@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:satpj_front_end_web/src/utils/widgets/dialogo_autenticacion.dart';
 
 AppBar toolbarInicio(BuildContext context){
   return AppBar(
@@ -89,7 +90,10 @@ AppBar toolbarInicio(BuildContext context){
                 enableFeedback: true,
               ),
               onPressed: () {
-                Navigator.pushNamed(context, 'login');
+                //Navigator.pushNamed(context, 'login');
+                showDialog(
+                  context: context,
+                  builder: (context) => AuthDialog());
               },
             ),
           ],
