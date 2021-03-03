@@ -1,14 +1,14 @@
 package com.satpj.project.modelo.alerta;
 
 import java.io.Serializable;
+import java.util.Objects;
 
 import javax.persistence.Column;
 import javax.persistence.Embeddable;
 
-
 /**
- * Clase LlaveAlertaUsuario
- * Llave primaria compuesta de la tabla intermedia alerta_usuario
+ * Clase LlaveAlertaUsuario Llave primaria compuesta de la tabla intermedia
+ * alerta_usuario
  */
 @Embeddable
 public class LlaveAlertaUsuario implements Serializable {
@@ -35,5 +35,21 @@ public class LlaveAlertaUsuario implements Serializable {
         this.usuarioId = usuarioId;
     }
 
-    
+    @Override
+    public boolean equals(Object o) {
+
+        if (o == this)
+            return true;
+        if (!(o instanceof LlaveAlertaUsuario)) {
+            return false;
+        }
+        LlaveAlertaUsuario llave = (LlaveAlertaUsuario) o;
+        return this.alertaId == llave.alertaId && this.usuarioId == llave.usuarioId;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(alertaId, usuarioId);
+    }
+
 }

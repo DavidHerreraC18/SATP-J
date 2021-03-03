@@ -17,12 +17,10 @@ import org.hibernate.annotations.PolymorphismType;
 import com.satpj.project.modelo.paciente.Paciente;
 import com.satpj.project.modelo.usuario.Usuario;
 
-
 /**
- * Entidad supervisor
- * Son los Supervisores de los diferentes enfoques con los que 
- * se realizán las Terapias y los encargados de monitorear a los
- * Practicantes 
+ * Entidad supervisor Son los Supervisores de los diferentes enfoques con los
+ * que se realizán las Terapias y los encargados de monitorear a los
+ * Practicantes
  */
 @Getter
 @Setter
@@ -30,12 +28,12 @@ import com.satpj.project.modelo.usuario.Usuario;
 @Table(name = "supervisor")
 @Polymorphism(type = PolymorphismType.EXPLICIT)
 public class Supervisor extends Usuario {
-    
-    @NotNull(message="El Enfoque es obligatorio")
-	@Column(name = "enfoque", nullable = false)
-	private String enfoque;
 
-    @OneToMany
+    @NotNull(message = "El Enfoque es obligatorio")
+    @Column(name = "enfoque", nullable = false)
+    private String enfoque;
+
+    @OneToMany(mappedBy = "supervisor")
     private List<Paciente> pacientes;
-     
+
 }

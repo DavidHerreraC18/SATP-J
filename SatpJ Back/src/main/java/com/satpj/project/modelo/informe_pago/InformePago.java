@@ -19,40 +19,35 @@ import javax.validation.constraints.NotNull;
 
 import com.satpj.project.modelo.comprobante_pago.ComprobantePago;
 
-
 /**
- * Entidad informe_pago
- * Es el Informe de los Pagos de las Sesiones de Terapia que
- * realizan los Pacientes al Consultorio
+ * Entidad informe_pago Es el Informe de los Pagos de las Sesiones de Terapia
+ * que realizan los Pacientes al Consultorio
  */
 @Getter
 @Setter
 @Entity
 @Table(name = "informe_pago")
 public class InformePago {
-    
+
     @Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name = "informe_pago_id")
-	private int id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "informe_pago_id")
+    private Long id;
 
     @ManyToMany
-    @JoinTable(
-      name = "informe_comprobante_pago", 
-      joinColumns = @JoinColumn(name = "informe_pago_id"), 
-      inverseJoinColumns = @JoinColumn(name = "comprobante_pago_id"))
+    @JoinTable(name = "informe_comprobante_pago", joinColumns = @JoinColumn(name = "informe_pago_id"), inverseJoinColumns = @JoinColumn(name = "comprobante_pago_id"))
     private List<ComprobantePago> comprobatesPagos;
 
-    @NotNull(message="La Fecha de Inicio es obligatoria")
-	@Column(name = "fecha_inicio", nullable = false)
+    @NotNull(message = "La Fecha de Inicio es obligatoria")
+    @Column(name = "fecha_inicio", nullable = false)
     private LocalDate fechaInicio;
-    
-    @NotNull(message="La Fecha de Finalización es obligatoria")
-	@Column(name = "fecha_fin", nullable = false)
+
+    @NotNull(message = "La Fecha de Finalización es obligatoria")
+    @Column(name = "fecha_fin", nullable = false)
     private LocalDate fechaFin;
-    
-    @NotNull(message="El Total es obligatorio")
-	@Column(name = "total", nullable = false)
+
+    @NotNull(message = "El Total es obligatorio")
+    @Column(name = "total", nullable = false)
     private double total;
 
 }

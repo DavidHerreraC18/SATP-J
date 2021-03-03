@@ -16,10 +16,8 @@ import javax.validation.constraints.NotNull;
 
 import com.satpj.project.modelo.paciente.Paciente;
 
-
 /**
- * Entidad grupo
- * Es un Grupo de Pacientes que reciben atención conjuntamente y
+ * Entidad grupo Es un Grupo de Pacientes que reciben atención conjuntamente y
  * asisten a las Sesiones de Terapia juntos
  */
 @Getter
@@ -27,16 +25,16 @@ import com.satpj.project.modelo.paciente.Paciente;
 @Entity
 @Table(name = "grupo")
 public class Grupo {
-    
-    @Id
+
+	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "grupo_id")
 	private Long id;
 
-    @NotNull(message="El Tipo es obligatorio")
+	@NotNull(message = "El Tipo es obligatorio")
 	@Column(name = "tipo", nullable = false)
 	private String tipo;
 
-    @OneToMany
-    private List<Paciente> integrantes;
+	@OneToMany(mappedBy = "grupo")
+	private List<Paciente> integrantes;
 }
