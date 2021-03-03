@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 import 'package:satpj_front_end_web/src/utils/autenticacion.dart';
 import 'package:satpj_front_end_web/src/views/login_page.dart';
@@ -68,7 +67,7 @@ class _AuthDialogState extends State<AuthDialog> {
   @override
   Widget build(BuildContext context) {
     return Dialog(
-      backgroundColor: Theme.of(context).backgroundColor,
+      backgroundColor: Colors.white,
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(8.0),
       ),
@@ -77,7 +76,7 @@ class _AuthDialogState extends State<AuthDialog> {
           padding: const EdgeInsets.all(16.0),
           child: Container(
             width: 400,
-            color: Theme.of(context).backgroundColor,
+            color: Colors.white,
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               mainAxisSize: MainAxisSize.min,
@@ -85,17 +84,10 @@ class _AuthDialogState extends State<AuthDialog> {
                 Center(
                   child: Text(
                     'Ingreso al Sistema',
-                    /*style: TextStyle(
-                      color: Theme.of(context).textTheme.headline1.color,
-                      fontSize: 24,
-                      fontFamily: 'Montserrat',
-                      fontWeight: FontWeight.bold,
-                      letterSpacing: 3,
-                    ),*/
                     style: Theme.of(context).textTheme.headline1,
                   ),
                 ),
-                SizedBox(height: 30),
+                SizedBox(height: 20),
                 Padding(
                   padding: const EdgeInsets.only(
                     left: 20.0,
@@ -104,13 +96,7 @@ class _AuthDialogState extends State<AuthDialog> {
                   child: Text(
                     'Correo Electronico',
                     textAlign: TextAlign.left,
-                    style: TextStyle(
-                      color: Theme.of(context).textTheme.subtitle2.color,
-                      fontSize: 18,
-                      // fontFamily: 'Montserrat',
-                      fontWeight: FontWeight.bold,
-                      // letterSpacing: 3,
-                    ),
+                    style: Theme.of(context).textTheme.subtitle1,
                   ),
                 ),
                 Padding(
@@ -168,12 +154,7 @@ class _AuthDialogState extends State<AuthDialog> {
                   child: Text(
                     'Contraseña',
                     textAlign: TextAlign.left,
-                    style: TextStyle(
-                      color: Theme.of(context).textTheme.subtitle2.color,
-                      fontSize: 18,
-                      fontWeight: FontWeight.bold,
-                      // letterSpacing: 3,
-                    ),
+                    style: Theme.of(context).textTheme.subtitle1,
                   ),
                 ),
                 Padding(
@@ -231,185 +212,108 @@ class _AuthDialogState extends State<AuthDialog> {
                     children: [
                       Flexible(
                         flex: 1,
-                        child: Container(
-                          width: double.maxFinite,
-                          child: FlatButton(
-                            color: Colors.blueGrey[800],
-                            hoverColor: Colors.blueGrey[900],
-                            highlightColor: Colors.black,
-                            onPressed: () async {
-                              setState(() {
-                                _isLoggingIn = true;
-                                textFocusNodeEmail.unfocus();
-                                textFocusNodePassword.unfocus();
-                              });
-                              if (_validateEmail(textControllerEmail.text) ==
-                                      null &&
-                                  _validatePassword(
-                                          textControllerPassword.text) ==
-                                      null) {
-                                await signInWithEmailPassword(
-                                        textControllerEmail.text,
-                                        textControllerPassword.text)
-                                    .then((result) {
-                                  if (result != null) {
-                                    print(result);
+                        child: Center(
+                          child: Container(
+                            width: double.maxFinite,
+                            child: TextButton(
+                              style: ButtonStyle(
+                                backgroundColor: MaterialStateProperty.all(
+                                    Theme.of(context).colorScheme.secondary),
+                                overlayColor: MaterialStateProperty.all(
+                                    Theme.of(context)
+                                        .colorScheme
+                                        .secondaryVariant),
+                                alignment: Alignment.center,
+                                shape: MaterialStateProperty.all(
+                                  RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(15),
+                                  ),
+                                ),
+                              ),
+                              onPressed: () async {
+                                setState(() {
+                                  _isLoggingIn = true;
+                                  textFocusNodeEmail.unfocus();
+                                  textFocusNodePassword.unfocus();
+                                });
+                                if (_validateEmail(textControllerEmail.text) ==
+                                        null &&
+                                    _validatePassword(
+                                            textControllerPassword.text) ==
+                                        null) {
+                                  await signInWithEmailPassword(
+                                          textControllerEmail.text,
+                                          textControllerPassword.text)
+                                      .then((result) {
+                                    if (result != null) {
+                                      print(result);
+                                      setState(() {
+                                        loginStatus =
+                                            'Ha ingresado Correctamente';
+                                        loginStringColor = Colors.green;
+                                      });
+                                      Future.delayed(
+                                          Duration(milliseconds: 500), () {
+                                        Navigator.of(context).pop();
+                                        Navigator.of(context).pushReplacement(
+                                            MaterialPageRoute(
+                                                fullscreenDialog: true,
+                                                builder: (context) =>
+                                                    LoginPage()));
+                                      });
+                                    }
+                                  }).catchError((error) {
+                                    print('Error de Ingreso: $error');
                                     setState(() {
                                       loginStatus =
-                                          'Ha ingresado Correctamente';
-                                      loginStringColor = Colors.green;
+                                          'Ha ocurrido un error al iniciar sesión';
+                                      loginStringColor = Colors.red;
                                     });
-                                    Future.delayed(Duration(milliseconds: 500),
-                                        () {
-                                      Navigator.of(context).pop();
-                                      Navigator.of(context)
-                                          .pushReplacement(MaterialPageRoute(
-                                        fullscreenDialog: true,
-                                        builder: (context) => LoginPage()
-                                      ));
-                                    });
-                                  }
-                                }).catchError((error) {
-                                  print('Error de Ingreso: $error');
+                                  });
+                                } else {
                                   setState(() {
                                     loginStatus =
-                                        'Ha ocurrido un error al iniciar sesión';
+                                        'Por favor ingrese su correo y constraseña';
                                     loginStringColor = Colors.red;
                                   });
-                                });
-                              } else {
+                                }
                                 setState(() {
-                                  loginStatus = 'Por favor ingrese su correo y constraseña';
-                                  loginStringColor = Colors.red;
+                                  _isLoggingIn = false;
+                                  textControllerEmail.text = '';
+                                  textControllerPassword.text = '';
+                                  _isEditingEmail = false;
+                                  _isEditingPassword = false;
                                 });
-                              }
-                              setState(() {
-                                _isLoggingIn = false;
-                                textControllerEmail.text = '';
-                                textControllerPassword.text = '';
-                                _isEditingEmail = false;
-                                _isEditingPassword = false;
-                              });
-                            },
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(15),
-                            ),
-                            child: Padding(
-                              padding: EdgeInsets.only(
-                                top: 15.0,
-                                bottom: 15.0,
-                              ),
-                              child: _isLoggingIn
-                                  ? SizedBox(
-                                      height: 16,
-                                      width: 16,
-                                      child: CircularProgressIndicator(
-                                        strokeWidth: 2,
-                                        valueColor:
-                                            new AlwaysStoppedAnimation<Color>(
-                                          Colors.white,
+                              },
+                              child: Padding(
+                                padding: EdgeInsets.only(
+                                  top: 15.0,
+                                  bottom: 15.0,
+                                ),
+                                child: _isLoggingIn
+                                    ? SizedBox(
+                                        height: 16,
+                                        width: 16,
+                                        child: CircularProgressIndicator(
+                                          strokeWidth: 2,
+                                          valueColor:
+                                              new AlwaysStoppedAnimation<Color>(
+                                            Colors.white,
+                                          ),
+                                        ),
+                                      )
+                                    : Text(
+                                        'Iniciar Sesión',
+                                        style: TextStyle(
+                                          fontSize: 14,
+                                          color: Colors.white,
                                         ),
                                       ),
-                                    )
-                                  : Text(
-                                      'Iniciar Sesión',
-                                      style: TextStyle(
-                                        fontSize: 14,
-                                        color: Colors.white,
-                                      ),
-                                    ),
+                              ),
                             ),
                           ),
                         ),
                       ),
-                      SizedBox(width: 20),
-                      /*Flexible(
-                        flex: 1,
-                        child: Container(
-                          width: double.maxFinite,
-                          child: FlatButton(
-                            color: Colors.blueGrey[800],
-                            hoverColor: Colors.blueGrey[900],
-                            highlightColor: Colors.black,
-                            onPressed: () async {
-                              setState(() {
-                                textFocusNodeEmail.unfocus();
-                                textFocusNodePassword.unfocus();
-                              });
-                              if (_validateEmail(textControllerEmail.text) ==
-                                      null &&
-                                  _validatePassword(
-                                          textControllerPassword.text) ==
-                                      null) {
-                                setState(() {
-                                  _isRegistering = true;
-                                });
-                                await registerWithEmailPassword(
-                                        textControllerEmail.text,
-                                        textControllerPassword.text)
-                                    .then((result) {
-                                  if (result != null) {
-                                    setState(() {
-                                      loginStatus =
-                                          'Se ha registrado satisfactoriamente';
-                                      loginStringColor = Colors.green;
-                                    });
-                                    print(result);
-                                  }
-                                }).catchError((error) {
-                                  print('Error de Registro: $error');
-                                  setState(() {
-                                    loginStatus =
-                                        'Error occured while registering';
-                                    loginStringColor = Colors.red;
-                                  });
-                                });
-                              } else {
-                                setState(() {
-                                  loginStatus = 'Please enter email & password';
-                                  loginStringColor = Colors.red;
-                                });
-                              }
-                              setState(() {
-                                _isRegistering = false;
-
-                                textControllerEmail.text = '';
-                                textControllerPassword.text = '';
-                                _isEditingEmail = false;
-                                _isEditingPassword = false;
-                              });
-                            },
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(15),
-                            ),
-                            child: Padding(
-                              padding: EdgeInsets.only(
-                                top: 15.0,
-                                bottom: 15.0,
-                              ),
-                              child: _isRegistering
-                                  ? SizedBox(
-                                      height: 16,
-                                      width: 16,
-                                      child: CircularProgressIndicator(
-                                        strokeWidth: 2,
-                                        valueColor:
-                                            new AlwaysStoppedAnimation<Color>(
-                                          Colors.white,
-                                        ),
-                                      ),
-                                    )
-                                  : Text(
-                                      'Sign up',
-                                      style: TextStyle(
-                                        fontSize: 14,
-                                        color: Colors.white,
-                                      ),
-                                    ),
-                            ),
-                          ),
-                        ),
-                      ),*/
                     ],
                   ),
                 ),
@@ -444,20 +348,13 @@ class _AuthDialogState extends State<AuthDialog> {
                 SizedBox(height: 30),
                 //Center(child: GoogleButton()),
                 Center(child: Text("INGRESO MICROSOFT")),
-                SizedBox(height: 30),
+                /*SizedBox(height: 30),
                 Padding(
                   padding: const EdgeInsets.all(8.0),
-                  child: Text(
-                    'By proceeding, you agree to our Terms of Use and confirm you have read our Privacy Policy.',
-                    maxLines: 2,
-                    style: TextStyle(
-                      color: Theme.of(context).textTheme.subtitle2.color,
-                      fontSize: 14,
-                      fontWeight: FontWeight.w300,
-                      // letterSpacing: 3,
-                    ),
-                  ),
-                ),
+                  child: Text('Olvide mi Contraseña',
+                      maxLines: 2,
+                      style: Theme.of(context).textTheme.bodyText1),
+                ),*/
               ],
             ),
           ),
