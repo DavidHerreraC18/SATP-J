@@ -14,6 +14,7 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.satpj.project.modelo.paciente.Paciente;
 
 /**
@@ -36,5 +37,6 @@ public class Grupo {
 	private String tipo;
 
 	@OneToMany(mappedBy = "grupo")
+	@JsonIgnore
 	private List<Paciente> integrantes;
 }

@@ -60,7 +60,7 @@ public class ServicioNotaEvolucion {
 
     @GetMapping(value = "/practicante/{idPracticante}", produces = "application/json")
     public List<NotaEvolucion> findAllNotasByPracticante(@PathVariable("idPracticante") Long idPracticante) {
-        Practicante practicante = servicioPracticante.findById(idPracticante);
+        Practicante practicante = servicioPracticante.findPracticanteById(idPracticante);
         Preconditions.checkNotNull(practicante);
         Page<NotaEvolucion> notasEvolucion = repositorioNotaEvolucion.findByPracticanteId(practicante.getId(),
                 Pageable.unpaged());
@@ -69,7 +69,7 @@ public class ServicioNotaEvolucion {
 
     @GetMapping(value = "/practicante/{idPracticante}/enviadas", produces = "application/json")
     public List<NotaEvolucion> findAllNotasByPracticanteEnviadas(@PathVariable("idPracticante") Long idPracticante) {
-        Practicante practicante = servicioPracticante.findById(idPracticante);
+        Practicante practicante = servicioPracticante.findPracticanteById(idPracticante);
         Preconditions.checkNotNull(practicante);
         Page<NotaEvolucion> notasEvolucion = repositorioNotaEvolucion.findByPracticanteId(practicante.getId(),
                 Pageable.unpaged());
@@ -84,7 +84,7 @@ public class ServicioNotaEvolucion {
 
     @GetMapping(value = "/practicante/{idPracticante}/noenviadas", produces = "application/json")
     public List<NotaEvolucion> findAllNotasByPracticanteNoEnviadas(@PathVariable("idPracticante") Long idPracticante) {
-        Practicante practicante = servicioPracticante.findById(idPracticante);
+        Practicante practicante = servicioPracticante.findPracticanteById(idPracticante);
         Preconditions.checkNotNull(practicante);
         Page<NotaEvolucion> notasEvolucion = repositorioNotaEvolucion.findByPracticanteId(practicante.getId(),
                 Pageable.unpaged());

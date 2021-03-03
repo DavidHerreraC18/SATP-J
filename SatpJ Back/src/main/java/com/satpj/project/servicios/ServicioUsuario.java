@@ -6,6 +6,7 @@ import java.util.List;
 import com.google.api.client.util.Preconditions;
 import com.satpj.project.modelo.alerta.AlertaUsuario;
 import com.satpj.project.modelo.horario.Horario;
+import com.satpj.project.modelo.sesion_terapia.SesionUsuario;
 import com.satpj.project.modelo.usuario.RepositorioUsuario;
 import com.satpj.project.modelo.usuario.Usuario;
 
@@ -51,6 +52,28 @@ public class ServicioUsuario {
     @GetMapping(value = "/{id}", produces = "application/json")
     public Usuario findById(@PathVariable("id") Long id) {
         return repositorioUsuario.findById(id).get();
+    }
+
+    /*
+     * La funcion findSesionesByUsuarioId tiene el proposito de evitar la recursion
+     * en JSON que genera la relacion Usuario - SesionUsuario
+     */
+    @GetMapping(value = "/sesiones/{id}", produces = "application/json")
+    public List<SesionUsuario> findSesionesByUsuarioId(@PathVariable("id") Long id) {
+        Usuario usuario = repositorioUsuario.findById(id).get();
+        Preconditions.checkNotNull(usuario);
+        return usuario.getSesiones();
+    }
+
+    /*
+     * La funcion findHorariosByUsuarioId tiene el proposito de evitar la recursion
+     * en JSON que genera la relacion Usuario - Horario
+     */
+    @GetMapping(value = "/horarios/{id}", produces = "application/json")
+    public List<Horario> findHorariosByUsuarioId(@PathVariable("id") Long id) {
+        Usuario usuario = repositorioUsuario.findById(id).get();
+        Preconditions.checkNotNull(usuario);
+        return usuario.getHorarios();
     }
 
     @PostMapping

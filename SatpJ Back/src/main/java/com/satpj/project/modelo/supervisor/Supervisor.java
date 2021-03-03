@@ -14,6 +14,7 @@ import javax.validation.constraints.NotNull;
 import org.hibernate.annotations.Polymorphism;
 import org.hibernate.annotations.PolymorphismType;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.satpj.project.modelo.paciente.Paciente;
 import com.satpj.project.modelo.usuario.Usuario;
 
@@ -34,6 +35,7 @@ public class Supervisor extends Usuario {
     private String enfoque;
 
     @OneToMany(mappedBy = "supervisor")
+    @JsonIgnore
     private List<Paciente> pacientes;
 
 }

@@ -1,8 +1,10 @@
 package com.satpj.project.servicios;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import com.google.api.client.util.Preconditions;
+import com.satpj.project.modelo.paciente.Paciente;
 import com.satpj.project.modelo.practicante.*;
 
 import lombok.Getter;
@@ -33,26 +35,29 @@ public class ServicioPracticante {
     @Autowired
     private RepositorioPracticante repositorioPracticante;
 
+    @Autowired
+    private RepositorioPracticantePaciente RepositorioPracticantePaciente;
+
     @GetMapping(produces = "application/json")
-    public List<Practicante> findAll() {
+    public List<Practicante> findAllPracticantes() {
         return repositorioPracticante.findAll();
     }
 
     @GetMapping(value = "/{id}", produces = "application/json")
-    public Practicante findById(@PathVariable("id") Long id) {
+    public Practicante findPracticanteById(@PathVariable("id") Long id) {
         return repositorioPracticante.findById(id).get();
     }
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public Practicante create(@RequestBody Practicante practicante) {
+    public Practicante createPracticante(@RequestBody Practicante practicante) {
         Preconditions.checkNotNull(practicante);
         return repositorioPracticante.save(practicante);
     }
 
     @PutMapping(value = "/{id}")
     @ResponseStatus(HttpStatus.OK)
-    public void update(@PathVariable("id") Long id, @RequestBody Practicante practicante) {
+    public void updatePracticante(@PathVariable("id") Long id, @RequestBody Practicante practicante) {
         Preconditions.checkNotNull(practicante);
 
         Practicante pActualizar = repositorioPracticante.findById(practicante.getId()).orElse(null);
@@ -74,8 +79,103 @@ public class ServicioPracticante {
 
     @DeleteMapping(value = "/{id}")
     @ResponseStatus(HttpStatus.OK)
-    public void delete(@PathVariable("id") Long id) {
+    public void deletePracticante(@PathVariable("id") Long id) {
         repositorioPracticante.deleteById(id);
+    }
+
+    @GetMapping(value = "/pacientes", produces = "application/json")
+    public List<Practicante> findAllPracticantesPaciente() {
+        return repositorioPracticante.findAll();
+    }
+
+    @GetMapping(value = "/{idPracticante}/{idPaciente}", produces = "application/json")
+    public PracticantePaciente findPracticantePacienteById(@PathVariable("idPracticante") Long idPracticante,
+            @PathVariable("idPaciente") Long idPaciente) {
+        LlavePracticantePaciente llave = new LlavePracticantePaciente();
+        llave.setPPacienteId(idPaciente);
+        llave.setPPacienteId(idPracticante);
+        PracticantePaciente practicantePaciente = RepositorioPracticantePaciente.findById(llave).get();
+        Preconditions.checkNotNull(practicantePaciente);
+        return practicantePaciente;
+    }
+
+    @GetMapping(value = "/pacientes/{idPracticante}", produces = "application/json")
+    public List<PracticantePaciente> findPacientesByPracticanteId(@PathVariable("idPracticante") Long idPracticante) {
+
+        Practicante practicante = repositorioPracticante.findById(idPracticante).get();
+        Preconditions.checkNotNull(practicante);
+
+        return practicante.getPracticantesPaciente();
+    }
+
+    @PostMapping(value = "/pacientes")
+    @ResponseStatus(HttpStatus.CREATED)
+    public PracticantePaciente createPracticantePaciente(@RequestBody PracticantePaciente practicantePaciente) {
+        Preconditions.checkNotNull(practicantePaciente);
+        return RepositorioPracticantePaciente.save(practicantePaciente);
+    }
+
+    @PutMapping(value = "/{idPracticante}/{idPaciente}")
+    @ResponseStatus(HttpStatus.OK)
+    public void updatePracticante(@PathVariable("idPracticante") Long idPracticante,
+            @PathVariable("idPaciente") Long idPaciente, @RequestBody PracticantePaciente practicantePaciente) {
+        Preconditions.checkNotNull(practicantePaciente);
+
+        LlavePracticantePaciente llave = new LlavePracticantePaciente();
+        llave.setPPacienteId(idPaciente);
+        llave.setPPacienteId(idPracticante);
+        PracticantePaciente ppActualizar = RepositorioPracticantePaciente.findById(llave).get();
+        Preconditions.checkNotNull(ppActualizar);
+        ppActualizar.setActivo(practicantePaciente.isActivo());
+
+        RepositorioPracticantePaciente.save(ppActualizar);
+    }
+
+    @DeleteMapping(value = "/{idPracticante}/{idPaciente}")
+    @ResponseStatus(HttpStatus.OK)
+    public void deletePracticante(@PathVariable("idPracticante") Long idPracticante,
+            @PathVariable("idPaciente") Long idPaciente) {
+        LlavePracticantePaciente llave = new LlavePracticantePaciente();
+        llave.setPPacienteId(idPaciente);
+        llave.setPPacienteId(idPracticante);
+        RepositorioPracticantePaciente.deleteById(llave);
+    }
+
+    /*
+     * La funcion findPacientesActivosByPacienteId tiene el proposito de encontrar a
+     * los Pacientes que actualmente se encuentren siendo atendidos por el
+     * Practicante
+     */
+    @GetMapping(value = "/pacientes/activos/{id}", produces = "application/json")
+    public List<Paciente> findPacientesActivosByPacienteId(@PathVariable("id") Long id) {
+        Practicante practicante = repositorioPracticante.findById(id).get();
+        Preconditions.checkNotNull(practicante);
+        List<PracticantePaciente> practicantePacientes = practicante.getPracticantesPaciente();
+        List<Paciente> pacientes = new ArrayList<Paciente>();
+        for (PracticantePaciente practicantePaciente : practicantePacientes) {
+            if (practicantePaciente.isActivo()) {
+                pacientes.add(practicantePaciente.getPaciente());
+            }
+        }
+        return pacientes;
+    }
+
+    /*
+     * La funcion findPacientesNoActivosByPacienteId tiene el proposito de encontrar
+     * a los Pacientes que hayan sido atendidos por el Practicante
+     */
+    @GetMapping(value = "/pacientes/noactivos/{id}", produces = "application/json")
+    public List<Paciente> findPacientesNoActivosByPacienteId(@PathVariable("id") Long id) {
+        Practicante practicante = repositorioPracticante.findById(id).get();
+        Preconditions.checkNotNull(practicante);
+        List<PracticantePaciente> practicantePacientes = practicante.getPracticantesPaciente();
+        List<Paciente> pacientes = new ArrayList<Paciente>();
+        for (PracticantePaciente practicantePaciente : practicantePacientes) {
+            if (!practicantePaciente.isActivo()) {
+                pacientes.add(practicantePaciente.getPaciente());
+            }
+        }
+        return pacientes;
     }
 
 }

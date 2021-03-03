@@ -42,6 +42,7 @@ public class Usuario {
 
 	/* Son las sesiones de Terapia del Usuario */
 	@OneToMany(mappedBy = "usuario")
+	@JsonIgnore
 	private List<SesionUsuario> sesiones;
 
 	@OneToMany(mappedBy = "usuario")
@@ -49,6 +50,7 @@ public class Usuario {
 	private List<AlertaUsuario> alertasUsuario;
 
 	@OneToMany(mappedBy = "usuario")
+	@JsonIgnore
 	private List<Horario> horarios;
 
 	@NotNull(message = "El Documento de Identidad es obligatorio")

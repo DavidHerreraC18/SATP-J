@@ -19,10 +19,12 @@ import javax.validation.constraints.NotNull;
 import org.hibernate.annotations.Polymorphism;
 import org.hibernate.annotations.PolymorphismType;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.satpj.project.modelo.acudiente.Acudiente;
 import com.satpj.project.modelo.documento_paciente.DocumentoPaciente;
 import com.satpj.project.modelo.grupo.Grupo;
 import com.satpj.project.modelo.practicante.Practicante;
+import com.satpj.project.modelo.practicante.PracticantePaciente;
 import com.satpj.project.modelo.supervisor.Supervisor;
 import com.satpj.project.modelo.usuario.Usuario;
 
@@ -45,8 +47,17 @@ public class Paciente extends Usuario {
     @JoinColumn(name = "grupo_id", nullable = true)
     Grupo grupo;
 
-    @ManyToMany(mappedBy = "pacientes")
-    private List<Practicante> practicantes;
+    @OneToMany(mappedBy = "paciente")
+    @JsonIgnore
+    private List<PracticantePaciente> practicantesPaciente;
+
+    @OneToMany(mappedBy = "paciente")
+    @JsonIgnore
+    private List<DocumentoPaciente> documentosPaciente;
+
+    @OneToMany(mappedBy = "paciente")
+    @JsonIgnore
+    private List<Acudiente> acudientes;
 
     @Column(name = "aprobado")
     private boolean aprobado;
@@ -59,11 +70,5 @@ public class Paciente extends Usuario {
     @NotNull(message = "La Edad es obligatorio")
     @Column(name = "edad", nullable = false)
     private int edad;
-
-    @OneToMany(mappedBy = "paciente")
-    private List<DocumentoPaciente> documentosPaciente;
-
-    @OneToMany(mappedBy = "paciente")
-    private List<Acudiente> acudientes;
 
 }

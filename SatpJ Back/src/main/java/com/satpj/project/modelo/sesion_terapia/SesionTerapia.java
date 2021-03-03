@@ -19,6 +19,7 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.satpj.project.modelo.paquete_sesion.PaqueteSesion;
 
 /**
@@ -37,6 +38,7 @@ public class SesionTerapia {
 	private Long id;
 
 	@OneToMany(mappedBy = "sesionTerapia")
+	@JsonIgnore
 	private List<SesionUsuario> sesiones;
 
 	@ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)

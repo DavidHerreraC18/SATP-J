@@ -85,7 +85,7 @@ public class ServicioAlerta {
     // Métodos correspondientes a la AlertaUsuario
 
     @GetMapping(value = "/usuario/{id}", produces = "application/json")
-    public List<AlertaUsuario> findAlertaByUsuario(@PathVariable("id") Long id) {
+    public List<AlertaUsuario> findAlertaUsuarioByUsuario(@PathVariable("id") Long id) {
         Usuario usuario = servicioUsuario.findById(id);
         Preconditions.checkNotNull(usuario);
         List<AlertaUsuario> alertasUsuario = usuario.getAlertasUsuario();

@@ -5,6 +5,7 @@ import java.util.List;
 
 import com.google.api.client.util.Preconditions;
 import com.satpj.project.modelo.grupo.*;
+import com.satpj.project.modelo.paciente.Paciente;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -42,6 +43,17 @@ public class ServicioGrupo {
     @GetMapping(value = "/{id}", produces = "application/json")
     public Grupo findById(@PathVariable("id") Long id) {
         return repositorioGrupo.findById(id).get();
+    }
+
+    /*
+     * La funcion findIntegrantesById tiene el proposito de evitar la recursion en
+     * JSON que genera la relacion Paciente - Grupo
+     */
+    @GetMapping(value = "/{id}/integrantes", produces = "application/json")
+    public List<Paciente> findIntegrantesById(@PathVariable("id") Long id) {
+        Grupo grupo = repositorioGrupo.findById(id).get();
+        Preconditions.checkNotNull(grupo);
+        return grupo.getIntegrantes();
     }
 
     @PostMapping

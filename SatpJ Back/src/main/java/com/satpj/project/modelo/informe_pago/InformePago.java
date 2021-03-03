@@ -17,6 +17,7 @@ import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.satpj.project.modelo.comprobante_pago.ComprobantePago;
 
 /**
@@ -36,6 +37,7 @@ public class InformePago {
 
     @ManyToMany
     @JoinTable(name = "informe_comprobante_pago", joinColumns = @JoinColumn(name = "informe_pago_id"), inverseJoinColumns = @JoinColumn(name = "comprobante_pago_id"))
+    @JsonIgnore
     private List<ComprobantePago> comprobatesPagos;
 
     @NotNull(message = "La Fecha de Inicio es obligatoria")

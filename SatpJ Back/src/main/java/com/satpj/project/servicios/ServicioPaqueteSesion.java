@@ -3,6 +3,7 @@ package com.satpj.project.servicios;
 import java.util.List;
 
 import com.google.api.client.util.Preconditions;
+import com.satpj.project.modelo.comprobante_pago.ComprobantePago;
 import com.satpj.project.modelo.paquete_sesion.*;
 
 import lombok.Getter;
@@ -44,6 +45,17 @@ public class ServicioPaqueteSesion {
     @GetMapping(value = "/{id}", produces = "application/json")
     public PaqueteSesion findById(@PathVariable("id") Long id) {
         return repositorioPaqueteSesion.findById(id).get();
+    }
+
+    /*
+     * La funcion findComprobanteByPaqueteId tiene el proposito de evitar la
+     * recursion en JSON que genera la relacion PaqueteSesion - ComprobantePago
+     */
+    @GetMapping(value = "/{id}/comprobante", produces = "application/json")
+    public ComprobantePago findComprobanteByPaqueteId(@PathVariable("id") Long id) {
+        PaqueteSesion paqueteSesion = repositorioPaqueteSesion.findById(id).get();
+        Preconditions.checkNotNull(paqueteSesion);
+        return paqueteSesion.getComprobantePago();
     }
 
     @PostMapping

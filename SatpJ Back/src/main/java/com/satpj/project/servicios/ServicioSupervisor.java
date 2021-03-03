@@ -3,6 +3,7 @@ package com.satpj.project.servicios;
 import java.util.List;
 
 import com.google.api.client.util.Preconditions;
+import com.satpj.project.modelo.paciente.Paciente;
 import com.satpj.project.modelo.supervisor.*;
 
 import lombok.Getter;
@@ -41,6 +42,13 @@ public class ServicioSupervisor {
     @GetMapping(value = "/{id}", produces = "application/json")
     public Supervisor findById(@PathVariable("id") Long id) {
         return repositorioSupervisor.findById(id).get();
+    }
+
+    @GetMapping(value = "/pacientes/{id}", produces = "application/json")
+    public List<Paciente> findPacientesBySupervisorId(@PathVariable("id") Long id) {
+        Supervisor supervisor = repositorioSupervisor.findById(id).get();
+        Preconditions.checkNotNull(supervisor);
+        return supervisor.getPacientes();
     }
 
     @PostMapping

@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.google.api.client.util.Preconditions;
 import com.satpj.project.modelo.comprobante_pago.*;
+import com.satpj.project.modelo.informe_pago.InformePago;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -44,6 +45,17 @@ public class ServicioComprobantePago {
     @GetMapping(value = "/{id}", produces = "application/json")
     public ComprobantePago findById(@PathVariable("id") Long id) {
         return repositorioComprobantePago.findById(id).get();
+    }
+
+    /*
+     * La funcion findInformesByComprobanteId tiene el proposito de evitar la
+     * recursion en JSON que genera la relacion ComprobantePago - InformePago
+     */
+    @GetMapping(value = "/{id}/informes", produces = "application/json")
+    public List<InformePago> findInformesByComprobanteId(@PathVariable("id") Long id) {
+        ComprobantePago comprobantePago = repositorioComprobantePago.findById(id).get();
+        Preconditions.checkNotNull(comprobantePago);
+        return comprobantePago.getInformesPagos();
     }
 
     @PostMapping

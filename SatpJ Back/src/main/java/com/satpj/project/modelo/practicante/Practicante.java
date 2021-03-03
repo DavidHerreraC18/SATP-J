@@ -10,12 +10,14 @@ import javax.persistence.Entity;
 import javax.persistence.JoinTable;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToMany;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 
 import org.hibernate.annotations.Polymorphism;
 import org.hibernate.annotations.PolymorphismType;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.satpj.project.modelo.paciente.Paciente;
 import com.satpj.project.modelo.usuario.Usuario;
 
@@ -31,9 +33,9 @@ import com.satpj.project.modelo.usuario.Usuario;
 public class Practicante extends Usuario {
 
 	/* Los Pacientes que reciben la Terapia del Practicante */
-	@ManyToMany
-	@JoinTable(name = "practicante_paciente", joinColumns = @JoinColumn(name = "practicante_id"), inverseJoinColumns = @JoinColumn(name = "paciente_id"))
-	private List<Paciente> pacientes;
+	@OneToMany(mappedBy = "practicante")
+	@JsonIgnore
+	private List<PracticantePaciente> practicantesPaciente;
 
 	@NotNull(message = "El Pregrado es obligatorio")
 	@Column(name = "pregrado", nullable = false)
@@ -49,5 +51,13 @@ public class Practicante extends Usuario {
 	@NotNull(message = "El Enfoque es obligatorio")
 	@Column(name = "enfoque", nullable = false)
 	private String enfoque;
+
+	/*
+	 * Determina si el practicante se encuentra en servicio o atendiendo pacientes
+	 * en el Consultorio
+	 */
+	@NotNull(message = "El estado activo es obligatorio")
+	@Column(name = "activo", nullable = false)
+	private boolean activo;
 
 }

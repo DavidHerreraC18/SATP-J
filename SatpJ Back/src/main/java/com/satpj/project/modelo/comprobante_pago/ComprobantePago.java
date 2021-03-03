@@ -19,6 +19,7 @@ import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.satpj.project.modelo.informe_pago.InformePago;
 import com.satpj.project.modelo.paquete_sesion.PaqueteSesion;
 
@@ -42,6 +43,7 @@ public class ComprobantePago {
     private PaqueteSesion paqueteSesion;
 
     @ManyToMany(mappedBy = "comprobatesPagos")
+    @JsonIgnore
     private List<InformePago> informesPagos;
 
     @NotNull(message = "El Valor Total es obligatorio")

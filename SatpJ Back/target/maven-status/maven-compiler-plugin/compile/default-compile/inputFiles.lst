@@ -13,7 +13,9 @@ C:\SATP-J\SATP-J\SatpJ Back\src\main\java\com\satpj\project\servicios\ServicioSe
 C:\SATP-J\SATP-J\SatpJ Back\src\main\java\com\satpj\project\modelo\tarifa_sesion\TarifaSesion.java
 C:\SATP-J\SATP-J\SatpJ Back\src\main\java\com\satpj\project\modelo\sesion_terapia\SesionUsuario.java
 C:\SATP-J\SATP-J\SatpJ Back\src\main\java\com\satpj\project\modelo\auxiliar_administrativo\AuxiliarAdministrativo.java
+C:\SATP-J\SATP-J\SatpJ Back\src\main\java\com\satpj\project\modelo\practicante\RepositorioPracticantePaciente.java
 C:\SATP-J\SATP-J\SatpJ Back\src\main\java\com\satpj\project\modelo\grupo\Grupo.java
+C:\SATP-J\SATP-J\SatpJ Back\src\main\java\com\satpj\project\modelo\practicante\PracticantePaciente.java
 C:\SATP-J\SATP-J\SatpJ Back\src\main\java\com\satpj\project\servicios\ServicioPaciente.java
 C:\SATP-J\SATP-J\SatpJ Back\src\main\java\com\satpj\project\servicios\ServicioAlerta.java
 C:\SATP-J\SATP-J\SatpJ Back\src\main\java\com\satpj\project\servicios\ServicioPracticante.java
@@ -56,5 +58,6 @@ C:\SATP-J\SATP-J\SatpJ Back\src\main\java\com\satpj\project\modelo\sesion_terapi
 C:\SATP-J\SATP-J\SatpJ Back\src\main\java\com\satpj\project\modelo\supervisor\RepositorioSupervisor.java
 C:\SATP-J\SATP-J\SatpJ Back\src\main\java\com\satpj\project\modelo\comprobante_pago\RepositorioComprobantePago.java
 C:\SATP-J\SATP-J\SatpJ Back\src\main\java\com\satpj\project\modelo\nota_evolucion\NotaEvolucion.java
+C:\SATP-J\SATP-J\SatpJ Back\src\main\java\com\satpj\project\modelo\practicante\LlavePracticantePaciente.java
 C:\SATP-J\SATP-J\SatpJ Back\src\main\java\com\satpj\project\WebSecurityConfiguration.java
 C:\SATP-J\SATP-J\SatpJ Back\src\main\java\com\satpj\project\modelo\paquete_sesion\RepositorioPaqueteSesion.java

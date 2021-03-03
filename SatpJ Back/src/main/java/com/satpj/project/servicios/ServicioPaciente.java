@@ -1,11 +1,14 @@
 package com.satpj.project.servicios;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import com.google.api.client.util.Preconditions;
 import com.satpj.project.modelo.acudiente.Acudiente;
 import com.satpj.project.modelo.documento_paciente.DocumentoPaciente;
 import com.satpj.project.modelo.paciente.*;
+import com.satpj.project.modelo.practicante.Practicante;
+import com.satpj.project.modelo.practicante.PracticantePaciente;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -49,6 +52,48 @@ public class ServicioPaciente {
     @GetMapping(value = "/{id}", produces = "application/json")
     public Paciente findById(@PathVariable("id") Long id) {
         return repositorioPaciente.findById(id).get();
+    }
+
+    /*
+     * La funcion findAcudientesByPacienteId tiene el proposito de evitar la
+     * recursion en JSON que genera la relacion Paciente - Acudiente
+     */
+    @GetMapping(value = "/{id}/acudientes", produces = "application/json")
+    public List<Acudiente> findAcudientesByPacienteId(@PathVariable("id") Long id) {
+        Paciente paciente = repositorioPaciente.findById(id).get();
+        Preconditions.checkNotNull(paciente);
+        return paciente.getAcudientes();
+    }
+
+    /*
+     * La funcion findAcudientesByPacienteId tiene el proposito de evitar la
+     * recursion en JSON que genera la relacion Paciente - Documentos
+     */
+    @GetMapping(value = "/{id}/documentos", produces = "application/json")
+    public List<DocumentoPaciente> findDocumentosByPacienteId(@PathVariable("id") Long id) {
+        Paciente paciente = repositorioPaciente.findById(id).get();
+        Preconditions.checkNotNull(paciente);
+        return paciente.getDocumentosPaciente();
+    }
+
+    /*
+     * La funcion findPracticantesByPacienteId tiene el proposito de encontrar al
+     * Practicante que actualmente se encuentre atendiendo al Paciente Se deja como
+     * valor de retorno una lista en el caso de que sea posible la doble atencion de
+     * un Paciente.
+     */
+    @GetMapping(value = "/{id}/practicantes", produces = "application/json")
+    public List<Practicante> findPracticantesByPacienteId(@PathVariable("id") Long id) {
+        Paciente paciente = repositorioPaciente.findById(id).get();
+        Preconditions.checkNotNull(paciente);
+        List<PracticantePaciente> practicantePacientes = paciente.getPracticantesPaciente();
+        List<Practicante> practicantes = new ArrayList<Practicante>();
+        for (PracticantePaciente practicantePaciente : practicantePacientes) {
+            if (practicantePaciente.isActivo()) {
+                practicantes.add(practicantePaciente.getPracticante());
+            }
+        }
+        return practicantes;
     }
 
     @PostMapping
