@@ -6,7 +6,7 @@ import 'package:satpj_front_end_movil/src/app.dart';
 void main(){
    WidgetsFlutterBinding.ensureInitialized();
    //await Firebase.initializeApp();
-   runApp(MyApp());
+   runApp(ConstructorFirebase());
 }
 
 class ConstructorFirebase extends StatelessWidget {

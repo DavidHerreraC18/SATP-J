@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:satpj_front_end_web/src/utils/widgets/dialogo_autenticacion.dart';
 import 'package:satpj_front_end_web/src/utils/widgets/toolbar_inicio.dart';
 
-class HomePage extends StatelessWidget{
+class VistaInicio extends StatelessWidget{
 
   final estiloTexto = new TextStyle(fontSize : 25);
 

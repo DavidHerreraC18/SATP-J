@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:satpj_front_end_web/src/utils/autenticacion.dart';
-import 'package:satpj_front_end_web/src/views/login_page.dart';
+
 
 //import 'google_sign_in_button.dart';
 
@@ -255,11 +255,11 @@ class _AuthDialogState extends State<AuthDialog> {
                                       Future.delayed(
                                           Duration(milliseconds: 500), () {
                                         Navigator.of(context).pop();
-                                        Navigator.of(context).pushReplacement(
+                                        /*Navigator.of(context).pushReplacement(
                                             MaterialPageRoute(
                                                 fullscreenDialog: true,
                                                 builder: (context) =>
-                                                    LoginPage()));
+                                                    LoginPage()));*/
                                       });
                                     }
                                   }).catchError((error) {
