@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
+import '../../views/contador_page.dart';
 import '../autenticacion.dart';
-
 
 //import 'google_sign_in_button.dart';
 
@@ -68,7 +68,7 @@ class _AuthDialogState extends State<AuthDialog> {
   @override
   Widget build(BuildContext context) {
     return Dialog(
-      backgroundColor: Colors.white,
+      backgroundColor: Theme.of(context).colorScheme.background,
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(8.0),
       ),
@@ -77,7 +77,7 @@ class _AuthDialogState extends State<AuthDialog> {
           padding: const EdgeInsets.all(16.0),
           child: Container(
             width: 400,
-            color: Colors.white,
+            color: Theme.of(context).colorScheme.background,
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               mainAxisSize: MainAxisSize.min,
@@ -85,7 +85,7 @@ class _AuthDialogState extends State<AuthDialog> {
                 Center(
                   child: Text(
                     'Ingreso al Sistema',
-                    style: Theme.of(context).textTheme.headline1,
+                    style: Theme.of(context).textTheme.headline3,
                   ),
                 ),
                 SizedBox(height: 20),
@@ -217,6 +217,7 @@ class _AuthDialogState extends State<AuthDialog> {
                           child: Container(
                             width: double.maxFinite,
                             child: TextButton(
+                              
                               style: ButtonStyle(
                                 backgroundColor: MaterialStateProperty.all(
                                     Theme.of(context).colorScheme.secondary),
@@ -256,11 +257,11 @@ class _AuthDialogState extends State<AuthDialog> {
                                       Future.delayed(
                                           Duration(milliseconds: 500), () {
                                         Navigator.of(context).pop();
-                                        /*Navigator.of(context).pushReplacement(
+                                        Navigator.of(context).pushReplacement(
                                             MaterialPageRoute(
                                                 fullscreenDialog: true,
                                                 builder: (context) =>
-                                                    LoginPage()));*/
+                                                    ContadorPage()));
                                       });
                                     }
                                   }).catchError((error) {
@@ -306,7 +307,7 @@ class _AuthDialogState extends State<AuthDialog> {
                                     : Text(
                                         'Iniciar Sesión',
                                         style: TextStyle(
-                                          fontSize: 14,
+                                          fontSize: 18,
                                           color: Colors.white,
                                         ),
                                       ),
@@ -348,7 +349,10 @@ class _AuthDialogState extends State<AuthDialog> {
                 ),
                 SizedBox(height: 30),
                 //Center(child: GoogleButton()),
-                Center(child: Text("INGRESO MICROSOFT")),
+                Center(child: Text(
+                  "INGRESO MICROSOFT",
+                  style: Theme.of(context).textTheme.bodyText1,
+                  )),
                 /*SizedBox(height: 30),
                 Padding(
                   padding: const EdgeInsets.all(8.0),

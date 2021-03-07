@@ -31,13 +31,13 @@ ThemeData temaSatpj(){
     // Define the default TextTheme. Use this to specify the default
     // text styling for headlines, titles, bodies of text, and more.
     textTheme: TextTheme(
-      headline1: TextStyle(fontSize: 30.0, fontWeight: FontWeight.w900, color: Color(0xFF2E5EAA)),
-      headline2: TextStyle(fontSize: 30.0, fontWeight: FontWeight.w900, color: Colors.white),
-      headline3: TextStyle(fontSize: 30.0, color: Color(0xFF2E5EAA)),
+      headline1: TextStyle(fontSize: 70.0, fontWeight: FontWeight.w900, color: Color(0xFF2E5EAA)),
+      headline2: TextStyle(fontSize: 70.0, fontWeight: FontWeight.w900, color: Colors.white),
+      headline3: TextStyle(fontSize: 30.0, fontWeight: FontWeight.w900, color: Color(0xFF2E5EAA)),
       subtitle1: TextStyle(fontSize: 20.0, fontWeight: FontWeight.w700, color: Color(0xFF2E5EAA)),
       subtitle2: TextStyle(fontSize: 20.0, fontWeight: FontWeight.w700, color: Colors.white),
-      bodyText1: TextStyle(fontSize: 12.0, color: Color(0xFF2E5EAA)),
-      bodyText2: TextStyle(fontSize: 12.0, color: Colors.white)
+      bodyText1: TextStyle(fontSize: 18.0, color: Color(0xFF2E5EAA)),
+      bodyText2: TextStyle(fontSize: 18.0, color: Colors.white)
     ),
   );
 }

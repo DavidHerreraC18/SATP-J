@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:satpj_front_end_movil/src/utils/widgets/drawerAuxiliarAdmin.dart';
-import 'package:satpj_front_end_movil/src/utils/widgets/drawerPaciente.dart';
-import 'package:satpj_front_end_movil/src/utils/widgets/drawerPracticante.dart';
-import 'package:satpj_front_end_movil/src/utils/widgets/drawerSupervisor.dart';
+import 'package:satpj_front_end_movil/src/utils/widgets/drawer_auxiliar_administrativo.dart';
+import 'package:satpj_front_end_movil/src/utils/widgets/drawer_paciente.dart';
+import 'package:satpj_front_end_movil/src/utils/widgets/drawer_practicante.dart';
+import 'package:satpj_front_end_movil/src/utils/widgets/drawer_supervisor.dart';
 /*
 import 'package:satpj_front_end_web/src/utils/widgets/toolbar_auxiliar_administrativo.dart';
 import 'package:satpj_front_end_web/src/utils/widgets/toolbar_inicio.dart';
@@ -31,12 +31,12 @@ class _ContadorPageState extends State<ContadorPage>{
         title: Text("hola"),
         backgroundColor: Theme.of(context).colorScheme.primary,
       ),
-      drawer: drawerSupervisor(context),
+      drawer: DrawerSupervisor(),
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Text('Número de taps:',style: Theme.of(context).textTheme.headline1),
+            Text('Número de taps:',style: Theme.of(context).textTheme.headline3),
             Text('$_conteo' ,style: Theme.of(context).textTheme.subtitle1),
           ],
         ),
