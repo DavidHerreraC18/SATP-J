@@ -4,11 +4,14 @@ import java.util.List;
 
 import com.google.api.client.util.Preconditions;
 import com.satpj.project.modelo.registro_practica.*;
+import com.satpj.project.seguridad.CustomPrincipal;
 
 import lombok.Getter;
 import lombok.Setter;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
+import org.springframework.boot.autoconfigure.security.servlet.SecurityAutoConfiguration;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -19,6 +22,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 
 /**
  * Servicio de la entidad Registro de Practica Permite que se puedan acceder a
@@ -26,6 +30,7 @@ import org.springframework.http.HttpStatus;
  */
 @Getter
 @Setter
+@EnableAutoConfiguration(exclude= SecurityAutoConfiguration.class)
 @RestController
 @RequestMapping("registropracticas")
 public class ServicioRegistroPractica {
@@ -34,7 +39,7 @@ public class ServicioRegistroPractica {
     private RepositorioRegistroPractica repositorioRegistroPractica;
 
     @GetMapping(produces = "application/json")
-    public List<RegistroPractica> findAll() {
+    public List<RegistroPractica> findAll(@AuthenticationPrincipal CustomPrincipal customPrincipal) {
         return repositorioRegistroPractica.findAll();
     }
 
@@ -45,14 +50,14 @@ public class ServicioRegistroPractica {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public RegistroPractica create(@RequestBody RegistroPractica registroPractica) {
+    public RegistroPractica create(@AuthenticationPrincipal CustomPrincipal customPrincipal, @RequestBody RegistroPractica registroPractica) {
         Preconditions.checkNotNull(registroPractica);
         return repositorioRegistroPractica.save(registroPractica);
     }
 
     @PutMapping(value = "/{id}")
     @ResponseStatus(HttpStatus.OK)
-    public void update(@PathVariable("id") Long id, @RequestBody RegistroPractica registroPractica) {
+    public void update(@AuthenticationPrincipal CustomPrincipal customPrincipal, @PathVariable("id") Long id, @RequestBody RegistroPractica registroPractica) {
         Preconditions.checkNotNull(registroPractica);
 
         RegistroPractica rpActualizar = repositorioRegistroPractica.findById(registroPractica.getId()).orElse(null);
@@ -68,7 +73,7 @@ public class ServicioRegistroPractica {
 
     @DeleteMapping(value = "/{id}")
     @ResponseStatus(HttpStatus.OK)
-    public void delete(@PathVariable("id") Long id) {
+    public void delete(@AuthenticationPrincipal CustomPrincipal customPrincipal, @PathVariable("id") Long id) {
         repositorioRegistroPractica.deleteById(id);
     }
 

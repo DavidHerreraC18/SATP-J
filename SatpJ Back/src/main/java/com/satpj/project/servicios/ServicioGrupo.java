@@ -6,11 +6,14 @@ import java.util.List;
 import com.google.api.client.util.Preconditions;
 import com.satpj.project.modelo.grupo.*;
 import com.satpj.project.modelo.paciente.Paciente;
+import com.satpj.project.seguridad.CustomPrincipal;
 
 import lombok.Getter;
 import lombok.Setter;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
+import org.springframework.boot.autoconfigure.security.servlet.SecurityAutoConfiguration;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -21,6 +24,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 
 /**
  * Servicio de la entidad Grupo Permite que se puedan acceder a todos los
@@ -28,6 +32,7 @@ import org.springframework.http.HttpStatus;
  */
 @Getter
 @Setter
+@EnableAutoConfiguration(exclude= SecurityAutoConfiguration.class)
 @RestController
 @RequestMapping("grupos")
 public class ServicioGrupo {
@@ -36,12 +41,12 @@ public class ServicioGrupo {
     private RepositorioGrupo repositorioGrupo;
 
     @GetMapping(produces = "application/json")
-    public List<Grupo> findAll() {
+    public List<Grupo> findAll(@AuthenticationPrincipal CustomPrincipal customPrincipal) {
         return repositorioGrupo.findAll();
     }
 
     @GetMapping(value = "/{id}", produces = "application/json")
-    public Grupo findById(@PathVariable("id") Long id) {
+    public Grupo findById(@AuthenticationPrincipal CustomPrincipal customPrincipal, @PathVariable("id") Long id) {
         return repositorioGrupo.findById(id).get();
     }
 
@@ -50,7 +55,7 @@ public class ServicioGrupo {
      * JSON que genera la relacion Paciente - Grupo
      */
     @GetMapping(value = "/{id}/integrantes", produces = "application/json")
-    public List<Paciente> findIntegrantesById(@PathVariable("id") Long id) {
+    public List<Paciente> findIntegrantesById(@AuthenticationPrincipal CustomPrincipal customPrincipal, @PathVariable("id") Long id) {
         Grupo grupo = repositorioGrupo.findById(id).get();
         Preconditions.checkNotNull(grupo);
         return grupo.getIntegrantes();
@@ -58,14 +63,14 @@ public class ServicioGrupo {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public Grupo create(@RequestBody Grupo grupo) {
+    public Grupo create(@AuthenticationPrincipal CustomPrincipal customPrincipal, @RequestBody Grupo grupo) {
         Preconditions.checkNotNull(grupo);
         return repositorioGrupo.save(grupo);
     }
 
     @PutMapping(value = "/{id}")
     @ResponseStatus(HttpStatus.OK)
-    public void update(@PathVariable("id") Long id, @RequestBody Grupo grupo) {
+    public void update(@AuthenticationPrincipal CustomPrincipal customPrincipal, @PathVariable("id") Long id, @RequestBody Grupo grupo) {
         Preconditions.checkNotNull(grupo);
 
         Grupo gActualizar = repositorioGrupo.findById(grupo.getId()).orElse(null);
@@ -77,7 +82,7 @@ public class ServicioGrupo {
 
     @DeleteMapping(value = "/{id}")
     @ResponseStatus(HttpStatus.OK)
-    public void delete(@PathVariable("id") Long id) {
+    public void delete(@AuthenticationPrincipal CustomPrincipal customPrincipal, @PathVariable("id") Long id) {
         repositorioGrupo.deleteById(id);
     }
 

@@ -5,11 +5,14 @@ import java.util.List;
 import com.google.api.client.util.Preconditions;
 import com.satpj.project.modelo.comprobante_pago.*;
 import com.satpj.project.modelo.informe_pago.InformePago;
+import com.satpj.project.seguridad.CustomPrincipal;
 
 import lombok.Getter;
 import lombok.Setter;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
+import org.springframework.boot.autoconfigure.security.servlet.SecurityAutoConfiguration;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -20,6 +23,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 
 /**
  * Servicio de la entidad Comprobante de Pago Permite que se puedan acceder a
@@ -28,6 +32,7 @@ import org.springframework.http.HttpStatus;
 @Getter
 @Setter
 @RestController
+@EnableAutoConfiguration(exclude= SecurityAutoConfiguration.class)
 @RequestMapping("comprobantespago")
 public class ServicioComprobantePago {
 
@@ -38,12 +43,12 @@ public class ServicioComprobantePago {
     private ServicioPaqueteSesion ServicioPaqueteSesion;
 
     @GetMapping(produces = "application/json")
-    public List<ComprobantePago> findAll() {
+    public List<ComprobantePago> findAll(@AuthenticationPrincipal CustomPrincipal customPrincipal) {
         return repositorioComprobantePago.findAll();
     }
 
     @GetMapping(value = "/{id}", produces = "application/json")
-    public ComprobantePago findById(@PathVariable("id") Long id) {
+    public ComprobantePago findById(@AuthenticationPrincipal CustomPrincipal customPrincipal, @PathVariable("id") Long id) {
         return repositorioComprobantePago.findById(id).get();
     }
 
@@ -52,7 +57,7 @@ public class ServicioComprobantePago {
      * recursion en JSON que genera la relacion ComprobantePago - InformePago
      */
     @GetMapping(value = "/{id}/informes", produces = "application/json")
-    public List<InformePago> findInformesByComprobanteId(@PathVariable("id") Long id) {
+    public List<InformePago> findInformesByComprobanteId(@AuthenticationPrincipal CustomPrincipal customPrincipal, @PathVariable("id") Long id) {
         ComprobantePago comprobantePago = repositorioComprobantePago.findById(id).get();
         Preconditions.checkNotNull(comprobantePago);
         return comprobantePago.getInformesPagos();
@@ -60,14 +65,14 @@ public class ServicioComprobantePago {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public ComprobantePago create(@RequestBody ComprobantePago comprobantePago) {
+    public ComprobantePago create(@AuthenticationPrincipal CustomPrincipal customPrincipal, @RequestBody ComprobantePago comprobantePago) {
         Preconditions.checkNotNull(comprobantePago);
         return repositorioComprobantePago.save(comprobantePago);
     }
 
     @PutMapping(value = "/{id}")
     @ResponseStatus(HttpStatus.OK)
-    public void update(@PathVariable("id") Long id, @RequestBody ComprobantePago comprobantePago) {
+    public void update(@AuthenticationPrincipal CustomPrincipal customPrincipal, @PathVariable("id") Long id, @RequestBody ComprobantePago comprobantePago) {
         Preconditions.checkNotNull(comprobantePago);
 
         ComprobantePago cPagoActualizar = repositorioComprobantePago.findById(comprobantePago.getId()).orElse(null);
@@ -85,7 +90,7 @@ public class ServicioComprobantePago {
 
     @DeleteMapping(value = "/{id}")
     @ResponseStatus(HttpStatus.OK)
-    public void delete(@PathVariable("id") Long id) {
+    public void delete(@AuthenticationPrincipal CustomPrincipal customPrincipal, @PathVariable("id") Long id) {
 
         repositorioComprobantePago.deleteById(id);
     }

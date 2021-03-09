@@ -4,12 +4,15 @@ import java.util.List;
 
 import com.google.api.client.util.Preconditions;
 import com.satpj.project.modelo.acudiente.RepositorioAcudiente;
+import com.satpj.project.seguridad.CustomPrincipal;
 import com.satpj.project.modelo.acudiente.Acudiente;
 
 import lombok.Getter;
 import lombok.Setter;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
+import org.springframework.boot.autoconfigure.security.servlet.SecurityAutoConfiguration;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -20,6 +23,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 
 /**
  * Servicio de la entidad Acudiente Permite que se puedan acceder a todos los
@@ -27,6 +31,7 @@ import org.springframework.http.HttpStatus;
  */
 @Getter
 @Setter
+@EnableAutoConfiguration(exclude= SecurityAutoConfiguration.class)
 @RestController
 @RequestMapping("acudientes")
 public class ServicioAcudiente {
@@ -35,25 +40,25 @@ public class ServicioAcudiente {
     private RepositorioAcudiente repositorioAcudiente;
 
     @GetMapping(produces = "application/json")
-    public List<Acudiente> findAll() {
+    public List<Acudiente> findAll(@AuthenticationPrincipal CustomPrincipal customPrincipal) {
         return repositorioAcudiente.findAll();
     }
 
     @GetMapping(value = "/{id}", produces = "application/json")
-    public Acudiente findById(@PathVariable("id") Long id) {
+    public Acudiente findById(@AuthenticationPrincipal CustomPrincipal customPrincipal, @PathVariable("id") Long id) {
         return repositorioAcudiente.findById(id).get();
     }
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public Acudiente create(@RequestBody Acudiente acudiente) {
+    public Acudiente create(@AuthenticationPrincipal CustomPrincipal customPrincipal, @RequestBody Acudiente acudiente) {
         Preconditions.checkNotNull(acudiente);
         return repositorioAcudiente.save(acudiente);
     }
 
     @PutMapping(value = "/{id}")
     @ResponseStatus(HttpStatus.OK)
-    public void update(@PathVariable("id") Long id, @RequestBody Acudiente acudiente) {
+    public void update(@AuthenticationPrincipal CustomPrincipal customPrincipal, @PathVariable("id") Long id, @RequestBody Acudiente acudiente) {
         Preconditions.checkNotNull(acudiente);
 
         Acudiente aActualizar = repositorioAcudiente.findById(acudiente.getId()).orElse(null);
@@ -73,7 +78,7 @@ public class ServicioAcudiente {
 
     @DeleteMapping(value = "/{id}")
     @ResponseStatus(HttpStatus.OK)
-    public void delete(@PathVariable("id") Long id) {
+    public void delete(@AuthenticationPrincipal CustomPrincipal customPrincipal, @PathVariable("id") Long id) {
         repositorioAcudiente.deleteById(id);
     }
 

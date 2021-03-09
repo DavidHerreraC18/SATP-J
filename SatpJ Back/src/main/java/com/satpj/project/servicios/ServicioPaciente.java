@@ -9,11 +9,14 @@ import com.satpj.project.modelo.documento_paciente.DocumentoPaciente;
 import com.satpj.project.modelo.paciente.*;
 import com.satpj.project.modelo.practicante.Practicante;
 import com.satpj.project.modelo.practicante.PracticantePaciente;
+import com.satpj.project.seguridad.CustomPrincipal;
 
 import lombok.Getter;
 import lombok.Setter;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
+import org.springframework.boot.autoconfigure.security.servlet.SecurityAutoConfiguration;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -24,6 +27,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 
 /**
  * Servicio de la entidad Paciente Permite que se puedan acceder a todos los
@@ -31,6 +35,7 @@ import org.springframework.http.HttpStatus;
  */
 @Getter
 @Setter
+@EnableAutoConfiguration(exclude= SecurityAutoConfiguration.class)
 @RestController
 @RequestMapping("pacientes")
 public class ServicioPaciente {
@@ -45,12 +50,12 @@ public class ServicioPaciente {
     private ServicioDocumentoPaciente servicioDocumentoPaciente;
 
     @GetMapping(produces = "application/json")
-    public List<Paciente> findAll() {
+    public List<Paciente> findAll(@AuthenticationPrincipal CustomPrincipal customPrincipal) {
         return repositorioPaciente.findAll();
     }
 
     @GetMapping(value = "/{id}", produces = "application/json")
-    public Paciente findById(@PathVariable("id") Long id) {
+    public Paciente findById(@AuthenticationPrincipal CustomPrincipal customPrincipal, @PathVariable("id") Long id) {
         return repositorioPaciente.findById(id).get();
     }
 
@@ -59,7 +64,7 @@ public class ServicioPaciente {
      * recursion en JSON que genera la relacion Paciente - Acudiente
      */
     @GetMapping(value = "/{id}/acudientes", produces = "application/json")
-    public List<Acudiente> findAcudientesByPacienteId(@PathVariable("id") Long id) {
+    public List<Acudiente> findAcudientesByPacienteId(@AuthenticationPrincipal CustomPrincipal customPrincipal, @PathVariable("id") Long id) {
         Paciente paciente = repositorioPaciente.findById(id).get();
         Preconditions.checkNotNull(paciente);
         return paciente.getAcudientes();
@@ -70,7 +75,7 @@ public class ServicioPaciente {
      * recursion en JSON que genera la relacion Paciente - Documentos
      */
     @GetMapping(value = "/{id}/documentos", produces = "application/json")
-    public List<DocumentoPaciente> findDocumentosByPacienteId(@PathVariable("id") Long id) {
+    public List<DocumentoPaciente> findDocumentosByPacienteId(@AuthenticationPrincipal CustomPrincipal customPrincipal, @PathVariable("id") Long id) {
         Paciente paciente = repositorioPaciente.findById(id).get();
         Preconditions.checkNotNull(paciente);
         return paciente.getDocumentosPaciente();
@@ -83,7 +88,7 @@ public class ServicioPaciente {
      * un Paciente.
      */
     @GetMapping(value = "/{id}/practicantes", produces = "application/json")
-    public List<Practicante> findPracticantesByPacienteId(@PathVariable("id") Long id) {
+    public List<Practicante> findPracticantesByPacienteId(@AuthenticationPrincipal CustomPrincipal customPrincipal, @PathVariable("id") Long id) {
         Paciente paciente = repositorioPaciente.findById(id).get();
         Preconditions.checkNotNull(paciente);
         List<PracticantePaciente> practicantePacientes = paciente.getPracticantesPaciente();
@@ -105,7 +110,7 @@ public class ServicioPaciente {
 
     @PutMapping(value = "/{id}")
     @ResponseStatus(HttpStatus.OK)
-    public void update(@PathVariable("id") Long id, @RequestBody Paciente paciente) {
+    public void update(@AuthenticationPrincipal CustomPrincipal customPrincipal, @PathVariable("id") Long id, @RequestBody Paciente paciente) {
         Preconditions.checkNotNull(paciente);
 
         Paciente pActualizar = repositorioPaciente.findById(paciente.getId()).orElse(null);
@@ -121,26 +126,26 @@ public class ServicioPaciente {
         pActualizar.setGrupo(paciente.getGrupo());
         pActualizar.setEdad(paciente.getEdad());
         pActualizar.setEstrato(paciente.getEstrato());
-        pActualizar.setAprobado(paciente.isAprobado());
+        pActualizar.setEstadoAprobado(paciente.getEstadoAprobado());
 
         repositorioPaciente.save(pActualizar);
     }
 
     @DeleteMapping(value = "/{id}")
     @ResponseStatus(HttpStatus.OK)
-    public void delete(@PathVariable("id") Long id) {
+    public void delete(@AuthenticationPrincipal CustomPrincipal customPrincipal, @PathVariable("id") Long id) {
 
         Paciente paciente = repositorioPaciente.findById(id).orElse(null);
         Preconditions.checkNotNull(paciente);
 
         List<Acudiente> acudientes = paciente.getAcudientes();
         for (Acudiente acudiente : acudientes) {
-            servicioAcudiente.delete(acudiente.getId());
+            servicioAcudiente.delete(customPrincipal,acudiente.getId());
         }
 
         List<DocumentoPaciente> documentosPaciente = paciente.getDocumentosPaciente();
         for (DocumentoPaciente documentoPaciente : documentosPaciente) {
-            servicioDocumentoPaciente.delete(documentoPaciente.getId());
+            servicioDocumentoPaciente.delete(customPrincipal,documentoPaciente.getId());
         }
 
         repositorioPaciente.deleteById(id);

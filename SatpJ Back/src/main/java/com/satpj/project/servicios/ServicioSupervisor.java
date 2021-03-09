@@ -5,11 +5,14 @@ import java.util.List;
 import com.google.api.client.util.Preconditions;
 import com.satpj.project.modelo.paciente.Paciente;
 import com.satpj.project.modelo.supervisor.*;
+import com.satpj.project.seguridad.CustomPrincipal;
 
 import lombok.Getter;
 import lombok.Setter;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
+import org.springframework.boot.autoconfigure.security.servlet.SecurityAutoConfiguration;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -20,6 +23,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 
 /**
  * Servicio de la entidad Supervisor Permite que se puedan acceder a todos los
@@ -27,6 +31,7 @@ import org.springframework.http.HttpStatus;
  */
 @Getter
 @Setter
+@EnableAutoConfiguration(exclude= SecurityAutoConfiguration.class)
 @RestController
 @RequestMapping("supervisores")
 public class ServicioSupervisor {
@@ -35,17 +40,17 @@ public class ServicioSupervisor {
     private RepositorioSupervisor repositorioSupervisor;
 
     @GetMapping(produces = "application/json")
-    public List<Supervisor> findAll() {
+    public List<Supervisor> findAll(@AuthenticationPrincipal CustomPrincipal customPrincipal) {
         return repositorioSupervisor.findAll();
     }
 
     @GetMapping(value = "/{id}", produces = "application/json")
-    public Supervisor findById(@PathVariable("id") Long id) {
+    public Supervisor findById(@AuthenticationPrincipal CustomPrincipal customPrincipal, @PathVariable("id") Long id) {
         return repositorioSupervisor.findById(id).get();
     }
 
     @GetMapping(value = "/pacientes/{id}", produces = "application/json")
-    public List<Paciente> findPacientesBySupervisorId(@PathVariable("id") Long id) {
+    public List<Paciente> findPacientesBySupervisorId(@AuthenticationPrincipal CustomPrincipal customPrincipal, @PathVariable("id") Long id) {
         Supervisor supervisor = repositorioSupervisor.findById(id).get();
         Preconditions.checkNotNull(supervisor);
         return supervisor.getPacientes();
@@ -60,7 +65,7 @@ public class ServicioSupervisor {
 
     @PutMapping(value = "/{id}")
     @ResponseStatus(HttpStatus.OK)
-    public void update(@PathVariable("id") Long id, @RequestBody Supervisor supervisor) {
+    public void update(@AuthenticationPrincipal CustomPrincipal customPrincipal, @PathVariable("id") Long id, @RequestBody Supervisor supervisor) {
         Preconditions.checkNotNull(supervisor);
 
         Supervisor sActualizar = repositorioSupervisor.findById(supervisor.getId()).orElse(null);
@@ -80,7 +85,7 @@ public class ServicioSupervisor {
 
     @DeleteMapping(value = "/{id}")
     @ResponseStatus(HttpStatus.OK)
-    public void delete(@PathVariable("id") Long id) {
+    public void delete(@AuthenticationPrincipal CustomPrincipal customPrincipal, @PathVariable("id") Long id) {
         repositorioSupervisor.deleteById(id);
     }
 

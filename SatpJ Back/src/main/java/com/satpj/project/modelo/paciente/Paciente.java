@@ -10,7 +10,6 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
-import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
@@ -23,7 +22,6 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.satpj.project.modelo.acudiente.Acudiente;
 import com.satpj.project.modelo.documento_paciente.DocumentoPaciente;
 import com.satpj.project.modelo.grupo.Grupo;
-import com.satpj.project.modelo.practicante.Practicante;
 import com.satpj.project.modelo.practicante.PracticantePaciente;
 import com.satpj.project.modelo.supervisor.Supervisor;
 import com.satpj.project.modelo.usuario.Usuario;
@@ -40,7 +38,7 @@ import com.satpj.project.modelo.usuario.Usuario;
 public class Paciente extends Usuario {
 
     @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    @JoinColumn(name = "supervisor_id", nullable = false)
+    @JoinColumn(name = "supervisor_id", nullable = true)
     Supervisor supervisor;
 
     @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
@@ -59,12 +57,12 @@ public class Paciente extends Usuario {
     @JsonIgnore
     private List<Acudiente> acudientes;
 
-    @Column(name = "aprobado")
-    private boolean aprobado;
+    @NotNull(message = "El estado de Aprobacion es obligatorio")
+    @Column(name = "estado-aprobado")
+    private String estadoAprobado;
 
     /* Con el estrato se realiza el cobro de las Sesiones de Terapia */
-    @NotNull(message = "El Estrato es obligatorio")
-    @Column(name = "estrato", nullable = false)
+    @Column(name = "estrato", nullable = true)
     private int estrato;
 
     @NotNull(message = "La Edad es obligatorio")
