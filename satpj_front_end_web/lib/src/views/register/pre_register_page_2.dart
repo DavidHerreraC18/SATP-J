@@ -5,6 +5,7 @@ import 'package:satpj_front_end_web/src/utils/tema.dart';
 import 'package:satpj_front_end_web/src/utils/widgets/dropdown.dart';
 import 'package:satpj_front_end_web/src/utils/widgets/rounded_text_field.dart';
 import 'package:satpj_front_end_web/src/utils/widgets/toolbar_inicio.dart';
+import 'package:satpj_front_end_web/src/views/register/pre_register_page_3.dart';
 
 
 class PreRegisterPage2 extends StatefulWidget {
@@ -79,6 +80,20 @@ class RegisterFormState extends State<RegisterForm> {
                     
                  ),
                  SizedBox(height: 20.0,),
+                 Text('Email', textAlign: TextAlign.left, style: TextStyle(fontSize: 18.0),),
+                 SizedBox(height: 8.0,),
+                 RoundedTextField(
+                          hintText: 'Email',
+                          type: TextInputType.datetime,                 
+                 ),
+                 SizedBox(height: 20.0,),
+                 Text('Télefono', textAlign: TextAlign.left, style: TextStyle(fontSize: 18.0),),
+                 SizedBox(height: 8.0,),
+                 RoundedTextField(
+                          hintText: 'Télefono',
+                          type: TextInputType.datetime,                 
+                 ),
+                 SizedBox(height: 20.0,),
                  Text('Nombre del padre o responsable', textAlign: TextAlign.left, style: TextStyle(fontSize: 18.0),),
                  SizedBox(height: 8.0,),
                  Container( child: RoundedTextField(hintText: 'Nombre del padre o responsable',)),
@@ -96,10 +111,17 @@ class RegisterFormState extends State<RegisterForm> {
                     
                  ),
                  SizedBox(height: 20.0,),
-                 Text('Fecha de Nacimiento', textAlign: TextAlign.left, style: TextStyle(fontSize: 18.0),),
+                 Text('Email', textAlign: TextAlign.left, style: TextStyle(fontSize: 18.0),),
                  SizedBox(height: 8.0,),
                  RoundedTextField(
-                          hintText: 'Fecha de Nacimiento',
+                          hintText: 'Email',
+                          type: TextInputType.datetime,                 
+                 ),
+                 SizedBox(height: 20.0,),
+                 Text('Télefono', textAlign: TextAlign.left, style: TextStyle(fontSize: 18.0),),
+                 SizedBox(height: 8.0,),
+                 RoundedTextField(
+                          hintText: 'Télefono',
                           type: TextInputType.datetime,                 
                  ),
                         
@@ -119,6 +141,7 @@ class RegisterFormState extends State<RegisterForm> {
                     // otherwise.
                     if (_formKey.currentState.validate()) {
                       // If the form is valid, display a Snackbar.
+                      Navigator.pushNamed(context, PreRegisterPage3().route);
                       ScaffoldMessenger.of(context)
                           .showSnackBar(SnackBar(content: Text('Processing Data')));
                     }

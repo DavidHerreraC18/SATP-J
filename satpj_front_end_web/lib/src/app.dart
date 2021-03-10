@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:satpj_front_end_web/src/utils/tema.dart';
 import 'package:satpj_front_end_web/src/views/register/pre_register_page_1.dart';
 import 'package:satpj_front_end_web/src/views/register/pre_register_page_2.dart';
+import 'package:satpj_front_end_web/src/views/register/pre_register_page_3.dart';
 
 class MyApp extends StatelessWidget{
   
@@ -38,6 +39,7 @@ class MyApp extends StatelessWidget{
       ),
       routes: {
         PreRegisterPage2().route : (context) => PreRegisterPage2(), 
+        PreRegisterPage3().route : (context) => PreRegisterPage3(), 
       },
     );
 
