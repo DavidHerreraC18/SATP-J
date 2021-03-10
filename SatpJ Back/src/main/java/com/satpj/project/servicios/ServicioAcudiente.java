@@ -51,7 +51,7 @@ public class ServicioAcudiente {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public Acudiente create(@AuthenticationPrincipal CustomPrincipal customPrincipal, @RequestBody Acudiente acudiente) {
+    public Acudiente create(@RequestBody Acudiente acudiente) {
         Preconditions.checkNotNull(acudiente);
         return repositorioAcudiente.save(acudiente);
     }

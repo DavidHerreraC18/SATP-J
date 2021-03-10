@@ -6,6 +6,7 @@ import java.util.List;
 import com.google.api.client.util.Preconditions;
 import com.satpj.project.modelo.acudiente.Acudiente;
 import com.satpj.project.modelo.documento_paciente.DocumentoPaciente;
+import com.satpj.project.modelo.formulario.Formulario;
 import com.satpj.project.modelo.paciente.*;
 import com.satpj.project.modelo.practicante.Practicante;
 import com.satpj.project.modelo.practicante.PracticantePaciente;
@@ -82,6 +83,17 @@ public class ServicioPaciente {
     }
 
     /*
+     * La funcion findFormularioByPacienteId tiene el proposito de evitar la
+     * recursion en JSON que genera la relacion Paciente - Formulario
+     */
+    @GetMapping(value = "/{id}/formulario", produces = "application/json")
+    public Formulario findFormularioByPacienteId(@AuthenticationPrincipal CustomPrincipal customPrincipal, @PathVariable("id") Long id) {
+        Paciente paciente = repositorioPaciente.findById(id).get();
+        Preconditions.checkNotNull(paciente);
+        return paciente.getFormulario();
+    }
+
+    /*
      * La funcion findPracticantesByPacienteId tiene el proposito de encontrar al
      * Practicante que actualmente se encuentre atendiendo al Paciente Se deja como
      * valor de retorno una lista en el caso de que sea posible la doble atencion de
@@ -127,6 +139,7 @@ public class ServicioPaciente {
         pActualizar.setEdad(paciente.getEdad());
         pActualizar.setEstrato(paciente.getEstrato());
         pActualizar.setEstadoAprobado(paciente.getEstadoAprobado());
+        pActualizar.setRemitido(paciente.isRemitido());
 
         repositorioPaciente.save(pActualizar);
     }

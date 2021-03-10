@@ -7,9 +7,6 @@ import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.JoinTable;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
@@ -18,7 +15,6 @@ import org.hibernate.annotations.Polymorphism;
 import org.hibernate.annotations.PolymorphismType;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.satpj.project.modelo.paciente.Paciente;
 import com.satpj.project.modelo.usuario.Usuario;
 
 /**

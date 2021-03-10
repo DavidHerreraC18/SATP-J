@@ -12,6 +12,7 @@ import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 
@@ -21,6 +22,7 @@ import org.hibernate.annotations.PolymorphismType;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.satpj.project.modelo.acudiente.Acudiente;
 import com.satpj.project.modelo.documento_paciente.DocumentoPaciente;
+import com.satpj.project.modelo.formulario.Formulario;
 import com.satpj.project.modelo.grupo.Grupo;
 import com.satpj.project.modelo.practicante.PracticantePaciente;
 import com.satpj.project.modelo.supervisor.Supervisor;
@@ -57,6 +59,10 @@ public class Paciente extends Usuario {
     @JsonIgnore
     private List<Acudiente> acudientes;
 
+    @OneToOne(mappedBy = "paciente")
+    @JsonIgnore
+    private Formulario formulario;
+
     @NotNull(message = "El estado de Aprobacion es obligatorio")
     @Column(name = "estado-aprobado")
     private String estadoAprobado;
@@ -68,5 +74,9 @@ public class Paciente extends Usuario {
     @NotNull(message = "La Edad es obligatorio")
     @Column(name = "edad", nullable = false)
     private int edad;
+
+    @NotNull(message = "El Estado de Remision es obligatorio")
+    @Column(name = "remitido", nullable = false)
+    private boolean remitido;
 
 }
