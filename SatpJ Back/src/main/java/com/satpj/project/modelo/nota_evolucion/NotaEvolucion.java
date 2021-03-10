@@ -7,7 +7,7 @@ import lombok.Setter;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
-import javax.persistence.Embedded;
+import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
@@ -21,43 +21,49 @@ import com.satpj.project.modelo.practicante.Practicante;
 import com.satpj.project.modelo.sesion_terapia.SesionTerapia;
 import com.satpj.project.modelo.supervisor.Supervisor;
 
-
 /**
- * Entidad nota_evolucion
- * La Nota de Evolución contiene una breve descripción de
- * los avances y lo ocurrido en las Sesiones de Terapia
- * del paciente
+ * Entidad nota_evolucion La Nota de Evolución contiene una breve descripción de
+ * los avances y lo ocurrido en las Sesiones de Terapia del paciente
  */
 @Getter
 @Setter
 @Entity
 @Table(name = "nota_evolucion")
 public class NotaEvolucion {
-    
-    /*Es la llave primaria de la entidad que esta compuesta por
-    el id del Practicante y de la Sesion de la Terapia*/ 
-    @Embedded
+
+    /*
+     * Es la llave primaria de la entidad que esta compuesta por el id del
+     * Practicante y de la Sesion de la Terapia
+     */
+    @EmbeddedId
     private LlaveNotaEvolucion id;
 
     @ManyToOne
     @MapsId("practicante_id")
     @JoinColumn(name = "practicante_id")
     private Practicante practicante;
-    
+
     @OneToOne
     @MapsId("sesion_terapia_id")
     @JoinColumn(name = "sesion_terapia_id")
     private SesionTerapia sesionTerapia;
 
     @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    private  Supervisor supervisor;
+    private Supervisor supervisor;
 
     @Column(name = "contenido")
-    private  String contenido;
+    private String contenido;
 
-    @NotNull(message="La Fecha y Hora de la Nota de Evolución es obligatoria")
-	@Column(name = "fecha_hora", nullable = false)
-    private  LocalDateTime fechaHora;
-    
-    
+    @NotNull(message = "La Fecha y Hora de la Nota de Evolución es obligatoria")
+    @Column(name = "fecha_hora", nullable = false)
+    private LocalDateTime fechaHora;
+
+    @NotNull(message = "La definicion de envio de la Nota de Evolución es obligatoria")
+    @Column(name = "enviada", nullable = false)
+    private boolean enviada;
+
+    @NotNull(message = "La definicion de registro de la Nota de Evolución es obligatoria")
+    @Column(name = "registrada", nullable = false)
+    private boolean registrada;
+
 }

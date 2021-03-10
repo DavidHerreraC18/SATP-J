@@ -5,6 +5,8 @@ import lombok.Setter;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
@@ -13,10 +15,8 @@ import javax.persistence.Table;
 
 import com.satpj.project.modelo.usuario.Usuario;
 
-
 /**
- * Entidad horario
- * El Horario corresponde a la disponibildidad horaria del
+ * Entidad horario El Horario corresponde a la disponibildidad horaria del
  * Paciente, Practicante y Supervisor
  */
 @Getter
@@ -24,15 +24,17 @@ import com.satpj.project.modelo.usuario.Usuario;
 @Entity
 @Table(name = "horario")
 public class Horario {
-    
+
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "horario_id")
     private Long id;
 
     @ManyToOne
     @MapsId("usuario_id")
     @JoinColumn(name = "usuario_id")
     private Usuario usuario;
-    
+
     /* Contiene las horas disponibles del día */
     @Column(name = "lunes")
     private String lunes;
