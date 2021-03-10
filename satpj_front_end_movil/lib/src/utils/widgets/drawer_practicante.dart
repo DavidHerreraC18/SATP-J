@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:satpj_front_end_movil/src/utils/autenticacion.dart';
 
 class DrawerPracticante extends StatelessWidget {
   //const DrawerPracticante({Key key}) : super(key: key);
@@ -160,10 +161,9 @@ class DrawerPracticante extends StatelessWidget {
                 title: Text("Cerrar Sesión",
                     style: Theme.of(context).textTheme.subtitle1),
                 onTap: () {
-                  // Update the state of the app
-                  // ...
-                  // Then close the drawer
-                  Navigator.pop(context);
+                  signOut();
+                  //Navigator.pop(context);
+                  Navigator.pushNamed(context, '/');
                 },
               )
             ]).toList()),

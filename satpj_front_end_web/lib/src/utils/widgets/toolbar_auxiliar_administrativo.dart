@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:satpj_front_end_web/src/utils/autenticacion.dart';
 
 
 AppBar toolbarAuxiliarAdministrativo(BuildContext context){
@@ -215,6 +216,12 @@ AppBar toolbarAuxiliarAdministrativo(BuildContext context){
                     ),
                   ),
                 ],
+                onSelected: (value){
+                  if(value == 9){
+                    signOut();
+                    Navigator.pushNamed(context, "/");
+                  }
+                },
               ),
             ),
             SizedBox(width: 5.0),

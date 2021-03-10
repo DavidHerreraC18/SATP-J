@@ -1,0 +1,4 @@
+#Mon Mar 08 20:16:00 COT 2021
+base.0=C\:\\Users\\Pablo\\Documents\\Javeriana\\2021-1\\Trabajo de grado\\Desarrollo\\SATP-J\\satpj_front_end_web\\build\\app\\intermediates\\dex\\debug\\mergeDexDebug\\classes.dex
+path.0=classes.dex
+renamed.0=classes.dex
