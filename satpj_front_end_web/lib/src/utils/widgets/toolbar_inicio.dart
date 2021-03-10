@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:satpj_front_end_web/src/utils/widgets/dialogo_autenticacion.dart';
 
-AppBar toolbarInicio(){
+AppBar toolbarInicio(BuildContext context){
   return AppBar(
     leading: Image.asset(
       'lib/src/utils/images/logo_plataforma.png',
@@ -10,7 +11,7 @@ AppBar toolbarInicio(){
     title: Text(
       "SATP-J", 
       style: TextStyle(
-        color: Color(0xFF2E5EAA)
+        color: Theme.of(context).colorScheme.primary
         )
       ),
     actions: [
@@ -26,7 +27,7 @@ AppBar toolbarInicio(){
                 ),
               ),
               onPressed: () {
-                // To do
+                Navigator.pushNamed(context, '/');
               },
             ),
             SizedBox(width: 30.0),
@@ -89,7 +90,10 @@ AppBar toolbarInicio(){
                 enableFeedback: true,
               ),
               onPressed: () {
-                // To do
+                //Navigator.pushNamed(context, 'login');
+                showDialog(
+                  context: context,
+                  builder: (context) => AuthDialog());
               },
             ),
           ],

@@ -25,6 +25,7 @@ dependencies:
     sdk: flutter
   firebase_core: ^0.7.0
   firebase_auth: ^0.20.1
+  shared_preferences: ^0.5.12+4
 
 
   # The following adds the Cupertino Icons font to your application.
@@ -65,8 +66,11 @@ flutter:
    - family: Dubai
      fonts:
        - asset: lib/src/utils/fonts/Dubai-Bold.ttf
+         weight: 900
        - asset: lib/src/utils/fonts/Dubai-Light.ttf
+         weight: 100
        - asset: lib/src/utils/fonts/Dubai-Medium.ttf
+         weight: 700
        - asset: lib/src/utils/fonts/Dubai-Regular.ttf
   #         style: italic
   #   - family: Trajan Pro
