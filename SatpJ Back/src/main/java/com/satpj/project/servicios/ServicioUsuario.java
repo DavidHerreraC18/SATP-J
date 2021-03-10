@@ -55,7 +55,7 @@ public class ServicioUsuario {
     }
 
     @GetMapping(value = "/{id}", produces = "application/json")
-    public Usuario findById(@AuthenticationPrincipal CustomPrincipal customPrincipal, @PathVariable("id") Long id) {
+    public Usuario findById(@AuthenticationPrincipal CustomPrincipal customPrincipal, @PathVariable("id") String id) {
         return repositorioUsuario.findById(id).get();
     }
 
@@ -64,7 +64,7 @@ public class ServicioUsuario {
      * en JSON que genera la relacion Usuario - SesionUsuario
      */
     @GetMapping(value = "/sesiones/{id}", produces = "application/json")
-    public List<SesionUsuario> findSesionesByUsuarioId(@AuthenticationPrincipal CustomPrincipal customPrincipal, @PathVariable("id") Long id) {
+    public List<SesionUsuario> findSesionesByUsuarioId(@AuthenticationPrincipal CustomPrincipal customPrincipal, @PathVariable("id") String id) {
         Usuario usuario = repositorioUsuario.findById(id).get();
         Preconditions.checkNotNull(usuario);
         return usuario.getSesiones();
@@ -75,7 +75,7 @@ public class ServicioUsuario {
      * en JSON que genera la relacion Usuario - Horario
      */
     @GetMapping(value = "/horarios/{id}", produces = "application/json")
-    public List<Horario> findHorariosByUsuarioId(@AuthenticationPrincipal CustomPrincipal customPrincipal, @PathVariable("id") Long id) {
+    public List<Horario> findHorariosByUsuarioId(@AuthenticationPrincipal CustomPrincipal customPrincipal, @PathVariable("id") String id) {
         Usuario usuario = repositorioUsuario.findById(id).get();
         Preconditions.checkNotNull(usuario);
         return usuario.getHorarios();
@@ -90,7 +90,7 @@ public class ServicioUsuario {
 
     @PutMapping(value = "/{id}")
     @ResponseStatus(HttpStatus.OK)
-    public void update(@AuthenticationPrincipal CustomPrincipal customPrincipal, @PathVariable("id") Long id, @RequestBody Usuario usuario) {
+    public void update(@AuthenticationPrincipal CustomPrincipal customPrincipal, @PathVariable("id") String id, @RequestBody Usuario usuario) {
         Preconditions.checkNotNull(usuario);
 
         Usuario uActualizar = repositorioUsuario.findById(usuario.getId()).orElse(null);
@@ -109,7 +109,7 @@ public class ServicioUsuario {
 
     @DeleteMapping(value = "/{id}")
     @ResponseStatus(HttpStatus.OK)
-    public void delete(@AuthenticationPrincipal CustomPrincipal customPrincipal, @PathVariable("id") Long id) {
+    public void delete(@AuthenticationPrincipal CustomPrincipal customPrincipal, @PathVariable("id") String id) {
 
         Usuario usuario = repositorioUsuario.findById(id).orElse(null);
         Preconditions.checkNotNull(usuario);

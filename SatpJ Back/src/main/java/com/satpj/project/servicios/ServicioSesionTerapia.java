@@ -69,7 +69,7 @@ public class ServicioSesionTerapia {
 
     @GetMapping(value = "/{idSesion}/{idUsuario}", produces = "application/json")
     public SesionUsuario findSesionUsuarioById(@AuthenticationPrincipal CustomPrincipal customPrincipal, @PathVariable("idSesion") Long idSesion,
-            @PathVariable("idUsuario") Long idUsuario) {
+            @PathVariable("idUsuario") String idUsuario) {
         LlaveSesionUsuario llaveSesionUsuario = new LlaveSesionUsuario();
         llaveSesionUsuario.setSesionTerapiaId(idSesion);
         llaveSesionUsuario.setUsuarioId(idUsuario);
@@ -124,7 +124,7 @@ public class ServicioSesionTerapia {
     @DeleteMapping(value = "{idSesion}/{idUsuario}")
     @ResponseStatus(HttpStatus.OK)
     public void deleteSesionUsuario(@AuthenticationPrincipal CustomPrincipal customPrincipal, @PathVariable("idSesion") Long idSesion,
-            @PathVariable("idUsuario") Long idUsuario) {
+            @PathVariable("idUsuario") String idUsuario) {
         SesionUsuario sesionUsuario = this.findSesionUsuarioById(customPrincipal, idSesion, idUsuario);
         Preconditions.checkNotNull(sesionUsuario);
 

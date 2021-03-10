@@ -13,16 +13,16 @@ import javax.persistence.Embeddable;
 public class LlaveNotaEvolucion implements Serializable {
 
     @Column(name = "practicante_id")
-    private Long practicanteId;
+    private String practicanteId;
 
     @Column(name = "sesion_terapia_id")
     private Long sesionTerapiaId;
 
-    public Long getPracticanteId() {
+    public String getPracticanteId() {
         return practicanteId;
     }
 
-    public void setPracticanteId(Long practicanteId) {
+    public void setPracticanteId(String practicanteId) {
         this.practicanteId = practicanteId;
     }
 
@@ -43,7 +43,7 @@ public class LlaveNotaEvolucion implements Serializable {
             return false;
         }
         LlaveNotaEvolucion llave = (LlaveNotaEvolucion) o;
-        return this.practicanteId == llave.practicanteId && this.sesionTerapiaId == llave.sesionTerapiaId;
+        return this.practicanteId.equals(llave.practicanteId) && this.sesionTerapiaId == llave.sesionTerapiaId;
     }
 
     @Override

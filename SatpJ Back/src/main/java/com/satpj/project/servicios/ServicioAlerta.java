@@ -90,7 +90,7 @@ public class ServicioAlerta {
     // Métodos correspondientes a la AlertaUsuario
 
     @GetMapping(value = "/usuario/{id}", produces = "application/json")
-    public List<AlertaUsuario> findAlertaUsuarioByUsuario(@AuthenticationPrincipal CustomPrincipal customPrincipal, @PathVariable("id") Long id) {
+    public List<AlertaUsuario> findAlertaUsuarioByUsuario(@AuthenticationPrincipal CustomPrincipal customPrincipal, @PathVariable("id") String id) {
         Usuario usuario = servicioUsuario.findById(customPrincipal, id);
         Preconditions.checkNotNull(usuario);
         List<AlertaUsuario> alertasUsuario = usuario.getAlertasUsuario();
@@ -111,7 +111,7 @@ public class ServicioAlerta {
 
     @PutMapping(value = "/usuario/{id}")
     @ResponseStatus(HttpStatus.OK)
-    public void updateAlertaUsuario(@AuthenticationPrincipal CustomPrincipal customPrincipal, @PathVariable("id") Long id, @RequestBody AlertaUsuario alertaUsuario) {
+    public void updateAlertaUsuario(@AuthenticationPrincipal CustomPrincipal customPrincipal, @PathVariable("id") String id, @RequestBody AlertaUsuario alertaUsuario) {
         Usuario usuario = servicioUsuario.findById(customPrincipal, id);
         Alerta alerta = this.findAlertaById(customPrincipal, alertaUsuario.getId().getAlertaId());
         Preconditions.checkNotNull(usuario);

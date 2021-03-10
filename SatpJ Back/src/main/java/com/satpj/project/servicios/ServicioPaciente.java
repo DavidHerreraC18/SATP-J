@@ -56,7 +56,7 @@ public class ServicioPaciente {
     }
 
     @GetMapping(value = "/{id}", produces = "application/json")
-    public Paciente findById(@AuthenticationPrincipal CustomPrincipal customPrincipal, @PathVariable("id") Long id) {
+    public Paciente findById(@AuthenticationPrincipal CustomPrincipal customPrincipal, @PathVariable("id") String id) {
         return repositorioPaciente.findById(id).get();
     }
 
@@ -65,7 +65,7 @@ public class ServicioPaciente {
      * recursion en JSON que genera la relacion Paciente - Acudiente
      */
     @GetMapping(value = "/{id}/acudientes", produces = "application/json")
-    public List<Acudiente> findAcudientesByPacienteId(@AuthenticationPrincipal CustomPrincipal customPrincipal, @PathVariable("id") Long id) {
+    public List<Acudiente> findAcudientesByPacienteId(@AuthenticationPrincipal CustomPrincipal customPrincipal, @PathVariable("id") String id) {
         Paciente paciente = repositorioPaciente.findById(id).get();
         Preconditions.checkNotNull(paciente);
         return paciente.getAcudientes();
@@ -76,7 +76,7 @@ public class ServicioPaciente {
      * recursion en JSON que genera la relacion Paciente - Documentos
      */
     @GetMapping(value = "/{id}/documentos", produces = "application/json")
-    public List<DocumentoPaciente> findDocumentosByPacienteId(@AuthenticationPrincipal CustomPrincipal customPrincipal, @PathVariable("id") Long id) {
+    public List<DocumentoPaciente> findDocumentosByPacienteId(@AuthenticationPrincipal CustomPrincipal customPrincipal, @PathVariable("id") String id) {
         Paciente paciente = repositorioPaciente.findById(id).get();
         Preconditions.checkNotNull(paciente);
         return paciente.getDocumentosPaciente();
@@ -87,7 +87,7 @@ public class ServicioPaciente {
      * recursion en JSON que genera la relacion Paciente - Formulario
      */
     @GetMapping(value = "/{id}/formulario", produces = "application/json")
-    public Formulario findFormularioByPacienteId(@AuthenticationPrincipal CustomPrincipal customPrincipal, @PathVariable("id") Long id) {
+    public Formulario findFormularioByPacienteId(@AuthenticationPrincipal CustomPrincipal customPrincipal, @PathVariable("id") String id) {
         Paciente paciente = repositorioPaciente.findById(id).get();
         Preconditions.checkNotNull(paciente);
         return paciente.getFormulario();
@@ -100,7 +100,7 @@ public class ServicioPaciente {
      * un Paciente.
      */
     @GetMapping(value = "/{id}/practicantes", produces = "application/json")
-    public List<Practicante> findPracticantesByPacienteId(@AuthenticationPrincipal CustomPrincipal customPrincipal, @PathVariable("id") Long id) {
+    public List<Practicante> findPracticantesByPacienteId(@AuthenticationPrincipal CustomPrincipal customPrincipal, @PathVariable("id") String id) {
         Paciente paciente = repositorioPaciente.findById(id).get();
         Preconditions.checkNotNull(paciente);
         List<PracticantePaciente> practicantePacientes = paciente.getPracticantesPaciente();
@@ -146,7 +146,7 @@ public class ServicioPaciente {
 
     @DeleteMapping(value = "/{id}")
     @ResponseStatus(HttpStatus.OK)
-    public void delete(@AuthenticationPrincipal CustomPrincipal customPrincipal, @PathVariable("id") Long id) {
+    public void delete(@AuthenticationPrincipal CustomPrincipal customPrincipal, @PathVariable("id") String id) {
 
         Paciente paciente = repositorioPaciente.findById(id).orElse(null);
         Preconditions.checkNotNull(paciente);

@@ -14,16 +14,16 @@ import javax.persistence.Embeddable;
 public class LlaveSesionUsuario implements Serializable {
 
     @Column(name = "usuario_id")
-    private Long usuarioId;
+    private String usuarioId;
 
     @Column(name = "sesion_terapia_id")
     private Long sesionTerapiaId;
 
-    public Long getUsuarioId() {
+    public String getUsuarioId() {
         return usuarioId;
     }
 
-    public void setUsuarioId(Long usuarioId) {
+    public void setUsuarioId(String usuarioId) {
         this.usuarioId = usuarioId;
     }
 
@@ -44,7 +44,7 @@ public class LlaveSesionUsuario implements Serializable {
             return false;
         }
         LlaveSesionUsuario llave = (LlaveSesionUsuario) o;
-        return this.sesionTerapiaId == llave.sesionTerapiaId && this.usuarioId == llave.usuarioId;
+        return this.sesionTerapiaId == llave.sesionTerapiaId && this.usuarioId.equals(llave.usuarioId);
     }
 
     @Override

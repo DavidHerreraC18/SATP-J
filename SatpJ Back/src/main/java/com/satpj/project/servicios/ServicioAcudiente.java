@@ -45,7 +45,7 @@ public class ServicioAcudiente {
     }
 
     @GetMapping(value = "/{id}", produces = "application/json")
-    public Acudiente findById(@AuthenticationPrincipal CustomPrincipal customPrincipal, @PathVariable("id") Long id) {
+    public Acudiente findById(@AuthenticationPrincipal CustomPrincipal customPrincipal, @PathVariable("id") String id) {
         return repositorioAcudiente.findById(id).get();
     }
 
@@ -78,7 +78,7 @@ public class ServicioAcudiente {
 
     @DeleteMapping(value = "/{id}")
     @ResponseStatus(HttpStatus.OK)
-    public void delete(@AuthenticationPrincipal CustomPrincipal customPrincipal, @PathVariable("id") Long id) {
+    public void delete(@AuthenticationPrincipal CustomPrincipal customPrincipal, @PathVariable("id") String id) {
         repositorioAcudiente.deleteById(id);
     }
 

@@ -12,24 +12,24 @@ import com.ibm.db2.cmx.annotation.Column;
 public class LlavePracticantePaciente implements Serializable {
 
     @Column(name = "practicante_id")
-    private Long pPracticanteId;
+    private String pPracticanteId;
 
     @Column(name = "paciente_id")
-    private Long pPacienteId;
+    private String pPacienteId;
 
-    public Long getPPracticanteId() {
+    public String getPPracticanteId() {
         return pPracticanteId;
     }
 
-    public void setPPracticanteId(Long pPracticanteId) {
+    public void setPPracticanteId(String pPracticanteId) {
         this.pPracticanteId = pPracticanteId;
     }
 
-    public Long getPPacienteId() {
+    public String getPPacienteId() {
         return pPacienteId;
     }
 
-    public void setPPacienteId(Long pPacienteId) {
+    public void setPPacienteId(String pPacienteId) {
         this.pPacienteId = pPacienteId;
     }
 
@@ -42,7 +42,7 @@ public class LlavePracticantePaciente implements Serializable {
             return false;
         }
         LlavePracticantePaciente llave = (LlavePracticantePaciente) o;
-        return this.pPracticanteId == llave.pPracticanteId && this.pPacienteId == llave.pPacienteId;
+        return this.pPracticanteId.equals(llave.pPracticanteId) && this.pPacienteId.equals(llave.pPacienteId);
     }
 
     @Override

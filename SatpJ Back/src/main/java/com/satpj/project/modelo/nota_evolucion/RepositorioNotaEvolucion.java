@@ -13,7 +13,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
  * la Entidad nota_evolucion
  */
 public interface RepositorioNotaEvolucion extends JpaRepository<NotaEvolucion, LlaveNotaEvolucion> {
-    Page<NotaEvolucion> findByPracticanteId(Long id, Pageable pageable);
+    Page<NotaEvolucion> findByPracticanteId(String id, Pageable pageable);
 
     Page<NotaEvolucion> findBySesionTerapiaId(Long id, Pageable pageable);
 

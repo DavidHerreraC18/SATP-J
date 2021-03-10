@@ -6,6 +6,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
  * Interface RepositorioPaciente Permite realizar las consultas a la BD de la
  * Entidad paciente
  */
-public interface RepositorioPaciente extends JpaRepository<Paciente, Long> {
+public interface RepositorioPaciente extends JpaRepository<Paciente, String> {
 
 }

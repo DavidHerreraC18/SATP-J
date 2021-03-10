@@ -45,12 +45,12 @@ public class ServicioSupervisor {
     }
 
     @GetMapping(value = "/{id}", produces = "application/json")
-    public Supervisor findById(@AuthenticationPrincipal CustomPrincipal customPrincipal, @PathVariable("id") Long id) {
+    public Supervisor findById(@AuthenticationPrincipal CustomPrincipal customPrincipal, @PathVariable("id") String id) {
         return repositorioSupervisor.findById(id).get();
     }
 
     @GetMapping(value = "/pacientes/{id}", produces = "application/json")
-    public List<Paciente> findPacientesBySupervisorId(@AuthenticationPrincipal CustomPrincipal customPrincipal, @PathVariable("id") Long id) {
+    public List<Paciente> findPacientesBySupervisorId(@AuthenticationPrincipal CustomPrincipal customPrincipal, @PathVariable("id") String id) {
         Supervisor supervisor = repositorioSupervisor.findById(id).get();
         Preconditions.checkNotNull(supervisor);
         return supervisor.getPacientes();
@@ -85,7 +85,7 @@ public class ServicioSupervisor {
 
     @DeleteMapping(value = "/{id}")
     @ResponseStatus(HttpStatus.OK)
-    public void delete(@AuthenticationPrincipal CustomPrincipal customPrincipal, @PathVariable("id") Long id) {
+    public void delete(@AuthenticationPrincipal CustomPrincipal customPrincipal, @PathVariable("id") String id) {
         repositorioSupervisor.deleteById(id);
     }
 

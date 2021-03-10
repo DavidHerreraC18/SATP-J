@@ -45,7 +45,7 @@ public class ServicioAuxiliarAdministrativo {
     }
 
     @GetMapping(value = "/{id}", produces = "application/json")
-    public AuxiliarAdministrativo findById(@AuthenticationPrincipal CustomPrincipal customPrincipal, @PathVariable("id") Long id) {
+    public AuxiliarAdministrativo findById(@AuthenticationPrincipal CustomPrincipal customPrincipal, @PathVariable("id") String id) {
         return repositorioAuxiliarAdministrativo.findById(id).get();
     }
 
@@ -77,7 +77,7 @@ public class ServicioAuxiliarAdministrativo {
 
     @DeleteMapping(value = "/{id}")
     @ResponseStatus(HttpStatus.OK)
-    public void delete(@AuthenticationPrincipal CustomPrincipal customPrincipal, @PathVariable("id") Long id) {
+    public void delete(@AuthenticationPrincipal CustomPrincipal customPrincipal, @PathVariable("id") String id) {
         repositorioAuxiliarAdministrativo.deleteById(id);
     }
 

@@ -17,7 +17,7 @@ public class LlaveAlertaUsuario implements Serializable {
     private Long alertaId;
 
     @Column(name = "usuario_id")
-    private Long usuarioId;
+    private String usuarioId;
 
     public Long getAlertaId() {
         return alertaId;
@@ -27,11 +27,11 @@ public class LlaveAlertaUsuario implements Serializable {
         this.alertaId = alertaId;
     }
 
-    public Long getUsuarioId() {
+    public String getUsuarioId() {
         return usuarioId;
     }
 
-    public void setUsuarioId(Long usuarioId) {
+    public void setUsuarioId(String usuarioId) {
         this.usuarioId = usuarioId;
     }
 
@@ -44,7 +44,7 @@ public class LlaveAlertaUsuario implements Serializable {
             return false;
         }
         LlaveAlertaUsuario llave = (LlaveAlertaUsuario) o;
-        return this.alertaId == llave.alertaId && this.usuarioId == llave.usuarioId;
+        return this.alertaId == llave.alertaId && this.usuarioId.equals(llave.usuarioId);
     }
 
     @Override
