@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "508158755322",
+    "project_id": "telepsico-1e9c8",
+    "storage_bucket": "telepsico-1e9c8.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:508158755322:android:2cf62c259ea15f0ad16443",
+        "android_client_info": {
+          "package_name": "com.example.satpj_front_end_movil"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "508158755322-v21e6dh5h8q8a4dmoc0qauv8pdlmmvm0.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDLtCLg3M1TBoOXi_S6spJWn-N6lj82eVU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "508158755322-v21e6dh5h8q8a4dmoc0qauv8pdlmmvm0.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

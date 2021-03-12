@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 
-AppBar toolbarPaciente(){
+AppBar toolbarPaciente(BuildContext context){
   return AppBar(
     leading: Image.asset(
       'lib/src/utils/images/logo_plataforma.png',
@@ -81,9 +81,7 @@ AppBar toolbarPaciente(){
                         SizedBox(width: 2.0),
                         Text(
                           "Inicio",
-                          style: TextStyle(
-                            color: Color(0xFF2E5EAA) 
-                            ),
+                          style: Theme.of(context).textTheme.bodyText1
                           )
                       ],
                     ),
@@ -99,9 +97,7 @@ AppBar toolbarPaciente(){
                         SizedBox(width: 2.0),
                         Text(
                           "Perfíl",
-                          style: TextStyle(
-                            color: Color(0xFF2E5EAA) 
-                            ),
+                          style: Theme.of(context).textTheme.bodyText1
                           )
                       ],
                     ),
@@ -117,9 +113,7 @@ AppBar toolbarPaciente(){
                         SizedBox(width: 2.0),
                         Text(
                           "Sesiones Terapia",
-                          style: TextStyle(
-                            color: Color(0xFF2E5EAA) 
-                            ),
+                          style: Theme.of(context).textTheme.bodyText1
                           )
                       ],
                     ),
@@ -135,9 +129,7 @@ AppBar toolbarPaciente(){
                         SizedBox(width: 2.0),
                         Text(
                           "Pagos",
-                          style: TextStyle(
-                            color: Color(0xFF2E5EAA) 
-                            ),
+                          style: Theme.of(context).textTheme.bodyText1
                           )
                       ],
                     ),
@@ -153,9 +145,7 @@ AppBar toolbarPaciente(){
                         SizedBox(width: 2.0),
                         Text(
                           "Grupos",
-                          style: TextStyle(
-                            color: Color(0xFF2E5EAA) 
-                            ),
+                          style: Theme.of(context).textTheme.bodyText1
                           )
                       ],
                     ),
@@ -171,9 +161,7 @@ AppBar toolbarPaciente(){
                         SizedBox(width: 2.0),
                         Text(
                           "Cerrar Sesión",
-                          style: TextStyle(
-                            color: Color(0xFF2E5EAA) 
-                            ),
+                          style: Theme.of(context).textTheme.bodyText1
                           )
                       ],
                     ),

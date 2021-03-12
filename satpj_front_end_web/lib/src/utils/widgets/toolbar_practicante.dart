@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 
-AppBar toolbarPracticante(){
+AppBar toolbarPracticante(BuildContext context){
   return AppBar(
     leading: Image.asset(
       'lib/src/utils/images/logo_plataforma.png',
@@ -81,9 +81,7 @@ AppBar toolbarPracticante(){
                         SizedBox(width: 2.0),
                         Text(
                           "Inicio",
-                          style: TextStyle(
-                            color: Color(0xFF2E5EAA) 
-                            ),
+                          style: Theme.of(context).textTheme.bodyText1
                           )
                       ],
                     ),
@@ -99,9 +97,7 @@ AppBar toolbarPracticante(){
                         SizedBox(width: 2.0),
                         Text(
                           "Perfíl",
-                          style: TextStyle(
-                            color: Color(0xFF2E5EAA) 
-                            ),
+                          style: Theme.of(context).textTheme.bodyText1
                           )
                       ],
                     ),
@@ -117,9 +113,7 @@ AppBar toolbarPracticante(){
                         SizedBox(width: 2.0),
                         Text(
                           "Pacientes",
-                          style: TextStyle(
-                            color: Color(0xFF2E5EAA) 
-                            ),
+                          style: Theme.of(context).textTheme.bodyText1
                           )
                       ],
                     ),
@@ -135,9 +129,7 @@ AppBar toolbarPracticante(){
                         SizedBox(width: 2.0),
                         Text(
                           "Mi Horario",
-                          style: TextStyle(
-                            color: Color(0xFF2E5EAA) 
-                            ),
+                          style: Theme.of(context).textTheme.bodyText1
                           )
                       ],
                     ),
@@ -153,9 +145,7 @@ AppBar toolbarPracticante(){
                         SizedBox(width: 2.0),
                         Text(
                           "Reportes",
-                          style: TextStyle(
-                            color: Color(0xFF2E5EAA) 
-                            ),
+                          style: Theme.of(context).textTheme.bodyText1
                           )
                       ],
                     ),
@@ -171,9 +161,7 @@ AppBar toolbarPracticante(){
                         SizedBox(width: 2.0),
                         Text(
                           "Mi Supervisor",
-                          style: TextStyle(
-                            color: Color(0xFF2E5EAA) 
-                            ),
+                          style: Theme.of(context).textTheme.bodyText1
                           )
                       ],
                     ),
@@ -189,9 +177,7 @@ AppBar toolbarPracticante(){
                         SizedBox(width: 2.0),
                         Text(
                           "Mi Tareas",
-                          style: TextStyle(
-                            color: Color(0xFF2E5EAA) 
-                            ),
+                          style: Theme.of(context).textTheme.bodyText1
                           )
                       ],
                     ),
@@ -207,9 +193,7 @@ AppBar toolbarPracticante(){
                         SizedBox(width: 2.0),
                         Text(
                           "Certificaciones",
-                          style: TextStyle(
-                            color: Color(0xFF2E5EAA) 
-                            ),
+                          style: Theme.of(context).textTheme.bodyText1
                           )
                       ],
                     ),
@@ -225,9 +209,7 @@ AppBar toolbarPracticante(){
                         SizedBox(width: 2.0),
                         Text(
                           "Cerrar Sesión",
-                          style: TextStyle(
-                            color: Color(0xFF2E5EAA) 
-                            ),
+                          style: Theme.of(context).textTheme.bodyText1
                           )
                       ],
                     ),
