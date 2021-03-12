@@ -1,8 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:satpj_front_end_movil/src/utils/widgets/drawer_auxiliar_administrativo.dart';
-import 'package:satpj_front_end_movil/src/utils/widgets/drawer_paciente.dart';
-import 'package:satpj_front_end_movil/src/utils/widgets/drawer_practicante.dart';
-import 'package:satpj_front_end_movil/src/utils/widgets/drawer_supervisor.dart';
+import 'package:satpj_front_end_web/src/utils/autenticacion.dart';
 import 'package:satpj_front_end_web/src/utils/widgets/toolbar_auxiliar_administrativo.dart';
 /*
 import 'package:satpj_front_end_web/src/utils/widgets/toolbar_auxiliar_administrativo.dart';
@@ -21,7 +18,6 @@ class VistaAdministracionPaciente extends StatefulWidget {
 class _VistaAdministracionPacienteState extends State<VistaAdministracionPaciente>{
 
   //final _estiloTexto = Theme.of(context)
-
   int _conteo = 0;
 
   @override
@@ -70,11 +66,11 @@ class _VistaAdministracionPacienteState extends State<VistaAdministracionPacient
       mainAxisAlignment: MainAxisAlignment.end,
       children: [
         SizedBox(width: 30.0),
-        FloatingActionButton(child: Icon(Icons.exposure_zero),onPressed: _reset),
+        FloatingActionButton(child: Icon(Icons.exposure_zero),onPressed: _reset, heroTag: "btn1",),
         Expanded(child: SizedBox()),
-        FloatingActionButton(child: Icon(Icons.remove),onPressed: _sustraer),
+        FloatingActionButton(child: Icon(Icons.remove),onPressed: _sustraer, heroTag: "btn2",),
         SizedBox(width: 5.0,),
-        FloatingActionButton(child: Icon(Icons.add),onPressed: _agregar)
+        FloatingActionButton(child: Icon(Icons.add),onPressed: _agregar, heroTag: "btn3",)
       ],
     );
     
@@ -89,4 +85,5 @@ class _VistaAdministracionPacienteState extends State<VistaAdministracionPacient
   void _reset(){
     setState(() =>_conteo=0);
   }
+
 }

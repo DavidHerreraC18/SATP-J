@@ -3,6 +3,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 //
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:http/http.dart' as http;
 
 final FirebaseAuth _auth = FirebaseAuth.instance;
 //final GoogleSignIn googleSignIn = GoogleSignIn();
@@ -11,6 +12,9 @@ String uid;
 String name;
 String userEmail;
 String imageUrl;
+
+
+String url = 'www.googleapis.com';
 
 /// For checking if the user is already signed into the
 /// app using Google Sign In
@@ -31,54 +35,6 @@ Future getUser() async {
     }
   }
 }
-
-/// For authenticating user using Google Sign In
-/// with Firebase Authentication API.
-///
-/// Retrieves some general user related information
-/// from their Google account for ease of the login process
-/*Future<String> signInWithGoogle() async {
-  await Firebase.initializeApp();
-
-  final GoogleSignInAccount googleSignInAccount = await googleSignIn.signIn();
-  final GoogleSignInAuthentication googleSignInAuthentication =
-      await googleSignInAccount.authentication;
-
-  final AuthCredential credential = GoogleAuthProvider.credential(
-    accessToken: googleSignInAuthentication.accessToken,
-    idToken: googleSignInAuthentication.idToken,
-  );
-
-  final UserCredential userCredential =
-      await _auth.signInWithCredential(credential);
-  final User user = userCredential.user;
-
-  if (user != null) {
-    // Checking if email and name is null
-    assert(user.uid != null);
-    assert(user.email != null);
-    assert(user.displayName != null);
-    assert(user.photoURL != null);
-
-    uid = user.uid;
-    name = user.displayName;
-    userEmail = user.email;
-    imageUrl = user.photoURL;
-
-    assert(!user.isAnonymous);
-    assert(await user.getIdToken() != null);
-
-    final User currentUser = _auth.currentUser;
-    assert(user.uid == currentUser.uid);
-
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    prefs.setBool('auth', true);
-
-    return 'Google sign in successful, User UID: ${user.uid}';
-  }
-
-  return null;
-}*/
 
 Future<String> registerWithEmailPassword(String email, String password) async {
   await Firebase.initializeApp();
@@ -153,18 +109,33 @@ Future<String> signOut() async {
   return 'User signed out';
 }
 
-/// For signing out of their Google account
-/*void signOutGoogle() async {
-  await googleSignIn.signOut();
-  await _auth.signOut();
+  Future<String> extractTokenAndAccessSecureResource() async {
+    var token = await extractToken();
+    return await accessSecureResource(token);
+  }
 
-  SharedPreferences prefs = await SharedPreferences.getInstance();
-  prefs.setBool('auth', false);
+  Future<String> extractToken() async{
+    //FirebaseAuth firebaseAuth = FirebaseAuth.instance;
+    User user =  _auth.currentUser;
+    //IdTokenResult token =  user.getIdToken();
+    return user.getIdToken(true);
+  }
 
-  uid = null;
-  name = null;
-  userEmail = null;
-  imageUrl = null;
+  Future<String> accessSecureResource(token) async {
 
-  print("User signed out of Google account");
-}*/
+    Map<String, String> headers = {
+      "Content-type": "application/json",
+      "Authorization" :"Bearer " + token
+    };
+    print("Token "+ token);
+    //Response response = await get(Uri.http(url,"/usuarios",{"id": uid}), headers: headers);
+    http.Response response = await http.get(Uri.http(url,"/books/v1/volumes"));
+    int statusCode = response.statusCode;
+    if(statusCode != 200){
+      print("Could not get input from server");
+      return "Could not get input from server";
+    }
+    print("Entro!!");
+    return response.body.toString();
+  }
+

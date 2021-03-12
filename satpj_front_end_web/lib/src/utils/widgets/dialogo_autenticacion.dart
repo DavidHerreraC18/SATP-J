@@ -271,6 +271,7 @@ class _AuthDialogState extends State<AuthDialog> {
                                       loginStringColor = Colors.red;
                                     });
                                   });
+                                  //displaySecureResource();
                                 } else {
                                   setState(() {
                                     loginStatus =
@@ -363,4 +364,10 @@ class _AuthDialogState extends State<AuthDialog> {
       ),
     );
   }
+
+  displaySecureResource() async {
+    String response = await extractTokenAndAccessSecureResource();
+    print(response);
+  }
+
 }

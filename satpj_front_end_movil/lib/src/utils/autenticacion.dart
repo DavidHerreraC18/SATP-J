@@ -128,6 +128,7 @@ Future<String> signInWithEmailPassword(String email, String password) async {
 
     assert(!user.isAnonymous);
     assert(await user.getIdToken() != null);
+    //await print(user.getIdToken());
 
     final User currentUser = _auth.currentUser;
     assert(user.uid == currentUser.uid);
