@@ -22,7 +22,7 @@ class _PreRegisterPage1State extends State<PreRegisterPage1> {
   Widget build(BuildContext context) {
     return Scaffold(
        backgroundColor: kAccentColor,
-       appBar: toolbarInicio(),
+       appBar: toolbarInicio(context),
        body: ListView(
           children: [
           Column( 
