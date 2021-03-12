@@ -1,19 +1,20 @@
 import 'package:flutter/material.dart';
 import 'package:satpj_front_end_web/src/model/paciente.dart';
 import 'package:satpj_front_end_web/src/utils/tema.dart';
+import 'package:satpj_front_end_web/src/utils/widgets/button-forms.dart';
 import 'package:satpj_front_end_web/src/utils/widgets/dropdown.dart';
 import 'package:satpj_front_end_web/src/utils/widgets/rounded_text_field.dart';
 import 'package:satpj_front_end_web/src/utils/widgets/toolbar_inicio.dart';
+import 'package:satpj_front_end_web/src/views/register/pre_register_page_2.dart';
 
 import '../../constants.dart';
 
-
 class PreRegisterPage3 extends StatefulWidget {
   
-  Paciente paciente;
-  
+  final Paciente paciente;
+
   final route = '/pre-registro-3';
-  
+
   PreRegisterPage3({this.paciente});
 
   @override
@@ -24,34 +25,29 @@ class _PreRegisterPage3State extends State<PreRegisterPage3> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-       backgroundColor: kAccentColor,
-       appBar: toolbarInicio(),
-       body: ListView(
+        backgroundColor: kAccentColor,
+        appBar: toolbarInicio(),
+        body: ListView(
           children: [
-          Column( 
-           children: [
-           Card(
-           margin: EdgeInsets.only(right: 400.0, left: 400.0, top: 20.0, bottom: 20.0),
-           elevation: 25.0,
-           child: Padding(
-             padding: EdgeInsets.all(40.0),
-             child:Container(
-               width: 500,
-               child: RegisterForm()
-               ),
-             ),
-           )
-          ],),
-       ],
-       )
-
-       
-    );
+            Column(
+              children: [
+                Card(
+                  margin: EdgeInsets.only(
+                      right: 400.0, left: 400.0, top: 20.0, bottom: 20.0),
+                  elevation: 25.0,
+                  child: Padding(
+                    padding: EdgeInsets.all(40.0),
+                    child: Container(width: 500, child: RegisterForm()),
+                  ),
+                )
+              ],
+            ),
+          ],
+        ));
   }
 }
 
 class RegisterForm extends StatefulWidget {
-  
   @override
   RegisterFormState createState() {
     return RegisterFormState();
@@ -68,171 +64,218 @@ class RegisterFormState extends State<RegisterForm> {
   @override
   Widget build(BuildContext context) {
     return Form(
-      key: _formKey,
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-             children: [
-                 Text('Solicita la atención psicológica por:', textAlign: TextAlign.left,  style: TextStyle(fontSize: 18.0),),
-                 SizedBox(height: 8.0,),
-                Container(
-                  child: Row(
-                    children: [
-                      Checkbox(value: decisionPropia,
-                      
-          activeColor: kPrimaryColor,
-          onChanged:(bool newValue){
-        setState(() {
-          decisionPropia = newValue;
-          remitido = false;
-        });
-          }),
-          Text('Decisión propia',  style: TextStyle(fontSize: 18.0),),
-                    ],
-                  ),
+        key: _formKey,
+        child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+          Text(
+            'Solicita la atención psicológica por:',
+            textAlign: TextAlign.left,
+            style: TextStyle(fontSize: 18.0),
+          ),
+          SizedBox(
+            height: 8.0,
+          ),
+          Container(
+            child: Row(
+              children: [
+                Checkbox(
+                    value: decisionPropia,
+                    activeColor: kPrimaryColor,
+                    onChanged: (bool newValue) {
+                      setState(() {
+                        decisionPropia = newValue;
+                        remitido = false;
+                      });
+                    }),
+                Text(
+                  'Decisión propia',
+                  style: TextStyle(fontSize: 18.0),
                 ),
-                SizedBox(height: 8.0,),
-                 Container(
-                  child: Row(
-                    children: [
-                      Checkbox(value: remitido,
-                      
-          activeColor: kPrimaryColor,
-          onChanged:(bool newValue){
-        setState(() {
-          remitido = newValue;
-          decisionPropia = false;
-        });
-          }),
-          Column(
-            children: [
-              SizedBox(height: 50.0,),
-            ],
-          ),   
-          Text('remitido',  style: TextStyle(fontSize: 18.0),),
-                    ],
-                  ),
+              ],
+            ),
+          ),
+          SizedBox(
+            height: 8.0,
+          ),
+          Container(
+            child: Row(
+              children: [
+                Checkbox(
+                    value: remitido,
+                    activeColor: kPrimaryColor,
+                    onChanged: (bool newValue) {
+                      setState(() {
+                        remitido = newValue;
+                        decisionPropia = false;
+                      });
+                    }),
+                Column(
+                  children: [
+                    SizedBox(
+                      height: 50.0,
+                    ),
+                  ],
                 ),
-            
+                Text(
+                  'Remitido',
+                  style: TextStyle(fontSize: 18.0),
+                ),
+              ],
+            ),
+          ),
           Column(
             crossAxisAlignment: CrossAxisAlignment.start,
-            children: remitido? [
-              Text('Fue remitido por', textAlign: TextAlign.left, style: TextStyle(fontSize: 18.0),),
-              SizedBox(height: 8.0,),
-              Container(height: 50.0, child: Dropdown(values: kInstituciones, cualSelected: cualRemision )), 
-            ]: [],
+            children: remitido
+                ? [
+                    Text(
+                      'Fue remitido por',
+                      textAlign: TextAlign.left,
+                      style: TextStyle(fontSize: 18.0),
+                    ),
+                    SizedBox(
+                      height: 8.0,
+                    ),
+                    Container(
+                        height: 50.0,
+                        child: Dropdown(
+                            values: kInstituciones,
+                            cualSelected: cualRemision)),
+                  ]
+                : [],
           ),
-
           Column(
             crossAxisAlignment: CrossAxisAlignment.start,
-            children: cualRemision? [
-              Text('¿Cúal?', textAlign: TextAlign.left, style: TextStyle(fontSize: 18.0),),
-              SizedBox(height: 8.0,),
-              RoundedTextField(
-                          hintText: 'Institución de remisión',
-                          type: TextInputType.datetime,                 
-                 ),
-            ]: [],
+            children: cualRemision
+                ? [
+                    Text(
+                      '¿Cúal?',
+                      textAlign: TextAlign.left,
+                      style: TextStyle(fontSize: 18.0),
+                    ),
+                    SizedBox(
+                      height: 8.0,
+                    ),
+                    RoundedTextField(
+                      hintText: 'Institución de remisión',
+                      type: TextInputType.datetime,
+                    ),
+                  ]
+                : [],
           ),
-
-          SizedBox(height: 20.0,),
-
-           Text('Ha recibido atención por psicológia o psiquiatría:', textAlign: TextAlign.left,  style: TextStyle(fontSize: 18.0),),
-                 SizedBox(height: 8.0,),
-                Container(
-                  child: Row(
-                    children: [
-                      Checkbox(value: atendido,
-                      
-          activeColor: kPrimaryColor,
-          onChanged:(bool newValue){
-        setState(() {
-          atendido = newValue;
-          atendidoNo = false;
-        });
-          }),
-          Text('Si',  style: TextStyle(fontSize: 18.0),),
-                    ],
-                  ),
+          SizedBox(
+            height: 20.0,
+          ),
+          Text(
+            'Ha recibido atención por psicológia o psiquiatría:',
+            textAlign: TextAlign.left,
+            style: TextStyle(fontSize: 18.0),
+          ),
+          SizedBox(
+            height: 8.0,
+          ),
+          Container(
+            child: Row(
+              children: [
+                Checkbox(
+                    value: atendido,
+                    activeColor: kPrimaryColor,
+                    onChanged: (bool newValue) {
+                      setState(() {
+                        atendido = newValue;
+                        atendidoNo = false;
+                      });
+                    }),
+                Text(
+                  'Si',
+                  style: TextStyle(fontSize: 18.0),
                 ),
-                SizedBox(height: 8.0,),
-                 Container(
-                  child: Row(
-                    children: [
-                      Checkbox(value: atendidoNo,
-                      
-          activeColor: kPrimaryColor,
-          onChanged:(bool newValue){
-        setState(() {
-          atendidoNo = newValue;
-          atendido = false;
-        });
-          }),
+              ],
+            ),
+          ),
+          SizedBox(
+            height: 8.0,
+          ),
+          Container(
+            child: Row(
+              children: [
+                Checkbox(
+                    value: atendidoNo,
+                    activeColor: kPrimaryColor,
+                    onChanged: (bool newValue) {
+                      setState(() {
+                        atendidoNo = newValue;
+                        atendido = false;
+                      });
+                    }),
+                Column(
+                  children: [
+                    SizedBox(
+                      height: 50.0,
+                    ),
+                  ],
+                ),
+                Text(
+                  'No',
+                  style: TextStyle(fontSize: 18.0),
+                ),
+              ],
+            ),
+          ),
+          SizedBox(
+            height: 8.0,
+          ),
           Column(
-            children: [
-              SizedBox(height: 50.0,),
-            ],
-          ),   
-          Text('No',  style: TextStyle(fontSize: 18.0),),
-                    ],
-                  ),
-                ),
-          SizedBox(height: 8.0,),
-           Column(
             crossAxisAlignment: CrossAxisAlignment.start,
-            children: atendido? [
-              Text('¿Donde?', textAlign: TextAlign.left, style: TextStyle(fontSize: 18.0),),
-              SizedBox(height: 8.0,),
-              RoundedTextField(
-                          hintText: 'Institución donde recibio la atención',
-                          type: TextInputType.text,                 
-                 ),
-            ]: [],
+            children: atendido
+                ? [
+                    Text(
+                      '¿Donde?',
+                      textAlign: TextAlign.left,
+                      style: TextStyle(fontSize: 18.0),
+                    ),
+                    SizedBox(
+                      height: 8.0,
+                    ),
+                    RoundedTextField(
+                      hintText: 'Institución donde recibio la atención',
+                      type: TextInputType.text,
+                    ),
+                  ]
+                : [],
           ),
-          SizedBox(height: 20.0,),
-          Text('Motivo de la consulta', textAlign: TextAlign.left, style: TextStyle(fontSize: 18.0),),
-          SizedBox(height: 8.0,),
+          SizedBox(
+            height: 20.0,
+          ),
+          Text(
+            'Motivo de la consulta',
+            textAlign: TextAlign.left,
+            style: TextStyle(fontSize: 18.0),
+          ),
+          SizedBox(
+            height: 8.0,
+          ),
           Container(
             height: 400.0,
             child: RoundedTextField(
-                            hintText: 'Motivo de la consulta',
-                            type: TextInputType.text,                 
-                   ),
+              hintText: 'Motivo de la consulta',
+              type: TextInputType.text,
+            ),
           ),
-           
-                        
-                 
-                 
-          SizedBox(height: 20.0,),      
+          SizedBox(
+            height: 20.0,
+          ),
           Row(
-            mainAxisAlignment: MainAxisAlignment.end,
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
+               Container(
+                height: 40.0,
+                child: ButtonForms(formKey: _formKey, label:'Atrás', color: Colors.black38, route: PreRegisterPage2().route),
+              ),
               Container(
                 height: 40.0,
-                child: ElevatedButton(
-                  style: ButtonStyle(backgroundColor: MaterialStateProperty.all<Color>(kPrimaryColor),
-                  ),
-                  onPressed: () {
-                    // Validate returns true if the form is valid, or false
-                    // otherwise.
-                    if (_formKey.currentState.validate()) {
-                      // If the form is valid, display a Snackbar.
-                      ScaffoldMessenger.of(context)
-                          .showSnackBar(SnackBar(content: Text('Processing Data')));
-                    }
-                  },
-                  child: Padding(
-                    padding: EdgeInsets.symmetric(horizontal: 20.0),
-                    child: Text('Siguiente', style: TextStyle(fontSize: 18.0, fontWeight: FontWeight.normal)),
-                  ),
-                ),
+                child: ButtonForms(formKey: _formKey, color: kPrimaryColor, label:'Enviar'),
               ),
             ],
-          ),            
-        ] 
-      )
-    );
+          ),
+        ]));
   }
 }
-
-
-

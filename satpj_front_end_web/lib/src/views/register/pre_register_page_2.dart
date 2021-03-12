@@ -2,9 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:satpj_front_end_web/src/constants.dart';
 import 'package:satpj_front_end_web/src/utils/tema.dart';
+import 'package:satpj_front_end_web/src/utils/widgets/button-forms.dart';
 import 'package:satpj_front_end_web/src/utils/widgets/dropdown.dart';
 import 'package:satpj_front_end_web/src/utils/widgets/rounded_text_field.dart';
 import 'package:satpj_front_end_web/src/utils/widgets/toolbar_inicio.dart';
+import 'package:satpj_front_end_web/src/views/register/pre_register_page_1.dart';
 import 'package:satpj_front_end_web/src/views/register/pre_register_page_3.dart';
 
 
@@ -129,28 +131,15 @@ class RegisterFormState extends State<RegisterForm> {
                  
           SizedBox(height: 20.0,),      
           Row(
-            mainAxisAlignment: MainAxisAlignment.end,
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
+                Container(
+                height: 40.0,
+                child: ButtonForms(formKey: _formKey, label:'Atrás', color: Colors.black38, route: PreRegisterPage1().route),
+              ),
               Container(
                 height: 40.0,
-                child: ElevatedButton(
-                  style: ButtonStyle(backgroundColor: MaterialStateProperty.all<Color>(kPrimaryColor),
-                  ),
-                  onPressed: () {
-                    // Validate returns true if the form is valid, or false
-                    // otherwise.
-                    if (_formKey.currentState.validate()) {
-                      // If the form is valid, display a Snackbar.
-                      Navigator.pushNamed(context, PreRegisterPage3().route);
-                      ScaffoldMessenger.of(context)
-                          .showSnackBar(SnackBar(content: Text('Processing Data')));
-                    }
-                  },
-                  child: Padding(
-                    padding: EdgeInsets.symmetric(horizontal: 20.0),
-                    child: Text('Siguiente', style: TextStyle(fontSize: 18.0, fontWeight: FontWeight.normal)),
-                  ),
-                ),
+                child: ButtonForms(formKey: _formKey, label:'Siguiente', color: kPrimaryColor, route: PreRegisterPage3().route),
               ),
             ],
           ),            

@@ -23,6 +23,7 @@ class _RoundedTextFieldState extends State<RoundedTextField> {
   @override
   Widget build(BuildContext context) {
     return TextFormField(
+       maxLines: null,
        onChanged: widget.onChangedF,
        keyboardType: widget.type,
        inputFormatters: widget.formatter,

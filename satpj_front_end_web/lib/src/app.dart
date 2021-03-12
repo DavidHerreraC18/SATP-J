@@ -38,6 +38,7 @@ class MyApp extends StatelessWidget{
         },
       ),
       routes: {
+        PreRegisterPage1().route : (context) => PreRegisterPage1(),
         PreRegisterPage2().route : (context) => PreRegisterPage2(), 
         PreRegisterPage3().route : (context) => PreRegisterPage3(), 
       },
