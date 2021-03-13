@@ -40,3 +40,6 @@ ThemeData temaSatpj(){
     ),
   );
 }
+
+const kAccentColor = Color(0xFF23D797);
+const kPrimaryColor = Color(0xFF2E5EAA);
