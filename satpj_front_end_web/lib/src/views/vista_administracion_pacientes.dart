@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:satpj_front_end_web/src/utils/autenticacion.dart';
-import 'package:satpj_front_end_web/src/utils/widgets/toolbar_auxiliar_administrativo.dart';
+import 'package:satpj_front_end_web/src/utils/widgets/Barras/toolbar_auxiliar_administrativo.dart';
 /*
 import 'package:satpj_front_end_web/src/utils/widgets/toolbar_auxiliar_administrativo.dart';
 import 'package:satpj_front_end_web/src/utils/widgets/toolbar_inicio.dart';

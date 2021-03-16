@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:satpj_front_end_web/src/utils/widgets/toolbar_auxiliar_administrativo.dart';
+import 'package:satpj_front_end_web/src/utils/widgets/Barras/toolbar_auxiliar_administrativo.dart';
+import 'package:satpj_front_end_web/src/utils/widgets/botonesTabla.dart';
 
 class VistaPreadmision extends StatelessWidget {
 
@@ -43,7 +44,9 @@ class VistaPreadmision extends StatelessWidget {
                 DataCell(Text("32776994")),
                 DataCell(Text("1234567890")),
                 DataCell(Text("Nuevo")),
-                //DataCell(BotonAcciones())
+                DataCell(
+                  BotonesTablaAdmision(),
+                )
               ]
             ),
             DataRow(
@@ -53,7 +56,9 @@ class VistaPreadmision extends StatelessWidget {
                 DataCell(Text("32776000")),
                 DataCell(Text("0987654321")),
                 DataCell(Text("PreAprobado")),
-                //DataCell(BotonAcciones())
+                DataCell(
+                   BotonesTablaAdmision(),
+                )
               ]
             ),
             DataRow(
@@ -63,7 +68,9 @@ class VistaPreadmision extends StatelessWidget {
                 DataCell(Text("8765321")),
                 DataCell(Text("09182")),
                 DataCell(Text("Nuevo")),
-                //DataCell(BotonAcciones()) meter calse botonesTabla.dart aqui 
+                DataCell( 
+                  BotonesTablaAdmision(),
+                )
               ]
             )
           ],
