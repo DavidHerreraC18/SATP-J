@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 
-import '../tema.dart';
 
 
 class ButtonForms extends StatelessWidget {
@@ -8,10 +7,11 @@ class ButtonForms extends StatelessWidget {
   final route;
   final label;
   final color;
+  final arguments;
 
   ButtonForms({ Key key, 
     @required GlobalKey<FormState> formKey, this.label,
-  this.route, this.color}) : _formKey = formKey, super(key: key);
+  this.route, this.color, this.arguments}) : _formKey = formKey, super(key: key);
 
   final GlobalKey<FormState> _formKey;
 
@@ -28,8 +28,8 @@ class ButtonForms extends StatelessWidget {
         if (_formKey.currentState.validate()) {
           // If the form is valid, display a Snackbar.
           ScaffoldMessenger.of(context).showSnackBar(
-              SnackBar(content: Text('Guardando Información')));
-          Navigator.pushNamed(context, route.toString());
+              SnackBar(content: Text('Guardando Información', style: TextStyle(color: Colors.black),)));
+          Navigator.pushNamed(context, route.toString(), arguments: arguments);
         }      
       },
       child: Padding(

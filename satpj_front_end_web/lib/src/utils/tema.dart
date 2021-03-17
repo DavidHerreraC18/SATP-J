@@ -34,7 +34,7 @@ ThemeData temaSatpj(){
       headline1: TextStyle(fontSize: 30.0, fontWeight: FontWeight.w900, color: Color(0xFF2E5EAA)),
       headline2: TextStyle(fontSize: 30.0, fontWeight: FontWeight.w900, color: Colors.white),
       headline3: TextStyle(fontSize: 30.0, color: Color(0xFF2E5EAA)),
-      subtitle1: TextStyle(fontSize: 20.0, fontWeight: FontWeight.w700, color: Color(0xFF2E5EAA)),
+      subtitle1: TextStyle(fontSize: 20.0, fontWeight: FontWeight.normal, color: Color(0xFF2E5EAA)),
       subtitle2: TextStyle(fontSize: 20.0, fontWeight: FontWeight.w700, color: Colors.white),
       bodyText1: TextStyle(fontSize: 12.0, color: Color(0xFF2E5EAA)),
     ),

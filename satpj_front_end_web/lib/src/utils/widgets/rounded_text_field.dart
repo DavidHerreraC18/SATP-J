@@ -11,9 +11,10 @@ class RoundedTextField extends StatefulWidget {
   TextInputType type;
   List<TextInputFormatter> formatter; 
   String validationText;
+ 
 
-
-  RoundedTextField({this.hintText, this.onChangedF, this.type, this.formatter, this.validationText});
+  RoundedTextField({this.hintText, this.onChangedF, this.type, this.formatter, this.validationText
+  });
 
   @override
   _RoundedTextFieldState createState() => _RoundedTextFieldState();
@@ -30,10 +31,9 @@ class _RoundedTextFieldState extends State<RoundedTextField> {
        decoration: getInputDecoration(widget.hintText),
        validator: (value) {
         if (value.isEmpty) {
-          
           return widget.validationText;
         }
-        return null;
+         return null;
         }
      );
   }
