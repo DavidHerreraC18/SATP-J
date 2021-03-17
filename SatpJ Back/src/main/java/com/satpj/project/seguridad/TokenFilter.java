@@ -1,7 +1,6 @@
 package com.satpj.project.seguridad;
 
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseAuthException;
 import com.google.firebase.auth.FirebaseToken;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,8 +28,9 @@ public class TokenFilter extends OncePerRequestFilter {
         FirebaseToken decodedToken = null;
         try {
             decodedToken = FirebaseAuth.getInstance().verifyIdToken(idToken);
-        } catch (FirebaseAuthException e) {
+        } catch (Exception e) {
             log.error("Firebase Exception {}", e.getLocalizedMessage());
+            System.out.println("No hay autenticacion");
         }
         if (decodedToken != null) {
             CustomPrincipal customPrincipal = new CustomPrincipal();

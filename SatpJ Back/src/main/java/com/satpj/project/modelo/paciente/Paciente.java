@@ -24,6 +24,7 @@ import com.satpj.project.modelo.acudiente.Acudiente;
 import com.satpj.project.modelo.documento_paciente.DocumentoPaciente;
 import com.satpj.project.modelo.formulario.Formulario;
 import com.satpj.project.modelo.grupo.Grupo;
+import com.satpj.project.modelo.paquete_sesion.PaqueteSesion;
 import com.satpj.project.modelo.practicante.PracticantePaciente;
 import com.satpj.project.modelo.supervisor.Supervisor;
 import com.satpj.project.modelo.usuario.Usuario;
@@ -57,6 +58,10 @@ public class Paciente extends Usuario {
 
     @OneToMany(mappedBy = "paciente")
     @JsonIgnore
+    private List<PaqueteSesion> paquetesSesion;
+
+    @OneToMany(mappedBy = "paciente")
+    @JsonIgnore
     private List<Acudiente> acudientes;
 
     @OneToOne(mappedBy = "paciente")
@@ -64,7 +69,7 @@ public class Paciente extends Usuario {
     private Formulario formulario;
 
     @NotNull(message = "El estado de Aprobacion es obligatorio")
-    @Column(name = "estado-aprobado")
+    @Column(name = "estado_aprobado")
     private String estadoAprobado;
 
     /* Con el estrato se realiza el cobro de las Sesiones de Terapia */

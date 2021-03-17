@@ -4,6 +4,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -13,6 +14,8 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.AuthenticationEntryPoint;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.web.servlet.config.annotation.CorsRegistry;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -54,6 +57,18 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         };
     }
 
+    @Bean
+    public WebMvcConfigurer CORSConfigurer(){
+        return new WebMvcConfigurer() {
+            @Override
+            public void addCorsMappings(CorsRegistry registry) {
+                registry.addMapping("/**")
+                        .allowedOrigins("*")
+                        .allowedMethods("GET", "POST", "PUT","DELETE");
+            }
+        };
+    }
+
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.cors().and()
@@ -64,7 +79,12 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .httpBasic().disable()
                 .exceptionHandling().authenticationEntryPoint(restAuthenticationEntryPoint())
                 .and().authorizeRequests()
-//              .antMatchers().permitAll()
+                .antMatchers(HttpMethod.POST, "/acudientes").permitAll()
+                .antMatchers(HttpMethod.POST, "/usuarios").permitAll()
+                .antMatchers(HttpMethod.POST, "/pacientes").permitAll()
+                .antMatchers(HttpMethod.POST, "/practicantes").permitAll()
+                .antMatchers(HttpMethod.POST, "/supervisores").permitAll()
+                .antMatchers(HttpMethod.POST, "/auxiliares").permitAll()
                 .anyRequest().authenticated();
         http.addFilterBefore(tokenAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class);
     }
