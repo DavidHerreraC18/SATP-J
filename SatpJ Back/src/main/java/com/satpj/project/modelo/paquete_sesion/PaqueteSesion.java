@@ -38,7 +38,6 @@ public class PaqueteSesion {
 
     @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JoinColumn(name = "paciente_id", nullable = false)
-    @MapsId
     private Paciente paciente;
 
     @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "paqueteSesion")

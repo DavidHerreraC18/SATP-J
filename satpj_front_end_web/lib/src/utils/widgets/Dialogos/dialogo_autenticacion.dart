@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:satpj_front_end_web/src/utils/autenticacion.dart';
+import 'package:satpj_front_end_web/src/providers/provider_autenticacion.dart';
 import 'package:satpj_front_end_web/src/views/vista_home.dart';
-
 
 //import 'google_sign_in_button.dart';
 
@@ -242,9 +241,10 @@ class _AuthDialogState extends State<AuthDialog> {
                                     _validatePassword(
                                             textControllerPassword.text) ==
                                         null) {
-                                  await signInWithEmailPassword(
-                                          textControllerEmail.text,
-                                          textControllerPassword.text)
+                                  await ProviderAuntenticacion
+                                          .signInWithEmailPassword(
+                                              textControllerEmail.text,
+                                              textControllerPassword.text)
                                       .then((result) {
                                     if (result != null) {
                                       print(result);
@@ -271,7 +271,6 @@ class _AuthDialogState extends State<AuthDialog> {
                                       loginStringColor = Colors.red;
                                     });
                                   });
-                                  //displaySecureResource();
                                 } else {
                                   setState(() {
                                     loginStatus =
@@ -364,10 +363,4 @@ class _AuthDialogState extends State<AuthDialog> {
       ),
     );
   }
-
-  displaySecureResource() async {
-    String response = await extractTokenAndAccessSecureResource();
-    print(response);
-  }
-
 }

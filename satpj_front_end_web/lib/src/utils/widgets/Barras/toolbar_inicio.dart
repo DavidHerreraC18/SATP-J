@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:satpj_front_end_web/src/utils/widgets/dialogo_autenticacion.dart';
+import 'package:satpj_front_end_web/src/utils/widgets/Dialogos/dialogo_autenticacion.dart';
 
 AppBar toolbarInicio(BuildContext context){
   return AppBar(

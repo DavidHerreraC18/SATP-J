@@ -39,7 +39,6 @@ public class DocumentoPaciente {
 
 	@ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
 	@JoinColumn(name = "paciente_id", nullable = false)
-	@MapsId
 	private Paciente paciente;
 
 	@NotNull(message = "El Nombre del Documento es obligatorio")

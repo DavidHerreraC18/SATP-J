@@ -3,11 +3,15 @@ import 'package:flutter/services.dart';
 import 'package:satpj_front_end_web/src/constants.dart';
 import 'package:satpj_front_end_web/src/modelo/paciente.dart';
 import 'package:satpj_front_end_web/src/utils/tema.dart';
+import 'package:satpj_front_end_web/src/utils/widgets/Barras/toolbar_inicio.dart';
 import 'package:satpj_front_end_web/src/utils/widgets/button-forms.dart';
 import 'package:satpj_front_end_web/src/utils/widgets/dropdown.dart';
 import 'package:satpj_front_end_web/src/utils/widgets/rounded_text_field.dart';
+<<<<<<< HEAD
 import 'package:satpj_front_end_web/src/utils/widgets/tema-formularios.dart';
 import 'package:satpj_front_end_web/src/utils/widgets/toolbar_inicio.dart';
+=======
+>>>>>>> Issue-DialogoRespuestasFormulario
 import 'package:satpj_front_end_web/src/views/register/pre_register_page_1.dart';
 import 'package:satpj_front_end_web/src/views/register/pre_register_page_3.dart';
 
@@ -30,10 +34,16 @@ class _PreRegisterPage2State extends State<PreRegisterPage2> {
     final Paciente args = ModalRoute.of(context).settings.arguments;
     print(args.nombre+args.apellidos+args.tipoDocumento);
     return Scaffold(
+<<<<<<< HEAD
         backgroundColor: kAccentColor,
         appBar: toolbarInicio(context),
         
         body: ListView(
+=======
+       backgroundColor: kAccentColor,
+       appBar: toolbarInicio(context),
+       body: ListView(
+>>>>>>> Issue-DialogoRespuestasFormulario
           children: [
             Column(
               children: [
