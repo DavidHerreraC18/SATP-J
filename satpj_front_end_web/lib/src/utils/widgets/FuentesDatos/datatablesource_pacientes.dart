@@ -26,10 +26,10 @@ class PacientesDataTableSource extends DataTableSource {
       index: index, // DONT MISS THIS
       cells: <DataCell>[
         DataCell(Text('${_paciente.id}')),
-        DataCell(Text('${_paciente.name}')),
+        //DataCell(Text('${_paciente.name}')),
         DataCell(Text('${_paciente.email}')),
-        DataCell(Text('${_paciente.phone}')),
-        DataCell(Text('${_paciente.website}')),
+        //DataCell(Text('${_paciente.phone}')),
+        //DataCell(Text('${_paciente.website}')),
         DataCell(
           IconButton(
             hoverColor: Colors.transparent,

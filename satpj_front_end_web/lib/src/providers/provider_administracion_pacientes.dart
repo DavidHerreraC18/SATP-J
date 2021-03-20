@@ -19,8 +19,8 @@ class ProviderAdministracionPacientes{
 
       if (resp.statusCode == 200) {
         //
-        final _data = pacienteFromJson(resp.body);
-        _completer.complete(_data);
+        //final _data = pacienteFromJson(resp.body);
+        //_completer.complete(_data);
       }
     } catch (exc) {
       _completer.completeError(<Paciente>[]);
