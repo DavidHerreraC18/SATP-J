@@ -9,7 +9,18 @@ class Dropdown extends StatefulWidget {
   List<String> values = [];
   Function onChanged;
   dynamic selected;
-  Dropdown({this.values, this.onChanged, this.selected});
+  FocusNode textFocusNode;
+  TextInputType textInputType;
+  TextEditingController textController;
+  bool isEditing;
+  Function validate;
+  String hintText;
+
+  Dropdown({this.values, this.onChanged, this.selected,
+      this.textController,
+      this.hintText,
+      this.validate
+  });
 
   @override
   _DropdownState createState() => _DropdownState();
@@ -18,27 +29,27 @@ class Dropdown extends StatefulWidget {
 /// This is the private State class that goes with MyStatefulWidget.
 class _DropdownState extends State<Dropdown> {
   
-
   @override
   Widget build(BuildContext context) {
-    return  OutlineDropdownButton( 
-      inputDecoration: getInputDecoration(''),
-      value: widget.selected,
+    return  DropdownButtonFormField<String>( 
       iconSize: 24,
-      elevation: 16,           
+      elevation: 16,
+      hint: Text(widget.hintText), 
+      decoration: inputDecoration,          
       style: TextStyle(color: Colors.black87, fontSize: 17.0, fontFamily: 'Dubai'),
-      items: widget.values.map<DropdownMenuItem<String>>((String value) {
-        return DropdownMenuItem<String>(
+      items: ['One', 'Two', 'Free', 'Four'].map((value) => 
+        DropdownMenuItem(
           value: value,
           child: Text(value),
-        );
-      }).toList(),
+        )
+      ).toList(),
       onChanged: (value) {
-        widget.selected = value;
         setState(() {
+          widget.textController.text = value;
         });
-        //widget.onChanged(value);
-      },
+      }, 
+     //autovalidateMode: AutovalidateMode.,
+     validator: (value) => value == null ? widget.validate() : null,
     );
   }
 }

@@ -1,8 +1,6 @@
-<<<<<<< HEAD:satpj_front_end_web/lib/src/modelo/paciente.dart
-import 'package:satpj_front_end_web/src/modelo/usuario.dart';
-=======
-import 'package:satpj_front_end_web/src/model/usuario.dart';
 import 'dart:convert';
+
+import 'package:satpj_front_end_web/src/modelo/usuario.dart';
 
 
 List<Paciente> pacienteFromJson(String str) =>
@@ -10,7 +8,6 @@ List<Paciente> pacienteFromJson(String str) =>
 
 String pacienteToJson(List<Paciente> data) =>
     json.encode(List<dynamic>.from(data.map((x) => x.toJson())));
->>>>>>> Issue-DialogoRespuestasFormulario:satpj_front_end_web/lib/src/model/paciente.dart
 
 class Paciente extends Usuario{
 

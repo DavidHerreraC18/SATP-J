@@ -1,10 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:satpj_front_end_web/src/constants.dart';
-import 'package:satpj_front_end_web/src/utils/tema.dart';
-import 'package:satpj_front_end_web/src/utils/widgets/button-forms.dart';
 import 'package:satpj_front_end_web/src/utils/widgets/dropdown.dart';
 import 'package:satpj_front_end_web/src/utils/widgets/rounded_text_field.dart';
-import 'package:satpj_front_end_web/src/views/register/pre_register_page_2.dart';
 
 class PreAprobDialog extends StatefulWidget {
   PreAprobDialog({Key key}) : super(key: key);

@@ -1,9 +1,8 @@
 import 'dart:async';
 
-import 'package:flutter/material.dart';
-
 import 'package:http/http.dart' as http;
-import 'package:satpj_front_end_web/src/model/paciente.dart';
+import 'package:satpj_front_end_web/src/modelo/paciente.dart';
+
 
 const _url= "localhost:8082";
 
