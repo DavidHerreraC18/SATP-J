@@ -51,6 +51,9 @@ class ProviderAuntenticacion {
       assert(!user.isAnonymous);
       assert(await user.getIdToken() != null);
 
+      var token = await user.getIdToken();
+      print("TOKEN: " + token);
+
       return 'Successfully registered, User UID: ${user.uid}';
     }
 
@@ -79,6 +82,9 @@ class ProviderAuntenticacion {
 
       assert(!user.isAnonymous);
       assert(await user.getIdToken() != null);
+
+      var token = await user.getIdToken();
+      print("TOKEN: " + token);
 
       final User currentUser = _auth.currentUser;
       assert(user.uid == currentUser.uid);

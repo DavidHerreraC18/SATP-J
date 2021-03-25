@@ -1,8 +1,9 @@
 import 'dart:async';
 
-import 'package:http/http.dart' as http;
-import 'package:satpj_front_end_web/src/modelo/paciente.dart';
+import 'package:flutter/material.dart';
 
+import 'package:http/http.dart' as http;
+import 'package:satpj_front_end_web/src/model/paciente.dart';
 
 const _url= "localhost:8082";
 
@@ -18,8 +19,8 @@ class ProviderAdministracionPacientes{
 
       if (resp.statusCode == 200) {
         //
-        final _data = pacienteFromJson(resp.body);
-        _completer.complete(_data);
+        //final _data = pacienteFromJson(resp.body);
+        //_completer.complete(_data);
       }
     } catch (exc) {
       _completer.completeError(<Paciente>[]);
