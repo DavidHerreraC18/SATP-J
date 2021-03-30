@@ -68,6 +68,7 @@ public class Paciente extends Usuario {
     @JsonIgnore
     private Formulario formulario;
 
+    /*Posibles Estados:  PendienteAprobacion, PreAprobado, Aprobado, NoAprobado */
     @NotNull(message = "El estado de Aprobacion es obligatorio")
     @Column(name = "estado_aprobado")
     private String estadoAprobado;
