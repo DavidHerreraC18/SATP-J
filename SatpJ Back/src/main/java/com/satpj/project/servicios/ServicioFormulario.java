@@ -1,6 +1,7 @@
 package com.satpj.project.servicios;
 
 import java.util.List;
+import java.util.ArrayList;
 
 import com.google.api.client.util.Preconditions;
 import com.satpj.project.modelo.formulario.Formulario;
@@ -43,6 +44,30 @@ public class ServicioFormulario {
     @GetMapping(produces = "application/json")
     public List<Formulario> findAll(@AuthenticationPrincipal CustomPrincipal customPrincipal) {
         return repositorioFormulario.findAll();
+    }
+
+    @GetMapping(value = "/pendientes-aprobacion", produces = "application/json")
+    public List<Formulario> findAllPendientesAprobacion(@AuthenticationPrincipal CustomPrincipal customPrincipal) {
+        List<Formulario> formularios = repositorioFormulario.findAll();
+        List<Formulario> formulariosPA = new ArrayList<Formulario>();
+        for (Formulario formulario : formularios) {
+            if(formulario.getPaciente().getEstadoAprobado().equals("PendienteAprobacion")){
+                formulariosPA.add(formulario);
+            }
+        }
+        return formulariosPA;
+    }
+
+    @GetMapping(value = "/aprobados", produces = "application/json")
+    public List<Formulario> findAllAprobados(@AuthenticationPrincipal CustomPrincipal customPrincipal) {
+        List<Formulario> formularios = repositorioFormulario.findAll();
+        List<Formulario> formulariosA = new ArrayList<Formulario>();
+        for (Formulario formulario : formularios) {
+            if(formulario.getPaciente().getEstadoAprobado().equals("Aprobado")){
+                formulariosA.add(formulario);
+            }
+        }
+        return formulariosA;
     }
 
     @GetMapping(value = "/{id}", produces = "application/json")
