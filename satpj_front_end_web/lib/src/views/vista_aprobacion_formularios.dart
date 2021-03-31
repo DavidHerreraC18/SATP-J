@@ -4,6 +4,7 @@ import 'package:provider/provider.dart';
 import 'package:satpj_front_end_web/src/model/Notificadores/data_notifier.dart';
 import 'package:satpj_front_end_web/src/model/formulario/formulario.dart';
 import 'package:satpj_front_end_web/src/utils/widgets/Barras/toolbar_auxiliar_administrativo.dart';
+import 'package:satpj_front_end_web/src/utils/widgets/Dialogos/dialogo_preaprobacion.dart';
 import 'package:satpj_front_end_web/src/utils/widgets/FuentesDatos/datatablesource_formulario.dart';
 import 'package:satpj_front_end_web/src/utils/widgets/custom_paginated_datatable.dart';
 
@@ -36,8 +37,8 @@ class _InternalWidget extends StatelessWidget {
       return const SizedBox.shrink();
     }
     final _dtSource = FormularioDataTableSource(
-      //onRowSelect: (index) => _showDetails(context, _model[index]),
-      onRowSelect: (index) {},
+      onRowSelect: (index) => _showDetails(context, _model[index]),
+      //onRowSelect: (index) {},
       formularios: _model,
     );
 
@@ -55,7 +56,7 @@ class _InternalWidget extends StatelessWidget {
       dataColumns: _colGen(_dtSource, _provider, context),
       header: const Text("Lista de usuarios pendientes de aprobacion"),
       onRowChanged: (index) => _provider.rowsPerPage = index,
-      rowsPerPage: _provider.rowsPerPage,
+      rowsPerPage: 8,
       showActions: true,
       source: _dtSource,
       sortColumnIndex: _provider.sortColumnIndex,
@@ -104,10 +105,10 @@ class _InternalWidget extends StatelessWidget {
           label: Text("Email",  style: Theme.of(context).textTheme.subtitle1,),
           tooltip: "Email",
         ),
-        /*DataColumn(
-          label: Text(DataTableConstants.otherDetails),
-          tooltip: DataTableConstants.otherDetails,
-        ),*/
+        DataColumn(
+          label: Text("Formulario", style: Theme.of(context).textTheme.subtitle1,),
+          tooltip: "Formulario",
+        ),
       ];
 
   void _sort<T>(
@@ -131,12 +132,13 @@ class _InternalWidget extends StatelessWidget {
     );
   }*/
 
-  /*void _showDetails(BuildContext c, UserModel data) async =>
+  void _showDetails(BuildContext c, Formulario data) async =>
       await showDialog<bool>(
         context: c,
-        builder: (_) => CustomDialog(
+        /*builder: (_) => CustomDialog(
           showPadding: false,
           child: OtherDetails(data: data),
-        ),
-      );*/
+        ),*/
+        builder: (_) => PreAprobDialog()
+        );
 }

@@ -30,14 +30,15 @@ class FormularioDataTableSource extends DataTableSource {
         DataCell(Text('${_formulario.paciente.apellido}')),
         DataCell(Text('${_formulario.paciente.telefono}')),
         DataCell(Text('${_formulario.paciente.email}')),
-        /*DataCell(
+        DataCell(
           IconButton(
-            hoverColor: Colors.transparent,
-            splashColor: Colors.transparent,
+            //hoverColor: Colors.black,
+            splashColor: Colors.blue,
+            color: Colors.black,
             icon: const Icon(Icons.assignment),
             onPressed: () => onRowSelect(index),
           ),
-        ),*/
+        ),
       ],
     );
   }
