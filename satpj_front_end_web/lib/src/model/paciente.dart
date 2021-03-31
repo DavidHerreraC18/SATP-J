@@ -22,7 +22,6 @@ class Paciente extends Usuario {
   List<DocumentoPaciente> documentoPaciente;
   List<PaqueteSesion> paqueteSesion;
   List<Acudiente> acudientes;
-  Formulario formulario;
   String estadoAprobado;
   int estrato;
   int edad;
@@ -35,7 +34,6 @@ class Paciente extends Usuario {
       this.documentoPaciente,
       this.paqueteSesion,
       this.acudientes,
-      this.formulario,
       this.estadoAprobado,
       this.estrato,
       this.edad,
@@ -43,13 +41,17 @@ class Paciente extends Usuario {
 
   factory Paciente.fromJson(Map<String, dynamic> json) {
     var list1 = json['practicantesPaciente'] as List;
-    List<PracticantePaciente> lpracticantesPaciente = list1.map((i) => PracticantePaciente.fromJson(i)).toList();
+    List<PracticantePaciente> lpracticantesPaciente =
+        list1.map((i) => PracticantePaciente.fromJson(i)).toList();
     var list2 = json['documentoPaciente'] as List;
-    List<DocumentoPaciente> ldocumentoPaciente = list2.map((i) => DocumentoPaciente.fromJson(i)).toList();
+    List<DocumentoPaciente> ldocumentoPaciente =
+        list2.map((i) => DocumentoPaciente.fromJson(i)).toList();
     var list3 = json['paqueteSesion'] as List;
-    List<PaqueteSesion> lpaqueteSesion = list3.map((i) => PaqueteSesion.fromJson(i)).toList();
+    List<PaqueteSesion> lpaqueteSesion =
+        list3.map((i) => PaqueteSesion.fromJson(i)).toList();
     var list4 = json['acudientes'] as List;
-    List<Acudiente> lacudientes = list4.map((i) => Acudiente.fromJson(i)).toList();
+    List<Acudiente> lacudientes =
+        list4.map((i) => Acudiente.fromJson(i)).toList();
 
     return Paciente(
       supervisor: Supervisor.fromJson(json["supervisor"]),
@@ -58,7 +60,6 @@ class Paciente extends Usuario {
       documentoPaciente: ldocumentoPaciente,
       paqueteSesion: lpaqueteSesion,
       acudientes: lacudientes,
-      formulario: Formulario.fromJson(json["formulario"]),
       estadoAprobado: json["estadoAprobado"],
       estrato: json["estrato"],
       edad: json["edad"],
@@ -73,7 +74,6 @@ class Paciente extends Usuario {
         "documentoPaciente": jsonEncode(documentoPaciente),
         "paqueteSesion": jsonEncode(paqueteSesion),
         "acudientes": jsonEncode(acudientes),
-        "formulario": formulario.toJson(),
         "estadoAprobado": estadoAprobado,
         "estrato": estrato,
         "edad": edad,
