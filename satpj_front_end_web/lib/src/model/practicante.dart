@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:satpj_front_end_web/src/model/practicante_paciente.dart';
+import 'package:satpj_front_end_web/src/model/usuario.dart';
 
 List<Practicante> practicanteFromJson(String str) =>
     List<Practicante>.from(
@@ -10,7 +11,7 @@ List<Practicante> practicanteFromJson(String str) =>
 String practicanteToJson(List<Practicante> data) =>
     json.encode(List<dynamic>.from(data.map((x) => x.toJson())));
 
-class Practicante{
+class Practicante extends Usuario{
   List<PracticantePaciente> practicante;
   bool pregrado;
   int semestre;

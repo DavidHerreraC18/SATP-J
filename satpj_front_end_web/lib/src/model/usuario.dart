@@ -24,6 +24,7 @@ class Usuario {
     String apellido;
     String email;
     String telefono;
+    String direccion;
     String tipoUsuario;
     String infoSesion;
 
@@ -39,7 +40,8 @@ class Usuario {
       this.email,
       this.telefono,
       this.tipoUsuario,
-      this.infoSesion
+      this.infoSesion,
+      this.direccion
     });
     
   factory Usuario.fromJson(Map<String, dynamic> json) {

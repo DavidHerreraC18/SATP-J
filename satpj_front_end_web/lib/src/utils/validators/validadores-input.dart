@@ -23,12 +23,14 @@ class ValidadoresInput {
 
   static String validateEmpty(String value, String messageEmpty, String vacio){
       value = value.trim();
-      if (value != null) {
-        if (value.isEmpty) {
+      if (value.isEmpty ) {
+        if (vacio.isNotEmpty) {
           return '$messageEmpty no puede estar $vacio';
         }
+        else{
+          return '$messageEmpty';
+        }
       }
-
       return null;
   }
 

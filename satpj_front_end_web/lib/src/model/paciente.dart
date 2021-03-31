@@ -1,13 +1,13 @@
 import 'package:satpj_front_end_web/src/model/acudiente.dart';
 import 'package:satpj_front_end_web/src/model/documento_paciente.dart';
-import 'package:satpj_front_end_web/src/model/formulario.dart';
 import 'package:satpj_front_end_web/src/model/grupo.dart';
 import 'package:satpj_front_end_web/src/model/paquete_sesion.dart';
-import 'package:satpj_front_end_web/src/model/practicante.dart';
 import 'package:satpj_front_end_web/src/model/practicante_paciente.dart';
 import 'package:satpj_front_end_web/src/model/supervisor.dart';
 import 'package:satpj_front_end_web/src/model/usuario.dart';
 import 'dart:convert';
+
+import 'package:satpj_front_end_web/src/modelo/formulario.dart';
 
 List<Paciente> pacienteFromJson(String str) =>
     List<Paciente>.from(json.decode(str).map((x) => Paciente.fromJson(x)));
