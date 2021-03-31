@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:satpj_front_end_web/src/constants.dart';
-import 'package:satpj_front_end_web/src/modelo/comprobante_pago.dart';
+import 'package:satpj_front_end_web/src/model/comprobante_pago.dart';
 import 'package:satpj_front_end_web/src/providers/provider_paquete_sesion.dart';
 import 'package:satpj_front_end_web/src/utils/tema.dart';
 import 'package:satpj_front_end_web/src/utils/validators/validadores-input.dart';

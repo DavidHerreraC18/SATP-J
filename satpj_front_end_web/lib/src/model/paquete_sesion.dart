@@ -17,8 +17,10 @@ class PaqueteSesion{
   ComprobantePago comprobantePago;
   int cantidadSesiones;
   double total;
+  DateTime fecha;
 
   PaqueteSesion({
+    this.fecha,
     this.id,
     this.paciente,
     this.comprobantePago,

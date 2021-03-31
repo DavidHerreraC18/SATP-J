@@ -7,8 +7,6 @@ import 'package:satpj_front_end_web/src/model/supervisor.dart';
 import 'package:satpj_front_end_web/src/model/usuario.dart';
 import 'dart:convert';
 
-import 'package:satpj_front_end_web/src/modelo/formulario.dart';
-
 List<Paciente> pacienteFromJson(String str) =>
     List<Paciente>.from(json.decode(str).map((x) => Paciente.fromJson(x)));
 
