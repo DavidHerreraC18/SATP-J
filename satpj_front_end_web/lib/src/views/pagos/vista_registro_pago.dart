@@ -118,6 +118,7 @@ class _FormularioRegistroPagoState extends State<FormularioRegistroPago> {
         Dropdown(
           textController: textControllerPaquetes,
           hintText: 'Paquetes',
+          values: paquetesSesiones,
           validate: () {
             return ValidadoresInput.validateEmpty(textControllerPaquetes.text,
                 'Seleccione un paquete de sesiones', '');

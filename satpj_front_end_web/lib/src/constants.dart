@@ -4,10 +4,10 @@ import 'package:intl/intl.dart';
 import 'package:satpj_front_end_web/src/utils/tema.dart';
 
 
-const kTtipoDocumento = ['Cédula de Ciudadanía', 'Tarjeta de Identidad', 'Cédula de Extranjería', 'Pasaporte'];
-const kInstituciones = [ 'Institución educativa', 'Entidades estatales (ICBF, Comisaría de Familia)', 'Especialista o institución de salud',
+const kTtipoDocumento = ['Seleccione','Cédula de Ciudadanía', 'Tarjeta de Identidad', 'Cédula de Extranjería', 'Pasaporte'];
+const kInstituciones = [ 'Seleccione','Institución educativa', 'Entidades estatales (ICBF, Comisaría de Familia)', 'Especialista o institución de salud',
 	'Familia',
-	'Otra ¿Cuál?'
+	'Otra'
 ];
 const kEstratoSocioeconomico = ['1','2','3','4','5','6'];
 
@@ -20,15 +20,28 @@ var currencyformatPesosColombianos = CurrencyTextInputFormatter(
               symbol: 'COP'
 );
 
-InputDecoration inputDecoration =  InputDecoration(
+inputDecoration({bool enabled = true}){
+  return InputDecoration(  
           labelStyle: TextStyle(fontWeight: FontWeight.normal, fontSize: 18.0),
          contentPadding:
              EdgeInsets.symmetric(vertical: 10.0, horizontal: 20.0),
          border: borderField(),
-         enabledBorder: enabledBorderField(),
-         focusedBorder: focusedBorderField(),
+         enabledBorder: enabledBorderField(enabled: enabled),
+         focusedBorder: focusedBorderField(enabled: enabled),
          
-  );
+   );
+}
+
+InputDecoration datePickerDecoration = InputDecoration(
+         labelStyle: TextStyle(fontWeight: FontWeight.normal, fontSize: 18.0),
+         enabledBorder: OutlineInputBorder(
+           borderSide:
+               BorderSide(color: kPrimaryColor, width: 1.5),
+         ),
+         focusedBorder:  OutlineInputBorder(
+           borderSide: BorderSide(color: kPrimaryColor, width: 2.0),       
+         )
+);
 
 OutlineInputBorder borderField(){
     return OutlineInputBorder(
@@ -37,17 +50,18 @@ OutlineInputBorder borderField(){
 }
 
 
-OutlineInputBorder enabledBorderField(){
+OutlineInputBorder enabledBorderField({bool enabled = true}){
     return OutlineInputBorder(
            borderSide:
-               BorderSide(color: kPrimaryColor, width: 1.5),
+               BorderSide(color: enabled ? kPrimaryColor : Colors.grey[400], width: 1.5),
            borderRadius: BorderRadius.all(Radius.circular(8.0)),
          );
 }
 
-OutlineInputBorder  focusedBorderField(){
+OutlineInputBorder  focusedBorderField({bool enabled = true}){
     return OutlineInputBorder(
-           borderSide: BorderSide(color: kPrimaryColor, width: 2.0),
+           borderSide: BorderSide(color: enabled ? kPrimaryColor : Colors.grey[400], width: 2.0),
            borderRadius: BorderRadius.all(Radius.circular(8.0)),
          );
 }
+

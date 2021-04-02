@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import "package:intl/intl.dart";
-import 'package:satpj_front_end_web/src/utils/validators/validadores-input.dart';
 
 import '../../constants.dart';
 
@@ -12,13 +10,14 @@ class RoundedTextField extends StatefulWidget {
   TextInputType type;
   List<TextInputFormatter> formatter;
   String validationText;
+  bool enabled;
 
   RoundedTextField(
       {this.hintText,
       this.onChangedF,
       this.type,
       this.formatter,
-      this.validationText});
+      this.validationText, this.enabled = true});
 
   @override
   _RoundedTextFieldState createState() => _RoundedTextFieldState();
@@ -32,7 +31,7 @@ class _RoundedTextFieldState extends State<RoundedTextField> {
         onChanged: widget.onChangedF,
         keyboardType: widget.type,
         inputFormatters: widget.formatter,
-        decoration: inputDecoration,
+        decoration: inputDecoration(enabled: widget.enabled),
         validator: (value) {
           if (value.isEmpty) {
             return widget.validationText;
@@ -51,7 +50,8 @@ class RoundedTextFieldValidators extends StatefulWidget {
   final String hintText;
   bool numberFormat;
   List<TextInputFormatter> formatter;
-
+  bool enabled;
+  
   RoundedTextFieldValidators(
       {this.textFocusNode,
       this.textInputType,
@@ -60,7 +60,8 @@ class RoundedTextFieldValidators extends StatefulWidget {
       this.validate,
       this.hintText,
       this.numberFormat,
-      this.formatter});
+      this.formatter,
+      this.enabled = true});
 
   @override
   _RoundedTextFieldValidatorsState createState() =>
@@ -78,6 +79,7 @@ class _RoundedTextFieldValidatorsState
       inputFormatters: widget.formatter,
       controller: widget.textController,
       autofocus: false,
+      enabled: widget.enabled ,
       onChanged: (value) {
         setState(() {
           widget.isEditing = true;

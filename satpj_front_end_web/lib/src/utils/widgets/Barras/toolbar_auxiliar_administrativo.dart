@@ -217,7 +217,7 @@ AppBar toolbarAuxiliarAdministrativo(BuildContext context) {
 
                   case 3:
                     {
-                      Navigator.pushNamed(context, "aprobar-paciente");
+                      Navigator.pushNamed(context, "prepaciente");
                     }
                     break;
 
