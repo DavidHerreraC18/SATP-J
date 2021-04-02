@@ -1,9 +1,12 @@
+import 'dart:typed_data';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:satpj_front_end_web/src/constants.dart';
 import 'package:satpj_front_end_web/src/modelo/paciente.dart';
 import 'package:satpj_front_end_web/src/utils/tema.dart';
 import 'package:satpj_front_end_web/src/utils/widgets/Barras/toolbar_inicio.dart';
+import 'package:satpj_front_end_web/src/utils/widgets/Firmas/pad_firmas.dart';
 import 'package:satpj_front_end_web/src/utils/widgets/button-forms.dart';
 import 'package:satpj_front_end_web/src/utils/widgets/dropdown.dart';
 import 'package:satpj_front_end_web/src/utils/widgets/rounded_text_field.dart';
@@ -15,7 +18,7 @@ import 'package:flutter_icons/flutter_icons.dart';
 final PageController pageCtrlr = new PageController();
 int currentContainer = 0;
 bool _success = true;
-final int numberOfContainers = 4;
+final int numberOfContainers = 5;
 
 void changeContainer() {
   if (currentContainer + 1 > numberOfContainers - 1) return;
@@ -80,7 +83,8 @@ class DialogoConsentimientoPrincipalState
                         PrimeraPaginaConsentimientoPrincipal(),
                         SegundaPaginaConsentimientoPrincipal(),
                         TerceraPaginaConsentimientoPrincipal(),
-                        CuartaPaginaConsentimientoPrincipal()
+                        CuartaPaginaConsentimientoPrincipal(),
+                        QuintaPaginaConsentimientoPrincipal()
                       ],
                       onPageChanged: (int index) =>
                           setState(() => currentContainer = index),
@@ -134,7 +138,7 @@ class PrimeraPaginaConsentimientoPrincipalState
             Text(
               "Introduccion",
               textAlign: TextAlign.center,
-              style: TextStyle(color: Color(0xFF2E5EAA), fontSize: 25),
+              style: TextStyle(color: kPrimaryColor, fontSize: 25),
             ),
             SizedBox(width: 50),
             Text(
@@ -216,7 +220,7 @@ class SegundaPaginaConsentimientoPrincipalState
             Text(
               "Información General",
               textAlign: TextAlign.center,
-              style: TextStyle(color: Color(0xFF2E5EAA), fontSize: 25),
+              style: TextStyle(color: kPrimaryColor, fontSize: 25),
             ),
             SizedBox(width: 50),
             Text("¿Qué es?",
@@ -328,7 +332,7 @@ class TerceraPaginaConsentimientoPrincipalState
                 IconButton(
                     icon: Icon(
                       Icons.cancel,
-                      color: Color(0xFF2E5EAA),
+                      color: kPrimaryColor,
                     ),
                     onPressed: () {
                       Navigator.pop(context);
@@ -338,7 +342,7 @@ class TerceraPaginaConsentimientoPrincipalState
             Text(
               "Autorización",
               textAlign: TextAlign.center,
-              style: TextStyle(color: Color(0xFF2E5EAA), fontSize: 25),
+              style: TextStyle(color: kPrimaryColor, fontSize: 25),
             ),
             SizedBox(width: 50),
             Text(
@@ -354,7 +358,7 @@ class TerceraPaginaConsentimientoPrincipalState
               ),
               child: Material(
                 borderRadius: BorderRadius.circular(30),
-                color: Color(0xFF2E5EAA),
+                color: kPrimaryColor,
                 child: MaterialButton(
                   onPressed: () {
                     changeContainer();
@@ -391,22 +395,34 @@ class CuartaPaginaConsentimientoPrincipal extends StatefulWidget {
   }
 }
 
-enum Pregunta1 { Si, No }
-enum Pregunta2 { Si, No }
-enum Pregunta3 { Si, No }
-enum Pregunta4 { Si, No }
-enum Pregunta5 { Si, No }
-enum Pregunta6 { Si, No }
-enum Pregunta7 { Si, No }
-enum Pregunta8 { Si, No }
-enum Pregunta9 { Si, No }
-enum Pregunta10 { Si, No }
+enum Pregunta { Si, No, Unchecked }
+List<Pregunta> radioValues = [];
 
 class CuartaPaginaConsentimientoPrincipalState
     extends State<CuartaPaginaConsentimientoPrincipal> {
-  Pregunta1 resp_preg1;
+  final myController = TextEditingController();
+
+  void llenarRespuestas() {
+    for (int i = 0; i < 10; i++) {
+      radioValues.add(Pregunta.Unchecked);
+    }
+  }
+
+  bool validarInput() {
+    if (myController.text.isEmpty || myController.text == null) {
+      return false;
+    }
+    for (int i = 0; i < 10; i++) {
+      if (radioValues[i] == Pregunta.Unchecked) {
+        return false;
+      }
+    }
+    return true;
+  }
+
   @override
   Widget build(BuildContext context) {
+    llenarRespuestas();
     return Material(
         child: SingleChildScrollView(
       scrollDirection: Axis.vertical,
@@ -422,7 +438,7 @@ class CuartaPaginaConsentimientoPrincipalState
                 IconButton(
                     icon: Icon(
                       Icons.cancel,
-                      color: Color(0xFF2E5EAA),
+                      color: kPrimaryColor,
                     ),
                     onPressed: () {
                       Navigator.pop(context);
@@ -432,7 +448,7 @@ class CuartaPaginaConsentimientoPrincipalState
             Text(
               "Declaración",
               textAlign: TextAlign.center,
-              style: TextStyle(color: Color(0xFF2E5EAA), fontSize: 25),
+              style: TextStyle(color: kPrimaryColor, fontSize: 25),
             ),
             SizedBox(width: 50),
             Text(
@@ -440,6 +456,7 @@ class CuartaPaginaConsentimientoPrincipalState
                 textAlign: TextAlign.justify,
                 style: TextStyle(fontSize: 15)),
             TextField(
+              controller: myController,
               decoration: InputDecoration(
                 border: OutlineInputBorder(),
                 labelText: 'Ingrese Lugar de Expedición de su Documento',
@@ -452,51 +469,67 @@ class CuartaPaginaConsentimientoPrincipalState
                 textAlign: TextAlign.justify,
                 style: TextStyle(fontSize: 15)),
             SizedBox(height: 50),
-            Container(
-                child: Column(
-              children: [
-                Text(
-                    "He comprendido la naturaleza y propósitos de la intervención a la que libre, consciente y voluntariamente me someto y en consecuencia hago las siguientes declaraciones:",
-                    textAlign: TextAlign.justify,
-                    style: TextStyle(fontSize: 15)),
-                Container(
-                  child: Row(
-                    children: [
-                      Text("Si",
-                          textAlign: TextAlign.justify,
-                          style: TextStyle(fontSize: 15)),
-                      Radio<Pregunta1>(
-                        value: Pregunta1.Si,
-                        groupValue: resp_preg1,
-                        onChanged: (Pregunta1 value) {
-                          setState(() {
-                            resp_preg1 = value;
-                          });
-                        },
-                      ),
-                    ],
-                  ),
-                ),
-                Container(
-                  child: Row(
-                    children: [
-                      Text("No",
-                          textAlign: TextAlign.center,
-                          style: TextStyle(fontSize: 15)),
-                      Radio<Pregunta1>(
-                        value: Pregunta1.No,
-                        groupValue: resp_preg1,
-                        onChanged: (Pregunta1 value) {
-                          setState(() {
-                            resp_preg1 = value;
-                          });
-                        },
-                      ),
-                    ],
-                  ),
-                )
-              ],
-            )),
+            _preguntas(
+                "Que acepto la realización del proceso que me ha sido ampliamente explicado, así como de las intervenciones o modificaciones de conducta que pudieren surgir durante la intervención.",
+                0),
+            Divider(
+              height: 1,
+            ),
+            _preguntas(
+                "Que acepto la toma de grabación en audios o videos durante la intervención, con el propósito y bajo las condiciones informadas.",
+                1),
+            Divider(
+              height: 1,
+            ),
+            _preguntas(
+                "Que entiendo la naturaleza docente del consultorio, que el tratamiento sea atendido por un practicante perteneciente a Consultores en Psicología.",
+                2),
+            Divider(
+              height: 1,
+            ),
+            _preguntas(
+                "Que he sido informado del derecho que tengo a retirarme del proceso si lo estimo conveniente.",
+                3),
+            Divider(
+              height: 1,
+            ),
+            _preguntas(
+                "Que he sido informado de la necesidad de quebrantar el principio de confidencialidad en caso presentarse situaciones que pongan en grave peligro mi integridad física o mental o de algún miembro de la comunidad.",
+                4),
+            Divider(
+              height: 1,
+            ),
+            _preguntas(
+                "Que acepto pueda eventualmente formar parte de investigaciones científicas que aporten al conocimiento e intervención del bienestar psicológico de la comunidad, guardando absoluto rigor en la confidencialidad de los datos personales y de identificación.",
+                5),
+            Divider(
+              height: 1,
+            ),
+            _preguntas(
+                "Que autorizo al practicante para que consulte mi caso con otros profesionales de la Institución o terceros expertos, o ser remitido a consulta con especialista para brindar el mejor tratamiento posiblee.",
+                6),
+            Divider(
+              height: 1,
+            ),
+            _preguntas(
+                "Que entiendo y acepto que el tratamiento al que seré sometido es llevado a cabo atendiendo el mejor esfuerzo del practicante y del grupo de profesionales y que en unos casos funciona mejor que en otros.",
+                7),
+            Divider(
+              height: 1,
+            ),
+            _preguntas(
+                "Que manifiesto que he leído y comprendido íntegramente este documento y en consecuencia acepto su contenido y las consecuencias que de él se deriven.",
+                8),
+            Divider(
+              height: 1,
+            ),
+            _preguntas(
+                "Que he sido informado que en cualquier momento podré revocar la autorización explícita y previa concedida mediante la suscripción del presente documento.",
+                9),
+            Divider(
+              height: 1,
+            ),
+            SizedBox(width: 50),
             Container(
               height: 50,
               width: 235,
@@ -508,14 +541,19 @@ class CuartaPaginaConsentimientoPrincipalState
                 color: Color(0xFF2E5EAA),
                 child: MaterialButton(
                   onPressed: () {
-                    changeContainer();
+                    if (validarInput()) {
+                      changeContainer();
+                    } else {
+                      ScaffoldMessenger.of(context).showSnackBar(
+                          SnackBar(content: Text('Processing Data')));
+                    }
                   },
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       Expanded(
                           child: Text(
-                        "Entiendo",
+                        "Confirmar",
                         textAlign: TextAlign.center,
                         style: TextStyle(
                           fontSize: 20,
@@ -533,4 +571,158 @@ class CuartaPaginaConsentimientoPrincipalState
       ),
     ));
   }
+
+  ListView _preguntas(String pregunta, int numPregu) => ListView(
+        shrinkWrap: true,
+        children: [
+          Container(
+              child: Column(
+            children: [
+              Text(pregunta,
+                  textAlign: TextAlign.justify, style: TextStyle(fontSize: 15)),
+              Container(
+                alignment: Alignment.centerRight,
+                child:
+                    Row(mainAxisAlignment: MainAxisAlignment.center, children: [
+                  Column(
+                    children: [
+                      Text("Si", style: TextStyle(fontSize: 15)),
+                      Radio<Pregunta>(
+                        value: Pregunta.Si,
+                        groupValue: radioValues[numPregu],
+                        onChanged: (Pregunta value) {
+                          setState(() {
+                            radioValues[numPregu] = value;
+                          });
+                        },
+                      ),
+                    ],
+                  ),
+                  Column(
+                    children: [
+                      Text("No", style: TextStyle(fontSize: 15)),
+                      Radio<Pregunta>(
+                        value: Pregunta.No,
+                        groupValue: radioValues[numPregu],
+                        onChanged: (Pregunta value) {
+                          setState(() {
+                            radioValues[numPregu] = value;
+                          });
+                        },
+                      ),
+                    ],
+                  ),
+                ]),
+              ),
+            ],
+          )),
+        ],
+      );
+}
+
+class QuintaPaginaConsentimientoPrincipal extends StatefulWidget {
+  @override
+  QuintaPaginaConsentimientoPrincipalState createState() {
+    return QuintaPaginaConsentimientoPrincipalState();
+  }
+}
+
+class QuintaPaginaConsentimientoPrincipalState
+    extends State<QuintaPaginaConsentimientoPrincipal> {
+  Uint8List _signatureData;
+  bool _isSigned = false;
+
+  callBack(Uint8List _signatureData, bool _isSigned) {
+    this._signatureData = _signatureData;
+    this._isSigned = _isSigned;
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Material(
+        child: SingleChildScrollView(
+      scrollDirection: Axis.vertical,
+      child: Container(
+        color: Colors.white,
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                SizedBox.shrink(),
+                IconButton(
+                    icon: Icon(
+                      Icons.cancel,
+                      color: kPrimaryColor,
+                    ),
+                    onPressed: () {
+                      Navigator.pop(context);
+                    })
+              ],
+            ),
+            Text(
+              "Firma",
+              textAlign: TextAlign.center,
+              style: TextStyle(color: kPrimaryColor, fontSize: 25),
+            ),
+            SizedBox(width: 50),
+            PadFirmas(callBack),
+            SizedBox(width: 50),
+            Container(
+              height: 50,
+              width: 235,
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(30),
+              ),
+              child: Material(
+                borderRadius: BorderRadius.circular(30),
+                color: kPrimaryColor,
+                child: MaterialButton(
+                  onPressed: () {
+                    currentContainer = 0;
+                    print(_isSigned);
+                    print(_signatureData);
+                    if (_isSigned) {
+                      ScaffoldMessenger.of(context).showSnackBar(
+                          SnackBar(content: Text('Processing Data')));
+                    }
+                  },
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Expanded(
+                          child: Text(
+                        "Completar",
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                          fontSize: 20,
+                          color: Colors.white,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ))
+                    ],
+                  ),
+                ),
+              ),
+            )
+          ],
+        ),
+      ),
+    ));
+  }
+
+  void completarConsentimientoPrincipal() {}
+}
+
+class InfoPacientePrincipal {
+  String nombre;
+  String edad;
+  String fecha;
+  String cedula;
+  List<String> respuestas = [];
+  Uint8List _signatureData;
+
+  InfoPacientePrincipal(this.nombre, this.edad, this.fecha, this.cedula,
+      this.respuestas, this._signatureData);
 }
