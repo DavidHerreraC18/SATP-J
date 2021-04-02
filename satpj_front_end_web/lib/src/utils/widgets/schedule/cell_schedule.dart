@@ -10,6 +10,7 @@ class CellSchedule extends StatefulWidget {
   Map<String, String> diaHora;
   List<Map<String, String>> horario = [];
   bool selected;
+  //double height;
   CellSchedule({this.label = '', this.colorDay, this.colorSelected: kAccentColor, this.diaHora, this.horario, this.selected = false});
 
   @override

@@ -24,6 +24,7 @@ Horario _$HorarioFromJson(Map<String, dynamic> json) {
 Map<String, dynamic> _$HorarioToJson(Horario instance) => <String, dynamic>{
       'id': instance.id,
       'usuario': instance.usuario?.toJson(),
+      'opcion': instance.opcion,
       'lunes': instance.lunes,
       'martes': instance.martes,
       'miercoles': instance.miercoles,

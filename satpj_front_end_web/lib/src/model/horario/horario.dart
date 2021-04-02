@@ -18,6 +18,8 @@ class Horario{
   int id;
 
   Usuario usuario;
+  
+  String opcion;
 
   String lunes;
 
