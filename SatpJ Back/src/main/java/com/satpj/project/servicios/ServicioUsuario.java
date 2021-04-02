@@ -103,6 +103,7 @@ public class ServicioUsuario {
         uActualizar.setTipoDocumento(usuario.getTipoDocumento());
         uActualizar.setDocumento(usuario.getDocumento());
         uActualizar.setEmail(usuario.getEmail());
+        uActualizar.setDireccion(usuario.getDireccion());
 
         repositorioUsuario.save(uActualizar);
     }

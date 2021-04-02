@@ -5,6 +5,7 @@ import 'package:satpj_front_end_web/src/utils/widgets/Barras/toolbar_inicio.dart
 import 'package:satpj_front_end_web/src/utils/widgets/button-forms.dart';
 import 'package:satpj_front_end_web/src/utils/widgets/dropdown.dart';
 import 'package:satpj_front_end_web/src/utils/widgets/rounded_text_field.dart';
+import 'package:satpj_front_end_web/src/utils/widgets/tema-formularios.dart';
 import 'package:satpj_front_end_web/src/views/register/pre_register_page_2.dart';
 
 import '../../constants.dart';
@@ -13,7 +14,7 @@ class PreRegisterPage3 extends StatefulWidget {
   
   final Paciente paciente;
 
-  final route = '/pre-registro-3';
+  static const route = '/pre-registro-3';
 
   PreRegisterPage3({this.paciente});
 
@@ -31,14 +32,17 @@ class _PreRegisterPage3State extends State<PreRegisterPage3> {
           children: [
             Column(
               children: [
-                Card(
+                Theme(
+                data: temaFormularios(),
+                child: Card(
                   margin: EdgeInsets.only(
-                      right: 400.0, left: 400.0, top: 20.0, bottom: 20.0),
+                      right: 100.0, left: 100.0, top: 20.0, bottom: 20.0),
                   elevation: 25.0,
                   child: Padding(
                     padding: EdgeInsets.all(40.0),
-                    child: Container(width: 500, child: RegisterForm()),
+                    child: Container(width: 700, child: RegisterForm()),
                   ),
+                 )
                 )
               ],
             ),
@@ -127,7 +131,7 @@ class RegisterFormState extends State<RegisterForm> {
             children: remitido
                 ? [
                     Text(
-                      'Fue remitido por',
+                      'Fue remitido por:',
                       textAlign: TextAlign.left,
                       style: TextStyle(fontSize: 18.0),
                     ),
@@ -138,7 +142,7 @@ class RegisterFormState extends State<RegisterForm> {
                         height: 50.0,
                         child: Dropdown(
                             values: kInstituciones,
-                            cualSelected: cualRemision)),
+                           )),
                   ]
                 : [],
           ),
@@ -165,7 +169,24 @@ class RegisterFormState extends State<RegisterForm> {
             height: 20.0,
           ),
           Text(
-            'Ha recibido atención por psicológia o psiquiatría:',
+            'Motivo de la consulta',
+            textAlign: TextAlign.left,
+            style: TextStyle(fontSize: 18.0),
+          ),
+          SizedBox(
+            height: 8.0,
+          ),
+          Container(
+            child: RoundedTextField(
+              hintText: 'Motivo de la consulta',
+              type: TextInputType.text,
+            ),
+          ),
+          SizedBox(
+            height: 20.0,
+          ),
+          Text(
+            'Anteriormente ha recibido atención por psicológia o psiquiatría:',
             textAlign: TextAlign.left,
             style: TextStyle(fontSize: 18.0),
           ),
@@ -245,30 +266,21 @@ class RegisterFormState extends State<RegisterForm> {
           SizedBox(
             height: 20.0,
           ),
-          Text(
-            'Motivo de la consulta',
-            textAlign: TextAlign.left,
-            style: TextStyle(fontSize: 18.0),
-          ),
-          SizedBox(
-            height: 8.0,
-          ),
-          Container(
-            height: 400.0,
-            child: RoundedTextField(
-              hintText: 'Motivo de la consulta',
-              type: TextInputType.text,
-            ),
-          ),
           SizedBox(
             height: 20.0,
           ),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-               Container(
-                height: 40.0,
-                child: ButtonForms(formKey: _formKey, label:'Atrás', color: Colors.black38, route: PreRegisterPage2().route),
+              Container(
+                  width: 110.0,
+                  height: 40.0,
+                  child: ButtonForms(
+                    formKey: _formKey,
+                    label: 'Atras',
+                    color: Colors.grey[600],
+                    route: PreRegisterPage2.route,
+                  ),
               ),
               Container(
                 height: 40.0,

@@ -6,11 +6,21 @@ import '../../constants.dart';
 // ignore: must_be_immutable
 class Dropdown extends StatefulWidget {
   
-  bool cualSelected;
   List<String> values = [];
   Function onChanged;
-  
-  Dropdown({this.values, this.cualSelected});
+  dynamic selected;
+  FocusNode textFocusNode;
+  TextInputType textInputType;
+  TextEditingController textController;
+  bool isEditing;
+  Function validate;
+  String hintText;
+
+  Dropdown({this.values, this.onChanged, this.selected,
+      this.textController,
+      this.hintText,
+      this.validate
+  });
 
   @override
   _DropdownState createState() => _DropdownState();
@@ -18,32 +28,28 @@ class Dropdown extends StatefulWidget {
 
 /// This is the private State class that goes with MyStatefulWidget.
 class _DropdownState extends State<Dropdown> {
-  String selectedValue;
-
+  
   @override
   Widget build(BuildContext context) {
-    return  OutlineDropdownButton( 
-      inputDecoration: getInputDecoration(''),
-      value: selectedValue = widget.values.first,
+    return  DropdownButtonFormField<String>( 
       iconSize: 24,
-      elevation: 16,           
-      isExpanded : true,
-      style: TextStyle(color: Colors.black87, fontSize: 14.0),
-      onChanged: (newValue) {
-        setState(() {
-          selectedValue = newValue;
-          if(newValue == kInstituciones.last){
-              //widget.cualSelected = true;
-          }
-          //widget.onChanged();
-        });
-      },
-      items: widget.values.map<DropdownMenuItem<String>>((String value) {
-        return DropdownMenuItem<String>(
+      elevation: 16,
+      hint: Text(widget.hintText), 
+      decoration: inputDecoration,          
+      style: TextStyle(color: Colors.black87, fontSize: 17.0, fontFamily: 'Dubai'),
+      items: ['One', 'Two', 'Free', 'Four'].map((value) => 
+        DropdownMenuItem(
           value: value,
           child: Text(value),
-        );
-      }).toList(),
+        )
+      ).toList(),
+      onChanged: (value) {
+        setState(() {
+          widget.textController.text = value;
+        });
+      }, 
+     //autovalidateMode: AutovalidateMode.,
+     validator: (value) => value == null ? widget.validate() : null,
     );
   }
 }

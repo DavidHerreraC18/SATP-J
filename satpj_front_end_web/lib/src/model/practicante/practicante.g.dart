@@ -30,6 +30,7 @@ Practicante _$PracticanteFromJson(Map<String, dynamic> json) {
     email: json['email'] as String,
     telefono: json['telefono'] as String,
     tipoUsuario: json['tipoUsuario'] as String,
+    direccion: json['direccion'] as String,
     infoSesion: json['infoSesion'] as String,
     practicante: (json['practicante'] as List)
         ?.map((e) => e == null
@@ -57,6 +58,7 @@ Map<String, dynamic> _$PracticanteToJson(Practicante instance) =>
       'email': instance.email,
       'telefono': instance.telefono,
       'tipoUsuario': instance.tipoUsuario,
+      'direccion': instance.direccion,
       'infoSesion': instance.infoSesion,
       'practicante': instance.practicante?.map((e) => e?.toJson())?.toList(),
       'pregrado': instance.pregrado,

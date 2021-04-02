@@ -30,6 +30,7 @@ Paciente _$PacienteFromJson(Map<String, dynamic> json) {
     email: json['email'] as String,
     telefono: json['telefono'] as String,
     tipoUsuario: json['tipoUsuario'] as String,
+    direccion: json['direccion'] as String,
     infoSesion: json['infoSesion'] as String,
     supervisor: json['supervisor'] == null
         ? null
@@ -79,6 +80,7 @@ Map<String, dynamic> _$PacienteToJson(Paciente instance) => <String, dynamic>{
       'email': instance.email,
       'telefono': instance.telefono,
       'tipoUsuario': instance.tipoUsuario,
+      'direccion': instance.direccion,
       'infoSesion': instance.infoSesion,
       'supervisor': instance.supervisor?.toJson(),
       'grupo': instance.grupo?.toJson(),

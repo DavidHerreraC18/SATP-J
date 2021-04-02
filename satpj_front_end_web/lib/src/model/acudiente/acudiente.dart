@@ -18,12 +18,10 @@ String acudienteToJson(List<Acudiente> data) =>
 
 @JsonSerializable(explicitToJson: true)
 class Acudiente extends Usuario {
-
   Paciente paciente;
 
   Acudiente(
-      {
-      String id,
+      {String id,
       List<SesionUsuario> sesiones,
       List<AlertaUsuario> alertasUsuario,
       List<Horario> horarios,
@@ -34,6 +32,7 @@ class Acudiente extends Usuario {
       String email,
       String telefono,
       String tipoUsuario,
+      String direccion,
       String infoSesion,
       this.paciente})
       : super(
@@ -48,6 +47,7 @@ class Acudiente extends Usuario {
             email: email,
             telefono: telefono,
             tipoUsuario: tipoUsuario,
+            direccion: direccion,
             infoSesion: infoSesion);
 
   factory Acudiente.fromJson(Map<String, dynamic> json) =>

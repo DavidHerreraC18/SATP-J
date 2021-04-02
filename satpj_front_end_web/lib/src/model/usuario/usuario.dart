@@ -1,4 +1,3 @@
-
 import 'package:json_annotation/json_annotation.dart';
 import 'package:satpj_front_end_web/src/model/alerta/alerta_usuario.dart';
 import 'package:satpj_front_end_web/src/model/horario/horario.dart';
@@ -14,7 +13,7 @@ List<Usuario> usuarioFromJson(String str) =>
 String usuarioToJson(List<Usuario> data) =>
     json.encode(List<dynamic>.from(data.map((x) => x.toJson())));
 
-Usuario singleUsuarioFromJson(String str){
+Usuario singleUsuarioFromJson(String str) {
   print("ENTRA A LA FUNCION");
   final mapa = json.decode(str);
   print("hace el decode");
@@ -26,33 +25,34 @@ Usuario singleUsuarioFromJson(String str){
 
 @JsonSerializable(explicitToJson: true)
 class Usuario {
+  String id;
 
-    String id;
+  List<SesionUsuario> sesiones;
 
-    List<SesionUsuario> sesiones;
+  List<AlertaUsuario> alertasUsuario;
 
-    List<AlertaUsuario> alertasUsuario;
+  List<Horario> horarios;
 
-    List<Horario> horarios;
+  String documento;
 
-    String documento;
+  String tipoDocumento;
 
-    String tipoDocumento;
+  String nombre;
 
-    String nombre;
+  String apellido;
 
-    String apellido;
+  String email;
 
-    String email;
+  String telefono;
 
-    String telefono;
+  String tipoUsuario;
 
-    String tipoUsuario;
-    
-    String infoSesion;
+  String direccion;
 
-    Usuario({
-      this.id,
+  String infoSesion;
+
+  Usuario(
+      {this.id,
       this.sesiones,
       this.alertasUsuario,
       this.horarios,
@@ -63,10 +63,11 @@ class Usuario {
       this.email,
       this.telefono,
       this.tipoUsuario,
-      this.infoSesion
-    });
-    
-  factory Usuario.fromJson(Map<String, dynamic> json) => _$UsuarioFromJson(json);
+      this.direccion,
+      this.infoSesion});
 
-  Map<String, dynamic> toJson() =>  _$UsuarioToJson(this);
+  factory Usuario.fromJson(Map<String, dynamic> json) =>
+      _$UsuarioFromJson(json);
+
+  Map<String, dynamic> toJson() => _$UsuarioToJson(this);
 }

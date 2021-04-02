@@ -18,6 +18,8 @@ PaqueteSesion _$PaqueteSesionFromJson(Map<String, dynamic> json) {
             json['comprobantePago'] as Map<String, dynamic>),
     cantidadSesiones: json['cantidadSesiones'] as int,
     total: (json['total'] as num)?.toDouble(),
+    fecha:
+        json['fecha'] == null ? null : DateTime.parse(json['fecha'] as String),
   );
 }
 
@@ -28,4 +30,5 @@ Map<String, dynamic> _$PaqueteSesionToJson(PaqueteSesion instance) =>
       'comprobantePago': instance.comprobantePago?.toJson(),
       'cantidadSesiones': instance.cantidadSesiones,
       'total': instance.total,
+      'fecha': instance.fecha?.toIso8601String(),
     };

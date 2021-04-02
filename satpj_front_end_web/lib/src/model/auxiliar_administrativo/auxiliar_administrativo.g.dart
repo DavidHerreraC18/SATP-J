@@ -31,6 +31,7 @@ AuxiliarAdministrativo _$AuxiliarAdministrativoFromJson(
     email: json['email'] as String,
     telefono: json['telefono'] as String,
     tipoUsuario: json['tipoUsuario'] as String,
+    direccion: json['direccion'] as String,
     infoSesion: json['infoSesion'] as String,
   );
 }
@@ -50,5 +51,6 @@ Map<String, dynamic> _$AuxiliarAdministrativoToJson(
       'email': instance.email,
       'telefono': instance.telefono,
       'tipoUsuario': instance.tipoUsuario,
+      'direccion': instance.direccion,
       'infoSesion': instance.infoSesion,
     };

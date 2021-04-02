@@ -12,7 +12,6 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.persistence.MapsId;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
@@ -51,5 +50,9 @@ public class PaqueteSesion {
     @NotNull(message = "El Total a pagar por el Paquete es obligatorio")
     @Column(name = "total", nullable = false)
     private double total;
+
+    @NotNull(message = "La fecha debe ser obligatoria")
+    @Column(name = "fecha", nullable = false)
+    private LocalDate fecha;
 
 }
