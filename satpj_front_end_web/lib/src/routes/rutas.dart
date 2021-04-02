@@ -13,7 +13,7 @@ import 'package:satpj_front_end_web/src/views/registro/vista_pre_registro_1.dart
 import 'package:satpj_front_end_web/src/views/registro/vista_pre_registro_2.dart';
 import 'package:satpj_front_end_web/src/views/registro/vista_pre_registro_3.dart';
 import 'package:satpj_front_end_web/src/views/vista_inicio.dart';
-import 'package:satpj_front_end_web/src/views/vista_preadminision_pacientes.dart';
+
 
 Map<String, WidgetBuilder> getAppRoutes() {
   return <String, WidgetBuilder>{
@@ -32,7 +32,7 @@ Map<String, WidgetBuilder> getAppRoutes() {
     VistaHorarioPracticanteOpcion1.route : (BuildContext context) => VistaHorarioPracticanteOpcion1(),
     VistaHorarioPracticanteOpcion2.route : (BuildContext context) => VistaHorarioPracticanteOpcion2(),
     VistaHorarioPracticanteOpcion3.route : (BuildContext context) => VistaHorarioPracticanteOpcion3(),
-    'prepaciente': (BuildContext context) => VistaPreadmision(),
+   
   };
 }
 
