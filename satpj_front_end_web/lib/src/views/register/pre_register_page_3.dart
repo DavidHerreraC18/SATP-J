@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:satpj_front_end_web/src/modelo/paciente.dart';
+import 'package:satpj_front_end_web/src/model/paciente/paciente.dart';
 import 'package:satpj_front_end_web/src/utils/tema.dart';
 import 'package:satpj_front_end_web/src/utils/widgets/Barras/toolbar_inicio.dart';
 import 'package:satpj_front_end_web/src/utils/widgets/button-forms.dart';
