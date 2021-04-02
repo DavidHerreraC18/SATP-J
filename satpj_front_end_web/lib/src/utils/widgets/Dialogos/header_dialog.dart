@@ -34,7 +34,11 @@ class _HeaderDialogState extends State<HeaderDialog> {
               ),
             ),
             IconButton(
-              icon: Icon(Icons.close, color: Colors.white),
+              icon: Icon(
+                Icons.close, 
+                color: Colors.white,
+                size: 20.0,
+                ),
               onPressed: () {
                 Navigator.pop(context);
               },

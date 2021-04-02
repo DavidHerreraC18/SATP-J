@@ -39,20 +39,10 @@ class _FotterDialogState extends State<FotterDialog> {
             children: [
               Container(
                 height: 35.0,
-                child: ElevatedButton(
-                  style: ButtonStyle(
-                    backgroundColor:
-                        MaterialStateProperty.all<Color>(widget.colorCancelBtn),
-                  ),
-                  onPressed: () {
-                    Navigator.pop(context);
-                  },
-                  child: Padding(
-                    padding: EdgeInsets.symmetric(vertical: 0.0),
-                    child: Text(widget.labelCancelBtn,
-                        style: TextStyle(
-                            fontSize: 18.0, fontWeight: FontWeight.normal)),
-                  ),
+                child: ButtonDialog(
+                  formKey: widget._formKey,
+                  label: widget.labelCancelBtn,
+                  color: widget.colorCancelBtn,
                 ),
               ),
               SizedBox(
