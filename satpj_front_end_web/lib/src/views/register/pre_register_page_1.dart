@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:satpj_front_end_web/src/constants.dart';
-import 'package:satpj_front_end_web/src/modelo/paciente.dart';
+import 'package:satpj_front_end_web/src/model/paciente/paciente.dart';
 import 'package:satpj_front_end_web/src/utils/tema.dart';
 import 'package:satpj_front_end_web/src/utils/widgets/Barras/toolbar_inicio.dart';
 import 'package:satpj_front_end_web/src/utils/widgets/button-forms.dart';
@@ -101,7 +101,7 @@ class RegisterFormState extends State<RegisterForm> {
                 print('hola');
                 print(paciente.tipoDocumento);
                 setState(() {
-                  paciente.apellidos = value;
+                  paciente.apellido = value;
                   print(paciente.tipoDocumento);
                 });
               },
@@ -122,7 +122,7 @@ class RegisterFormState extends State<RegisterForm> {
                 child: Dropdown(
                   values: kTtipoDocumento,
                   selected: paciente.documento,
-            )),
+                )),
             SizedBox(
               height: 20.0,
             ),
@@ -195,7 +195,7 @@ class RegisterFormState extends State<RegisterForm> {
               type: TextInputType.streetAddress,
               validationText: 'Debe ingresar su dirección',
               onChangedF: (value) {
-                    paciente.direccion = value;
+                paciente.direccion = value;
               },
             ),
             SizedBox(
@@ -214,7 +214,7 @@ class RegisterFormState extends State<RegisterForm> {
                 child: Dropdown(
                   values: kEstratoSocioeconomico,
                   selected: paciente.estrato,
-                  onChanged: (value){
+                  onChanged: (value) {
                     setState(() {
                       paciente.estrato = value;
                     });
@@ -234,7 +234,7 @@ class RegisterFormState extends State<RegisterForm> {
                     color: kPrimaryColor,
                     route: VistaRegistroPago.route,
                     arguments: paciente,
-                  ), 
+                  ),
                 ),
               ],
             ),

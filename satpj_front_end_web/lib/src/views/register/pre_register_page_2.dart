@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:satpj_front_end_web/src/constants.dart';
-import 'package:satpj_front_end_web/src/modelo/paciente.dart';
+import 'package:satpj_front_end_web/src/model/paciente/paciente.dart';
 import 'package:satpj_front_end_web/src/utils/tema.dart';
 import 'package:satpj_front_end_web/src/utils/widgets/Barras/toolbar_inicio.dart';
 import 'package:satpj_front_end_web/src/utils/widgets/button-forms.dart';
@@ -11,35 +11,30 @@ import 'package:satpj_front_end_web/src/utils/widgets/tema-formularios.dart';
 import 'package:satpj_front_end_web/src/views/register/pre_register_page_1.dart';
 import 'package:satpj_front_end_web/src/views/register/pre_register_page_3.dart';
 
-
-
 class PreRegisterPage2 extends StatefulWidget {
-  
   static const route = '/pre-registro-2';
- 
+
   PreRegisterPage2();
-    
+
   @override
   _PreRegisterPage2State createState() => _PreRegisterPage2State();
 }
 
 class _PreRegisterPage2State extends State<PreRegisterPage2> {
- 
   @override
   Widget build(BuildContext context) {
     final Paciente args = ModalRoute.of(context).settings.arguments;
-    print(args.nombre+args.apellidos+args.tipoDocumento);
+    print(args.nombre + args.apellido + args.tipoDocumento);
     return Scaffold(
         backgroundColor: kAccentColor,
         appBar: toolbarInicio(context),
-        
         body: ListView(
           children: [
             Column(
               children: [
                 Theme(
-                    data: temaFormularios(),
-                    child: Card(
+                  data: temaFormularios(),
+                  child: Card(
                     margin: EdgeInsets.only(
                         right: 100.0, left: 100.0, top: 20.0, bottom: 20.0),
                     elevation: 25.0,
@@ -87,17 +82,18 @@ class RegisterFormState extends State<RegisterForm> {
           left: 10,
           top: 7,
           child: Container(
-                    color: Colors.white, 
-                    child: Container(
-                      padding: EdgeInsets.symmetric(horizontal: 10.0),
-                      color: kPrimaryColor, 
-                      child: Text('Información de la madre o responsable',
-                       style: TextStyle(fontSize: 18.0, 
-                               color: Colors.white, 
-                               ),
-                               ),
-                    )
-                    ),
+              color: Colors.white,
+              child: Container(
+                padding: EdgeInsets.symmetric(horizontal: 10.0),
+                color: kPrimaryColor,
+                child: Text(
+                  'Información de la madre o responsable',
+                  style: TextStyle(
+                    fontSize: 18.0,
+                    color: Colors.white,
+                  ),
+                ),
+              )),
         ),
         Container(
           margin: EdgeInsets.symmetric(vertical: 35.0, horizontal: 5.0),
@@ -188,24 +184,22 @@ class RegisterFormState extends State<RegisterForm> {
                 'Télefono',
                 textAlign: TextAlign.left,
                 style: TextStyle(fontSize: 18.0),
-                
               ),
               SizedBox(
                 height: 8.0,
               ),
               RoundedTextField(
-                hintText: 'Télefono',
-                type: TextInputType.number,
-                formatter: <TextInputFormatter>[
-                  FilteringTextInputFormatter.digitsOnly
-                ]
-              ),
+                  hintText: 'Télefono',
+                  type: TextInputType.number,
+                  formatter: <TextInputFormatter>[
+                    FilteringTextInputFormatter.digitsOnly
+                  ]),
             ],
           ),
         ),
       ],
     );
-    
+
     var stackPadre = Stack(
       children: [
         Container(
@@ -226,17 +220,18 @@ class RegisterFormState extends State<RegisterForm> {
           left: 10,
           top: 7,
           child: Container(
-                    color: Colors.white, 
-                    child: Container(
-                      padding: EdgeInsets.symmetric(horizontal: 10.0),
-                      color: kPrimaryColor, 
-                      child: Text('Información del padre o responsable',
-                       style: TextStyle(fontSize: 18.0, 
-                               color: Colors.white, 
-                               ),
-                               ),
-                    )
-                    ),
+              color: Colors.white,
+              child: Container(
+                padding: EdgeInsets.symmetric(horizontal: 10.0),
+                color: kPrimaryColor,
+                child: Text(
+                  'Información del padre o responsable',
+                  style: TextStyle(
+                    fontSize: 18.0,
+                    color: Colors.white,
+                  ),
+                ),
+              )),
         ),
         Container(
           margin: EdgeInsets.symmetric(vertical: 35.0, horizontal: 5.0),
@@ -327,18 +322,16 @@ class RegisterFormState extends State<RegisterForm> {
                 'Télefono',
                 textAlign: TextAlign.left,
                 style: TextStyle(fontSize: 18.0),
-                
               ),
               SizedBox(
                 height: 8.0,
               ),
               RoundedTextField(
-                hintText: 'Télefono',
-                type: TextInputType.number,
-                formatter: <TextInputFormatter>[
-                  FilteringTextInputFormatter.digitsOnly
-                ]
-              ),
+                  hintText: 'Télefono',
+                  type: TextInputType.number,
+                  formatter: <TextInputFormatter>[
+                    FilteringTextInputFormatter.digitsOnly
+                  ]),
             ],
           ),
         ),
@@ -347,10 +340,7 @@ class RegisterFormState extends State<RegisterForm> {
 
     return Form(
         key: _formKey,
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start, 
-          children: 
-          [
+        child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
           stackMadre,
           SizedBox(
             height: 10.0,
@@ -360,30 +350,29 @@ class RegisterFormState extends State<RegisterForm> {
             height: 20.0,
           ),
           Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Container(
-                  width: 126.0,
-                  height: 40.0,
-                  child: ButtonForms(
-                    formKey: _formKey,
-                    label: 'Atras',
-                    color: Colors.grey[600],
-                    route: PreRegisterPage1.route,
-                  ),
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Container(
+                width: 126.0,
+                height: 40.0,
+                child: ButtonForms(
+                  formKey: _formKey,
+                  label: 'Atras',
+                  color: Colors.grey[600],
+                  route: PreRegisterPage1.route,
                 ),
-                Container(
-                  height: 40.0,
-                  child: ButtonForms(
-                    formKey: _formKey,
-                    label: 'Siguiente',
-                    color: kPrimaryColor,
-                    route: PreRegisterPage3.route,
-                  ),
+              ),
+              Container(
+                height: 40.0,
+                child: ButtonForms(
+                  formKey: _formKey,
+                  label: 'Siguiente',
+                  color: kPrimaryColor,
+                  route: PreRegisterPage3.route,
                 ),
-              ],
-            ),
-
+              ),
+            ],
+          ),
         ]));
   }
 }

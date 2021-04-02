@@ -30,6 +30,7 @@ Acudiente _$AcudienteFromJson(Map<String, dynamic> json) {
     email: json['email'] as String,
     telefono: json['telefono'] as String,
     tipoUsuario: json['tipoUsuario'] as String,
+    direccion: json['direccion'] as String,
     infoSesion: json['infoSesion'] as String,
     paciente: json['paciente'] == null
         ? null
@@ -50,6 +51,7 @@ Map<String, dynamic> _$AcudienteToJson(Acudiente instance) => <String, dynamic>{
       'email': instance.email,
       'telefono': instance.telefono,
       'tipoUsuario': instance.tipoUsuario,
+      'direccion': instance.direccion,
       'infoSesion': instance.infoSesion,
       'paciente': instance.paciente?.toJson(),
     };

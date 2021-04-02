@@ -1,19 +1,8 @@
 import 'dart:typed_data';
 
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
-import 'package:satpj_front_end_web/src/constants.dart';
-import 'package:satpj_front_end_web/src/modelo/paciente.dart';
 import 'package:satpj_front_end_web/src/utils/tema.dart';
-import 'package:satpj_front_end_web/src/utils/widgets/Barras/toolbar_inicio.dart';
 import 'package:satpj_front_end_web/src/utils/widgets/Firmas/pad_firmas.dart';
-import 'package:satpj_front_end_web/src/utils/widgets/button-forms.dart';
-import 'package:satpj_front_end_web/src/utils/widgets/dropdown.dart';
-import 'package:satpj_front_end_web/src/utils/widgets/rounded_text_field.dart';
-import 'package:satpj_front_end_web/src/utils/widgets/tema-formularios.dart';
-import 'package:satpj_front_end_web/src/views/pagos/vista_registro_pago.dart';
-import 'package:date_time_picker/date_time_picker.dart';
-import 'package:flutter_icons/flutter_icons.dart';
 
 final PageController pageCtrlr = new PageController();
 int currentContainer = 0;

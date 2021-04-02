@@ -7,7 +7,6 @@ import 'package:satpj_front_end_web/src/views/register/pre_register_page_3.dart'
 import 'package:satpj_front_end_web/src/views/gestionar_pacientes/vista_aprobacion_formularios.dart';
 import 'package:satpj_front_end_web/src/views/vista_inicio.dart';
 
-    'aprobar-paciente': (BuildContext context) => VistaAprobacionPacientes(),
 Map<String, WidgetBuilder> getAppRoutes() {
   return <String, WidgetBuilder>{
     '/': (BuildContext context) => VistaInicio(),
@@ -17,6 +16,6 @@ Map<String, WidgetBuilder> getAppRoutes() {
     PreRegisterPage3.route: (BuildContext context) => PreRegisterPage3(),
     RegisterPage1.route: (BuildContext context) => RegisterPage1(),
     VistaRegistroPago.route: (BuildContext context) => VistaRegistroPago(),
-    'prepaciente': (BuildContext context) => VistaPreadmision(),
+    'aprobar-paciente': (BuildContext context) => VistaAprobacionPacientes(),
   };
 }

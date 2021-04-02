@@ -51,4 +51,8 @@ public class PaqueteSesion {
     @Column(name = "total", nullable = false)
     private double total;
 
+    @NotNull(message = "La fecha debe ser obligatoria")
+    @Column(name = "fecha", nullable = false)
+    private LocalDate fecha;
+
 }

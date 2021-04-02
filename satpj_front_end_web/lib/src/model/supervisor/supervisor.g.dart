@@ -30,6 +30,7 @@ Supervisor _$SupervisorFromJson(Map<String, dynamic> json) {
     email: json['email'] as String,
     telefono: json['telefono'] as String,
     tipoUsuario: json['tipoUsuario'] as String,
+    direccion: json['direccion'] as String,
     infoSesion: json['infoSesion'] as String,
     enfoque: json['enfoque'] as String,
     pacientes: (json['pacientes'] as List)
@@ -53,6 +54,7 @@ Map<String, dynamic> _$SupervisorToJson(Supervisor instance) =>
       'email': instance.email,
       'telefono': instance.telefono,
       'tipoUsuario': instance.tipoUsuario,
+      'direccion': instance.direccion,
       'infoSesion': instance.infoSesion,
       'enfoque': instance.enfoque,
       'pacientes': instance.pacientes?.map((e) => e?.toJson())?.toList(),

@@ -1,4 +1,3 @@
-
 import 'package:json_annotation/json_annotation.dart';
 import 'package:satpj_front_end_web/src/model/alerta/alerta_usuario.dart';
 import 'package:satpj_front_end_web/src/model/horario/horario.dart';
@@ -18,14 +17,12 @@ String supervisorToJson(List<Supervisor> data) =>
 
 @JsonSerializable(explicitToJson: true)
 class Supervisor extends Usuario {
-
   String enfoque;
-  
+
   List<Paciente> pacientes;
 
   Supervisor(
-    {
-      String id,
+      {String id,
       List<SesionUsuario> sesiones,
       List<AlertaUsuario> alertasUsuario,
       List<Horario> horarios,
@@ -36,25 +33,27 @@ class Supervisor extends Usuario {
       String email,
       String telefono,
       String tipoUsuario,
+      String direccion,
       String infoSesion,
-      this.enfoque, 
-      this.pacientes
-    }):super(
-            id : id,
+      this.enfoque,
+      this.pacientes})
+      : super(
+            id: id,
             sesiones: sesiones,
-            alertasUsuario: alertasUsuario, 
-            horarios:horarios,
+            alertasUsuario: alertasUsuario,
+            horarios: horarios,
             documento: documento,
-            tipoDocumento : tipoDocumento,
-            nombre : nombre,
-            apellido : apellido,
-            email : email,
-            telefono : telefono,
-            tipoUsuario : tipoUsuario,
-            infoSesion : infoSesion
-            );
+            tipoDocumento: tipoDocumento,
+            nombre: nombre,
+            apellido: apellido,
+            email: email,
+            telefono: telefono,
+            tipoUsuario: tipoUsuario,
+            direccion: direccion,
+            infoSesion: infoSesion);
 
-  factory Supervisor.fromJson(Map<String, dynamic> json) => _$SupervisorFromJson(json);
+  factory Supervisor.fromJson(Map<String, dynamic> json) =>
+      _$SupervisorFromJson(json);
 
   Map<String, dynamic> toJson() => _$SupervisorToJson(this);
 }
