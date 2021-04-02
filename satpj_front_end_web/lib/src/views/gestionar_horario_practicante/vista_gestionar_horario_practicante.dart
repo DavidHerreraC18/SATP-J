@@ -7,7 +7,7 @@ import 'package:satpj_front_end_web/src/utils/widgets/schedule/cell_schedule.dar
 
 class VistaGestionarHorarioPracticante extends StatefulWidget {
   
-  static const route = '/horario-opcion';
+  static const route = '/horario-practicante';
   String opcion;
   List<Map<String, String>> horario;
   Horario horarioPracticante = new Horario();
