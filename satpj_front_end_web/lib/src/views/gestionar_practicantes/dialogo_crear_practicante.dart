@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:satpj_front_end_web/src/model/practicante.dart';
+import 'package:satpj_front_end_web/src/model/practicante/practicante.dart';
 import 'package:satpj_front_end_web/src/utils/tema.dart';
 import 'package:satpj_front_end_web/src/utils/widgets/botones/button_dialog.dart';
 import 'package:satpj_front_end_web/src/utils/widgets/formularios/formulario_practicante.dart';

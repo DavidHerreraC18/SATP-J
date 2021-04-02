@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:satpj_front_end_web/src/model/supervisor.dart';
+import 'package:satpj_front_end_web/src/model/supervisor/supervisor.dart';
 import 'package:satpj_front_end_web/src/utils/tema.dart';
 import 'package:satpj_front_end_web/src/utils/widgets/formularios/formulario_supervisor.dart';
 import 'package:satpj_front_end_web/src/utils/widgets/tema-formularios.dart';

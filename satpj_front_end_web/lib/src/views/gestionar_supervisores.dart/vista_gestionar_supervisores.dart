@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:satpj_front_end_web/src/model/supervisor.dart';
+import 'package:satpj_front_end_web/src/model/supervisor/supervisor.dart';
 import 'package:satpj_front_end_web/src/utils/tema.dart';
 import 'package:satpj_front_end_web/src/utils/widgets/Barras/toolbar_auxiliar_administrativo.dart';
 import 'package:satpj_front_end_web/src/views/gestionar_supervisores.dart/dialogo_crear_supervisor.dart';

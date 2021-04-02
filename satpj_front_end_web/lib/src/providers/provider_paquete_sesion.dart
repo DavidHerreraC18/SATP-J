@@ -1,6 +1,6 @@
 
 
-import 'package:satpj_front_end_web/src/model/paquete_sesion.dart';
+import 'package:satpj_front_end_web/src/model/paquete_sesion/paquete_sesion.dart';
 
 class ProviderPaqueteSesion{
 

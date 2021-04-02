@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:satpj_front_end_web/src/model/horario.dart';
+import 'package:satpj_front_end_web/src/model/horario/horario.dart';
 import 'package:satpj_front_end_web/src/utils/tema.dart';
 import 'package:satpj_front_end_web/src/utils/widgets/Barras/toolbar_practicante.dart';
 import 'package:satpj_front_end_web/src/utils/widgets/Dialogos/dialog_delete.dart';

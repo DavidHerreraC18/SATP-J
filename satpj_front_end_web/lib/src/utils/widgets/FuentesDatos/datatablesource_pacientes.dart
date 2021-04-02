@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:satpj_front_end_web/src/model/paciente.dart';
+import 'package:satpj_front_end_web/src/model/paciente/paciente.dart';
 
 typedef OnRowSelect = void Function(int index);
 
