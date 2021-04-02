@@ -30,7 +30,7 @@ class ButtonDialog extends StatelessWidget {
      
       },
       child: Padding(
-        padding: EdgeInsets.symmetric(horizontal: 20.0),
+        padding: EdgeInsets.symmetric(vertical: 0.0),
         child: Text(label.toString(),
             style: TextStyle(
                 fontSize: 18.0, fontWeight: FontWeight.normal)),

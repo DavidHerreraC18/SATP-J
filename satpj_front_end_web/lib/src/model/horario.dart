@@ -54,4 +54,67 @@ class Horario{
         "sabado": sabado
       };
     }
+
+    Map<String, List<int>> forView(){
+      
+      Map <String, List<int>> horario = 
+      {
+        'lunes': null,
+        'martes': null,
+        'miercoles': null,
+        'jueves': null,
+        'viernes': null,
+        'sabado': null
+      };
+
+      if(lunes != null && lunes.isNotEmpty){
+          List<int> horas = [];
+          lunes.split(';').forEach((element) {
+          horas.add(int.parse(element));
+          horario['lunes'] = horas;
+         });
+      }
+
+       if(martes != null && martes.isNotEmpty){
+          List<int> horas = [];
+          martes.split(';').forEach((element) {
+          horas.add(int.parse(element));
+          horario['martes'] = horas;
+         });
+      }
+
+       if(miercoles != null &&miercoles.isNotEmpty){
+          List<int> horas = [];
+          miercoles.split(';').forEach((element) {
+          horas.add(int.parse(element));
+          horario['miercoles'] = horas;
+         });
+      }
+
+      if(jueves != null &&jueves.isNotEmpty){
+          List<int> horas = [];
+          jueves.split(';').forEach((element) {
+          horas.add(int.parse(element));
+          horario['jueves'] = horas;
+         });
+      }
+
+      if(viernes != null &&viernes.isNotEmpty){
+          List<int> horas = [];
+          viernes.split(';').forEach((element) {
+          horas.add(int.parse(element));
+          horario['viernes'] = horas;
+         });
+      }
+      
+      if(sabado!= null &&sabado.isNotEmpty){
+          List<int> horas = [];
+          sabado.split(';').forEach((element) {
+          horas.add(int.parse(element));
+          horario['sabado'] = horas;
+         });
+      }     
+      return horario;
+    }
+  
 }

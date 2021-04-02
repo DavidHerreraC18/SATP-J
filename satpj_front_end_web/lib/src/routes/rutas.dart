@@ -1,4 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:satpj_front_end_web/src/views/gestionar_horario_practicante/vista_horario_practicante_opcion_1.dart';
+import 'package:satpj_front_end_web/src/views/gestionar_horario_practicante/vista_gestionar_horario_practicante.dart';
+import 'package:satpj_front_end_web/src/views/gestionar_horario_practicante/vista_horario_practicante_opcion_2.dart';
+import 'package:satpj_front_end_web/src/views/gestionar_horario_practicante/vista_horario_practicante_opcion_3.dart';
 import 'package:satpj_front_end_web/src/views/gestionar_pacientes/vista_gestionar_pacientes.dart';
 import 'package:satpj_front_end_web/src/views/gestionar_practicantes/vista_gestionar_practicantes.dart';
 import 'package:satpj_front_end_web/src/views/gestionar_supervisores.dart/vista_gestionar_supervisores.dart';
@@ -24,6 +28,10 @@ Map<String, WidgetBuilder> getAppRoutes() {
     VistaGestionarPacientes.route   : (BuildContext context) => VistaGestionarPacientes(),
     VistaGestionarPracticantes.route : (BuildContext context) => VistaGestionarPracticantes(),
     VistaGestionarSupervisores.route : (BuildContext context) => VistaGestionarSupervisores(),
+    VistaGestionarHorarioPracticante.route: (BuildContext context) => VistaGestionarHorarioPracticante(),
+    VistaHorarioPracticanteOpcion1.route : (BuildContext context) => VistaHorarioPracticanteOpcion1(),
+    VistaHorarioPracticanteOpcion2.route : (BuildContext context) => VistaHorarioPracticanteOpcion2(),
+    VistaHorarioPracticanteOpcion3.route : (BuildContext context) => VistaHorarioPracticanteOpcion3(),
     'prepaciente': (BuildContext context) => VistaPreadmision(),
   };
 }

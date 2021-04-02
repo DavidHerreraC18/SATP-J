@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:satpj_front_end_web/src/model/paciente.dart';
 import 'package:satpj_front_end_web/src/utils/tema.dart';
 import 'package:satpj_front_end_web/src/utils/widgets/Barras/toolbar_auxiliar_administrativo.dart';
+import 'package:satpj_front_end_web/src/views/documentacion/dialogo_consentimiento_principal.dart';
 import 'package:satpj_front_end_web/src/views/gestionar_pacientes/dialogo_crear_paciente.dart';
 
 import 'dialogo_editar_paciente.dart';
@@ -55,7 +56,7 @@ class _VistaGestionarPacientesState extends State<VistaGestionarPacientes> {
               ),
               color: kPrimaryColor,
               onPressed: () {
-                showDialog(context: context, builder: (context) => DialogoCrearPaciente(paciente: paciente));
+                showDialog(context: context, builder: (context) => DialogoCrearPaciente(pacienteNuevo: paciente));
               },
             ),
             IconButton(
@@ -69,7 +70,24 @@ class _VistaGestionarPacientesState extends State<VistaGestionarPacientes> {
                 showDialog(context: context, builder: (context) => DialogoEditarPaciente(paciente: paciente));
               },
             ),
+            Container(
+                        alignment: Alignment.center,
+                        height: 20.0,
+                        constraints:
+                            BoxConstraints(minWidth: 50, maxWidth: 350),
+                        width: 100,
+                        child: DialogoEditarPaciente(paciente: paciente),
+            ),
 
+             Container(
+                        alignment: Alignment.center,
+                        height: 20.0,
+                        constraints:
+                            BoxConstraints(minWidth: 50, maxWidth: 350),
+                        width: 100,
+                        child: DialogoConsentimientoPrincipal(),
+                      ),
+         
             IconButton(
               icon: Icon(
                 Icons.edit,
