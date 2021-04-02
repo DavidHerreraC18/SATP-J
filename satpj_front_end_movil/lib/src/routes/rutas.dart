@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:satpj_front_end_movil/src/views/contador_page.dart';
 import 'package:satpj_front_end_movil/src/views/vista_inicio.dart';
 //import 'package:satpj_front_end_web/src/views/home_page.dart';
 //import 'package:satpj_front_end_web/src/views/login_page.dart';

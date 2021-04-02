@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 
-import '../../views/contador_page.dart';
 import '../autenticacion.dart';
 
 //import 'google_sign_in_button.dart';
@@ -19,7 +18,6 @@ class _AuthDialogState extends State<AuthDialog> {
   FocusNode textFocusNodePassword;
   bool _isEditingPassword = false;
 
-  bool _isRegistering = false;
   bool _isLoggingIn = false;
 
   String loginStatus;
@@ -253,15 +251,6 @@ class _AuthDialogState extends State<AuthDialog> {
                                         loginStatus =
                                             'Ha ingresado Correctamente';
                                         loginStringColor = Colors.green;
-                                      });
-                                      Future.delayed(
-                                          Duration(milliseconds: 500), () {
-                                        Navigator.of(context).pop();
-                                        Navigator.of(context).pushReplacement(
-                                            MaterialPageRoute(
-                                                fullscreenDialog: true,
-                                                builder: (context) =>
-                                                    ContadorPage()));
                                       });
                                     }
                                   }).catchError((error) {
