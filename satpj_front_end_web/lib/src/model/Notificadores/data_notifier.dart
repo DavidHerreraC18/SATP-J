@@ -44,7 +44,7 @@ class FormularioNotifier with ChangeNotifier {
   int _rowsPerPage = PaginatedDataTable.defaultRowsPerPage;
 
   Future<void> fetchData() async {
-    _formulario = await ProviderAdministracionFormularios.traerFormularios();
+    //_formulario = await ProviderAdministracionFormularios.traerFormularios();
     notifyListeners();
   }
 }
