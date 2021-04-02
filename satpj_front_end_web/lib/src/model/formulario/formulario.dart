@@ -1,4 +1,3 @@
-
 import 'package:json_annotation/json_annotation.dart';
 import 'dart:convert';
 
@@ -12,37 +11,30 @@ List<Formulario> formularioFromJson(String str) =>
 String formularioToJson(List<Formulario> data) =>
     json.encode(List<dynamic>.from(data.map((x) => x.toJson())));
 
-/*Formulario singleFormularioFromJson(String str){
-  Formulario formulario = Formulario.fromJson(json.decode(str));
-  return formulario;
-}*/
-
 @JsonSerializable(explicitToJson: true)
-class Formulario{
+class Formulario {
+  int id;
 
-    int id;
+  Paciente paciente;
 
-    Paciente paciente;
+  String remitente;
 
-    String remitente;
+  bool fueAtendido;
 
-    bool fueAtendido;
+  String lugarAtencion;
 
-    String lugarAtencion;
+  String motivoConsulta;
 
-    String motivoConsulta;
-
-    Formulario({
-      this.id,
+  Formulario(
+      {this.id,
       this.paciente,
       this.remitente,
       this.fueAtendido,
       this.lugarAtencion,
-      this.motivoConsulta
-    });
+      this.motivoConsulta});
 
-    factory Formulario.fromJson(Map<String, dynamic> json) => _$FormularioFromJson(json);
+  factory Formulario.fromJson(Map<String, dynamic> json) =>
+      _$FormularioFromJson(json);
 
-    Map<String, dynamic> toJson() => _$FormularioToJson(this);
-
+  Map<String, dynamic> toJson() => _$FormularioToJson(this);
 }

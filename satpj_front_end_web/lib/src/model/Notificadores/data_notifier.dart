@@ -1,7 +1,7 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart' show PaginatedDataTable;
 import 'package:satpj_front_end_web/src/model/formulario/formulario.dart';
-import 'package:satpj_front_end_web/src/providers/provider_administracion_formularios.dart';
+import 'package:satpj_front_end_web/src/providers/provider_preaprobacion_pacientes.dart';
 
 class FormularioNotifier with ChangeNotifier {
   FormularioNotifier() {
