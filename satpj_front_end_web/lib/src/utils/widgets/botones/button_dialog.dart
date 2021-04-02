@@ -1,40 +1,46 @@
 import 'package:flutter/material.dart';
 
-
-
-class ButtonDialog extends StatelessWidget {
-  
-  final String label;
-  final Color color;
+class ButtonDialog extends StatefulWidget {
  
-  ButtonDialog({ Key key, 
-   GlobalKey<FormState> formKey, this.label,
-   this.color}) : _formKey = formKey, super(key: key);
+  String label;
+  Color color;
+  Function function;
+  BuildContext contextP;
+  GlobalKey<FormState> _formKey = new GlobalKey<FormState>();
 
-  final GlobalKey<FormState> _formKey;
+  ButtonDialog({
+   GlobalKey<FormState> formKey, 
+   this.label,
+   this.color,
+   this.function,
+  }) : _formKey = formKey;
 
   @override
+  _ButtonDialogState createState() => _ButtonDialogState();
+}
+
+class _ButtonDialogState extends State<ButtonDialog> {
+  @override
   Widget build(BuildContext context) {
-    return ElevatedButton(
+    return  ElevatedButton(
       style: ButtonStyle(
         backgroundColor:
-            MaterialStateProperty.all<Color>(color),
+            MaterialStateProperty.all<Color>(widget.color),
       ),
       onPressed: () {
-        // Validate returns true if the form is valid, or false
-        // otherwise.
-        if (_formKey.currentState.validate()) {
-          print('hola?');
-           Navigator.pop(context);        
+        if (widget._formKey != null && widget._formKey.currentState.validate()) {
+          if(widget.function != null){
+            widget.function();
+          }      
         }
+        
+        Navigator.pop(context);  
      
       },
-      child: Padding(
-        padding: EdgeInsets.symmetric(vertical: 0.0),
-        child: Text(label.toString(),
-            style: TextStyle(
-                fontSize: 18.0, fontWeight: FontWeight.normal)),
-      ),
+      child: Text(widget.label.toString(),
+          style: TextStyle(
+              fontSize: 18.0, fontWeight: FontWeight.normal)),
     );
   }
 }
+

@@ -1,19 +1,23 @@
 import 'package:flutter/material.dart';
 import 'package:satpj_front_end_web/src/utils/widgets/botones/button_dialog.dart';
 
-import '../../tema.dart';
-
 class FotterDialog extends StatefulWidget {
 
   String labelCancelBtn;
   String labelConfirmBtn;
   Color colorConfirmBtn;
+  Color colorCancelBtn = Colors.grey[600];
+  GlobalKey<FormState> _formKey = new GlobalKey<FormState> ();
+  Function functionConfirnBtn;
 
   FotterDialog({
    this.labelCancelBtn = '', 
    this.labelConfirmBtn = '',
-   this.colorConfirmBtn
-   });
+   this.colorConfirmBtn,
+   GlobalKey<FormState> formKey,
+   this.functionConfirnBtn
+   }): _formKey = formKey;
+
 
   @override
   _FotterDialogState createState() => _FotterDialogState();
@@ -38,7 +42,7 @@ class _FotterDialogState extends State<FotterDialog> {
                 child: ElevatedButton(
                   style: ButtonStyle(
                     backgroundColor:
-                        MaterialStateProperty.all<Color>(Colors.grey[600]),
+                        MaterialStateProperty.all<Color>(widget.colorCancelBtn),
                   ),
                   onPressed: () {
                     Navigator.pop(context);
@@ -57,7 +61,7 @@ class _FotterDialogState extends State<FotterDialog> {
               Container(
                 height: 35.0,
                 child: ButtonDialog(
-                  //formKey: _formKey,
+                  formKey: widget._formKey,
                   label: widget.labelConfirmBtn,
                   color: widget.colorConfirmBtn,
                 ),
