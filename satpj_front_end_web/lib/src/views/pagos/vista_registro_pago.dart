@@ -189,7 +189,7 @@ class _FormularioRegistroPagoState extends State<FormularioRegistroPago> {
           validate: () {},
         ),
         SizedBox(
-            height: 20.0,
+          height: 20.0,
         ),
         Row(
           mainAxisAlignment: MainAxisAlignment.end,

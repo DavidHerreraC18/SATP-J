@@ -78,6 +78,9 @@ public class Usuario {
 	@Column(name = "tipo_usuario", nullable = false)
 	private String tipo_usuario;
 
+	@Column(name = "direccion", nullable = true)
+	private String direccion;
+
 
 	/*
 	 * Es un elemento que contiene la clave y la fecha de la sesión actual del

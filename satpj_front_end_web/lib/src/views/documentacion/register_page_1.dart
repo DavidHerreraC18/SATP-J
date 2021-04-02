@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:satpj_front_end_web/src/utils/tema.dart';
 import 'package:satpj_front_end_web/src/utils/widgets/Barras/toolbar_inicio.dart';
 import 'package:satpj_front_end_web/src/utils/widgets/tema-formularios.dart';
 import 'package:flutter_icons/flutter_icons.dart';
@@ -145,42 +146,21 @@ class DatosPacienteState extends State<DatosPaciente> {
               child: Container(
                   height: 20,
                   width: 700,
-                  alignment: Alignment.center,
+                  //alignment: Alignment.center,
                   child: Row(
-                    crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
                       Flexible(
-                        child: Container(
-                            alignment: Alignment.center,
-                            height: 20.0,
-                            constraints:
-                                BoxConstraints(minWidth: 125, maxWidth: 350),
-                            width: 350,
-                            child: ListTile(
-                                title: Text("CC:1029311221",
-                                    style: TextStyle(
-                                        height: 1.1,
-                                        fontSize: 16,
-                                        color: Colors.black)),
-                                leading: Icon(FontAwesome.address_card,
-                                    size: 20.0, color: Color(0xFF2E5EAA)))),
-                      ),
+                          child: _containerDatos(
+                              "CC:",
+                              "1029311221",
+                              Icon(FontAwesome.address_card,
+                                  size: 20.0, color: kPrimaryColor))),
                       Flexible(
-                        child: Container(
-                            alignment: Alignment.center,
-                            height: 20.0,
-                            constraints:
-                                BoxConstraints(minWidth: 125, maxWidth: 350),
-                            width: 350,
-                            child: ListTile(
-                                title: Text("Edad: 31 años",
-                                    style: TextStyle(
-                                        height: 1.1,
-                                        fontSize: 16,
-                                        color: Colors.black)),
-                                leading: Icon(Icons.person,
-                                    size: 20.0, color: Color(0xFF2E5EAA)))),
-                      ),
+                          child: _containerDatos(
+                              "Edad: ",
+                              "31 años",
+                              Icon(Icons.person,
+                                  size: 20.0, color: kPrimaryColor))),
                     ],
                   )),
             ),
@@ -195,34 +175,17 @@ class DatosPacienteState extends State<DatosPaciente> {
                   child: Row(
                     children: [
                       Flexible(
-                          child: Container(
-                              height: 20.0,
-                              width: 350,
-                              child: ListTile(
-                                  title: Text("+(57)323232323",
-                                      style: TextStyle(
-                                          height: 1.1,
-                                          fontSize: 16,
-                                          color: Colors.black)),
-                                  leading: Icon(Icons.phone,
-                                      size: 20.0, color: Color(0xFF2E5EAA))))),
+                          child: _containerDatos(
+                              "+(57)323232323",
+                              "",
+                              Icon(Icons.phone,
+                                  size: 20.0, color: kPrimaryColor))),
                       Flexible(
-                        child: Container(
-                            alignment: Alignment.center,
-                            height: 20.0,
-                            constraints:
-                                BoxConstraints(minWidth: 125, maxWidth: 350),
-                            width: 350,
-                            child: ListTile(
-                                title: Text(
-                                    "pepitoflorezquintero@javeriana.edu.co ",
-                                    style: TextStyle(
-                                        height: 1.1,
-                                        fontSize: 16,
-                                        color: Colors.black)),
-                                leading: Icon(Icons.email,
-                                    size: 20.0, color: Color(0xFF2E5EAA)))),
-                      ),
+                          child: _containerDatos(
+                              "pepitoflorezquintero@javeriana.edu.co",
+                              "",
+                              Icon(Icons.email,
+                                  size: 20.0, color: kPrimaryColor))),
                     ],
                   )),
             ),
@@ -237,33 +200,17 @@ class DatosPacienteState extends State<DatosPaciente> {
                   child: Row(
                     children: [
                       Flexible(
-                          child: Container(
-                              height: 20.0,
-                              width: 350,
-                              child: ListTile(
-                                  title: Text("Dirección: Av. 3303 # 33-00 ",
-                                      style: TextStyle(
-                                          height: 1.1,
-                                          fontSize: 16,
-                                          color: Colors.black)),
-                                  leading: Icon(Icons.house,
-                                      size: 20.0, color: Color(0xFF2E5EAA))))),
+                          child: _containerDatos(
+                              "Dirección: ",
+                              "Av. 3303 # 33-00",
+                              Icon(Icons.house,
+                                  size: 20.0, color: kPrimaryColor))),
                       Flexible(
-                        child: Container(
-                            alignment: Alignment.center,
-                            height: 20.0,
-                            constraints:
-                                BoxConstraints(minWidth: 125, maxWidth: 350),
-                            width: 350,
-                            child: ListTile(
-                                title: Text("Estrato: 3",
-                                    style: TextStyle(
-                                        height: 1.1,
-                                        fontSize: 16,
-                                        color: Colors.black)),
-                                leading: Icon(Entypo.circular_graph,
-                                    size: 20.0, color: Color(0xFF2E5EAA)))),
-                      ),
+                          child: _containerDatos(
+                              "Estrato: ",
+                              "3",
+                              Icon(Entypo.circular_graph,
+                                  size: 20.0, color: kPrimaryColor))),
                     ],
                   )),
             ),
@@ -277,17 +224,8 @@ class DatosPacienteState extends State<DatosPaciente> {
                   //alignment: Alignment.center,
                   child: Row(
                     children: [
-                      Container(
-                          height: 20.0,
-                          width: 350,
-                          child: ListTile(
-                              title: Text("Terapeuta: Aun no asignado",
-                                  style: TextStyle(
-                                      height: 1.1,
-                                      fontSize: 16,
-                                      color: Colors.black)),
-                              leading: Icon(Icons.people,
-                                  size: 20.0, color: Color(0xFF2E5EAA)))),
+                      _containerDatos("Terapeuta: ", "Aun no asignado",
+                          Icon(Icons.people, size: 20.0, color: kPrimaryColor))
                     ],
                   )),
             ),
@@ -301,17 +239,11 @@ class DatosPacienteState extends State<DatosPaciente> {
                   //alignment: Alignment.center,
                   child: Row(
                     children: [
-                      Container(
-                          height: 20.0,
-                          width: 350,
-                          child: ListTile(
-                              title: Text("Riesgo Epidemiológico: Bajo",
-                                  style: TextStyle(
-                                      height: 1.1,
-                                      fontSize: 16,
-                                      color: Colors.black)),
-                              leading: Icon(FontAwesome.header,
-                                  size: 15.0, color: Color(0xFF2E5EAA)))),
+                      _containerDatos(
+                          "Riesgo Epidemiológico: ",
+                          "Bajo",
+                          Icon(FontAwesome.header,
+                              size: 15.0, color: kPrimaryColor))
                     ],
                   )),
             ),
@@ -319,6 +251,18 @@ class DatosPacienteState extends State<DatosPaciente> {
           ],
         ));
   }
+
+  Container _containerDatos(String texto, String datoUsuario, Icon icono) =>
+      Container(
+          alignment: Alignment.center,
+          height: 20.0,
+          constraints: BoxConstraints(minWidth: 125, maxWidth: 350),
+          width: 350,
+          child: ListTile(
+              title: Text(texto + datoUsuario,
+                  style: TextStyle(
+                      height: 1.1, fontSize: 16, color: Colors.black)),
+              leading: icono));
 }
 
 class DocumentosPaciente extends StatefulWidget {
@@ -376,7 +320,7 @@ class DocumentosPacienteState extends State<DocumentosPaciente> {
                                         fontSize: 16,
                                         color: Colors.black)),
                                 leading: Icon(FontAwesome.address_card,
-                                    size: 20.0, color: Color(0xFF2E5EAA)))),
+                                    size: 20.0, color: kPrimaryColor))),
                       ),
                       Container(
                         alignment: Alignment.center,
@@ -413,7 +357,7 @@ class DocumentosPacienteState extends State<DocumentosPaciente> {
                                         fontSize: 16,
                                         color: Colors.black)),
                                 leading: Icon(Ionicons.md_document,
-                                    size: 23.0, color: Color(0xFF2E5EAA)))),
+                                    size: 23.0, color: kPrimaryColor))),
                       ),
                       Container(
                         alignment: Alignment.center,
@@ -451,7 +395,7 @@ class DocumentosPacienteState extends State<DocumentosPaciente> {
                                         fontSize: 16,
                                         color: Colors.black)),
                                 leading: Icon(Ionicons.md_document,
-                                    size: 23.0, color: Color(0xFF2E5EAA)))),
+                                    size: 23.0, color: kPrimaryColor))),
                       ),
                       Container(
                         alignment: Alignment.center,
@@ -489,7 +433,7 @@ class DocumentosPacienteState extends State<DocumentosPaciente> {
                                         fontSize: 16,
                                         color: Colors.black)),
                                 leading: Icon(Ionicons.md_document,
-                                    size: 23.0, color: Color(0xFF2E5EAA)))),
+                                    size: 23.0, color: kPrimaryColor))),
                       ),
                       Container(
                         alignment: Alignment.center,

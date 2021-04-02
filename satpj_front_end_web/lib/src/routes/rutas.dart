@@ -35,4 +35,3 @@ Map<String, WidgetBuilder> getAppRoutes() {
    
   };
 }
-
