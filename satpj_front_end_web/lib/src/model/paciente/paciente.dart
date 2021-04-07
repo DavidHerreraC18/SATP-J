@@ -22,27 +22,25 @@ List<Paciente> pacienteFromJson(String str) =>
 String pacienteToJson(List<Paciente> data) =>
     json.encode(List<dynamic>.from(data.map((x) => x.toJson())));
 
-Paciente singlePacienteFromJson(String str) {
-  Paciente paciente = Paciente.fromJson(json.decode(str));
-  print("PACIENTE ID: " + paciente.id.toString());
-  print("PACIENTE nombre: " + paciente.nombre);
-  return paciente;
-}
-
 @JsonSerializable(explicitToJson: true)
 class Paciente extends Usuario {
   Supervisor supervisor;
 
   Grupo grupo;
 
+  //@JsonKey(ignore: true)
   List<PracticantePaciente> practicantesPaciente;
 
+  //@JsonKey(ignore: true)
   List<DocumentoPaciente> documentoPaciente;
 
+  //@JsonKey(ignore: true)
   List<PaqueteSesion> paqueteSesion;
 
+  //@JsonKey(ignore: true)
   List<Acudiente> acudientes;
 
+  //@JsonKey(ignore: true)
   Formulario formulario;
 
   String estadoAprobado;

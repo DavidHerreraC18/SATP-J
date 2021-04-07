@@ -3,6 +3,8 @@ package com.satpj.project.modelo.paquete_sesion;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.time.LocalDate;
+
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;

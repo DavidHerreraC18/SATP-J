@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:satpj_front_end_web/src/providers/provider_autenticacion.dart';
+import 'package:satpj_front_end_web/src/views/gestionar_pacientes/vista_aprobacion_formularios.dart';
 
 AppBar toolbarAuxiliarAdministrativo(BuildContext context) {
   return AppBar(
@@ -217,7 +218,8 @@ AppBar toolbarAuxiliarAdministrativo(BuildContext context) {
 
                   case 3:
                     {
-                      Navigator.pushNamed(context, "prepaciente");
+                      Navigator.pushNamed(
+                          context, VistaAprobacionFormularios.route);
                     }
                     break;
 

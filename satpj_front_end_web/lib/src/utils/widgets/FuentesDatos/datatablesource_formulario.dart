@@ -25,7 +25,8 @@ class FormularioDataTableSource extends DataTableSource {
     return DataRow.byIndex(
       index: index, // DONT MISS THIS
       cells: <DataCell>[
-        DataCell(Text('${_formulario.paciente.id}')),
+        DataCell(Text('${_formulario.paciente.documento}')),
+        DataCell(Text('${_formulario.paciente.tipoDocumento}')),
         DataCell(Text('${_formulario.paciente.nombre}')),
         DataCell(Text('${_formulario.paciente.apellido}')),
         DataCell(Text('${_formulario.paciente.telefono}')),

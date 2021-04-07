@@ -76,7 +76,7 @@ public class Usuario {
 
 	@NotNull(message = "El Tipo de Usuario es obligatorio")
 	@Column(name = "tipo_usuario", nullable = false)
-	private String tipo_usuario;
+	private String tipoUsuario;
 
 	@Column(name = "direccion", nullable = true)
 	private String direccion;
