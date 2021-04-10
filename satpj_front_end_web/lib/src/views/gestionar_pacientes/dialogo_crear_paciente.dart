@@ -20,14 +20,6 @@ final int numberOfContainers = 5;
 
 void changeContainer(int container) {
   if (currentContainer + container > numberOfContainers - 1) return;
-
-  if (container < 1) {
-    pageCtrlr.animateToPage(
-      currentContainer - container,
-      duration: Duration(milliseconds: 350),
-      curve: Curves.linear,
-    );
-  }
   
   pageCtrlr.animateToPage(
       currentContainer + container,
@@ -156,7 +148,7 @@ class _PrimeraPaginaCrearPacienteState
               formKey: _formKey,
               paginator: true,
               functionConfirmBtn: () {
-                changeContainer(!paciente.esAdulto() ? 3 : 1);
+                changeContainer(paciente.esAdulto() == true ? 3 : 1);
               },
               width: 120.0,
             ),
