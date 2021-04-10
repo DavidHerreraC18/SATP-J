@@ -4,10 +4,10 @@ import 'package:satpj_front_end_web/src/constants/constantes_data.dart';
 import 'package:satpj_front_end_web/src/model/practicante/practicante.dart';
 import 'package:satpj_front_end_web/src/utils/tema.dart';
 import 'package:satpj_front_end_web/src/utils/validators/validadores-input.dart';
-import 'package:satpj_front_end_web/src/utils/widgets/dropdown.dart';
+import 'package:satpj_front_end_web/src/utils/widgets/inputs/dropdown.dart';
 import 'package:satpj_front_end_web/src/utils/widgets/formularios/formulario_usuario.dart';
-import 'package:satpj_front_end_web/src/utils/widgets/rounded_text_field.dart';
-import 'package:satpj_front_end_web/src/utils/widgets/tema-formularios.dart';
+import 'package:satpj_front_end_web/src/utils/widgets/inputs/rounded_text_field.dart';
+import 'package:satpj_front_end_web/src/utils/widgets/formularios/tema_formularios.dart';
 
 
 class FormInternInformation extends StatefulWidget {

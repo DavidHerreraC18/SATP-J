@@ -24,12 +24,14 @@ class _ScheduleInternCombinedState extends State<ScheduleInternCombined> {
 
   int horas;
   Map<String, List<int>> horarioVista;
+  bool dividido;
 
   @override
   void initState() {
     widget.horarioPracticante.lunes='8;9;13';
     horas = 7;
     horarioVista = {};
+    dividido = true;
     if(widget.horarioPracticante != null){
        horarioVista = widget.horarioPracticante.forView();
     }
@@ -60,13 +62,14 @@ class _ScheduleInternCombinedState extends State<ScheduleInternCombined> {
                               selected: false,
                             ),
                           );
-    
+
                         if (index != 0)
+                          
+                          if(index == 1 && indexC == 1)
                           return Expanded(
                             child: Column(
                                 children: [
                                   Container(
-                                    height: 5.0,
                                     child: CellSchedule(
                                       colorDay: Color(0xffF2F2F2),
                                       diaHora: <String, String>{
@@ -76,10 +79,41 @@ class _ScheduleInternCombinedState extends State<ScheduleInternCombined> {
                                       horario: horario,
                                       selected: esHora(kEncabezadoHorario[index].toLowerCase()),
                                       colorSelected: widget.colorSelected,
+                                      combined: true,
                                     ),
                                   ),
                                   Container(
-                                    
+                                    child: CellSchedule(
+                                      colorDay: Color(0xffF2F2F2),
+                                      diaHora: <String, String>{
+                                        'dia': kEncabezadoHorario[index].toLowerCase(),
+                                        'hora': horas.toString(),
+                                      },
+                                      horario: horario,
+                                      selected: esHora(kEncabezadoHorario[index].toLowerCase()),
+                                      colorSelected: Color(0xffFCF88C),
+                                      combined: true,
+                                    ),
+                                  ),
+                                  Container(  
+                                    child: CellSchedule(
+                                      colorDay: Color(0xffF2F2F2),
+                                      diaHora: <String, String>{
+                                        'dia': kEncabezadoHorario[index].toLowerCase(),
+                                        'hora': horas.toString(),
+                                      },
+                                      horario: horario,
+                                      selected: esHora(kEncabezadoHorario[index].toLowerCase()),
+                                      colorSelected: Color(0xff85ADEB),
+                                      combined: true,
+                                    ),
+                                  ),                  
+                                ],
+                              ),
+                            );
+                            else 
+                            return Expanded(
+                            child: Container(
                                     child: CellSchedule(
                                       colorDay: Color(0xffF2F2F2),
                                       diaHora: <String, String>{
@@ -90,11 +124,9 @@ class _ScheduleInternCombinedState extends State<ScheduleInternCombined> {
                                       selected: esHora(kEncabezadoHorario[index].toLowerCase()),
                                       colorSelected: widget.colorSelected,
                                     ),
-                                  ),                 
-                                ],
-                              ),
-                          );
-    
+                                  )
+                            );
+               
                         horas++;
                         return Expanded(
                           child: Container(

@@ -56,9 +56,10 @@ class _VistaGestionarPacientesState extends State<VistaGestionarPacientes> {
               ),
               color: kPrimaryColor,
               onPressed: () {
-                showDialog(context: context, builder: (context) => DialogoCrearPaciente(pacienteNuevo: paciente));
+                showDialog(context: context, builder: (context) => DialogoCrearPaciente());
               },
             ),
+            DialogoCrearPaciente(),
             IconButton(
               icon: Icon(
                 Icons.edit,

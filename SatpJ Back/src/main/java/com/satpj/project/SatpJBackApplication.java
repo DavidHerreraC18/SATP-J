@@ -20,16 +20,18 @@ import java.io.IOException;
 
 
 @SpringBootApplication
-public class SatpJBackApplication {
+public class SatpJBackApplication{
 
 	@Autowired
 	@Value("${firebase.credentials.path}")
 	private String keyPath;
-
+    
 
 	public static void main(String[] args) {
+		//EmailServiceImpl.sendEmail("", "", "");
 		SpringApplication.run(SatpJBackApplication.class, args);
 	}
+    
 
 	@Bean
 	@Primary

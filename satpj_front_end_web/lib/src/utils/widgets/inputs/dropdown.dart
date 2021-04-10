@@ -1,13 +1,12 @@
 import 'package:flutter/material.dart';
 
-import '../../constants.dart';
+import '../../../constants.dart';
 
 // ignore: must_be_immutable
 class Dropdown extends StatefulWidget {
   
   List<String> values = [];
   Function onChanged;
-  String selected = '';
   FocusNode focusNode;
   TextInputType textInputType;
   TextEditingController textController;
@@ -19,7 +18,6 @@ class Dropdown extends StatefulWidget {
 
   Dropdown({this.values, 
       this.onChanged, 
-      this.selected, 
       this.textController,
       this.hintText,
       this.validate,
@@ -27,7 +25,7 @@ class Dropdown extends StatefulWidget {
       this.enabled = true,
       this.focusNode
   });
- 
+
   @override
   _DropdownState createState() => _DropdownState();
 }
@@ -35,19 +33,37 @@ class Dropdown extends StatefulWidget {
 /// This is the private State class that goes with MyStatefulWidget.
 class _DropdownState extends State<Dropdown> {
   
+  String selected;
+
   @override
   void initState() {
     if(widget.focusNode != null){
        widget.focusNode.unfocus();
     }
+     
      super.initState();
+  }
+  
+  defineValue() {
+     if(widget.textController.text == null)
+        selected = null;
+    else{
+       for(String val in widget.values){
+         if(val == widget.textController.text){
+            selected = val;
+            return;
+         }
+       }
+    }
   }
 
   @override
   Widget build(BuildContext context) {
-   print(widget.enabled);
+    
+    defineValue();
+
     var drop = DropdownButtonFormField<String>(
-      //value: widget.selected,
+      value: selected,
       iconSize: 24,
       elevation: 16,
       focusNode: widget.focusNode,
@@ -64,6 +80,9 @@ class _DropdownState extends State<Dropdown> {
         setState(() {
           widget.textController.text = value;
           widget.optional = true;
+          if(widget.onChanged != null){
+            widget.onChanged();
+          }
         });
       } : (String value){
         return null;
@@ -73,7 +92,6 @@ class _DropdownState extends State<Dropdown> {
 
     if( widget.textController.text != null ){  
         print(widget.textController.text);      
-        widget.selected = widget.textController.text; 
         setState(() {
           drop.onChanged('');
         });

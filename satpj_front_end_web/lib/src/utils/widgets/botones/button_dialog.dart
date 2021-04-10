@@ -1,3 +1,5 @@
+import 'dart:html';
+
 import 'package:flutter/material.dart';
 
 class ButtonDialog extends StatefulWidget {
@@ -7,11 +9,13 @@ class ButtonDialog extends StatefulWidget {
   Function function;
   BuildContext contextP;
   GlobalKey<FormState> _formKey = new GlobalKey<FormState>();
+  bool paginator;
 
   ButtonDialog({
    GlobalKey<FormState> formKey, 
    this.label,
    this.color,
+   this.paginator = false,
    this.function,
   }) : _formKey = formKey;
 
@@ -28,14 +32,21 @@ class _ButtonDialogState extends State<ButtonDialog> {
             MaterialStateProperty.all<Color>(widget.color),
       ),
       onPressed: () {
-        if (widget._formKey != null && widget._formKey.currentState.validate()) {
-          if(widget.function != null){
-            widget.function();
+        if (widget._formKey != null) {
+          if(widget._formKey.currentState.validate()){
+            if(widget.function != null){
+               if(widget.paginator == true)
+                  widget.function();
+               else{
+                 widget.function();
+                 Navigator.pop(context); 
+               }
+            }
           }      
         }
-        
-        Navigator.pop(context);  
-     
+        else{
+           Navigator.pop(context); 
+        }      
       },
       child: Text(widget.label.toString(),
           style: TextStyle(

@@ -20,6 +20,20 @@ class ValidadoresInput {
     }
     return currency;
   }*/
+  
+  static String validateCheckbox(List<bool> selectedOptions, String message){
+
+    if(selectedOptions != null ){
+        if(selectedOptions.isNotEmpty){
+            for(bool option in selectedOptions){
+                if(option)
+                   return null;
+            }
+            return message;
+        }
+    }
+
+  }
 
   static String validateEmpty(String value, String messageEmpty, String vacio){
       value = value.trim();
@@ -70,7 +84,6 @@ class ValidadoresInput {
         return 'El largo de la contraseña debe ser mayor a 6';
       }
     }
-
     return null;
   }
 }

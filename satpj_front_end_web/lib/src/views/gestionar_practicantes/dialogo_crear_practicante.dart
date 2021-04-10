@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:satpj_front_end_web/src/model/practicante/practicante.dart';
 import 'package:satpj_front_end_web/src/utils/tema.dart';
-import 'package:satpj_front_end_web/src/utils/widgets/botones/button_dialog.dart';
+import 'package:satpj_front_end_web/src/utils/widgets/Dialogos/fotter_dialog.dart';
+import 'package:satpj_front_end_web/src/utils/widgets/Dialogos/header_dialog.dart';
 import 'package:satpj_front_end_web/src/utils/widgets/formularios/formulario_practicante.dart';
-import 'package:satpj_front_end_web/src/utils/widgets/tema-formularios.dart';
+import 'package:satpj_front_end_web/src/utils/widgets/formularios/tema_formularios.dart';
 
+// ignore: must_be_immutable
 class DialogoCrearPracticante extends StatefulWidget {
   
   Practicante practicante = new Practicante();
@@ -39,82 +41,26 @@ class _DialogoCrearPracticanteState extends State<DialogoCrearPracticante> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   mainAxisSize: MainAxisSize.min,
                   children: [
-                  Container(
+                  HeaderDialog(
+                    label: 'Crear Practicante',
                     height: 55.0,
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.vertical(top: Radius.circular(4.1)),
-                      color: kPrimaryColor,
-                    ),
-                    margin: EdgeInsets.only(bottom: 20.0),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Padding(
-                          padding: EdgeInsets.only(left: 10.0),
-                          child: Text('Crear Practicante',
-                           textAlign: TextAlign.left,
-                           style: TextStyle(fontSize: 20.0, color: Colors.white),
-                          ),
-                        ),
-                        IconButton(
-                          icon: Icon(Icons.close, color: Colors.white),
-                          onPressed: (){
-                            Navigator.pop(context, widget.practicante);
-                          },
-                    ),
-                      ],
-                  )),
+                  ),
                   Container(
                     margin: EdgeInsets.symmetric(horizontal:40.0),
                     child: FormInternInformation(
                       practicante: widget.practicante,
                       ),
                   ),
+                  FotterDialog(
+                    labelCancelBtn: 'Cancelar',
+                    labelConfirmBtn: 'Crear',
+                    colorConfirmBtn: kPrimaryColor,
+                    paginator: true,
+                    width: 120.0,
+                  )
                  ],
-                ),
-                 Divider(
-                    color: Colors.grey[400],
-                    height: 20,
-                  ),
-                  Container(
-                    margin: EdgeInsets.only(bottom: 18.0, top: 10.0),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: 
-                      [ 
-                        Container(
-                          width: 120.0,
-                          height: 35.0,
-                          child: ElevatedButton(
-                            style: ButtonStyle(
-                              backgroundColor: MaterialStateProperty.all<Color>(
-                                  Colors.grey[600]),
-                            ),
-                            onPressed: () {
-                               Navigator.pop(context);
-                            },
-                            child: Padding(
-                              padding: EdgeInsets.symmetric(horizontal: 20.0),
-                              child: Text('Cancelar',
-                                  style: TextStyle(
-                                      fontSize: 18.0,
-                                      fontWeight: FontWeight.normal)),
-                            ),
-                          ),
-                        ),
-                        SizedBox(width: 8.0,),
-                        Container(
-                          width: 120.0,
-                          height: 35.0,
-                          child: ButtonDialog(
-                            formKey: _formKey,
-                            label: 'Crear',
-                            color: kPrimaryColor,
-                          ),
-                        ),
-                      ],
-                  )),
-             ]
+                ),       
+               ]
             ),
           ),
         ),

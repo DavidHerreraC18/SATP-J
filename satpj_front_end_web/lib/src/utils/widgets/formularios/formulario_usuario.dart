@@ -2,25 +2,29 @@ import 'package:date_time_picker/date_time_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:satpj_front_end_web/src/constants.dart';
+import 'package:satpj_front_end_web/src/model/paciente/paciente.dart';
 import 'package:satpj_front_end_web/src/model/usuario/usuario.dart';
 import 'package:satpj_front_end_web/src/utils/validators/validadores-input.dart';
-import 'package:satpj_front_end_web/src/utils/widgets/dropdown.dart';
-import 'package:satpj_front_end_web/src/utils/widgets/rounded_text_field.dart';
-import 'package:satpj_front_end_web/src/utils/widgets/tema-formularios.dart';
+import 'package:satpj_front_end_web/src/utils/widgets/inputs/dropdown.dart';
+import 'package:satpj_front_end_web/src/utils/widgets/inputs/rounded_text_field.dart';
+import 'package:satpj_front_end_web/src/utils/widgets/formularios/tema_formularios.dart';
 
 class FormUserPersonalInformation extends StatefulWidget {
   Usuario usuario = new Usuario();
-  String prefix;
-  String label;
-  bool enabled;
-  bool fechaNacimiento;
+  final String prefix;
+  final String label;
+  final bool enabled;
+  final bool fechaNacimiento;
+  final requerido;
 
-  FormUserPersonalInformation(
-      {this.usuario,
-      this.prefix = 'el',
-      this.label = 'del practicante',
-      this.enabled = true,
-      this.fechaNacimiento = false});
+  FormUserPersonalInformation({
+    this.usuario,
+    this.prefix = 'el',
+    this.label = 'del practicante',
+    this.enabled = true,
+    this.fechaNacimiento = false,
+    this.requerido = true,
+  });
 
   @override
   _FormState createState() => _FormState();
@@ -94,7 +98,7 @@ class _FormState extends State<FormUserPersonalInformation> {
         data: temaFormularios(),
         child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
           Text(
-            'Nombre',
+            'Nombre ' + widget.label,
             textAlign: TextAlign.left,
             style: TextStyle(fontSize: 18.0),
           ),
@@ -110,13 +114,16 @@ class _FormState extends State<FormUserPersonalInformation> {
               hintText: 'Ingrese ' + widget.prefix + ' nombre ' + widget.label,
               validate: () {
                 widget.usuario.nombre = textControllerNombres.text;
-                return ValidadoresInput.validateEmpty(
-                    textControllerNombres.text,
-                    'Debe ingresar ' +
-                        widget.prefix +
-                        ' nombre ' +
-                        widget.label,
-                    '');
+                if (widget.requerido) {
+                  return ValidadoresInput.validateEmpty(
+                      textControllerNombres.text,
+                      'Debe ingresar ' +
+                          widget.prefix +
+                          ' nombre ' +
+                          widget.label,
+                      '');
+                }
+                return null;
               }),
           SizedBox(
             height: 20.0,
@@ -136,16 +143,19 @@ class _FormState extends State<FormUserPersonalInformation> {
               isEditing: _isEditingApellidos,
               enabled: widget.enabled,
               hintText:
-                  'Ingrese ' + widget.prefix + 's apellidos ' + widget.label,
+                  'Ingrese ' + (widget.prefix =='el' ? 'lo' : widget.prefix )+ 's apellidos ' + widget.label,
               validate: () {
                 widget.usuario.apellido = textControllerApellidos.text;
-                return ValidadoresInput.validateEmpty(
-                    textControllerApellidos.text,
-                    'Debe ingresar ' +
-                        widget.prefix +
-                        's apellidos ' +
-                        widget.label,
-                    '');
+                if (widget.requerido) {
+                  return ValidadoresInput.validateEmpty(
+                      textControllerApellidos.text,
+                      'Debe ingresar ' +
+                          widget.prefix +
+                          's apellidos ' +
+                          widget.label,
+                      '');
+                }
+                return null;
               }),
           SizedBox(
             height: 20.0,
@@ -166,13 +176,16 @@ class _FormState extends State<FormUserPersonalInformation> {
             values: kTtipoDocumento,
             validate: () {
               widget.usuario.tipoDocumento = textControllerTipoDocumento.text;
-              return ValidadoresInput.validateEmpty(
-                  textControllerTipoDocumento.text,
-                  'Seleccione ' +
-                      widget.prefix +
-                      ' tipo de documento ' +
-                      widget.label,
-                  '');
+              if (widget.requerido) {
+                return ValidadoresInput.validateEmpty(
+                    textControllerTipoDocumento.text,
+                    'Seleccione ' +
+                        widget.prefix +
+                        ' tipo de documento ' +
+                        widget.label,
+                    '');
+              }
+              return null;
             },
           ),
           SizedBox(
@@ -201,13 +214,16 @@ class _FormState extends State<FormUserPersonalInformation> {
                   widget.label,
               validate: () {
                 widget.usuario.documento = textControllerDocumento.text;
-                return ValidadoresInput.validateEmpty(
-                    textControllerDocumento.text,
-                    'Debe ingresar ' +
-                        widget.prefix +
-                        ' número de documento ' +
-                        widget.label,
-                    '');
+                if (widget.requerido) {
+                  return ValidadoresInput.validateEmpty(
+                      textControllerDocumento.text,
+                      'Debe ingresar ' +
+                          widget.prefix +
+                          ' número de documento ' +
+                          widget.label,
+                      '');
+                }
+                return null;
               }),
           SizedBox(
             height: 20.0,
@@ -221,19 +237,25 @@ class _FormState extends State<FormUserPersonalInformation> {
               lastDate: DateTime.now(),
               icon: Icon(Icons.event),
               dateLabelText: 'Fecha Nacimiento',
-              onChanged: (val) => print(
-                  val), //esAdulto(fechaNacimiento: textControllerFechaNacimiento.text),
-              validator: (val) {
-                //esAdulto(fechaNacimiento: textControllerFechaNacimiento.text);
-                return ValidadoresInput.validateEmpty(
-                    textControllerFechaNacimiento.text,
-                    'Debe ingresar ' +
-                        widget.prefix +
-                        ' fecha de nacimiento ' +
-                        widget.label,
-                    '');
+              onChanged: (val) {
+                if (widget.usuario is Paciente) {
+                  Paciente paciente = widget.usuario as Paciente;
+                  paciente.esAdulto(
+                      fechaNacimiento: textControllerFechaNacimiento.text);
+                }
               },
-
+              validator: (val) {
+                if (widget.requerido) {
+                  return ValidadoresInput.validateEmpty(
+                      textControllerFechaNacimiento.text,
+                      'Debe ingresar ' +
+                          widget.prefix +
+                          ' fecha de nacimiento ' +
+                          widget.label,
+                      '');
+                }
+                return null;
+              },
               onSaved: (val) => print(val),
             ),
           if (widget.fechaNacimiento)
@@ -260,9 +282,12 @@ class _FormState extends State<FormUserPersonalInformation> {
                   widget.label,
               validate: () {
                 widget.usuario.email = textControllerEmail.text;
-                return ValidadoresInput.validateEmail(
-                  textControllerEmail.text,
-                );
+                if (widget.requerido) {
+                  return ValidadoresInput.validateEmail(
+                    textControllerEmail.text,
+                  );
+                }
+                return null;
               }),
           SizedBox(
             height: 20.0,
@@ -285,13 +310,16 @@ class _FormState extends State<FormUserPersonalInformation> {
                   'Ingrese ' + widget.prefix + ' teléfono ' + widget.label,
               validate: () {
                 widget.usuario.telefono = textControllerTelefono.text;
-                return ValidadoresInput.validateEmpty(
-                    textControllerTelefono.text,
-                    'Debe ingresar ' +
-                        widget.prefix +
-                        ' número de teléfono ' +
-                        widget.label,
-                    '');
+                if (widget.requerido) {
+                  return ValidadoresInput.validateEmpty(
+                      textControllerTelefono.text,
+                      'Debe ingresar ' +
+                          widget.prefix +
+                          ' número de teléfono ' +
+                          widget.label,
+                      '');
+                }
+                return null;
               }),
           SizedBox(
             height: 20.0,
@@ -314,13 +342,16 @@ class _FormState extends State<FormUserPersonalInformation> {
                   'Ingrese ' + widget.prefix + ' dirección ' + widget.label,
               validate: () {
                 widget.usuario.direccion = textControllerDireccion.text;
-                return ValidadoresInput.validateEmpty(
-                    textControllerDireccion.text,
-                    'Debe ingresar ' +
-                        widget.prefix +
-                        ' dirección ' +
-                        widget.label,
-                    '');
+                if (widget.requerido) {
+                  return ValidadoresInput.validateEmpty(
+                      textControllerDireccion.text,
+                      'Debe ingresar ' +
+                          widget.prefix +
+                          ' dirección ' +
+                          widget.label,
+                      '');
+                }
+                return null;
               }),
           SizedBox(
             height: 20.0,

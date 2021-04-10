@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:satpj_front_end_movil/src/views/home_acudientes/vista_home_practicantes.dart';
 
 import '../autenticacion.dart';
 
@@ -251,6 +252,7 @@ class _AuthDialogState extends State<AuthDialog> {
                                         loginStatus =
                                             'Ha ingresado Correctamente';
                                         loginStringColor = Colors.green;
+                                        Navigator.pushNamed(context, HomePracticantes.route);
                                       });
                                     }
                                   }).catchError((error) {

@@ -1,12 +1,13 @@
 
 import 'package:flutter/material.dart';
+import 'package:satpj_front_end_web/src/model/grupo/grupo.dart';
 import 'package:satpj_front_end_web/src/model/paciente/paciente.dart';
 import 'package:satpj_front_end_web/src/utils/tema.dart';
 import 'package:satpj_front_end_web/src/utils/widgets/Barras/toolbar_inicio.dart';
-import 'package:satpj_front_end_web/src/utils/widgets/button-forms.dart';
-import 'package:satpj_front_end_web/src/utils/widgets/tema-formularios.dart';
+import 'package:satpj_front_end_web/src/utils/widgets/botones/button_forms.dart';
+import 'package:satpj_front_end_web/src/utils/widgets/formularios/tema_formularios.dart';
 import 'package:satpj_front_end_web/src/utils/widgets/formularios/formulario_paciente.dart';
-import 'package:satpj_front_end_web/src/views/registro/vista_pre_registro_2.dart';
+import 'package:satpj_front_end_web/src/views/registro/vista_pre_registro.dart';
 import 'package:satpj_front_end_web/src/views/registro/vista_pre_registro_3.dart';
 
 class PreRegisterPage1 extends StatefulWidget {
@@ -35,7 +36,7 @@ class _PreRegisterPage1State extends State<PreRegisterPage1> {
                         Container( 
                           padding: EdgeInsets.all(40.0),
                           width: 850.0, 
-                          child: RegisterFormPersonalInformation(paciente: new Paciente(),)
+                          child: RegisterFormPersonalInformation(),
                         ),
                       ],
                     ),
@@ -49,9 +50,7 @@ class _PreRegisterPage1State extends State<PreRegisterPage1> {
 
 class RegisterFormPersonalInformation extends StatefulWidget {
   
-  Paciente paciente = new Paciente();
-
-  RegisterFormPersonalInformation({this.paciente});
+  RegisterFormPersonalInformation();
   
   @override
   RegisterFormPersonalInformationState createState() {
@@ -61,40 +60,68 @@ class RegisterFormPersonalInformation extends StatefulWidget {
 
 class RegisterFormPersonalInformationState extends State<RegisterFormPersonalInformation> {
   
-  GlobalKey<FormState> formKey;
+  GlobalKey<FormState> _formKey;
+  Paciente paciente;
+  Grupo grupo;
 
   @override
   void initState() {
-    formKey = new GlobalKey<FormState>();
-    widget.paciente.edad = 0;  
+    _formKey = new GlobalKey<FormState>();
+     
+     paciente = new Paciente();
+     paciente.edad = 0;  
+     paciente.estadoAprobado='PendienteAprobacion';
+
+     grupo = new Grupo();
+     grupo.integrantes = [];
+
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
+    
+    final Map arguments = ModalRoute.of(context).settings.arguments as Map;
+
+    if (arguments != null){
+        grupo.integrantes.add(arguments['arguments'] as Paciente);
+        grupo.integrantes.add(paciente);
+        print(grupo.integrantes.length);
+    }
+
     return Theme(
       data: temaFormularios(),
       child: Form(
-          key: formKey,
+          key: _formKey,
           child:
          Column(
            crossAxisAlignment: CrossAxisAlignment.start, 
            children: [
             FormPatientInformation(
-                paciente: widget.paciente,
+                paciente: paciente,
                 fechaNacimiento: true,
             ),
             Row(
-              mainAxisAlignment: MainAxisAlignment.end,
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
+                Container(
+                  width: 126.0,
+                  height: 40.0,
+                  child: ButtonForms(
+                    formKey: _formKey,
+                    label: 'Atras',
+                    color: Colors.grey[600],
+                    route: PreRegisterHomePage.route,
+                  ),
+                ),
                 Container(
                   height: 40.0,
                   child: ButtonForms(
-                    formKey: formKey,
+                    formKey: _formKey,
                     label: 'Siguiente',
                     color: kPrimaryColor,
-                    route: widget.paciente.edad >= 18 ? PreRegisterPage3.route : PreRegisterPage2.route,
-                    arguments: widget.paciente
+                    route: PreRegisterPage3.route,
+                    arguments: grupo
                   ), 
                 ),
               ],
