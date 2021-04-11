@@ -82,6 +82,7 @@ public class ServicioPaqueteSesion {
         psActualizar.setCantidadSesiones(paqueteSesion.getCantidadSesiones());
         psActualizar.setTotal(paqueteSesion.getTotal());
         psActualizar.setPaciente(paqueteSesion.getPaciente());
+        psActualizar.setFecha(paqueteSesion.getFecha());
 
         repositorioPaqueteSesion.save(psActualizar);
     }

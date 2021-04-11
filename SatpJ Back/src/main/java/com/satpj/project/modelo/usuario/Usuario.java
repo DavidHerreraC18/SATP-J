@@ -16,7 +16,6 @@ import javax.persistence.Table;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotNull;
 
-import org.hibernate.validator.constraints.Length;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.satpj.project.modelo.alerta.AlertaUsuario;
@@ -75,10 +74,13 @@ public class Usuario {
 	@Column(name = "telefono", nullable = false)
 	private String telefono;
 
-	@NotNull(message = "La Contraseña es obligatoria")
-	@Length(min = 8, message = "La Contraseña debe tener al menos 8 caracteres")
-	@Column(name = "hash_contrasena", nullable = false)
-	private String hashContrasena;
+	@NotNull(message = "El Tipo de Usuario es obligatorio")
+	@Column(name = "tipo_usuario", nullable = false)
+	private String tipoUsuario;
+
+	@Column(name = "direccion", nullable = true)
+	private String direccion;
+
 
 	/*
 	 * Es un elemento que contiene la clave y la fecha de la sesión actual del

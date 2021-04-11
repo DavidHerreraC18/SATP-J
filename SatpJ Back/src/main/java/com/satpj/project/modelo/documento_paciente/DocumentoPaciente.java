@@ -39,7 +39,6 @@ public class DocumentoPaciente {
 
 	@ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
 	@JoinColumn(name = "paciente_id", nullable = false)
-	@MapsId
 	private Paciente paciente;
 
 	@NotNull(message = "El Nombre del Documento es obligatorio")
@@ -49,7 +48,7 @@ public class DocumentoPaciente {
 	@Lob
 	@NotNull(message = "El Contenido del Documento es obligatorio")
 	@Column(name = "contenido", nullable = false)
-	private Blob contenido;
+	private String contenido;
 
 	@NotNull(message = "El Tipo del Documento es obligatorio")
 	@Column(name = "tipo", nullable = false)
@@ -60,7 +59,7 @@ public class DocumentoPaciente {
 	private LocalDateTime radicacion;
 
 	@NotNull(message = "La Fecha de Vencimiento del Documento es obligatorio")
-	@Column(name = "vencimiento", nullable = false)
+	@Column(name = "vencimiento", nullable = true)
 	private LocalDateTime vencimiento;
 
 }

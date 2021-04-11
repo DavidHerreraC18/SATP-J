@@ -3,6 +3,8 @@ package com.satpj.project.modelo.paquete_sesion;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.time.LocalDate;
+
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -12,7 +14,6 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.persistence.MapsId;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
@@ -38,7 +39,6 @@ public class PaqueteSesion {
 
     @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JoinColumn(name = "paciente_id", nullable = false)
-    @MapsId
     private Paciente paciente;
 
     @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "paqueteSesion")
@@ -52,5 +52,9 @@ public class PaqueteSesion {
     @NotNull(message = "El Total a pagar por el Paquete es obligatorio")
     @Column(name = "total", nullable = false)
     private double total;
+
+    @NotNull(message = "La fecha debe ser obligatoria")
+    @Column(name = "fecha", nullable = false)
+    private LocalDate fecha;
 
 }

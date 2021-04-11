@@ -34,7 +34,6 @@ public class RegistroPractica {
 
     @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JoinColumn(name = "practicante_id", nullable = false)
-    @MapsId
     private Practicante practicante;
 
     /* Horas totales de las Sesiones de Terapia realizadas */
