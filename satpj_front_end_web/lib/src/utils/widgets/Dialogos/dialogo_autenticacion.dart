@@ -267,7 +267,7 @@ class _AuthDialogState extends State<AuthDialog> {
                                     print('Error de Ingreso: $error');
                                     setState(() {
                                       loginStatus =
-                                          'Ha ocurrido un error al iniciar sesión';
+                                          'Ha ocurrido un error al iniciar sesión, puede que su correo o contraseña este mal';
                                       loginStringColor = Colors.red;
                                     });
                                   });
