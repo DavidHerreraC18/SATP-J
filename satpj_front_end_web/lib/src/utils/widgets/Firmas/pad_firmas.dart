@@ -13,7 +13,7 @@ class PadFirmas extends StatefulWidget {
   @override
   _PadFirmasState createState() => _PadFirmasState();
 
-  Function callBack;
+  final Function callBack;
   PadFirmas(this.callBack, {Key key}) : super(key: key);
 }
 
@@ -143,7 +143,6 @@ class _PadFirmasState extends State<PadFirmas> {
                 FlatButton(
                     onPressed: () {
                       _handleSaveButtonPressed();
-                      widget.callBack(_signatureData, _isSigned);
                       Navigator.of(context).pop();
                     },
                     child: const Text('GUARDAR',
@@ -215,6 +214,7 @@ class _PadFirmasState extends State<PadFirmas> {
       data =
           await ImageConverter.toImage(renderSignaturePad: renderSignaturePad);
       _isSigned = true;
+      widget.callBack(data, _isSigned);
     } else {
       final imageData =
           await _signaturePadKey.currentState.toImage(pixelRatio: 3.0);
@@ -223,6 +223,7 @@ class _PadFirmasState extends State<PadFirmas> {
             await imageData.toByteData(format: ui.ImageByteFormat.png);
         data = bytes.buffer.asUint8List();
         _isSigned = true;
+        widget.callBack(data, _isSigned);
       }
     }
 

@@ -1,5 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/scheduler.dart';
+import 'package:satpj_front_end_web/src/model/paciente/paciente.dart';
+import 'package:satpj_front_end_web/src/model/usuario/usuario.dart';
+import 'package:satpj_front_end_web/src/providers/provider_administracion_pacientes.dart';
+import 'package:satpj_front_end_web/src/providers/provider_administracion_usuarios.dart';
 import 'package:satpj_front_end_web/src/providers/provider_autenticacion.dart';
+import 'package:satpj_front_end_web/src/views/documentacion/vista_registro_documentos.dart';
 import 'package:satpj_front_end_web/src/views/vista_home.dart';
 
 //import 'google_sign_in_button.dart';
@@ -255,12 +261,8 @@ class _AuthDialogState extends State<AuthDialog> {
                                       });
                                       Future.delayed(
                                           Duration(milliseconds: 500), () {
-                                        Navigator.of(context).pop();
-                                        Navigator.of(context).pushReplacement(
-                                            MaterialPageRoute(
-                                                fullscreenDialog: true,
-                                                builder: (context) =>
-                                                    ContadorPage()));
+                                        //Navigator.of(context).pop();
+                                        _funcionFea(context);
                                       });
                                     }
                                   }).catchError((error) {
@@ -362,5 +364,24 @@ class _AuthDialogState extends State<AuthDialog> {
         ),
       ),
     );
+  }
+
+  _funcionFea(BuildContext context) async {
+    String uid = ProviderAuntenticacion.uid;
+    Usuario usuario = await ProviderAdministracionUsuarios.buscarUsuario(uid);
+    print(usuario.tipoUsuario);
+    if (usuario.tipoUsuario == "Paciente") {
+      Paciente paciente =
+          await ProviderAdministracionPacientes.buscarPaciente(usuario.id);
+      print("BBBBBBBBB");
+      if (paciente.estadoAprobado == "PreAprobado") {
+        Navigator.of(context).pushReplacement(MaterialPageRoute(
+            fullscreenDialog: true,
+            builder: (context) => VistaRegistroDocumentos(paciente)));
+      }
+    } else {
+      Navigator.of(context).pushReplacement(MaterialPageRoute(
+          fullscreenDialog: true, builder: (context) => ContadorPage()));
+    }
   }
 }
