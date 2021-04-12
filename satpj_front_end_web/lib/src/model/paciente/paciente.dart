@@ -23,6 +23,11 @@ List<Paciente> pacienteFromJson(String str) =>
 String pacienteToJson(List<Paciente> data) =>
     json.encode(List<dynamic>.from(data.map((x) => x.toJson())));
 
+Paciente singlePacienteFromJson(String str) {
+  Paciente paciente = Paciente.fromJson(json.decode(str));
+  return paciente;
+}
+
 @JsonSerializable(explicitToJson: true)
 class Paciente extends Usuario {
   Supervisor supervisor;
@@ -107,8 +112,8 @@ class Paciente extends Usuario {
       int dayDiff = today.day - birthDate.day;
       edad = yearDiff;
 
-      if (yearDiff > 18 || (yearDiff == 18 && monthDiff >= 0 && dayDiff >= 0)) {            
-         return true;
+      if (yearDiff > 18 || (yearDiff == 18 && monthDiff >= 0 && dayDiff >= 0)) {
+        return true;
       }
     }
     return false;

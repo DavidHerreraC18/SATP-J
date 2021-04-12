@@ -46,27 +46,23 @@ class _VistaGestionarPacientesState extends State<VistaGestionarPacientes> {
       appBar: toolbarAuxiliarAdministrativo(context),
       body: Row(
         children: [
-           IconButton(
-              icon: Icon(
-                Icons.add,
-                color: Colors.white,
-              ),
-              color: kPrimaryColor,
-              onPressed: () {
-                showDialog(context: context, builder: (context) => DialogoCrearPaciente());
-              },
+          IconButton(
+            icon: Icon(
+              Icons.add,
+              color: Colors.white,
             ),
-            DialogoCrearPaciente(),
-            IconButton(
-              icon: Icon(
-                Icons.edit,
-                color: Colors.white,
-              ),
-              color: kPrimaryColor,
-
-              onPressed: () {
-                showDialog(context: context, builder: (context) => DialogoEditarPaciente(paciente: paciente));
-              },
+            color: kPrimaryColor,
+            onPressed: () {
+              showDialog(
+                  context: context,
+                  builder: (context) => DialogoCrearPaciente());
+            },
+          ),
+          DialogoCrearPaciente(),
+          IconButton(
+            icon: Icon(
+              Icons.edit,
+              color: Colors.white,
             ),
             color: kPrimaryColor,
             onPressed: () {
