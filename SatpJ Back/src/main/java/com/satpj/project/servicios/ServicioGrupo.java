@@ -32,7 +32,7 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
  */
 @Getter
 @Setter
-@EnableAutoConfiguration(exclude= SecurityAutoConfiguration.class)
+@EnableAutoConfiguration(exclude = SecurityAutoConfiguration.class)
 @RestController
 @RequestMapping("grupos")
 public class ServicioGrupo {
@@ -55,7 +55,8 @@ public class ServicioGrupo {
      * JSON que genera la relacion Paciente - Grupo
      */
     @GetMapping(value = "/{id}/integrantes", produces = "application/json")
-    public List<Paciente> findIntegrantesById(@AuthenticationPrincipal CustomPrincipal customPrincipal, @PathVariable("id") Long id) {
+    public List<Paciente> findIntegrantesById(@AuthenticationPrincipal CustomPrincipal customPrincipal,
+            @PathVariable("id") Long id) {
         Grupo grupo = repositorioGrupo.findById(id).get();
         Preconditions.checkNotNull(grupo);
         return grupo.getIntegrantes();
@@ -70,7 +71,8 @@ public class ServicioGrupo {
 
     @PutMapping(value = "/{id}")
     @ResponseStatus(HttpStatus.OK)
-    public void update(@AuthenticationPrincipal CustomPrincipal customPrincipal, @PathVariable("id") Long id, @RequestBody Grupo grupo) {
+    public void update(@AuthenticationPrincipal CustomPrincipal customPrincipal, @PathVariable("id") Long id,
+            @RequestBody Grupo grupo) {
         Preconditions.checkNotNull(grupo);
 
         Grupo gActualizar = repositorioGrupo.findById(grupo.getId()).orElse(null);
@@ -85,5 +87,7 @@ public class ServicioGrupo {
     public void delete(@AuthenticationPrincipal CustomPrincipal customPrincipal, @PathVariable("id") Long id) {
         repositorioGrupo.deleteById(id);
     }
+    
+    
 
 }

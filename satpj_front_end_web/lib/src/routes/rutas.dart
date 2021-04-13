@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:satpj_front_end_web/src/views/agendar_citas/gestionar_agendamiento.dart';
 import 'package:satpj_front_end_web/src/views/gestionar_horario_practicante/vista_horario_practicante_opcion_1.dart';
 import 'package:satpj_front_end_web/src/views/gestionar_horario_practicante/vista_gestionar_horario_practicante.dart';
 import 'package:satpj_front_end_web/src/views/gestionar_horario_practicante/vista_horario_practicante_opcion_2.dart';
@@ -28,6 +29,7 @@ Map<String, WidgetBuilder> getAppRoutes() {
     VistaGestionarPacientes.route   : (BuildContext context) => VistaGestionarPacientes(),
     VistaGestionarPracticantes.route : (BuildContext context) => VistaGestionarPracticantes(),
     VistaGestionarSupervisores.route : (BuildContext context) => VistaGestionarSupervisores(),
+    VistaGestionarAgendamiento.route : (BuildContext context) => VistaGestionarAgendamiento(),
     VistaGestionarHorarioPracticante.route: (BuildContext context) => VistaGestionarHorarioPracticante(),
     VistaHorarioPracticanteOpcion1.route : (BuildContext context) => VistaHorarioPracticanteOpcion1(),
     VistaHorarioPracticanteOpcion2.route : (BuildContext context) => VistaHorarioPracticanteOpcion2(),

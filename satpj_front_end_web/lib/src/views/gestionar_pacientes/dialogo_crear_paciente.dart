@@ -653,7 +653,7 @@ class _CuartaPaginaCrearPacienteState extends State<CuartaPaginaCrearPaciente> {
                   ),
                   FotterDialog(
                     labelCancelBtn: 'Atrás',
-                    labelConfirmBtn: 'Siguiente',
+                    labelConfirmBtn: 'Crear',
                     colorConfirmBtn: kPrimaryColor,
                     formKey: _formKey,
                     paginator: true,

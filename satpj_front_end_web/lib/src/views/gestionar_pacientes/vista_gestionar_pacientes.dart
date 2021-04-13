@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:satpj_front_end_web/src/model/paciente/paciente.dart';
+import 'package:satpj_front_end_web/src/model/supervisor/supervisor.dart';
 import 'package:satpj_front_end_web/src/utils/tema.dart';
 import 'package:satpj_front_end_web/src/utils/widgets/Barras/toolbar_auxiliar_administrativo.dart';
+import 'package:satpj_front_end_web/src/views/agendar_citas/dialogo_sesion_terapia.dart';
 import 'package:satpj_front_end_web/src/views/documentacion/dialogo_consentimiento_principal.dart';
 import 'package:satpj_front_end_web/src/views/gestionar_pacientes/dialogo_crear_paciente.dart';
 
@@ -33,6 +35,10 @@ class _VistaGestionarPacientesState extends State<VistaGestionarPacientes> {
     paciente.telefono = '32324214';
     paciente.direccion = 'Calle 23 # 44-20';
     paciente.estrato = 3;
+    paciente.supervisor = new Supervisor();
+    paciente.supervisor.nombre = 'Juanito';
+    paciente.supervisor.apellido = 'Rodriguez';
+
   }
 
   @override
@@ -57,6 +63,16 @@ class _VistaGestionarPacientesState extends State<VistaGestionarPacientes> {
               color: kPrimaryColor,
               onPressed: () {
                 showDialog(context: context, builder: (context) => DialogoCrearPaciente());
+              },
+            ),
+            IconButton(
+              icon: Icon(
+                Icons.add,
+                color: kPrimaryColor,
+              ),
+              color: kPrimaryColor,
+              onPressed: () {
+                showDialog(context: context, builder: (context) => DialogoAgendarSesionTerapia(paciente: paciente,));
               },
             ),
             DialogoCrearPaciente(),
