@@ -46,6 +46,10 @@ Paciente _$PacienteFromJson(Map<String, dynamic> json) {
     formulario: json['formulario'] == null
         ? null
         : Formulario.fromJson(json['formulario'] as Map<String, dynamic>),
+    formularioExtra: json['formularioExtra'] == null
+        ? null
+        : FormularioExtra.fromJson(
+            json['formularioExtra'] as Map<String, dynamic>),
     estadoAprobado: json['estadoAprobado'] as String,
     estrato: json['estrato'] as int,
     edad: json['edad'] as int,
@@ -74,6 +78,7 @@ Map<String, dynamic> _$PacienteToJson(Paciente instance) => <String, dynamic>{
           instance.paqueteSesion?.map((e) => e?.toJson())?.toList(),
       'acudientes': instance.acudientes?.map((e) => e?.toJson())?.toList(),
       'formulario': instance.formulario?.toJson(),
+      'formularioExtra': instance.formularioExtra?.toJson(),
       'estadoAprobado': instance.estadoAprobado,
       'estrato': instance.estrato,
       'edad': instance.edad,

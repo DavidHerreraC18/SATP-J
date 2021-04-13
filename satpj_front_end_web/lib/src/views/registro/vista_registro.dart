@@ -1,23 +1,27 @@
 import 'package:flutter/material.dart';
-import 'package:satpj_front_end_web/src/model/grupo/grupo.dart';
+import 'package:satpj_front_end_web/src/model/formulario/formulario_extra.dart';
 import 'package:satpj_front_end_web/src/model/paciente/paciente.dart';
 import 'package:satpj_front_end_web/src/utils/tema.dart';
-import 'package:satpj_front_end_web/src/utils/validators/validadores-input.dart';
 import 'package:satpj_front_end_web/src/utils/widgets/Barras/toolbar_inicio.dart';
 import 'package:satpj_front_end_web/src/utils/widgets/botones/button_forms.dart';
 import 'package:satpj_front_end_web/src/utils/widgets/formularios/formulario_paciente_extra.dart';
 import 'package:satpj_front_end_web/src/utils/widgets/formularios/tema_formularios.dart';
-import 'package:satpj_front_end_web/src/utils/widgets/formularios/formulario_paciente.dart';
 import 'package:satpj_front_end_web/src/views/documentacion/vista_registro_documentos.dart';
 
-class PreRegisterHomePage extends StatefulWidget {
+Paciente pacienteActual;
+
+class RegisterHomePage extends StatefulWidget {
   static const route = '/registro';
 
+  RegisterHomePage(Paciente pA, {Key key}) : super(key: key) {
+    pacienteActual = pA;
+  }
+
   @override
-  _PreRegisterHomePageState createState() => _PreRegisterHomePageState();
+  _RegisterHomePageState createState() => _RegisterHomePageState();
 }
 
-class _PreRegisterHomePageState extends State<PreRegisterHomePage> {
+class _RegisterHomePageState extends State<RegisterHomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -73,10 +77,8 @@ class RegisterForm extends StatefulWidget {
 class RegisterFormState extends State<RegisterForm> {
   GlobalKey<FormState> _formKey;
 
-  bool grupal = false;
-  bool individual = false;
-
   Paciente paciente;
+  FormularioExtra formularioExtra;
 
   String definirRuta() {
     return VistaRegistroDocumentos.route;
@@ -84,12 +86,12 @@ class RegisterFormState extends State<RegisterForm> {
 
   @override
   void initState() {
+    super.initState();
     _formKey = GlobalKey<FormState>();
 
-    paciente = new Paciente();
-    paciente.edad = 0;
-
-    super.initState();
+    paciente = pacienteActual;
+    formularioExtra = new FormularioExtra();
+    formularioExtra.paciente = paciente;
   }
 
   @override
@@ -109,23 +111,7 @@ class RegisterFormState extends State<RegisterForm> {
             SizedBox(
               height: 8.0,
             ),
-            FormPatientExtraInformation(
-              paciente: paciente,
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.end,
-              children: [
-                Container(
-                  height: 40.0,
-                  child: ButtonForms(
-                      formKey: _formKey,
-                      label: 'Siguiente',
-                      color: kPrimaryColor,
-                      functionRouting: (int edad) => definirRuta(),
-                      arguments: paciente),
-                ),
-              ],
-            ),
+            FormPatientExtraInformation(),
           ],
         ),
       ),

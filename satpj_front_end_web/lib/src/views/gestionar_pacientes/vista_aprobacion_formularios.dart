@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:lite_rolling_switch/lite_rolling_switch.dart';
 
 import 'package:provider/provider.dart';
 import 'package:satpj_front_end_web/src/model/Notificadores/data_notifier.dart';
 import 'package:satpj_front_end_web/src/model/formulario/formulario.dart';
+import 'package:satpj_front_end_web/src/utils/tema.dart';
 import 'package:satpj_front_end_web/src/utils/widgets/Barras/toolbar_auxiliar_administrativo.dart';
 import 'package:satpj_front_end_web/src/utils/widgets/Dialogos/dialogo_preaprobacion.dart';
 import 'package:satpj_front_end_web/src/utils/widgets/FuentesDatos/datatablesource_formulario.dart';
@@ -16,12 +18,30 @@ class VistaAprobacionFormularios extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: toolbarAuxiliarAdministrativo(context),
-      body: ChangeNotifierProvider<FormularioNotifier>(
-        create: (_) => FormularioNotifier(),
-        child: _InternalWidget(),
-      ),
-    );
+        appBar: toolbarAuxiliarAdministrativo(context),
+        body: Row(
+          children: [
+            LiteRollingSwitch(
+              //initial value
+              value: true,
+              textOn: 'disponible',
+              textOff: 'ocupado',
+              colorOn: kPrimaryColor,
+              colorOff: kAccentColor,
+              iconOn: Icons.done,
+              iconOff: Icons.remove_circle_outline,
+              textSize: 16.0,
+              onChanged: (bool state) {
+                //Use it to manage the different states
+                print('Current State of SWITCH IS: $state');
+              },
+            ),
+            ChangeNotifierProvider<FormularioNotifier>(
+              create: (_) => FormularioNotifier(),
+              child: _InternalWidget(),
+            ),
+          ],
+        ));
   }
 }
 

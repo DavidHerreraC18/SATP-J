@@ -34,12 +34,12 @@ public class ServicioTarifaSesion {
     @Autowired
     private RepositorioTarifaSesion repositorioTarifaSesion;
 
-    @GetMapping(produces = "application/json")
+    @GetMapping(produces = "application/json; charset=UTF-8")
     public List<TarifaSesion> findAll(@AuthenticationPrincipal CustomPrincipal customPrincipal) {
         return repositorioTarifaSesion.findAll();
     }
 
-    @GetMapping(value = "/{id}", produces = "application/json")
+    @GetMapping(value = "/{id}", produces = "application/json; charset=UTF-8")
     public TarifaSesion findById(@AuthenticationPrincipal CustomPrincipal customPrincipal,@PathVariable("id") Long id) {
         return repositorioTarifaSesion.findById(id).get();
     }

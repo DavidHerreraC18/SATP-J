@@ -42,12 +42,12 @@ public class ServicioComprobantePago {
     @Autowired
     private ServicioPaqueteSesion ServicioPaqueteSesion;
 
-    @GetMapping(produces = "application/json")
+    @GetMapping(produces = "application/json; charset=UTF-8")
     public List<ComprobantePago> findAll(@AuthenticationPrincipal CustomPrincipal customPrincipal) {
         return repositorioComprobantePago.findAll();
     }
 
-    @GetMapping(value = "/{id}", produces = "application/json")
+    @GetMapping(value = "/{id}", produces = "application/json; charset=UTF-8")
     public ComprobantePago findById(@AuthenticationPrincipal CustomPrincipal customPrincipal, @PathVariable("id") Long id) {
         return repositorioComprobantePago.findById(id).get();
     }
@@ -56,7 +56,7 @@ public class ServicioComprobantePago {
      * La funcion findInformesByComprobanteId tiene el proposito de evitar la
      * recursion en JSON que genera la relacion ComprobantePago - InformePago
      */
-    @GetMapping(value = "/{id}/informes", produces = "application/json")
+    @GetMapping(value = "/{id}/informes", produces = "application/json; charset=UTF-8")
     public List<InformePago> findInformesByComprobanteId(@AuthenticationPrincipal CustomPrincipal customPrincipal, @PathVariable("id") Long id) {
         ComprobantePago comprobantePago = repositorioComprobantePago.findById(id).get();
         Preconditions.checkNotNull(comprobantePago);

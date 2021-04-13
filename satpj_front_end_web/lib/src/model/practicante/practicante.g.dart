@@ -24,6 +24,7 @@ Practicante _$PracticanteFromJson(Map<String, dynamic> json) {
             : PracticantePaciente.fromJson(e as Map<String, dynamic>))
         ?.toList(),
     pregrado: json['pregrado'] as bool,
+    aforo: json['aforo'] as int,
     semestre: json['semestre'] as int,
     enfoque: json['enfoque'] as String,
     activo: json['activo'] as bool,
@@ -45,6 +46,7 @@ Map<String, dynamic> _$PracticanteToJson(Practicante instance) =>
       'practicante': instance.practicante?.map((e) => e?.toJson())?.toList(),
       'pregrado': instance.pregrado,
       'semestre': instance.semestre,
+      'aforo': instance.aforo,
       'enfoque': instance.enfoque,
       'activo': instance.activo,
     };

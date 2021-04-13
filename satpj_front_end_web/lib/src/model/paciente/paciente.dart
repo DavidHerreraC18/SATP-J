@@ -3,6 +3,7 @@ import 'package:satpj_front_end_web/src/model/acudiente/acudiente.dart';
 import 'package:satpj_front_end_web/src/model/alerta/alerta_usuario.dart';
 import 'package:satpj_front_end_web/src/model/documento_paciente/documento_paciente.dart';
 import 'package:satpj_front_end_web/src/model/formulario/formulario.dart';
+import 'package:satpj_front_end_web/src/model/formulario/formulario_extra.dart';
 import 'package:satpj_front_end_web/src/model/grupo/grupo.dart';
 
 import 'package:json_annotation/json_annotation.dart';
@@ -49,6 +50,9 @@ class Paciente extends Usuario {
   //@JsonKey(ignore: true)
   Formulario formulario;
 
+  //@JsonKey(ignore: true)
+  FormularioExtra formularioExtra;
+
   String estadoAprobado;
 
   int estrato;
@@ -78,6 +82,7 @@ class Paciente extends Usuario {
       this.paqueteSesion,
       this.acudientes,
       this.formulario,
+      this.formularioExtra,
       this.estadoAprobado,
       this.estrato,
       this.edad,

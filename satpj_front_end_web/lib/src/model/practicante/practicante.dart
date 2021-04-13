@@ -23,6 +23,8 @@ class Practicante extends Usuario {
 
   int semestre;
 
+  int aforo;
+
   String enfoque;
 
   bool activo;
@@ -43,6 +45,7 @@ class Practicante extends Usuario {
       String infoSesion,
       this.practicante,
       this.pregrado,
+      this.aforo,
       this.semestre,
       this.enfoque,
       this.activo})

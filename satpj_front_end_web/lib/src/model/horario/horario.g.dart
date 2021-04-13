@@ -12,6 +12,7 @@ Horario _$HorarioFromJson(Map<String, dynamic> json) {
     usuario: json['usuario'] == null
         ? null
         : Usuario.fromJson(json['usuario'] as Map<String, dynamic>),
+    opcion: json['opcion'] as String,
     lunes: json['lunes'] as String,
     martes: json['martes'] as String,
     miercoles: json['miercoles'] as String,

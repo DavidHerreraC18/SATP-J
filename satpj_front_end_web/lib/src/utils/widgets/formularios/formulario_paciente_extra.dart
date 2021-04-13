@@ -1,22 +1,20 @@
 import 'package:flutter/material.dart';
+import 'package:satpj_front_end_web/src/model/formulario/formulario_extra.dart';
 import 'package:satpj_front_end_web/src/model/paciente/paciente.dart';
+import 'package:satpj_front_end_web/src/providers/provider_aprobacion_pacientes.dart';
 import 'package:satpj_front_end_web/src/utils/tema.dart';
 import 'package:satpj_front_end_web/src/utils/validators/validadores-input.dart';
-import 'package:satpj_front_end_web/src/utils/widgets/formularios/container_stack.dart';
-import 'package:satpj_front_end_web/src/utils/widgets/formularios/formulario_usuario.dart';
 import 'package:satpj_front_end_web/src/utils/widgets/formularios/tema_formularios.dart';
 import 'package:satpj_front_end_web/src/utils/widgets/inputs/rounded_text_field.dart';
-
-import '../../../constants.dart';
-import '../inputs/dropdown.dart';
+import 'package:satpj_front_end_web/src/views/documentacion/vista_registro_documentos.dart';
 
 class FormPatientExtraInformation extends StatefulWidget {
-  final Paciente paciente;
   final bool stack;
   final bool enabled;
+  final Paciente pacienteActual;
 
   FormPatientExtraInformation({
-    this.paciente,
+    this.pacienteActual,
     this.stack = true,
     this.enabled = true,
   });
@@ -37,22 +35,26 @@ enum EscolaridadChar {
   universitario_incompleto,
   posgrado_completo,
   posgrado_incompleto,
-  otro
+  otro,
+  unchecked,
 }
 
-enum CivilChar { soltero, casado, union_libre, separado, viudo }
+enum CivilChar { soltero, casado, union_libre, separado, viudo, unchecked }
 
 enum EpsChar {
   si,
   no,
+  unchecked,
 }
 
 enum SaludChar {
   cotizante,
   beneficiario,
+  unchecked,
 }
 
 class _FormState extends State<FormPatientExtraInformation> {
+  FormularioExtra formularioExtra;
   TextEditingController textControllerInsti;
   FocusNode textFocusNodeInsti;
   bool _isEditingInsti = false;
@@ -81,21 +83,30 @@ class _FormState extends State<FormPatientExtraInformation> {
   FocusNode textFocusNodeTel2;
   bool _isEditingTel2 = false;
 
-  EscolaridadChar _resp;
-  SaludChar _respSalud;
-  CivilChar _respCivil;
-  EpsChar _respEps;
+  TextEditingController textControllerOtroOcupacion;
+  FocusNode textFocusNodeOtroOcupacion;
+  bool _isEditingOtroOcupacion = false;
+
+  TextEditingController textControllerOtroEscolaridad;
+  FocusNode textFocusNodeOtroEscolaridad;
+  bool _isEditingOtroEscolaridad = false;
+
+  EscolaridadChar _resp = EscolaridadChar.unchecked;
+  SaludChar _respSalud = SaludChar.unchecked;
+  CivilChar _respCivil = CivilChar.unchecked;
+  EpsChar _respEps = EpsChar.unchecked;
   bool eps = false;
 
-  bool estudiante;
-  bool empleado;
-  bool trabajadorIndependiente;
-  bool desempleado;
-  bool hogar;
-  bool otra;
+  bool estudiante = false;
+  bool empleado = false;
+  bool trabajadorIndependiente = false;
+  bool desempleado = false;
+  bool hogar = false;
+  bool otra = false;
 
   @override
   void initState() {
+    formularioExtra = new FormularioExtra();
     textControllerInsti = TextEditingController(text: null);
     textFocusNodeInsti = FocusNode();
 
@@ -113,6 +124,12 @@ class _FormState extends State<FormPatientExtraInformation> {
 
     textControllerTel2 = TextEditingController(text: null);
     textFocusNodeTel2 = FocusNode();
+
+    textControllerOtroEscolaridad = TextEditingController(text: null);
+    textFocusNodeOtroEscolaridad = FocusNode();
+
+    textControllerOtroOcupacion = TextEditingController(text: null);
+    textFocusNodeOtroOcupacion = FocusNode();
 
     super.initState();
   }
@@ -145,7 +162,7 @@ class _FormState extends State<FormPatientExtraInformation> {
                 style: TextStyle(fontSize: 18.0),
               ),
               Column(
-                children: <ListTile>[
+                children: <Widget>[
                   ListTile(
                     title: const Text('Ninguna'),
                     leading: Radio<EscolaridadChar>(
@@ -154,6 +171,7 @@ class _FormState extends State<FormPatientExtraInformation> {
                       onChanged: (EscolaridadChar value) {
                         setState(() {
                           _resp = value;
+                          formularioExtra.escolaridad = 'Ninguna';
                         });
                       },
                     ),
@@ -166,6 +184,7 @@ class _FormState extends State<FormPatientExtraInformation> {
                       onChanged: (EscolaridadChar value) {
                         setState(() {
                           _resp = value;
+                          formularioExtra.escolaridad = 'Primaria incompleta';
                         });
                       },
                     ),
@@ -178,6 +197,7 @@ class _FormState extends State<FormPatientExtraInformation> {
                       onChanged: (EscolaridadChar value) {
                         setState(() {
                           _resp = value;
+                          formularioExtra.escolaridad = 'Primaria completa';
                         });
                       },
                     ),
@@ -190,6 +210,7 @@ class _FormState extends State<FormPatientExtraInformation> {
                       onChanged: (EscolaridadChar value) {
                         setState(() {
                           _resp = value;
+                          formularioExtra.escolaridad = 'Secundaria incompleta';
                         });
                       },
                     ),
@@ -202,6 +223,7 @@ class _FormState extends State<FormPatientExtraInformation> {
                       onChanged: (EscolaridadChar value) {
                         setState(() {
                           _resp = value;
+                          formularioExtra.escolaridad = 'Secundaria completa';
                         });
                       },
                     ),
@@ -214,6 +236,7 @@ class _FormState extends State<FormPatientExtraInformation> {
                       onChanged: (EscolaridadChar value) {
                         setState(() {
                           _resp = value;
+                          formularioExtra.escolaridad = 'Técnico incompleto';
                         });
                       },
                     ),
@@ -226,6 +249,7 @@ class _FormState extends State<FormPatientExtraInformation> {
                       onChanged: (EscolaridadChar value) {
                         setState(() {
                           _resp = value;
+                          formularioExtra.escolaridad = 'Técnico completo';
                         });
                       },
                     ),
@@ -238,6 +262,8 @@ class _FormState extends State<FormPatientExtraInformation> {
                       onChanged: (EscolaridadChar value) {
                         setState(() {
                           _resp = value;
+                          formularioExtra.escolaridad =
+                              'Universitario incompleto';
                         });
                       },
                     ),
@@ -250,6 +276,8 @@ class _FormState extends State<FormPatientExtraInformation> {
                       onChanged: (EscolaridadChar value) {
                         setState(() {
                           _resp = value;
+                          formularioExtra.escolaridad =
+                              'Universitario completo';
                         });
                       },
                     ),
@@ -262,6 +290,7 @@ class _FormState extends State<FormPatientExtraInformation> {
                       onChanged: (EscolaridadChar value) {
                         setState(() {
                           _resp = value;
+                          formularioExtra.escolaridad = 'Posgrado incompleto';
                         });
                       },
                     ),
@@ -274,6 +303,35 @@ class _FormState extends State<FormPatientExtraInformation> {
                       onChanged: (EscolaridadChar value) {
                         setState(() {
                           _resp = value;
+                          formularioExtra.escolaridad = 'Posgrado completo';
+                        });
+                      },
+                    ),
+                  ),
+                  ListTile(
+                    title: RoundedTextFieldValidators(
+                        textFocusNode: textFocusNodeOtroEscolaridad,
+                        textController: textControllerOtroEscolaridad,
+                        textInputType: TextInputType.text,
+                        isEditing: _isEditingOtroEscolaridad,
+                        hintText: 'Otro',
+                        validate: () {
+                          if (_resp == EscolaridadChar.otro) {
+                            formularioExtra.escolaridad =
+                                textControllerOtroEscolaridad.text;
+                            return ValidadoresInput.validateEmpty(
+                                textControllerOtroEscolaridad.text,
+                                'Debe ingresar  el valor correspondiente a Otro',
+                                '');
+                          }
+                          return null;
+                        }),
+                    leading: Radio<EscolaridadChar>(
+                      value: EscolaridadChar.otro,
+                      groupValue: _resp,
+                      onChanged: (EscolaridadChar value) {
+                        setState(() {
+                          _resp = value;
                         });
                       },
                     ),
@@ -281,14 +339,14 @@ class _FormState extends State<FormPatientExtraInformation> {
                 ],
               ),
               SizedBox(
-                height: 8.0,
+                height: 20.0,
               ),
               Text(
                 'Ocupación',
                 textAlign: TextAlign.left,
                 style: TextStyle(fontSize: 18.0),
               ),
-              Column(children: <ListTile>[
+              Column(children: <Widget>[
                 ListTile(
                   title: const Text('Estudiante'),
                   leading: Checkbox(
@@ -354,9 +412,36 @@ class _FormState extends State<FormPatientExtraInformation> {
                     },
                   ),
                 ),
+                ListTile(
+                  title: RoundedTextFieldValidators(
+                      textFocusNode: textFocusNodeOtroOcupacion,
+                      textController: textControllerOtroOcupacion,
+                      textInputType: TextInputType.text,
+                      isEditing: _isEditingOtroOcupacion,
+                      hintText: 'Otra',
+                      validate: () {
+                        if (this.otra == true) {
+                          return ValidadoresInput.validateEmpty(
+                              textControllerOtroOcupacion.text,
+                              'Debe ingresar  el valor correspondiente a Otro',
+                              '');
+                        }
+                        return null;
+                      }),
+                  leading: Checkbox(
+                    checkColor: kPrimaryColor,
+                    activeColor: Colors.white,
+                    value: this.otra,
+                    onChanged: (bool value) {
+                      setState(() {
+                        this.otra = value;
+                      });
+                    },
+                  ),
+                ),
               ]),
               SizedBox(
-                height: 8.0,
+                height: 20.0,
               ),
               Text(
                 'Institución donde trabaja o estudia',
@@ -373,10 +458,12 @@ class _FormState extends State<FormPatientExtraInformation> {
                   isEditing: _isEditingInsti,
                   hintText: 'Institución donde trabaja o estudia',
                   validate: () {
-                    return null;
+                    formularioExtra.lugarOcupacion = textControllerInsti.text;
+                    return ValidadoresInput.validateEmpty(
+                        textControllerInsti.text, 'Debe ingresar el lugar', '');
                   }),
               SizedBox(
-                height: 8.0,
+                height: 20.0,
               ),
               Text(
                 'Estado Civil',
@@ -386,7 +473,7 @@ class _FormState extends State<FormPatientExtraInformation> {
               SizedBox(
                 height: 8.0,
               ),
-              Column(children: <ListTile>[
+              Column(children: <Widget>[
                 ListTile(
                   title: const Text('Soltero(a)'),
                   leading: Radio<CivilChar>(
@@ -395,6 +482,7 @@ class _FormState extends State<FormPatientExtraInformation> {
                     onChanged: (CivilChar value) {
                       setState(() {
                         _respCivil = value;
+                        formularioExtra.estadoCivil = 'Soltero(a)';
                       });
                     },
                   ),
@@ -407,6 +495,7 @@ class _FormState extends State<FormPatientExtraInformation> {
                     onChanged: (CivilChar value) {
                       setState(() {
                         _respCivil = value;
+                        formularioExtra.estadoCivil = 'Casado(a)';
                       });
                     },
                   ),
@@ -419,6 +508,7 @@ class _FormState extends State<FormPatientExtraInformation> {
                     onChanged: (CivilChar value) {
                       setState(() {
                         _respCivil = value;
+                        formularioExtra.estadoCivil = 'Unión libre';
                       });
                     },
                   ),
@@ -431,6 +521,7 @@ class _FormState extends State<FormPatientExtraInformation> {
                     onChanged: (CivilChar value) {
                       setState(() {
                         _respCivil = value;
+                        formularioExtra.estadoCivil = 'Separado(a)';
                       });
                     },
                   ),
@@ -443,13 +534,14 @@ class _FormState extends State<FormPatientExtraInformation> {
                     onChanged: (CivilChar value) {
                       setState(() {
                         _respCivil = value;
+                        formularioExtra.estadoCivil = 'Viudo(a)';
                       });
                     },
                   ),
                 ),
               ]),
               SizedBox(
-                height: 8.0,
+                height: 20.0,
               ),
               Text(
                 'Servicio de salud',
@@ -459,7 +551,7 @@ class _FormState extends State<FormPatientExtraInformation> {
               SizedBox(
                 height: 8.0,
               ),
-              Column(children: <ListTile>[
+              Column(children: <Widget>[
                 ListTile(
                   title: const Text('Si'),
                   leading: Radio<EpsChar>(
@@ -468,6 +560,7 @@ class _FormState extends State<FormPatientExtraInformation> {
                     onChanged: (EpsChar value) {
                       setState(() {
                         _respEps = value;
+                        formularioExtra.tieneEps = true;
                         eps = true;
                       });
                     },
@@ -481,24 +574,28 @@ class _FormState extends State<FormPatientExtraInformation> {
                     onChanged: (EpsChar value) {
                       setState(() {
                         _respEps = value;
+                        formularioExtra.tieneEps = false;
                         eps = false;
                       });
                     },
                   ),
                 ),
               ]),
+              SizedBox(
+                height: 20.0,
+              ),
               eps
                   ? Text(
                       '¿Cuál es su EPS?',
                       textAlign: TextAlign.left,
                       style: TextStyle(fontSize: 18.0),
                     )
-                  : [],
+                  : SizedBox.shrink(),
               eps
                   ? SizedBox(
                       height: 8.0,
                     )
-                  : [],
+                  : SizedBox.shrink(),
               eps
                   ? RoundedTextFieldValidators(
                       textFocusNode: textFocusNodeSalud,
@@ -507,28 +604,32 @@ class _FormState extends State<FormPatientExtraInformation> {
                       isEditing: _isEditingSalud,
                       hintText: 'Ingrese su EPS',
                       validate: () {
-                        return null;
+                        formularioExtra.eps = textControllerSalud.text;
+                        return ValidadoresInput.validateEmpty(
+                            textControllerSalud.text,
+                            'Debe ingresar la Entidad Prestadora de Salud',
+                            '');
                       })
-                  : [],
+                  : SizedBox.shrink(),
               eps
                   ? SizedBox(
-                      height: 8.0,
+                      height: 20.0,
                     )
-                  : [],
+                  : SizedBox.shrink(),
               eps
                   ? Text(
                       'Tipo de Vinculación',
                       textAlign: TextAlign.left,
                       style: TextStyle(fontSize: 18.0),
                     )
-                  : [],
+                  : SizedBox.shrink(),
               eps
                   ? SizedBox(
                       height: 8.0,
                     )
-                  : [],
+                  : SizedBox.shrink(),
               eps
-                  ? Column(children: <ListTile>[
+                  ? Column(children: <Widget>[
                       ListTile(
                         title: const Text('Cotizante'),
                         leading: Radio<SaludChar>(
@@ -537,7 +638,7 @@ class _FormState extends State<FormPatientExtraInformation> {
                           onChanged: (SaludChar value) {
                             setState(() {
                               _respSalud = value;
-                              eps = true;
+                              formularioExtra.estadoEps = 'Cotizante';
                             });
                           },
                         ),
@@ -550,13 +651,13 @@ class _FormState extends State<FormPatientExtraInformation> {
                           onChanged: (SaludChar value) {
                             setState(() {
                               _respSalud = value;
-                              eps = true;
+                              formularioExtra.estadoEps = 'Beneficiario';
                             });
                           },
                         ),
                       ),
                     ])
-                  : [],
+                  : SizedBox.shrink(),
               Text(
                 '¿Cómo se enteró del servicio de Consultores en Psicología?',
                 textAlign: TextAlign.left,
@@ -566,16 +667,20 @@ class _FormState extends State<FormPatientExtraInformation> {
                 height: 8.0,
               ),
               RoundedTextFieldValidators(
-                  textFocusNode: textFocusNodeSalud,
-                  textController: textControllerSalud,
+                  textFocusNode: textFocusNodeServicio,
+                  textController: textControllerServicio,
                   textInputType: TextInputType.text,
-                  isEditing: _isEditingSalud,
+                  isEditing: _isEditingServicio,
                   hintText: 'Ingrese su respuesta',
                   validate: () {
-                    return null;
+                    formularioExtra.servicio = textControllerServicio.text;
+                    return ValidadoresInput.validateEmpty(
+                        textControllerServicio.text,
+                        'Por favor informenos',
+                        '');
                   }),
               SizedBox(
-                height: 8.0,
+                height: 20.0,
               ),
               Text(
                 'Acudiente #1',
@@ -600,7 +705,12 @@ class _FormState extends State<FormPatientExtraInformation> {
                   isEditing: _isEditingNombre1,
                   hintText: 'Ingrese el nombre del acudiente #1',
                   validate: () {
-                    return null;
+                    formularioExtra.nombreAcudiente1 =
+                        textControllerNombre1.text;
+                    return ValidadoresInput.validateEmpty(
+                        textControllerNombre1.text,
+                        'Ingrese el nombre del acudiente#1',
+                        '');
                   }),
               SizedBox(
                 height: 8.0,
@@ -620,10 +730,14 @@ class _FormState extends State<FormPatientExtraInformation> {
                   isEditing: _isEditingTel1,
                   hintText: 'Ingrese el número del acudiente #1',
                   validate: () {
-                    return null;
+                    formularioExtra.numeroAcudiente1 = textControllerTel1.text;
+                    return ValidadoresInput.validateEmpty(
+                        textControllerTel1.text,
+                        'Ingrese el número del acudiente#1',
+                        '');
                   }),
               SizedBox(
-                height: 8.0,
+                height: 20.0,
               ),
               Text(
                 'Acudiente #2',
@@ -648,7 +762,12 @@ class _FormState extends State<FormPatientExtraInformation> {
                   isEditing: _isEditingNombre2,
                   hintText: 'Ingrese el nombre del acudiente #2',
                   validate: () {
-                    return null;
+                    formularioExtra.nombreAcudiente2 =
+                        textControllerNombre2.text;
+                    return ValidadoresInput.validateEmpty(
+                        textControllerNombre2.text,
+                        'Ingrese el nombre del acudiente#2',
+                        '');
                   }),
               SizedBox(
                 height: 8.0,
@@ -668,7 +787,11 @@ class _FormState extends State<FormPatientExtraInformation> {
                   isEditing: _isEditingTel2,
                   hintText: 'Ingrese el número del acudiente #2',
                   validate: () {
-                    return null;
+                    formularioExtra.numeroAcudiente2 = textControllerTel2.text;
+                    return ValidadoresInput.validateEmpty(
+                        textControllerTel2.text,
+                        'Ingrese el número del acudiente#2',
+                        '');
                   }),
               SizedBox(
                 height: 8.0,
@@ -676,7 +799,69 @@ class _FormState extends State<FormPatientExtraInformation> {
             ]),
           ),
         ),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.end,
+          children: [
+            Container(
+                height: 40.0,
+                child: ElevatedButton(
+                  style: ButtonStyle(
+                    backgroundColor:
+                        MaterialStateProperty.all<Color>(kPrimaryColor),
+                  ),
+                  onPressed: () {
+                    validarInformacion();
+                  },
+                  child: Padding(
+                    padding: EdgeInsets.symmetric(horizontal: 20.0),
+                    child: Text("Siguiente",
+                        style: TextStyle(
+                            fontSize: 18.0, fontWeight: FontWeight.normal)),
+                  ),
+                )),
+          ],
+        ),
       ],
     );
+  }
+
+  Future<void> validarInformacion() async {
+    if (_resp != EscolaridadChar.unchecked &&
+        _respCivil != CivilChar.unchecked &&
+        _respEps != EpsChar.unchecked &&
+        _respSalud != SaludChar.unchecked) {
+      if (!estudiante &&
+          !empleado &&
+          !trabajadorIndependiente &&
+          !desempleado &&
+          !hogar &&
+          !otra) {
+      } else {
+        formularioExtra.ocupacion = "";
+        if (estudiante)
+          formularioExtra.ocupacion = formularioExtra.ocupacion + "Estudiante,";
+        if (empleado)
+          formularioExtra.ocupacion = formularioExtra.ocupacion + "Empleado,";
+        if (trabajadorIndependiente)
+          formularioExtra.ocupacion =
+              formularioExtra.ocupacion + "Trabajador Independiente,";
+        if (desempleado)
+          formularioExtra.ocupacion =
+              formularioExtra.ocupacion + "Desempleado,";
+        if (hogar)
+          formularioExtra.ocupacion = formularioExtra.ocupacion + "Hogar,";
+        if (otra && textControllerOtroOcupacion.text.isNotEmpty)
+          formularioExtra.ocupacion = formularioExtra.ocupacion +
+              textControllerOtroOcupacion.text +
+              ",";
+        if (textControllerSalud.text.isNotEmpty && eps == true) {
+          formularioExtra.eps = textControllerSalud.text;
+        }
+        await ProviderAprobacionPacientes.crearFormularioExtra(formularioExtra);
+        Navigator.of(context).pushReplacement(MaterialPageRoute(
+            fullscreenDialog: true,
+            builder: (context) => VistaRegistroDocumentos(pacienteActual)));
+      }
+    }
   }
 }

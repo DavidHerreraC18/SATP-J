@@ -36,6 +36,7 @@ dependencies:
   currency_text_input_formatter: ^2.0.1
   syncfusion_flutter_signaturepad: ^19.1.54-beta
   provider: ^5.0.0
+  lite_rolling_switch: ^0.1.1
   path_provider: ^2.0.1
   syncfusion_flutter_pdf: ^19.1.54-beta.1
   file_picker: ^3.0.1

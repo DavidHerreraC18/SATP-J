@@ -39,12 +39,12 @@ public class ServicioAcudiente {
     @Autowired
     private RepositorioAcudiente repositorioAcudiente;
 
-    @GetMapping(produces = "application/json")
+    @GetMapping(produces = "application/json; charset=UTF-8")
     public List<Acudiente> findAll(@AuthenticationPrincipal CustomPrincipal customPrincipal) {
         return repositorioAcudiente.findAll();
     }
 
-    @GetMapping(value = "/{id}", produces = "application/json")
+    @GetMapping(value = "/{id}", produces = "application/json; charset=UTF-8")
     public Acudiente findById(@AuthenticationPrincipal CustomPrincipal customPrincipal, @PathVariable("id") String id) {
         return repositorioAcudiente.findById(id).get();
     }
