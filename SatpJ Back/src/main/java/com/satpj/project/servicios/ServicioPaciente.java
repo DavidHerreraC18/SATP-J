@@ -7,6 +7,7 @@ import com.google.api.client.util.Preconditions;
 import com.satpj.project.modelo.acudiente.Acudiente;
 import com.satpj.project.modelo.documento_paciente.DocumentoPaciente;
 import com.satpj.project.modelo.formulario.Formulario;
+import com.satpj.project.modelo.formulario.RepositorioFormulario;
 import com.satpj.project.modelo.paciente.*;
 import com.satpj.project.modelo.practicante.Practicante;
 import com.satpj.project.modelo.practicante.PracticantePaciente;
@@ -54,7 +55,7 @@ public class ServicioPaciente {
     public List<Paciente> findAll(@AuthenticationPrincipal CustomPrincipal customPrincipal) {
         return repositorioPaciente.findAll();
     }
-
+ 
     @GetMapping(value = "/{id}", produces = "application/json")
     public Paciente findById(@AuthenticationPrincipal CustomPrincipal customPrincipal, @PathVariable("id") String id) {
         return repositorioPaciente.findById(id).get();
@@ -122,11 +123,11 @@ public class ServicioPaciente {
 
     @PutMapping(value = "/{id}")
     @ResponseStatus(HttpStatus.OK)
-    public void update(@AuthenticationPrincipal CustomPrincipal customPrincipal, @PathVariable("id") Long id, @RequestBody Paciente paciente) {
+    public void update(@AuthenticationPrincipal CustomPrincipal customPrincipal, @PathVariable("id") String id, @RequestBody Paciente paciente) {
         Preconditions.checkNotNull(paciente);
-
-        Paciente pActualizar = repositorioPaciente.findById(paciente.getId()).orElse(null);
-
+        //System.out.println("PACIENTE RECIBIDOL:" + paciente.toString());
+        Paciente pActualizar = repositorioPaciente.findById(id).orElse(null);
+        //System.out.println("PACIENTE ACTUAL:" + pActualizar.toString());
         Preconditions.checkNotNull(pActualizar);
 
         pActualizar.setApellido(paciente.getApellido());

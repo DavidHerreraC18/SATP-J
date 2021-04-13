@@ -8,12 +8,13 @@ import 'package:satpj_front_end_web/src/utils/widgets/Dialogos/dialogo_preaproba
 import 'package:satpj_front_end_web/src/utils/widgets/FuentesDatos/datatablesource_formulario.dart';
 import 'package:satpj_front_end_web/src/utils/widgets/custom_paginated_datatable.dart';
 
-class VistaAprobacionPacientes extends StatelessWidget {
-  const VistaAprobacionPacientes({Key key}) : super(key: key);
+class VistaAprobacionFormularios extends StatelessWidget {
+  static const route = '/preapobar-pacientes';
+
+  const VistaAprobacionFormularios({Key key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    //
     return Scaffold(
       appBar: toolbarAuxiliarAdministrativo(context),
       body: ChangeNotifierProvider<FormularioNotifier>(
@@ -73,18 +74,29 @@ class _InternalWidget extends StatelessWidget {
       <DataColumn>[
         DataColumn(
           label: Text(
-            "ID",
+            "Documento",
             style: Theme.of(context).textTheme.subtitle1,
           ),
           numeric: true,
-          tooltip: "ID",
+          tooltip: "Documento del paciente",
+        ),
+        DataColumn(
+          label: Text(
+            "Tipo",
+            style: Theme.of(context).textTheme.subtitle1,
+          ),
+          tooltip: "Tipo de Documento del paciente",
+          onSort: (colIndex, asc) {
+            _sort<String>((formulario) => formulario.paciente.tipoDocumento,
+                colIndex, asc, _src, _provider);
+          },
         ),
         DataColumn(
           label: Text(
             "Nombre",
             style: Theme.of(context).textTheme.subtitle1,
           ),
-          tooltip: "Nombre",
+          tooltip: "Nombre del paciente",
           onSort: (colIndex, asc) {
             _sort<String>((formulario) => formulario.paciente.nombre, colIndex,
                 asc, _src, _provider);
@@ -95,7 +107,7 @@ class _InternalWidget extends StatelessWidget {
             "Apellido",
             style: Theme.of(context).textTheme.subtitle1,
           ),
-          tooltip: "Apellido",
+          tooltip: "Apellido del paciente",
           onSort: (colIndex, asc) {
             _sort<String>((formulario) => formulario.paciente.apellido,
                 colIndex, asc, _src, _provider);
@@ -106,21 +118,21 @@ class _InternalWidget extends StatelessWidget {
             "Telefono",
             style: Theme.of(context).textTheme.subtitle1,
           ),
-          tooltip: "Telefono",
+          tooltip: "Telefono del paciente",
         ),
         DataColumn(
           label: Text(
             "Email",
             style: Theme.of(context).textTheme.subtitle1,
           ),
-          tooltip: "Email",
+          tooltip: "Correo electrónico del paciente",
         ),
         DataColumn(
           label: Text(
             "Formulario",
             style: Theme.of(context).textTheme.subtitle1,
           ),
-          tooltip: "Formulario",
+          tooltip: "Formulario llenado por el paciente",
         ),
       ];
 

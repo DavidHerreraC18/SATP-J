@@ -11,9 +11,8 @@ import 'dialogo_editar_paciente.dart';
 import 'dialogo_visualizar_paciente.dart';
 
 class VistaGestionarPacientes extends StatefulWidget {
-  
-  static const route = '/gestionar-pacientes';  
-  
+  static const route = '/gestionar-pacientes';
+
   VistaGestionarPacientes();
 
   @override
@@ -22,10 +21,9 @@ class VistaGestionarPacientes extends StatefulWidget {
 }
 
 class _VistaGestionarPacientesState extends State<VistaGestionarPacientes> {
-  
   Paciente paciente = new Paciente();
-  
-  crearPacienteTemporal(){
+
+  crearPacienteTemporal() {
     paciente.nombre = 'Pepito';
     paciente.apellido = 'Gómez';
     paciente.tipoDocumento = 'Tarjeta de Identidad';
@@ -42,28 +40,22 @@ class _VistaGestionarPacientesState extends State<VistaGestionarPacientes> {
   }
 
   @override
-  void initState() { 
+  void initState() {
     crearPacienteTemporal();
     super.initState();
-    
   }
 
   @override
   Widget build(BuildContext context) {
     print(paciente.nombre);
     return Scaffold(
-       appBar: toolbarAuxiliarAdministrativo(context),
-       body: Row(
+      appBar: toolbarAuxiliarAdministrativo(context),
+      body: Row(
         children: [
-           IconButton(
-              icon: Icon(
-                Icons.add,
-                color: Colors.white,
-              ),
-              color: kPrimaryColor,
-              onPressed: () {
-                showDialog(context: context, builder: (context) => DialogoCrearPaciente());
-              },
+          IconButton(
+            icon: Icon(
+              Icons.add,
+              color: Colors.white,
             ),
             IconButton(
               icon: Icon(
@@ -87,15 +79,22 @@ class _VistaGestionarPacientesState extends State<VistaGestionarPacientes> {
                 showDialog(context: context, builder: (context) => DialogoEditarPaciente(paciente: paciente));
               },
             ),
-            Container(
-                        alignment: Alignment.center,
-                        height: 20.0,
-                        constraints:
-                            BoxConstraints(minWidth: 50, maxWidth: 350),
-                        width: 100,
-                        child: DialogoEditarPaciente(paciente: paciente),
-            ),
-
+            color: kPrimaryColor,
+            onPressed: () {
+              showDialog(
+                  context: context,
+                  builder: (context) =>
+                      DialogoEditarPaciente(paciente: paciente));
+            },
+          ),
+          Container(
+            alignment: Alignment.center,
+            height: 20.0,
+            constraints: BoxConstraints(minWidth: 50, maxWidth: 350),
+            width: 100,
+            child: DialogoEditarPaciente(paciente: paciente),
+          ),
+          /*
              Container(
                         alignment: Alignment.center,
                         height: 20.0,
@@ -103,20 +102,22 @@ class _VistaGestionarPacientesState extends State<VistaGestionarPacientes> {
                             BoxConstraints(minWidth: 50, maxWidth: 350),
                         width: 100,
                         child: DialogoConsentimientoPrincipal(),
-                      ),
-         
-            IconButton(
-              icon: Icon(
-                Icons.edit,
-                color: Colors.white,
-              ),
-              color: kPrimaryColor,
+                      ),*/
 
-              onPressed: () {
-                showDialog(context: context, builder: (context) => DialogoVisualizarPaciente(paciente: paciente));
-              },
+          IconButton(
+            icon: Icon(
+              Icons.edit,
+              color: Colors.white,
             ),
-         ],
+            color: kPrimaryColor,
+            onPressed: () {
+              showDialog(
+                  context: context,
+                  builder: (context) =>
+                      DialogoVisualizarPaciente(paciente: paciente));
+            },
+          ),
+        ],
       ),
     );
   }

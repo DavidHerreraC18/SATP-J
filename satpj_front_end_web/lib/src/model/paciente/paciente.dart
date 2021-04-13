@@ -25,8 +25,6 @@ String pacienteToJson(List<Paciente> data) =>
 
 Paciente singlePacienteFromJson(String str) {
   Paciente paciente = Paciente.fromJson(json.decode(str));
-  print("PACIENTE ID: " + paciente.id.toString());
-  print("PACIENTE nombre: " + paciente.nombre);
   return paciente;
 }
 
@@ -36,14 +34,19 @@ class Paciente extends Usuario {
 
   Grupo grupo;
 
+  //@JsonKey(ignore: true)
   List<PracticantePaciente> practicantesPaciente;
 
+  //@JsonKey(ignore: true)
   List<DocumentoPaciente> documentoPaciente;
 
+  //@JsonKey(ignore: true)
   List<PaqueteSesion> paqueteSesion;
 
+  //@JsonKey(ignore: true)
   List<Acudiente> acudientes;
 
+  //@JsonKey(ignore: true)
   Formulario formulario;
 
   String estadoAprobado;
@@ -109,8 +112,8 @@ class Paciente extends Usuario {
       int dayDiff = today.day - birthDate.day;
       edad = yearDiff;
 
-      if (yearDiff > 18 || (yearDiff == 18 && monthDiff >= 0 && dayDiff >= 0)) {            
-         return true;
+      if (yearDiff > 18 || (yearDiff == 18 && monthDiff >= 0 && dayDiff >= 0)) {
+        return true;
       }
     }
     return false;

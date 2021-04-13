@@ -27,10 +27,13 @@ Usuario singleUsuarioFromJson(String str) {
 class Usuario {
   String id;
 
+  @JsonKey(ignore: true)
   List<SesionUsuario> sesiones;
 
+  @JsonKey(ignore: true)
   List<AlertaUsuario> alertasUsuario;
 
+  @JsonKey(ignore: true)
   List<Horario> horarios;
 
   String documento;

@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 com\satpj\project\servicios\ServicioDocumentoPaciente.class
 com\satpj\project\modelo\usuario\RepositorioUsuario.class
 com\satpj\project\modelo\sesion_terapia\SesionUsuario.class
@@ -33,3 +34,5 @@ com\satpj\project\modelo\usuario\Usuario.class
 com\satpj\project\modelo\supervisor\RepositorioSupervisor.class
 com\satpj\project\seguridad\SecurityConfig$1.class
 com\satpj\project\modelo\sesion_terapia\SesionTerapia.class
+=======
+>>>>>>> Issue-DialogoRespuestasFormulario
