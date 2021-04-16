@@ -6,10 +6,10 @@ import 'package:satpj_front_end_web/src/providers/provider_paquete_sesion.dart';
 import 'package:satpj_front_end_web/src/utils/tema.dart';
 import 'package:satpj_front_end_web/src/utils/validators/validadores-input.dart';
 import 'package:satpj_front_end_web/src/utils/widgets/Barras/toolbar_paciente.dart';
-import 'package:satpj_front_end_web/src/utils/widgets/button-forms.dart';
-import 'package:satpj_front_end_web/src/utils/widgets/dropdown.dart';
-import 'package:satpj_front_end_web/src/utils/widgets/rounded_text_field.dart';
-import 'package:satpj_front_end_web/src/utils/widgets/tema-formularios.dart';
+import 'package:satpj_front_end_web/src/utils/widgets/botones/button_forms.dart';
+import 'package:satpj_front_end_web/src/utils/widgets/inputs/dropdown.dart';
+import 'package:satpj_front_end_web/src/utils/widgets/inputs/rounded_text_field.dart';
+import 'package:satpj_front_end_web/src/utils/widgets/formularios/tema_formularios.dart';
 
 final registroPago = ComprobantePago();
 

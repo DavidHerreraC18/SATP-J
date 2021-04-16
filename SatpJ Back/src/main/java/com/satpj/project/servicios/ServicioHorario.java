@@ -38,12 +38,12 @@ public class ServicioHorario {
     @Autowired
     private RepositorioHorario repositorioHorario;
 
-    @GetMapping(produces = "application/json")
+    @GetMapping(produces = "application/json; charset=UTF-8")
     public List<Horario> findAll(@AuthenticationPrincipal CustomPrincipal customPrincipal) {
         return repositorioHorario.findAll();
     }
 
-    @GetMapping(value = "/{id}", produces = "application/json")
+    @GetMapping(value = "/{id}", produces = "application/json; charset=UTF-8")
     public Horario findById(@AuthenticationPrincipal CustomPrincipal customPrincipal, @PathVariable("id") Long id) {
         return repositorioHorario.findById(id).get();
     }
@@ -69,6 +69,7 @@ public class ServicioHorario {
         hActualizar.setJueves(horario.getJueves());
         hActualizar.setViernes(horario.getViernes());
         hActualizar.setSabado(horario.getSabado());
+        hActualizar.setOpcion(horario.getOpcion());
 
         repositorioHorario.save(hActualizar);
     }

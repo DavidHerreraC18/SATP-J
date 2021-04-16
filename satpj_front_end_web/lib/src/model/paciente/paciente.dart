@@ -1,7 +1,9 @@
+import 'package:intl/intl.dart';
 import 'package:satpj_front_end_web/src/model/acudiente/acudiente.dart';
 import 'package:satpj_front_end_web/src/model/alerta/alerta_usuario.dart';
 import 'package:satpj_front_end_web/src/model/documento_paciente/documento_paciente.dart';
 import 'package:satpj_front_end_web/src/model/formulario/formulario.dart';
+import 'package:satpj_front_end_web/src/model/formulario/formulario_extra.dart';
 import 'package:satpj_front_end_web/src/model/grupo/grupo.dart';
 
 import 'package:json_annotation/json_annotation.dart';
@@ -21,6 +23,11 @@ List<Paciente> pacienteFromJson(String str) =>
 
 String pacienteToJson(List<Paciente> data) =>
     json.encode(List<dynamic>.from(data.map((x) => x.toJson())));
+
+Paciente singlePacienteFromJson(String str) {
+  Paciente paciente = Paciente.fromJson(json.decode(str));
+  return paciente;
+}
 
 @JsonSerializable(explicitToJson: true)
 class Paciente extends Usuario {
@@ -42,6 +49,9 @@ class Paciente extends Usuario {
 
   //@JsonKey(ignore: true)
   Formulario formulario;
+
+  //@JsonKey(ignore: true)
+  FormularioExtra formularioExtra;
 
   String estadoAprobado;
 
@@ -72,6 +82,7 @@ class Paciente extends Usuario {
       this.paqueteSesion,
       this.acudientes,
       this.formulario,
+      this.formularioExtra,
       this.estadoAprobado,
       this.estrato,
       this.edad,
@@ -95,4 +106,21 @@ class Paciente extends Usuario {
       _$PacienteFromJson(json);
 
   Map<String, dynamic> toJson() => _$PacienteToJson(this);
+
+  bool esAdulto({String fechaNacimiento = '00-00-0000'}) {
+    if (fechaNacimiento != null && fechaNacimiento.isNotEmpty) {
+      DateTime birthDate = new DateFormat("yyyy-MM-dd").parse(fechaNacimiento);
+      DateTime today = DateTime.now();
+
+      int yearDiff = today.year - birthDate.year;
+      int monthDiff = today.month - birthDate.month;
+      int dayDiff = today.day - birthDate.day;
+      edad = yearDiff;
+
+      if (yearDiff > 18 || (yearDiff == 18 && monthDiff >= 0 && dayDiff >= 0)) {
+        return true;
+      }
+    }
+    return false;
+  }
 }

@@ -1,6 +1,5 @@
 package com.satpj.project.modelo.documento_paciente;
 
-import java.sql.Blob;
 import java.time.LocalDateTime;
 
 import lombok.Getter;
@@ -16,7 +15,6 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
-import javax.persistence.MapsId;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 
@@ -47,7 +45,7 @@ public class DocumentoPaciente {
 
 	@Lob
 	@NotNull(message = "El Contenido del Documento es obligatorio")
-	@Column(name = "contenido", nullable = false)
+	@Column(name = "contenido", nullable = false, length = 200000)
 	private String contenido;
 
 	@NotNull(message = "El Tipo del Documento es obligatorio")

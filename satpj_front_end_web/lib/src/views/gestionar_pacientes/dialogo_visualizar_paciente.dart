@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:satpj_front_end_web/src/model/paciente/paciente.dart';
 import 'package:satpj_front_end_web/src/utils/tema.dart';
-import 'package:satpj_front_end_web/src/utils/widgets/tema-formularios.dart';
+import 'package:satpj_front_end_web/src/utils/widgets/formularios/tema_formularios.dart';
 import 'package:satpj_front_end_web/src/utils/widgets/formularios/formulario_paciente.dart';
 
 class DialogoVisualizarPaciente extends StatefulWidget {

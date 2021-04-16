@@ -35,6 +35,9 @@ public class Horario {
     @JoinColumn(name = "usuario_id")
     private Usuario usuario;
 
+    @Column(name = "opcion")
+    private String opcion;
+
     /* Contiene las horas disponibles del día */
     @Column(name = "lunes")
     private String lunes;

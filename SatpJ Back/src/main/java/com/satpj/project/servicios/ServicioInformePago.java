@@ -39,12 +39,12 @@ public class ServicioInformePago {
     @Autowired
     private RepositorioInformePago repositorioInformePago;
 
-    @GetMapping(produces = "application/json")
+    @GetMapping(produces = "application/json; charset=UTF-8")
     public List<InformePago> findAll(@AuthenticationPrincipal CustomPrincipal customPrincipal) {
         return repositorioInformePago.findAll();
     }
 
-    @GetMapping(value = "/{id}", produces = "application/json")
+    @GetMapping(value = "/{id}", produces = "application/json; charset=UTF-8")
     public InformePago findById(@AuthenticationPrincipal CustomPrincipal customPrincipal, @PathVariable("id") Long id) {
         return repositorioInformePago.findById(id).get();
     }
@@ -54,7 +54,7 @@ public class ServicioInformePago {
      * recursion en JSON que genera la relacion ComprobantePago - InformePago debido
      * a que es muchos a muchos se genera una funcion en ambos servicios
      */
-    @GetMapping(value = "/{id}/comprobantes", produces = "application/json")
+    @GetMapping(value = "/{id}/comprobantes", produces = "application/json; charset=UTF-8")
     public List<ComprobantePago> findComprobantesByInformeId(@AuthenticationPrincipal CustomPrincipal customPrincipal, @PathVariable("id") Long id) {
         InformePago informePago = repositorioInformePago.findById(id).get();
         Preconditions.checkNotNull(informePago);

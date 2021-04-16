@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 
 import '../utils/widgets/dialogo_autenticacion.dart';
-import 'contador_page.dart';
 
 class VistaInicio extends StatelessWidget {
   //const VistaInicio({Key key}) : super(key: key);

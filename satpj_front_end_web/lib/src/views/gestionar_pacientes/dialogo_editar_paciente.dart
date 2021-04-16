@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:satpj_front_end_web/src/model/paciente/paciente.dart';
 import 'package:satpj_front_end_web/src/utils/tema.dart';
-import 'package:satpj_front_end_web/src/utils/widgets/button-forms.dart';
-import 'package:satpj_front_end_web/src/utils/widgets/tema-formularios.dart';
+import 'package:satpj_front_end_web/src/utils/widgets/botones/button_forms.dart';
+import 'package:satpj_front_end_web/src/utils/widgets/formularios/tema_formularios.dart';
 import 'package:satpj_front_end_web/src/utils/widgets/formularios/formulario_paciente.dart';
 
 class DialogoEditarPaciente extends StatefulWidget {

@@ -23,6 +23,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.satpj.project.modelo.acudiente.Acudiente;
 import com.satpj.project.modelo.documento_paciente.DocumentoPaciente;
 import com.satpj.project.modelo.formulario.Formulario;
+import com.satpj.project.modelo.formulario.FormularioExtra;
 import com.satpj.project.modelo.grupo.Grupo;
 import com.satpj.project.modelo.paquete_sesion.PaqueteSesion;
 import com.satpj.project.modelo.practicante.PracticantePaciente;
@@ -67,6 +68,10 @@ public class Paciente extends Usuario {
     @OneToOne(mappedBy = "paciente")
     @JsonIgnore
     private Formulario formulario;
+
+    @OneToOne(mappedBy = "paciente")
+    @JsonIgnore
+    private FormularioExtra formularioExtra;
 
     /*Posibles Estados:  PendienteAprobacion, PreAprobado, Aprobado, NoAprobado */
     @NotNull(message = "El estado de Aprobacion es obligatorio")

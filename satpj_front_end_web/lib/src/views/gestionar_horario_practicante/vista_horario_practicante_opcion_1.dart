@@ -4,6 +4,7 @@ import 'package:satpj_front_end_web/src/utils/tema.dart';
 import 'package:satpj_front_end_web/src/utils/widgets/Barras/toolbar_practicante.dart';
 import 'package:satpj_front_end_web/src/utils/widgets/Dialogos/dialog_delete.dart';
 import 'package:satpj_front_end_web/src/utils/widgets/schedule/schedule_intern.dart';
+import 'package:satpj_front_end_web/src/views/gestionar_horario_practicante/vista_gestionar_horario_practicante.dart';
 
 class VistaHorarioPracticanteOpcion1 extends StatefulWidget {
   
@@ -53,6 +54,15 @@ class _VistaHorarioPracticanteOpcion1State
                                 )),
                           ),
                         ),
+                      ),
+                      IconButton(
+                        icon: Icon(
+                          Icons.date_range_rounded,
+                          color: Colors.white,
+                        ),
+                        onPressed: () {
+                          Navigator.pushNamed(context, VistaGestionarHorarioPracticante.route);
+                        },
                       ),
                       IconButton(
                         icon: Icon(

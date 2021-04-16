@@ -46,12 +46,12 @@ public class ServicioSesionTerapia {
     @Autowired
     private ServicioUsuario servicioUsuario;
 
-    @GetMapping(produces = "application/json")
+    @GetMapping(produces = "application/json; charset=UTF-8")
     public List<SesionTerapia> findAllSesionesTerapia(@AuthenticationPrincipal CustomPrincipal customPrincipal) {
         return repositorioSesionTerapia.findAll();
     }
 
-    @GetMapping(value = "/{id}/usuarios", produces = "application/json")
+    @GetMapping(value = "/{id}/usuarios", produces = "application/json; charset=UTF-8")
     public List<Usuario> findAllUsuariosSesion(@AuthenticationPrincipal CustomPrincipal customPrincipal, @PathVariable("id") Long id) {
         SesionTerapia sesionTerapia = findSesionTerapiaById(customPrincipal,id);
         List<Usuario> usuarios = new ArrayList<>();
@@ -62,12 +62,12 @@ public class ServicioSesionTerapia {
         return usuarios;
     }
 
-    @GetMapping(value = "/{id}", produces = "application/json")
+    @GetMapping(value = "/{id}", produces = "application/json; charset=UTF-8")
     public SesionTerapia findSesionTerapiaById(@AuthenticationPrincipal CustomPrincipal customPrincipal, @PathVariable("id") Long id) {
         return repositorioSesionTerapia.findById(id).get();
     };
 
-    @GetMapping(value = "/{idSesion}/{idUsuario}", produces = "application/json")
+    @GetMapping(value = "/{idSesion}/{idUsuario}", produces = "application/json; charset=UTF-8")
     public SesionUsuario findSesionUsuarioById(@AuthenticationPrincipal CustomPrincipal customPrincipal, @PathVariable("idSesion") Long idSesion,
             @PathVariable("idUsuario") String idUsuario) {
         LlaveSesionUsuario llaveSesionUsuario = new LlaveSesionUsuario();

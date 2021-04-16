@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:satpj_front_end_web/src/constantes/constantes_data.dart';
+import 'package:satpj_front_end_web/src/constants/constantes_data.dart';
 import 'package:satpj_front_end_web/src/model/supervisor/supervisor.dart';
 import 'package:satpj_front_end_web/src/utils/validators/validadores-input.dart';
-import 'package:satpj_front_end_web/src/utils/widgets/dropdown.dart';
+import 'package:satpj_front_end_web/src/utils/widgets/inputs/dropdown.dart';
 import 'package:satpj_front_end_web/src/utils/widgets/formularios/formulario_usuario.dart';
-import 'package:satpj_front_end_web/src/utils/widgets/tema-formularios.dart';
+import 'package:satpj_front_end_web/src/utils/widgets/formularios/tema_formularios.dart';
 
 
 class FormSupervisorInformation extends StatefulWidget {

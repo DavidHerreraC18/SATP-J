@@ -41,7 +41,7 @@ public class ServicioFormulario {
     @Autowired
     private RepositorioFormulario repositorioFormulario;
 
-    @GetMapping(produces = "application/json")
+    @GetMapping(produces = "application/json; charset=UTF-8")
     public List<Formulario> findAll(@AuthenticationPrincipal CustomPrincipal customPrincipal) {
         return repositorioFormulario.findAll();
     }
@@ -58,7 +58,7 @@ public class ServicioFormulario {
         return formulariosPA; 
     } 
  
-    @GetMapping(value = "/aprobados", produces = "application/json") 
+    @GetMapping(value = "/aprobados", produces = "application/json; charset=UTF-8") 
     public List<Formulario> findAllAprobados(@AuthenticationPrincipal CustomPrincipal customPrincipal) { 
         List<Formulario> formularios = repositorioFormulario.findAll(); 
         List<Formulario> formulariosA = new ArrayList<Formulario>(); 
@@ -70,7 +70,7 @@ public class ServicioFormulario {
         return formulariosA; 
     } 
 
-    @GetMapping(value = "/{id}", produces = "application/json")
+    @GetMapping(value = "/{id}", produces = "application/json; charset=UTF-8")
     public Formulario findById(@AuthenticationPrincipal CustomPrincipal customPrincipal, @PathVariable("id") Long id) {
         return repositorioFormulario.findById(id).get();
     }
