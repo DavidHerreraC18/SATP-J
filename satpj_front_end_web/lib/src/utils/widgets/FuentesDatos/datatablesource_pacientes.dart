@@ -1,17 +1,23 @@
 import 'package:flutter/material.dart';
 import 'package:satpj_front_end_web/src/model/paciente/paciente.dart';
 
-typedef OnRowSelect = void Function(int index);
+typedef OnRowSelectDetail = void Function(int index);
+typedef OnRowSelectEdit = void Function(int index);
+typedef OnRowSelectDelete = void Function(int index);
 
 class PacientesDataTableSource extends DataTableSource {
-  PacientesDataTableSource({
-    @required List<Paciente> pacientes,
-    @required this.onRowSelect,
-  })  : _pacientes = pacientes,
+  PacientesDataTableSource(
+      {@required List<Paciente> pacientes,
+      @required this.onRowSelectDetail,
+      @required this.onRowSelectEdit,
+      @required this.onRowSelectDelete})
+      : _pacientes = pacientes,
         assert(pacientes != null);
 
   final List<Paciente> _pacientes;
-  final OnRowSelect onRowSelect;
+  final OnRowSelectDetail onRowSelectDetail;
+  final OnRowSelectEdit onRowSelectEdit;
+  final OnRowSelectDelete onRowSelectDelete;
 
   @override
   DataRow getRow(int index) {
@@ -25,17 +31,34 @@ class PacientesDataTableSource extends DataTableSource {
     return DataRow.byIndex(
       index: index, // DONT MISS THIS
       cells: <DataCell>[
-        DataCell(Text('${_paciente.id}')),
-        //DataCell(Text('${_paciente.name}')),
+        DataCell(Text('${_paciente.nombre}')),
+        DataCell(Text('${_paciente.apellido}')),
+        DataCell(Text('${_paciente.documento}')),
         DataCell(Text('${_paciente.email}')),
-        //DataCell(Text('${_paciente.phone}')),
-        //DataCell(Text('${_paciente.website}')),
+        DataCell(Text('${_paciente.telefono}')),
+        DataCell(Text('${_paciente.direccion}')),
+        DataCell(Text('${_paciente.edad}')),
+        /*DataCell(Text('${_paciente.estrato}')),
+        DataCell(Text('${_paciente.remitido}')),*/
         DataCell(
-          IconButton(
-            hoverColor: Colors.transparent,
-            splashColor: Colors.transparent,
-            icon: const Icon(Icons.details),
-            onPressed: () => onRowSelect(index),
+          ButtonBar(
+            children: <Widget>[
+              IconButton(
+                color: Color(0xFF2E5EAA),
+                icon: const Icon(Icons.remove_red_eye),
+                onPressed: () => onRowSelectDetail(index),
+              ),
+              IconButton(
+                color: Color(0xFF2E5EAA),
+                icon: const Icon(Icons.edit),
+                onPressed: () => onRowSelectEdit(index),
+              ),
+              IconButton(
+                color: Color(0xFF2E5EAA),
+                icon: const Icon(Icons.delete),
+                onPressed: () => onRowSelectDelete(index),
+              ),
+            ],
           ),
         ),
       ],
@@ -58,7 +81,7 @@ class PacientesDataTableSource extends DataTableSource {
     The [compare] function must act as a [Comparator].
 
     List<String> numbers = ['two', 'three', 'four'];
-// Sort from shortest to longest.
+    Sort from shortest to longest.
     numbers.sort((a, b) => a.length.compareTo(b.length));
     print(numbers);  // [two, four, three]
     The default List implementations use [Comparable.compare] if [compare] is omitted.

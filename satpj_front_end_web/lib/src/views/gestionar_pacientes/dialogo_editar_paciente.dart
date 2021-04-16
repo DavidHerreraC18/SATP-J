@@ -6,28 +6,28 @@ import 'package:satpj_front_end_web/src/utils/widgets/tema-formularios.dart';
 import 'package:satpj_front_end_web/src/utils/widgets/formularios/formulario_paciente.dart';
 
 class DialogoEditarPaciente extends StatefulWidget {
-  Paciente paciente = new Paciente();
+  DialogoEditarPaciente({
+    this.pacienteSeleccionado,
+  });
 
-  DialogoEditarPaciente({this.paciente});
+  final Paciente pacienteSeleccionado;
 
   @override
   _DialogoEditarPacienteState createState() => _DialogoEditarPacienteState();
 }
 
 class _DialogoEditarPacienteState extends State<DialogoEditarPaciente> {
-  
   GlobalKey<FormState> _formKey;
 
   @override
-  void initState() { 
+  void initState() {
     _formKey = new GlobalKey<FormState>();
     super.initState();
-    
   }
 
   @override
   Widget build(BuildContext context) {
-    print(widget.paciente.nombre);
+    print(widget.pacienteSeleccionado.nombre);
     return Theme(
       data: temaFormularios(),
       child: Dialog(
@@ -38,8 +38,8 @@ class _DialogoEditarPacienteState extends State<DialogoEditarPaciente> {
         child: Container(
           width: 800.0,
           child: Form(
-             key: _formKey,
-             child: ListView(children: [
+            key: _formKey,
+            child: ListView(children: [
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 mainAxisSize: MainAxisSize.min,
@@ -60,28 +60,28 @@ class _DialogoEditarPacienteState extends State<DialogoEditarPaciente> {
                             child: Text(
                               'Editar Paciente',
                               textAlign: TextAlign.left,
-                              style:
-                                  TextStyle(fontSize: 20.0, color: Colors.white),
+                              style: TextStyle(
+                                  fontSize: 20.0, color: Colors.white),
                             ),
                           ),
                           IconButton(
                             icon: Icon(Icons.close, color: Colors.white),
                             onPressed: () {
-                              Navigator.pop(context, widget.paciente);
+                              Navigator.pop(
+                                  context, widget.pacienteSeleccionado);
                             },
                           ),
                         ],
                       )),
                   Container(
                     margin: EdgeInsets.symmetric(horizontal: 40.0),
-                    child: 
-                      FormPatientInformation(
-                        paciente: widget.paciente,
-                        prefix: 'el',
-                        label: 'del paciente',
-                        fechaNacimiento: true,
-                        stack: false,
-                      ),
+                    child: FormPatientInformation(
+                      paciente: widget.pacienteSeleccionado,
+                      prefix: 'el',
+                      label: 'del paciente',
+                      fechaNacimiento: true,
+                      stack: false,
+                    ),
                   ),
                 ],
               ),
@@ -103,7 +103,7 @@ class _DialogoEditarPacienteState extends State<DialogoEditarPaciente> {
                                   Colors.grey[600]),
                             ),
                             onPressed: () {
-                               Navigator.pop(context);
+                              Navigator.pop(context);
                             },
                             child: Padding(
                               padding: EdgeInsets.symmetric(horizontal: 20.0),

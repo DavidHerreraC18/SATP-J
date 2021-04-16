@@ -5,19 +5,19 @@ import 'package:satpj_front_end_web/src/utils/widgets/tema-formularios.dart';
 import 'package:satpj_front_end_web/src/utils/widgets/formularios/formulario_paciente.dart';
 
 class DialogoVisualizarPaciente extends StatefulWidget {
-  Paciente paciente = new Paciente();
+  DialogoVisualizarPaciente({this.pacienteSeleccionado});
 
-  DialogoVisualizarPaciente({this.paciente});
+  final Paciente pacienteSeleccionado;
 
   @override
-  _DialogoVisualizarPacienteState createState() => _DialogoVisualizarPacienteState();
+  _DialogoVisualizarPacienteState createState() =>
+      _DialogoVisualizarPacienteState();
 }
 
 class _DialogoVisualizarPacienteState extends State<DialogoVisualizarPaciente> {
-
   @override
   Widget build(BuildContext context) {
-    print(widget.paciente.nombre);
+    print(widget.pacienteSeleccionado.nombre);
     return Theme(
       data: temaFormularios(),
       child: Dialog(
@@ -55,22 +55,21 @@ class _DialogoVisualizarPacienteState extends State<DialogoVisualizarPaciente> {
                         IconButton(
                           icon: Icon(Icons.close, color: Colors.white),
                           onPressed: () {
-                            Navigator.pop(context, widget.paciente);
+                            Navigator.pop(context, widget.pacienteSeleccionado);
                           },
                         ),
                       ],
                     )),
                 Container(
                   margin: EdgeInsets.symmetric(horizontal: 40.0),
-                  child: 
-                  FormPatientInformation(
-                    paciente: widget.paciente,
+                  child: FormPatientInformation(
+                    paciente: widget.pacienteSeleccionado,
                     prefix: 'el',
                     label: 'del paciente',
                     fechaNacimiento: true,
                     stack: false,
                     enabled: false,
-                   ),
+                  ),
                 ),
               ],
             ),

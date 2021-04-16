@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 import 'package:provider/provider.dart';
-import 'package:satpj_front_end_web/src/model/Notificadores/data_notifier.dart';
+import 'package:satpj_front_end_web/src/model/Notificadores/formulario_notifier.dart';
 import 'package:satpj_front_end_web/src/model/formulario/formulario.dart';
 import 'package:satpj_front_end_web/src/utils/widgets/Barras/toolbar_auxiliar_administrativo.dart';
 import 'package:satpj_front_end_web/src/utils/widgets/Dialogos/dialogo_preaprobacion.dart';
@@ -157,12 +157,8 @@ class _InternalWidget extends StatelessWidget {
     );
   }*/
 
-  void _showDetails(BuildContext c, Formulario data) async => await showDialog<
-          bool>(
-      context: c,
-      /*builder: (_) => CustomDialog(
-          showPadding: false,
-          child: OtherDetails(data: data),
-        ),*/
-      builder: (_) => PreAprobDialog(formularioSeleccionado: data));
+  void _showDetails(BuildContext c, Formulario data) async =>
+      await showDialog<bool>(
+          context: c,
+          builder: (_) => PreAprobDialog(formularioSeleccionado: data));
 }

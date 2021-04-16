@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:satpj_front_end_web/src/providers/provider_autenticacion.dart';
 import 'package:satpj_front_end_web/src/views/gestionar_pacientes/vista_aprobacion_formularios.dart';
+import 'package:satpj_front_end_web/src/views/gestionar_pacientes/vista_administrar_pacientes.dart';
 
 AppBar toolbarAuxiliarAdministrativo(BuildContext context) {
   return AppBar(
@@ -102,11 +103,11 @@ AppBar toolbarAuxiliarAdministrativo(BuildContext context) {
                     // Replace with a Row for horizontal icon + text
                     children: <Widget>[
                       Icon(
-                        Icons.group, //TOCA CAMBIAR EL ICONO
+                        Icons.assignment, //TOCA CAMBIAR EL ICONO
                         color: Color(0xFF2E5EAA),
                       ),
                       SizedBox(width: 2.0),
-                      Text("Pacientes",
+                      Text("Formularios",
                           style: Theme.of(context).textTheme.bodyText1)
                     ],
                   ),
@@ -117,11 +118,11 @@ AppBar toolbarAuxiliarAdministrativo(BuildContext context) {
                     // Replace with a Row for horizontal icon + text
                     children: <Widget>[
                       Icon(
-                        Icons.group,
+                        Icons.group, //TOCA CAMBIAR EL ICONO
                         color: Color(0xFF2E5EAA),
                       ),
                       SizedBox(width: 2.0),
-                      Text("Supervisores",
+                      Text("Pacientes",
                           style: Theme.of(context).textTheme.bodyText1)
                     ],
                   ),
@@ -136,13 +137,28 @@ AppBar toolbarAuxiliarAdministrativo(BuildContext context) {
                         color: Color(0xFF2E5EAA),
                       ),
                       SizedBox(width: 2.0),
-                      Text("Practicantes",
+                      Text("Supervisores",
                           style: Theme.of(context).textTheme.bodyText1)
                     ],
                   ),
                 ),
                 PopupMenuItem(
                   value: 6,
+                  child: Row(
+                    // Replace with a Row for horizontal icon + text
+                    children: <Widget>[
+                      Icon(
+                        Icons.group,
+                        color: Color(0xFF2E5EAA),
+                      ),
+                      SizedBox(width: 2.0),
+                      Text("Practicantes",
+                          style: Theme.of(context).textTheme.bodyText1)
+                    ],
+                  ),
+                ),
+                PopupMenuItem(
+                  value: 7,
                   child: Row(
                     // Replace with a Row for horizontal icon + text
                     children: <Widget>[
@@ -157,7 +173,7 @@ AppBar toolbarAuxiliarAdministrativo(BuildContext context) {
                   ),
                 ),
                 PopupMenuItem(
-                  value: 7,
+                  value: 8,
                   child: Row(
                     // Replace with a Row for horizontal icon + text
                     children: <Widget>[
@@ -172,7 +188,7 @@ AppBar toolbarAuxiliarAdministrativo(BuildContext context) {
                   ),
                 ),
                 PopupMenuItem(
-                  value: 8,
+                  value: 9,
                   child: Row(
                     // Replace with a Row for horizontal icon + text
                     children: <Widget>[
@@ -187,7 +203,7 @@ AppBar toolbarAuxiliarAdministrativo(BuildContext context) {
                   ),
                 ),
                 PopupMenuItem(
-                  value: 9,
+                  value: 10,
                   child: Row(
                     // Replace with a Row for horizontal icon + text
                     children: <Widget>[
@@ -225,7 +241,8 @@ AppBar toolbarAuxiliarAdministrativo(BuildContext context) {
 
                   case 4:
                     {
-                      //statements;
+                      Navigator.pushNamed(
+                          context, VistaAdministrarPacientes.route);
                     }
                     break;
 

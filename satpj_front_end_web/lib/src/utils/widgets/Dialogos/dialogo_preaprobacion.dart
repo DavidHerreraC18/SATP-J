@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:satpj_front_end_web/src/model/Notificadores/data_notifier.dart';
+import 'package:satpj_front_end_web/src/model/Notificadores/formulario_notifier.dart';
 import 'package:satpj_front_end_web/src/model/formulario/formulario.dart';
-import 'package:satpj_front_end_web/src/providers/provider_preaprobacion_pacientes.dart';
+import 'package:satpj_front_end_web/src/providers/provider_aprobacion_formularios.dart';
 import 'package:satpj_front_end_web/src/utils/widgets/Dialogos/header_dialog.dart';
 import 'package:satpj_front_end_web/src/views/gestionar_pacientes/vista_aprobacion_formularios.dart';
 
@@ -278,7 +278,7 @@ class _PreAprobDialogState extends State<PreAprobDialog> {
 
   Future<void> _aprobarPaciente(Formulario formulario) async {
     String resuesta =
-        await ProviderAdministracionFormularios.preAprobarPaciente(formulario);
+        await ProviderAprobacionFormularios.preAprobarPaciente(formulario);
     print(resuesta);
     if (resuesta == "Error") {
       mensaje = "Error procesando la solicitud, intenta de nuevo mas tarde";
@@ -291,7 +291,7 @@ class _PreAprobDialogState extends State<PreAprobDialog> {
 
   Future<void> _rechazarPaciente(Formulario formulario) async {
     String resuesta =
-        await ProviderAdministracionFormularios.rechazarPaciente(formulario);
+        await ProviderAprobacionFormularios.rechazarPaciente(formulario);
     print(resuesta);
     if (resuesta == "Error") {
       mensaje = "Error procesando la solicitud, intenta de nuevo mas tarde";

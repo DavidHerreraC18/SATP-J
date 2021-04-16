@@ -55,6 +55,19 @@ public class ServicioPaciente {
     public List<Paciente> findAll(@AuthenticationPrincipal CustomPrincipal customPrincipal) {
         return repositorioPaciente.findAll();
     }
+
+    /*Encuentra todos los pacientes que han sido aprobados*/
+    @GetMapping(value = "/aprobados")
+    public List<Paciente> findAllAprobados(@AuthenticationPrincipal CustomPrincipal customPrincipal) {
+        List<Paciente> pacientes = repositorioPaciente.findAll();
+        List<Paciente> pacientesNP = new ArrayList<Paciente>(); 
+        for (Paciente paciente : pacientes) { 
+            if((paciente.getEstadoAprobado().equals("Aprobado"))){ 
+                pacientesNP.add(paciente); 
+            } 
+        } 
+        return pacientesNP; 
+    }
  
     @GetMapping(value = "/{id}", produces = "application/json")
     public Paciente findById(@AuthenticationPrincipal CustomPrincipal customPrincipal, @PathVariable("id") String id) {
