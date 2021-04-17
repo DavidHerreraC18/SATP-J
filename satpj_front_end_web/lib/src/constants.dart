@@ -33,12 +33,13 @@ inputDecoration({bool enabled = true}){
 }
 
 InputDecoration datePickerDecoration = InputDecoration(
-         labelStyle: TextStyle(fontWeight: FontWeight.normal, fontSize: 18.0),
-         enabledBorder: OutlineInputBorder(
+         icon: Icon(Icons.calendar_today_rounded, color: kPrimaryColor,),
+         labelStyle: TextStyle(fontWeight: FontWeight.normal, fontSize: 18.0, color: Colors.black),
+         enabledBorder: UnderlineInputBorder(
            borderSide:
                BorderSide(color: kPrimaryColor, width: 1.5),
          ),
-         focusedBorder:  OutlineInputBorder(
+         focusedBorder: UnderlineInputBorder(
            borderSide: BorderSide(color: kPrimaryColor, width: 2.0),       
          )
 );

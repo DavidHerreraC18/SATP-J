@@ -45,8 +45,10 @@ class _DropdownState extends State<Dropdown> {
   }
   
   defineValue() {
-     if(widget.textController.text == null)
+     if(widget.textController.text == null){
         selected = null;
+        print('ESTOY VACIO');
+     }   
     else{
        for(String val in widget.values){
          if(val == widget.textController.text){
