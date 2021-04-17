@@ -1,7 +1,6 @@
 
 import 'package:json_annotation/json_annotation.dart';
 import 'dart:convert';
-import 'dart:html';
 
 import 'package:satpj_front_end_web/src/model/comprobante_pago/comprobante_pago.dart';
 

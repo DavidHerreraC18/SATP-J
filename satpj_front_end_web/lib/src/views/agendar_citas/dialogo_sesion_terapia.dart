@@ -16,9 +16,14 @@ import '../../constants.dart';
 
 class DialogoAgendarSesionTerapia extends StatefulWidget {
 
-  DialogoAgendarSesionTerapia({Paciente paciente, SesionTerapia sesion}) {
+  DialogoAgendarSesionTerapia({
+         Paciente paciente, 
+         SesionTerapia sesion,
+         String labelConfirmBtn = 'Crear'
+         }) {
          pacienteSesion = paciente;
          sesionTerapia = sesion;
+         labelConfirmB = labelConfirmBtn;
   }
 
   @override
@@ -28,6 +33,7 @@ class DialogoAgendarSesionTerapia extends StatefulWidget {
 
 Paciente pacienteSesion = new Paciente();
 SesionTerapia sesionTerapia;
+String labelConfirmB;
 
 class _DialogoAgendarSesionTerapiaState
     extends State<DialogoAgendarSesionTerapia> {
@@ -299,7 +305,7 @@ class _DialogoAgendarSesionTerapiaState
                     ),
                     FotterDialog(
                       labelCancelBtn: 'Cancelar',
-                      labelConfirmBtn: 'Crear',
+                      labelConfirmBtn: labelConfirmB,
                       colorConfirmBtn: kPrimaryColor,
                       width: 120.0,
                     ),

@@ -1,7 +1,9 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart' show PaginatedDataTable;
 import 'package:satpj_front_end_web/src/model/formulario/formulario.dart';
+import 'package:satpj_front_end_web/src/model/sesion_terapia/sesion_terapia.dart';
 import 'package:satpj_front_end_web/src/providers/provider_preaprobacion_pacientes.dart';
+import 'package:satpj_front_end_web/src/providers/provider_sesiones_terapia.dart';
 
 class FormularioNotifier with ChangeNotifier {
   FormularioNotifier() {
@@ -48,3 +50,7 @@ class FormularioNotifier with ChangeNotifier {
     notifyListeners();
   }
 }
+
+
+
+

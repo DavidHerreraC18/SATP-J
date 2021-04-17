@@ -4,7 +4,6 @@ import 'package:satpj_front_end_web/src/model/supervisor/supervisor.dart';
 import 'package:satpj_front_end_web/src/utils/tema.dart';
 import 'package:satpj_front_end_web/src/utils/widgets/Barras/toolbar_auxiliar_administrativo.dart';
 import 'package:satpj_front_end_web/src/views/agendar_citas/dialogo_sesion_terapia.dart';
-import 'package:satpj_front_end_web/src/views/documentacion/dialogo_consentimiento_principal.dart';
 import 'package:satpj_front_end_web/src/views/gestionar_pacientes/dialogo_crear_paciente.dart';
 
 import 'dialogo_editar_paciente.dart';
@@ -52,11 +51,6 @@ class _VistaGestionarPacientesState extends State<VistaGestionarPacientes> {
       appBar: toolbarAuxiliarAdministrativo(context),
       body: Row(
         children: [
-          IconButton(
-            icon: Icon(
-              Icons.add,
-              color: Colors.white,
-            ),
             IconButton(
               icon: Icon(
                 Icons.add,
@@ -79,14 +73,6 @@ class _VistaGestionarPacientesState extends State<VistaGestionarPacientes> {
                 showDialog(context: context, builder: (context) => DialogoEditarPaciente(paciente: paciente));
               },
             ),
-            color: kPrimaryColor,
-            onPressed: () {
-              showDialog(
-                  context: context,
-                  builder: (context) =>
-                      DialogoEditarPaciente(paciente: paciente));
-            },
-          ),
           Container(
             alignment: Alignment.center,
             height: 20.0,
