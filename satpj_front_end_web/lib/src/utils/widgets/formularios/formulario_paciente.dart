@@ -34,7 +34,7 @@ class _FormState extends State<FormPatientInformation> {
   FocusNode textFocusNodeEstrato;
 
   @override
-  void initState() {   
+  void initState() {
     textControllerEstrato =
         TextEditingController(text: widget.paciente.estrato.toString());
 
@@ -46,7 +46,7 @@ class _FormState extends State<FormPatientInformation> {
   @override
   Widget build(BuildContext context) {
     return Stack(
-      children: [    
+      children: [
         Container(
           margin: widget.stack
               ? EdgeInsets.symmetric(vertical: 35.0, horizontal: 5.0)
@@ -64,15 +64,12 @@ class _FormState extends State<FormPatientInformation> {
           child: Theme(
             data: temaFormularios(),
             child:
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.start, 
-              children: 
-             [
+                Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
               FormUserPersonalInformation(
-                    usuario: widget.paciente,
-                    prefix: widget.prefix,
-                    label: widget.label,
-                    fechaNacimiento: widget.fechaNacimiento,
+                usuario: widget.paciente,
+                prefix: widget.prefix,
+                label: widget.label,
+                fechaNacimiento: widget.fechaNacimiento,
               ),
               Text(
                 'Estrato sociecómico',
@@ -108,7 +105,9 @@ class _FormState extends State<FormPatientInformation> {
           ),
         ),
         if (widget.stack)
-          labelContainerStack(widget.label != null && widget.label.isNotEmpty ? widget.label : 'personal' ),
+          labelContainerStack(widget.label != null && widget.label.isNotEmpty
+              ? widget.label
+              : 'personal'),
       ],
     );
   }
