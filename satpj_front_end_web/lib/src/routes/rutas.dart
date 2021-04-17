@@ -8,7 +8,6 @@ import 'package:satpj_front_end_web/src/views/gestionar_pacientes/vista_aprobaci
 import 'package:satpj_front_end_web/src/views/gestionar_pacientes/vista_administrar_pacientes.dart';
 import 'package:satpj_front_end_web/src/views/gestionar_practicantes/vista_gestionar_practicantes.dart';
 import 'package:satpj_front_end_web/src/views/gestionar_supervisores.dart/vista_gestionar_supervisores.dart';
-import 'package:satpj_front_end_web/src/views/documentacion/vista_registro_documentos.dart';
 import 'package:satpj_front_end_web/src/views/pagos/vista_registro_pago.dart';
 import 'package:satpj_front_end_web/src/views/registro/vista_pre_registro.dart';
 import 'package:satpj_front_end_web/src/views/registro/vista_pre_registro_1.dart';
