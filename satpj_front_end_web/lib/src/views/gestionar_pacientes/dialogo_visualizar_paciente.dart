@@ -35,7 +35,7 @@ class _DialogoVisualizarPacienteState extends State<DialogoVisualizarPaciente> {
                 mainAxisSize: MainAxisSize.min,
                 children: [
                   HeaderDialog(
-                    label: "Respuestas Formulario",
+                    label: "Paciente",
                   ),
                   Expanded(
                     child: Container(

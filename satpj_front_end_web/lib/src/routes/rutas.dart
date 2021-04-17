@@ -41,21 +41,8 @@ Map<String, WidgetBuilder> getAppRoutes() {
     VistaHorarioPracticanteOpcion2.route: (BuildContext context) =>
         VistaHorarioPracticanteOpcion2(),
     VistaAprobacionFormularios.route: (BuildContext context) =>
-    //'login': (BuildContext context) => LoginPage(),
-    RegisterPage1.route: (BuildContext context) => RegisterPage1(),
-    PreRegisterHomePage.route       : (BuildContext context) => PreRegisterHomePage(),
-    PreRegisterPage1.route          : (BuildContext context) => PreRegisterPage1(),
-    PreRegisterPage2.route          : (BuildContext context) => PreRegisterPage2(),
-    PreRegisterPage3.route          : (BuildContext context) => PreRegisterPage3(),
-    VistaRegistroPago.route         : (BuildContext context) => VistaRegistroPago(),
-    VistaGestionarPacientes.route   : (BuildContext context) => VistaGestionarPacientes(),
-    VistaGestionarPracticantes.route : (BuildContext context) => VistaGestionarPracticantes(),
-    VistaGestionarSupervisores.route : (BuildContext context) => VistaGestionarSupervisores(),
-    VistaGestionarAgendamiento.route : (BuildContext context) => VistaGestionarAgendamiento(),
-    VistaGestionarHorarioPracticante.route: (BuildContext context) => VistaGestionarHorarioPracticante(),
-    VistaHorarioPracticanteOpcion1.route : (BuildContext context) => VistaHorarioPracticanteOpcion1(),
-    VistaHorarioPracticanteOpcion2.route : (BuildContext context) => VistaHorarioPracticanteOpcion2(),
-    VistaHorarioPracticanteOpcion3.route : (BuildContext context) => VistaHorarioPracticanteOpcion3(),
-   
+        VistaAprobacionFormularios(),
+    VistaGestionarAgendamiento.route: (BuildContext context) =>
+        VistaGestionarAgendamiento(),
   };
 }

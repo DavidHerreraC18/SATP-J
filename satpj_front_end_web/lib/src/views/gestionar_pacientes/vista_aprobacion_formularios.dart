@@ -11,7 +11,7 @@ import 'package:satpj_front_end_web/src/utils/widgets/FuentesDatos/datatablesour
 import 'package:satpj_front_end_web/src/utils/widgets/custom_paginated_datatable.dart';
 
 class VistaAprobacionFormularios extends StatelessWidget {
-  static const route = '/preapobar-pacientes';
+  static const route = '/preaprobar-pacientes';
 
   const VistaAprobacionFormularios({Key key}) : super(key: key);
 
