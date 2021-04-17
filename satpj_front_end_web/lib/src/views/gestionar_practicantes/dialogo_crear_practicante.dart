@@ -55,7 +55,7 @@ class _DialogoCrearPracticanteState extends State<DialogoCrearPracticante> {
                     labelCancelBtn: 'Cancelar',
                     labelConfirmBtn: 'Crear',
                     colorConfirmBtn: kPrimaryColor,
-                    paginator: true,
+                    paginator: false,
                     width: 120.0,
                   )
                  ],
