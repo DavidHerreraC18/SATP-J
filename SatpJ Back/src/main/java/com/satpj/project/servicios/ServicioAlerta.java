@@ -47,12 +47,12 @@ public class ServicioAlerta {
 
     // Métodos correspondientes a la Alerta
 
-    @GetMapping(produces = "application/json")
+    @GetMapping(produces = "application/json; charset=UTF-8")
     public List<Alerta> findAllAlertas(@AuthenticationPrincipal CustomPrincipal customPrincipal) {
         return repositorioAlerta.findAll();
     }
 
-    @GetMapping(value = "/{id}", produces = "application/json")
+    @GetMapping(value = "/{id}", produces = "application/json; charset=UTF-8")
     public Alerta findAlertaById(@AuthenticationPrincipal CustomPrincipal customPrincipal, @PathVariable("id") Long id) {
         return repositorioAlerta.findById(id).get();
     }
@@ -89,7 +89,7 @@ public class ServicioAlerta {
 
     // Métodos correspondientes a la AlertaUsuario
 
-    @GetMapping(value = "/usuario/{id}", produces = "application/json")
+    @GetMapping(value = "/usuario/{id}", produces = "application/json; charset=UTF-8")
     public List<AlertaUsuario> findAlertaUsuarioByUsuario(@AuthenticationPrincipal CustomPrincipal customPrincipal, @PathVariable("id") String id) {
         Usuario usuario = servicioUsuario.findById(customPrincipal, id);
         Preconditions.checkNotNull(usuario);
@@ -97,7 +97,7 @@ public class ServicioAlerta {
         return alertasUsuario;
     }
 
-    @GetMapping(value = "/usuario", produces = "application/json")
+    @GetMapping(value = "/usuario", produces = "application/json; charset=UTF-8")
     public List<AlertaUsuario> findAllAlertaUsuario(@AuthenticationPrincipal CustomPrincipal customPrincipal) {
         return repositorioAlertaUsuario.findAll();
     }

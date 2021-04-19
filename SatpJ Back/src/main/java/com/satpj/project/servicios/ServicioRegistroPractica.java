@@ -38,12 +38,12 @@ public class ServicioRegistroPractica {
     @Autowired
     private RepositorioRegistroPractica repositorioRegistroPractica;
 
-    @GetMapping(produces = "application/json")
+    @GetMapping(produces = "application/json; charset=UTF-8")
     public List<RegistroPractica> findAll(@AuthenticationPrincipal CustomPrincipal customPrincipal) {
         return repositorioRegistroPractica.findAll();
     }
 
-    @GetMapping(value = "/{id}", produces = "application/json")
+    @GetMapping(value = "/{id}", produces = "application/json; charset=UTF-8")
     public RegistroPractica findById(@PathVariable("id") Long id) {
         return repositorioRegistroPractica.findById(id).get();
     }

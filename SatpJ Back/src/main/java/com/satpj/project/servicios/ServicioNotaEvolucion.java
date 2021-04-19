@@ -49,12 +49,12 @@ public class ServicioNotaEvolucion {
     @Autowired
     private ServicioSupervisor servicioSupervisor;
 
-    @GetMapping(produces = "application/json")
+    @GetMapping(produces = "application/json; charset=UTF-8")
     public List<NotaEvolucion> findAll(@AuthenticationPrincipal CustomPrincipal customPrincipal) {
         return repositorioNotaEvolucion.findAll();
     }
 
-    @GetMapping(value = "/{idSesion}/{idPracticante}", produces = "application/json")
+    @GetMapping(value = "/{idSesion}/{idPracticante}", produces = "application/json; charset=UTF-8")
     public NotaEvolucion findByLlaveNotaEvolucionId(@AuthenticationPrincipal CustomPrincipal customPrincipal, @PathVariable("idSesion") Long idSesion,
             @PathVariable("idPracticante") String idPracticante) {
         LlaveNotaEvolucion llaveNotaEvolucion = new LlaveNotaEvolucion();
@@ -63,7 +63,7 @@ public class ServicioNotaEvolucion {
         return repositorioNotaEvolucion.findById(llaveNotaEvolucion).get();
     }
 
-    @GetMapping(value = "/practicante/{idPracticante}", produces = "application/json")
+    @GetMapping(value = "/practicante/{idPracticante}", produces = "application/json; charset=UTF-8")
     public List<NotaEvolucion> findAllNotasByPracticante(@AuthenticationPrincipal CustomPrincipal customPrincipal, @PathVariable("idPracticante") String idPracticante) {
         Practicante practicante = servicioPracticante.findPracticanteById(customPrincipal, idPracticante);
         Preconditions.checkNotNull(practicante);
@@ -72,7 +72,7 @@ public class ServicioNotaEvolucion {
         return notasEvolucion.getContent();
     }
 
-    @GetMapping(value = "/practicante/{idPracticante}/enviadas", produces = "application/json")
+    @GetMapping(value = "/practicante/{idPracticante}/enviadas", produces = "application/json; charset=UTF-8")
     public List<NotaEvolucion> findAllNotasByPracticanteEnviadas(@AuthenticationPrincipal CustomPrincipal customPrincipal, @PathVariable("idPracticante") String idPracticante) {
         Practicante practicante = servicioPracticante.findPracticanteById(customPrincipal, idPracticante);
         Preconditions.checkNotNull(practicante);
@@ -87,7 +87,7 @@ public class ServicioNotaEvolucion {
         return notasEvolucion.getContent();
     }
 
-    @GetMapping(value = "/practicante/{idPracticante}/noenviadas", produces = "application/json")
+    @GetMapping(value = "/practicante/{idPracticante}/noenviadas", produces = "application/json; charset=UTF-8")
     public List<NotaEvolucion> findAllNotasByPracticanteNoEnviadas(@AuthenticationPrincipal CustomPrincipal customPrincipal, @PathVariable("idPracticante") String idPracticante) {
         Practicante practicante = servicioPracticante.findPracticanteById(customPrincipal, idPracticante);
         Preconditions.checkNotNull(practicante);
@@ -102,7 +102,7 @@ public class ServicioNotaEvolucion {
         return notasEvolucion.getContent();
     }
 
-    @GetMapping(value = "/supervisor/{idSupervisor}", produces = "application/json")
+    @GetMapping(value = "/supervisor/{idSupervisor}", produces = "application/json; charset=UTF-8")
     public List<NotaEvolucion> findAllNotasBySupervisor(@AuthenticationPrincipal CustomPrincipal customPrincipal, @PathVariable("idSupervisor") String idSupervisor) {
         Supervisor supervisor = servicioSupervisor.findById(customPrincipal, idSupervisor);
         Preconditions.checkNotNull(supervisor);
@@ -110,7 +110,7 @@ public class ServicioNotaEvolucion {
         return notasEvolucion;
     }
 
-    @GetMapping(value = "/supervisor/{idSupervisor}/registradas", produces = "application/json")
+    @GetMapping(value = "/supervisor/{idSupervisor}/registradas", produces = "application/json; charset=UTF-8")
     public List<NotaEvolucion> findAllNotasBySupervisorRegistradas(@AuthenticationPrincipal CustomPrincipal customPrincipal, @PathVariable("idSupervisor") String idSupervisor) {
         Supervisor supervisor = servicioSupervisor.findById(customPrincipal, idSupervisor);
         Preconditions.checkNotNull(supervisor);
@@ -124,7 +124,7 @@ public class ServicioNotaEvolucion {
         return notasRegistradas;
     }
 
-    @GetMapping(value = "/supervisor/{idSupervisor}/noregistradas", produces = "application/json")
+    @GetMapping(value = "/supervisor/{idSupervisor}/noregistradas", produces = "application/json; charset=UTF-8")
     public List<NotaEvolucion> findAllNotasBySupervisorNoRegistradas(@AuthenticationPrincipal CustomPrincipal customPrincipal, @PathVariable("idSupervisor") String idSupervisor) {
         Supervisor supervisor = servicioSupervisor.findById(customPrincipal, idSupervisor);
         Preconditions.checkNotNull(supervisor);
@@ -138,7 +138,7 @@ public class ServicioNotaEvolucion {
         return notasRegistradas;
     }
 
-    @GetMapping(value = "/sesiones/{id}", produces = "application/json")
+    @GetMapping(value = "/sesiones/{id}", produces = "application/json; charset=UTF-8")
     public NotaEvolucion findBySesionTerapiaId(@AuthenticationPrincipal CustomPrincipal customPrincipal, @PathVariable("id") String id) {
         return repositorioNotaEvolucion.findByPracticanteId(id, Pageable.unpaged()).get().findFirst().get();
     }

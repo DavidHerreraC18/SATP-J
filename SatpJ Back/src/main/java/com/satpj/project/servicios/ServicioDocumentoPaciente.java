@@ -38,12 +38,12 @@ public class ServicioDocumentoPaciente {
     @Autowired
     private RepositorioDocumentoPaciente repositorioDocumentoPaciente;
 
-    @GetMapping(produces = "application/json")
+    @GetMapping(produces = "application/json; charset=UTF-8")
     public List<DocumentoPaciente> findAll(@AuthenticationPrincipal CustomPrincipal customPrincipal) {
         return repositorioDocumentoPaciente.findAll();
     }
 
-    @GetMapping(value = "/{id}", produces = "application/json")
+    @GetMapping(value = "/{id}", produces = "application/json; charset=UTF-8")
     public DocumentoPaciente findById(@AuthenticationPrincipal CustomPrincipal customPrincipal, @PathVariable("id") Long id) {
         return repositorioDocumentoPaciente.findById(id).get();
     }

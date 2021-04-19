@@ -1,12 +1,9 @@
-import 'dart:convert';
-import 'dart:io';
 import 'dart:typed_data';
 
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:satpj_front_end_web/src/model/paciente/paciente.dart';
 import 'package:satpj_front_end_web/src/utils/tema.dart';
-import 'package:satpj_front_end_web/src/utils/widgets/Archivos/file_picker_demo.dart';
 import 'package:satpj_front_end_web/src/utils/widgets/Firmas/pad_firmas.dart';
 import 'package:satpj_front_end_web/src/utils/widgets/Pdf/helper/info_paciente_principal_pdf.dart';
 import 'package:satpj_front_end_web/src/utils/widgets/Pdf/pdf_consentimiento_principal.dart';
@@ -16,7 +13,6 @@ import 'package:satpj_front_end_web/src/utils/widgets/Pdf/helper/save_file_mobil
 
 final PageController pageCtrlr = new PageController();
 int currentContainer = 0;
-bool _success = true;
 final int numberOfContainers = 5;
 Function funcionConsentimientoP;
 Paciente pacienteActual;

@@ -39,17 +39,17 @@ public class ServicioSupervisor {
     @Autowired
     private RepositorioSupervisor repositorioSupervisor;
 
-    @GetMapping(produces = "application/json")
+    @GetMapping(produces = "application/json; charset=UTF-8")
     public List<Supervisor> findAll(@AuthenticationPrincipal CustomPrincipal customPrincipal) {
         return repositorioSupervisor.findAll();
     }
 
-    @GetMapping(value = "/{id}", produces = "application/json")
+    @GetMapping(value = "/{id}", produces = "application/json; charset=UTF-8")
     public Supervisor findById(@AuthenticationPrincipal CustomPrincipal customPrincipal, @PathVariable("id") String id) {
         return repositorioSupervisor.findById(id).get();
     }
 
-    @GetMapping(value = "/pacientes/{id}", produces = "application/json")
+    @GetMapping(value = "/pacientes/{id}", produces = "application/json; charset=UTF-8")
     public List<Paciente> findPacientesBySupervisorId(@AuthenticationPrincipal CustomPrincipal customPrincipal, @PathVariable("id") String id) {
         Supervisor supervisor = repositorioSupervisor.findById(id).get();
         Preconditions.checkNotNull(supervisor);
