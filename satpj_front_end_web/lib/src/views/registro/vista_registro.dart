@@ -1,13 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:satpj_front_end_web/src/model/grupo/grupo.dart';
 import 'package:satpj_front_end_web/src/model/paciente/paciente.dart';
 import 'package:satpj_front_end_web/src/utils/tema.dart';
-import 'package:satpj_front_end_web/src/utils/validators/validadores-input.dart';
 import 'package:satpj_front_end_web/src/utils/widgets/Barras/toolbar_inicio.dart';
 import 'package:satpj_front_end_web/src/utils/widgets/botones/button_forms.dart';
 import 'package:satpj_front_end_web/src/utils/widgets/formularios/formulario_paciente_extra.dart';
 import 'package:satpj_front_end_web/src/utils/widgets/formularios/tema_formularios.dart';
-import 'package:satpj_front_end_web/src/utils/widgets/formularios/formulario_paciente.dart';
 import 'package:satpj_front_end_web/src/views/documentacion/vista_registro_documentos.dart';
 
 class PreRegisterHomePage extends StatefulWidget {

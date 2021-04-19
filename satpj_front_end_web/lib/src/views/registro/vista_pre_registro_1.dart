@@ -88,7 +88,7 @@ class RegisterFormPersonalInformationState extends State<RegisterFormPersonalInf
         grupo.integrantes.add(paciente);
         print(grupo.integrantes.length);
     }
-
+    
     return Theme(
       data: temaFormularios(),
       child: Form(

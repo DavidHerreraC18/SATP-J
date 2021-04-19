@@ -67,12 +67,9 @@ class _VistaGestionarAgendamientoState
     print(paciente.nombre);
     return Scaffold(
       appBar: toolbarAuxiliarAdministrativo(context),
-      body: Container(
-        margin: EdgeInsets.symmetric(horizontal: 20.0, vertical: 20.0),
-        child: ChangeNotifierProvider<SesionNotifier>(
-          create: (_) => SesionNotifier(),
-          child: _InternalWidget(),
-        ),
+      body: ChangeNotifierProvider<SesionNotifier>(
+        create: (_) => SesionNotifier(),
+        child: _InternalWidget(),
       ),
     );
   }
