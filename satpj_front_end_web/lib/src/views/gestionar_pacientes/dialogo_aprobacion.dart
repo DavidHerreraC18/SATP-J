@@ -79,44 +79,6 @@ class _AprobDialogState extends State<AprobDialog> {
                         padding:
                             MaterialStateProperty.all(EdgeInsets.all(10.0)),
                         backgroundColor: MaterialStateProperty.all(
-                            Theme.of(context).colorScheme.secondary),
-                        overlayColor: MaterialStateProperty.all(
-                            Theme.of(context).colorScheme.secondaryVariant),
-                        alignment: Alignment.center,
-                        shape: MaterialStateProperty.all(
-                          RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(15),
-                          ),
-                        ),
-                      ),
-                      onPressed: () {
-                        _aprobarPaciente(widget.formularioSeleccionado);
-                        Future.delayed(Duration(milliseconds: 1000), () {
-                          /*Navigator.of(context).popAndPushNamed(
-                              VistaAprobacionFormularios.route);*/
-                          Navigator.of(context)
-                              .pushNamed(VistaAprobacionFormularios.route);
-                        });
-                      },
-                      child: Padding(
-                        padding: EdgeInsets.only(
-                          top: 15.0,
-                          bottom: 15.0,
-                        ),
-                        child: Text(
-                          'Pre-Aprobar Paciente',
-                          style: TextStyle(
-                            fontSize: 14,
-                            color: Colors.white,
-                          ),
-                        ),
-                      ),
-                    ),
-                    TextButton(
-                      style: ButtonStyle(
-                        padding:
-                            MaterialStateProperty.all(EdgeInsets.all(10.0)),
-                        backgroundColor: MaterialStateProperty.all(
                             Theme.of(context).colorScheme.error),
                         overlayColor:
                             MaterialStateProperty.all(Color(0xFFD12D2F)),
@@ -136,19 +98,56 @@ class _AprobDialogState extends State<AprobDialog> {
                         });
                       },
                       child: Padding(
-                        padding: EdgeInsets.only(
-                          top: 15.0,
-                          bottom: 15.0,
+                        padding: EdgeInsets.symmetric(
+                          horizontal: 20.0,
                         ),
                         child: Text(
                           'Rechazar Paciente',
                           style: TextStyle(
-                            fontSize: 14,
+                            fontSize: 18,
+                            fontWeight: FontWeight.normal,
                             color: Colors.white,
                           ),
                         ),
                       ),
-                    )
+                    ),
+                    TextButton(
+                      style: ButtonStyle(
+                        padding: MaterialStateProperty.all(EdgeInsets.all(5.0)),
+                        backgroundColor: MaterialStateProperty.all(
+                            Theme.of(context).colorScheme.primary),
+                        overlayColor: MaterialStateProperty.all(
+                            Theme.of(context).colorScheme.primaryVariant),
+                        alignment: Alignment.center,
+                        shape: MaterialStateProperty.all(
+                          RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(15),
+                          ),
+                        ),
+                      ),
+                      onPressed: () {
+                        _aprobarPaciente(widget.formularioSeleccionado);
+                        Future.delayed(Duration(milliseconds: 1000), () {
+                          /*Navigator.of(context).popAndPushNamed(
+                              VistaAprobacionFormularios.route);*/
+                          Navigator.of(context)
+                              .pushNamed(VistaAprobacionFormularios.route);
+                        });
+                      },
+                      child: Padding(
+                        padding: EdgeInsets.symmetric(
+                          horizontal: 20.0,
+                        ),
+                        child: Text(
+                          'Aprobar Paciente',
+                          style: TextStyle(
+                            fontSize: 18,
+                            fontWeight: FontWeight.normal,
+                            color: Colors.white,
+                          ),
+                        ),
+                      ),
+                    ),
                   ],
                 ),
               ],

@@ -54,38 +54,70 @@ class _PreAprobDialogState extends State<PreAprobDialog> {
                   color: Colors.grey[400],
                   height: 20,
                 ),
-                mensaje != null
-                    ? Center(
-                        child: Padding(
-                          padding: const EdgeInsets.only(
-                            bottom: 20.0,
-                          ),
-                          child: Text(
-                            mensaje,
-                            style: TextStyle(
-                              color: colorMensaje,
-                              fontSize: 14,
-                              // letterSpacing: 3,
-                            ),
-                          ),
-                        ),
-                      )
-                    : Container(),
                 Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
                     TextButton(
                       style: ButtonStyle(
+                        minimumSize: MaterialStateProperty.all(Size(
+                          120.0,
+                          35.0,
+                        )),
                         padding:
                             MaterialStateProperty.all(EdgeInsets.all(10.0)),
                         backgroundColor: MaterialStateProperty.all(
-                            Theme.of(context).colorScheme.secondary),
-                        overlayColor: MaterialStateProperty.all(
-                            Theme.of(context).colorScheme.secondaryVariant),
+                            Theme.of(context).colorScheme.error),
+                        overlayColor:
+                            MaterialStateProperty.all(Color(0xFFD12D2F)),
                         alignment: Alignment.center,
                         shape: MaterialStateProperty.all(
                           RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(15),
+                            borderRadius: BorderRadius.circular(4.1),
+                          ),
+                        ),
+                      ),
+                      onPressed: () {
+                        _rechazarPaciente(widget.formularioSeleccionado);
+                        //Navigator.of(context).pop();
+                        Future.delayed(Duration(milliseconds: 1000), () {
+                          Navigator.of(context)
+                              .pushNamed(VistaAprobacionFormularios.route);
+                        });
+                      },
+                      child: Padding(
+                        padding: EdgeInsets.symmetric(
+                          horizontal: 20.0,
+                        ),
+                        child: Text(
+                          'Rechazar Paciente',
+                          style: TextStyle(
+                            fontSize: 18,
+                            fontWeight: FontWeight.normal,
+                            color: Colors.white,
+                          ),
+                        ),
+                      ),
+                    ),
+                    SizedBox(
+                      width: 8.0,
+                    ),
+                    TextButton(
+                      style: ButtonStyle(
+                        minimumSize: MaterialStateProperty.all(Size(
+                          120.0,
+                          35.0,
+                        )),
+                        padding:
+                            MaterialStateProperty.all(EdgeInsets.all(10.0)),
+                        backgroundColor: MaterialStateProperty.all(
+                            Theme.of(context).colorScheme.primary),
+                        overlayColor: MaterialStateProperty.all(
+                            Theme.of(context).colorScheme.primaryVariant),
+                        alignment: Alignment.center,
+                        shape: MaterialStateProperty.all(
+                          RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(4.1),
                           ),
                         ),
                       ),
@@ -99,57 +131,23 @@ class _PreAprobDialogState extends State<PreAprobDialog> {
                         });
                       },
                       child: Padding(
-                        padding: EdgeInsets.only(
-                          top: 15.0,
-                          bottom: 15.0,
+                        padding: EdgeInsets.symmetric(
+                          horizontal: 20.0,
                         ),
                         child: Text(
                           'Pre-Aprobar Paciente',
                           style: TextStyle(
-                            fontSize: 14,
+                            fontSize: 18,
+                            fontWeight: FontWeight.normal,
                             color: Colors.white,
                           ),
                         ),
                       ),
                     ),
-                    TextButton(
-                      style: ButtonStyle(
-                        padding:
-                            MaterialStateProperty.all(EdgeInsets.all(10.0)),
-                        backgroundColor: MaterialStateProperty.all(
-                            Theme.of(context).colorScheme.error),
-                        overlayColor:
-                            MaterialStateProperty.all(Color(0xFFD12D2F)),
-                        alignment: Alignment.center,
-                        shape: MaterialStateProperty.all(
-                          RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(15),
-                          ),
-                        ),
-                      ),
-                      onPressed: () {
-                        _rechazarPaciente(widget.formularioSeleccionado);
-                        //Navigator.of(context).pop();
-                        Future.delayed(Duration(milliseconds: 1000), () {
-                          Navigator.of(context)
-                              .pushNamed(VistaAprobacionFormularios.route);
-                        });
-                      },
-                      child: Padding(
-                        padding: EdgeInsets.only(
-                          top: 15.0,
-                          bottom: 15.0,
-                        ),
-                        child: Text(
-                          'Rechazar Paciente',
-                          style: TextStyle(
-                            fontSize: 14,
-                            color: Colors.white,
-                          ),
-                        ),
-                      ),
-                    )
                   ],
+                ),
+                SizedBox(
+                  height: 10.0,
                 ),
               ],
             ),

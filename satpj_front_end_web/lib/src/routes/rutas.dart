@@ -6,7 +6,9 @@ import 'package:satpj_front_end_web/src/views/gestionar_horario_practicante/vist
 import 'package:satpj_front_end_web/src/views/gestionar_horario_practicante/vista_horario_practicante_opcion_3.dart';
 import 'package:satpj_front_end_web/src/views/gestionar_pacientes/vista_aprobacion_formularios.dart';
 import 'package:satpj_front_end_web/src/views/gestionar_pacientes/vista_administrar_pacientes.dart';
+import 'package:satpj_front_end_web/src/views/gestionar_practicantes/vista_administrar_practicantes.dart';
 import 'package:satpj_front_end_web/src/views/gestionar_practicantes/vista_gestionar_practicantes.dart';
+import 'package:satpj_front_end_web/src/views/gestionar_supervisores.dart/vista_administracion_supervisores.dart';
 import 'package:satpj_front_end_web/src/views/gestionar_supervisores.dart/vista_gestionar_supervisores.dart';
 import 'package:satpj_front_end_web/src/views/pagos/vista_registro_pago.dart';
 import 'package:satpj_front_end_web/src/views/registro/vista_pre_registro.dart';
@@ -27,6 +29,10 @@ Map<String, WidgetBuilder> getAppRoutes() {
     VistaRegistroPago.route: (BuildContext context) => VistaRegistroPago(),
     VistaAdministrarPacientes.route: (BuildContext context) =>
         VistaAdministrarPacientes(),
+    VistaAdministrarPracticantes.route: (BuildContext context) =>
+        VistaAdministrarPracticantes(),
+    VistaAdministrarSupervisores.route: (BuildContext context) =>
+        VistaAdministrarSupervisores(),
     VistaGestionarPracticantes.route: (BuildContext context) =>
         VistaGestionarPracticantes(),
     VistaGestionarSupervisores.route: (BuildContext context) =>

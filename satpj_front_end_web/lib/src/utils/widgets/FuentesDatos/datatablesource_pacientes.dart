@@ -36,13 +36,20 @@ class PacientesDataTableSource extends DataTableSource {
         DataCell(Text('${_paciente.documento}')),
         DataCell(Text('${_paciente.email}')),
         DataCell(Text('${_paciente.telefono}')),
-        DataCell(Text('${_paciente.direccion}')),
         DataCell(Text('${_paciente.edad}')),
-        /*DataCell(Text('${_paciente.estrato}')),
-        DataCell(Text('${_paciente.remitido}')),*/
         DataCell(
           ButtonBar(
             children: <Widget>[
+              IconButton(
+                color: Color(0xFF2E5EAA),
+                icon: const Icon(Icons.person_add),
+                onPressed: () {},
+              ),
+              IconButton(
+                color: Color(0xFF2E5EAA),
+                icon: const Icon(Icons.insert_invitation),
+                onPressed: () {},
+              ),
               IconButton(
                 color: Color(0xFF2E5EAA),
                 icon: const Icon(Icons.remove_red_eye),

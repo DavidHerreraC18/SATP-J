@@ -1,14 +1,10 @@
 import 'package:flutter/material.dart';
 
 import 'package:provider/provider.dart';
-import 'package:satpj_front_end_web/src/model/Notificadores/formulario_notifier.dart';
 import 'package:satpj_front_end_web/src/model/Notificadores/pacientes_notifier.dart';
-import 'package:satpj_front_end_web/src/model/formulario/formulario.dart';
 import 'package:satpj_front_end_web/src/model/paciente/paciente.dart';
 import 'package:satpj_front_end_web/src/utils/widgets/Barras/toolbar_auxiliar_administrativo.dart';
 import 'package:satpj_front_end_web/src/utils/widgets/Dialogos/dialog_delete.dart';
-import 'package:satpj_front_end_web/src/utils/widgets/Dialogos/dialogo_preaprobacion.dart';
-import 'package:satpj_front_end_web/src/utils/widgets/FuentesDatos/datatablesource_formulario.dart';
 import 'package:satpj_front_end_web/src/utils/widgets/FuentesDatos/datatablesource_pacientes.dart';
 import 'package:satpj_front_end_web/src/utils/widgets/custom_paginated_datatable.dart';
 import 'package:satpj_front_end_web/src/views/gestionar_pacientes/dialogo_crear_paciente.dart';
@@ -117,6 +113,10 @@ class _InternalWidget extends StatelessWidget {
             style: Theme.of(context).textTheme.subtitle1,
           ),
           tooltip: "Documento del paciente",
+          onSort: (colIndex, asc) {
+            _sort<String>((paciente) => paciente.documento, colIndex, asc, _src,
+                _provider);
+          },
         ),
         DataColumn(
           label: Text(
@@ -124,6 +124,10 @@ class _InternalWidget extends StatelessWidget {
             style: Theme.of(context).textTheme.subtitle1,
           ),
           tooltip: "Correo electrónico del paciente",
+          onSort: (colIndex, asc) {
+            _sort<String>(
+                (paciente) => paciente.email, colIndex, asc, _src, _provider);
+          },
         ),
         DataColumn(
           label: Text(
@@ -131,13 +135,10 @@ class _InternalWidget extends StatelessWidget {
             style: Theme.of(context).textTheme.subtitle1,
           ),
           tooltip: "Telefono del paciente",
-        ),
-        DataColumn(
-          label: Text(
-            "Dirección",
-            style: Theme.of(context).textTheme.subtitle1,
-          ),
-          tooltip: "Dirección del paciente",
+          onSort: (colIndex, asc) {
+            _sort<String>((paciente) => paciente.telefono, colIndex, asc, _src,
+                _provider);
+          },
         ),
         DataColumn(
           label: Text(
@@ -145,21 +146,11 @@ class _InternalWidget extends StatelessWidget {
             style: Theme.of(context).textTheme.subtitle1,
           ),
           tooltip: "Edad del paciente",
+          onSort: (colIndex, asc) {
+            _sort<String>((paciente) => paciente.edad.toString(), colIndex, asc,
+                _src, _provider);
+          },
         ),
-        /*DataColumn(
-          label: Text(
-            "Estrato",
-            style: Theme.of(context).textTheme.subtitle1,
-          ),
-          tooltip: "Estrato del paciente",
-        ),
-        DataColumn(
-          label: Text(
-            "Remitido",
-            style: Theme.of(context).textTheme.subtitle1,
-          ),
-          tooltip: "Si fue o no remitido el paciente",
-        ),*/
         DataColumn(
           label: Text(
             "Acciones",
