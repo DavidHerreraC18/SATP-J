@@ -10,9 +10,18 @@ class FileSaveHelper {
   static Future<void> saveAndLaunchFile(
       List<int> bytes, String fileName) async {
     js.context['pdfdata'] = base64.encode(bytes);
-    js.context['filename'] = fileName;
+    js.context['filenamePdf'] = fileName;
     Timer.run(() {
-      js.context.callMethod('download');
+      js.context.callMethod('downloadPDF');
+    });
+  }
+
+  static Future<void> saveAndLaunchImage(
+      List<int> bytes, String fileName) async {
+    js.context['imagedata'] = base64.encode(bytes);
+    js.context['filenameImage'] = fileName;
+    Timer.run(() {
+      js.context.callMethod('downloadImage');
     });
   }
 }

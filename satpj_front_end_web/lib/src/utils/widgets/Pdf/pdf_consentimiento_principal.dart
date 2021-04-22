@@ -2,6 +2,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:intl/intl.dart';
+import 'package:satpj_front_end_web/src/utils/widgets/Pdf/helper/info_acudiente_principal_pdf.dart';
 import 'package:satpj_front_end_web/src/utils/widgets/Pdf/helper/info_paciente_principal_pdf.dart';
 import 'dart:typed_data';
 import 'dart:ui' as ui;
@@ -15,10 +16,15 @@ import 'helper/save_file_mobile.dart'
 /// Render pdf with annotations
 class PdfConsentimientoPrincipal {
   InfoPacientePrincipalPdf infoPaciente;
-  InfoPacientePrincipalPdf infoAcudiente;
+  InfoAcudientePrincipalPdf infoAcudiente;
 
-  PdfConsentimientoPrincipal(InfoPacientePrincipalPdf infoPaciente,
-      InfoPacientePrincipalPdf infoAcudiente) {
+  PdfConsentimientoPrincipal(InfoPacientePrincipalPdf infoPaciente) {
+    this.infoPaciente = infoPaciente;
+    this.infoAcudiente = null;
+  }
+
+  PdfConsentimientoPrincipal.acudiente(InfoPacientePrincipalPdf infoPaciente,
+      InfoAcudientePrincipalPdf infoAcudiente) {
     this.infoPaciente = infoPaciente;
     this.infoAcudiente = infoAcudiente;
   }
@@ -31,7 +37,6 @@ class PdfConsentimientoPrincipal {
         PdfDocument(inputBytes: await _readDocumentData('consentimiento.pdf'));
 
     //Get the page.
-    final PdfPage page1 = document.pages[0];
     final PdfPage page2 = document.pages[1];
     final PdfPage page3 = document.pages[2];
     //Headers
@@ -211,18 +216,20 @@ class PdfConsentimientoPrincipal {
         infoPaciente.telefono, PdfStandardFont(PdfFontFamily.timesRoman, 11),
         bounds: Rect.fromLTWH(35, 340.5, 500, 40));
     //Acudientes
-    page3.graphics.drawImage(PdfBitmap(infoAcudiente.getSignatureData()),
-        Rect.fromLTWH(73, 490, 130, 26));
-    page3.graphics.drawString(
-        infoAcudiente.nombre, PdfStandardFont(PdfFontFamily.timesRoman, 9),
-        bounds: Rect.fromLTWH(84, 519, 500, 40));
-    page3.graphics.drawString(
-        infoAcudiente.tipoDocumento + ":" + infoAcudiente.documento,
-        PdfStandardFont(PdfFontFamily.timesRoman, 9),
-        bounds: Rect.fromLTWH(129, 533, 500, 40));
-    page3.graphics.drawString(
-        infoAcudiente.telefono, PdfStandardFont(PdfFontFamily.timesRoman, 9),
-        bounds: Rect.fromLTWH(99, 546, 500, 40));
+    if (infoAcudiente != null) {
+      page3.graphics.drawImage(PdfBitmap(infoAcudiente.getSignatureData()),
+          Rect.fromLTWH(73, 490, 130, 26));
+      page3.graphics.drawString(
+          infoAcudiente.nombre, PdfStandardFont(PdfFontFamily.timesRoman, 9),
+          bounds: Rect.fromLTWH(84, 519, 500, 40));
+      page3.graphics.drawString(
+          infoAcudiente.tipoDocumento + ":" + infoAcudiente.documento,
+          PdfStandardFont(PdfFontFamily.timesRoman, 9),
+          bounds: Rect.fromLTWH(129, 533, 500, 40));
+      page3.graphics.drawString(
+          infoAcudiente.telefono, PdfStandardFont(PdfFontFamily.timesRoman, 9),
+          bounds: Rect.fromLTWH(99, 546, 500, 40));
+    }
     //Save and dispose the document.
     final List<int> bytes = document.save();
     document.dispose();

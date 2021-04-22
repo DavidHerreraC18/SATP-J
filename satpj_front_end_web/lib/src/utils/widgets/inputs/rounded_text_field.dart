@@ -17,7 +17,8 @@ class RoundedTextField extends StatefulWidget {
       this.onChangedF,
       this.type,
       this.formatter,
-      this.validationText, this.enabled = true});
+      this.validationText,
+      this.enabled = true});
 
   @override
   _RoundedTextFieldState createState() => _RoundedTextFieldState();
@@ -41,6 +42,7 @@ class _RoundedTextFieldState extends State<RoundedTextField> {
   }
 }
 
+// ignore: must_be_immutable
 class RoundedTextFieldValidators extends StatefulWidget {
   FocusNode textFocusNode;
   TextInputType textInputType;
@@ -51,7 +53,7 @@ class RoundedTextFieldValidators extends StatefulWidget {
   bool numberFormat;
   List<TextInputFormatter> formatter;
   bool enabled;
-  
+
   RoundedTextFieldValidators(
       {this.textFocusNode,
       this.textInputType,
@@ -79,18 +81,18 @@ class _RoundedTextFieldValidatorsState
       inputFormatters: widget.formatter,
       controller: widget.textController,
       autofocus: false,
-      enabled: widget.enabled ,
+      enabled: widget.enabled,
       onChanged: (value) {
         setState(() {
           widget.isEditing = true;
         });
       },
       validator: (value) {
-          if (value.isEmpty && widget.validate() != null) {
-            return widget.validate();
-          }
-          return null;
-      },        
+        if (value.isEmpty && widget.validate() != null) {
+          return widget.validate();
+        }
+        return null;
+      },
       style: TextStyle(color: Colors.black),
       decoration: InputDecoration(
         labelStyle: TextStyle(fontWeight: FontWeight.normal, fontSize: 18.0),
@@ -107,6 +109,41 @@ class _RoundedTextFieldValidatorsState
           color: Colors.redAccent,
         ),
       ),
+    );
+  }
+}
+
+// ignore: must_be_immutable
+class RoundedTextFieldDisabled extends StatefulWidget {
+  TextInputType type;
+  List<TextInputFormatter> formatter;
+  bool enabled;
+  String hintText;
+
+  RoundedTextFieldDisabled(
+      {this.hintText, this.type, this.formatter, this.enabled = false});
+
+  @override
+  _RoundedTextFieldDisabledState createState() =>
+      _RoundedTextFieldDisabledState();
+}
+
+class _RoundedTextFieldDisabledState extends State<RoundedTextFieldDisabled> {
+  @override
+  Widget build(BuildContext context) {
+    return TextField(
+      maxLines: null,
+      decoration: InputDecoration(
+        labelStyle: TextStyle(fontWeight: FontWeight.normal, fontSize: 18.0),
+        contentPadding: EdgeInsets.symmetric(vertical: 10.0, horizontal: 20.0),
+        border: borderField(),
+        enabledBorder: enabledBorderField(),
+        focusedBorder: focusedBorderField(),
+        hintText: widget.hintText,
+        fillColor: Colors.white,
+      ),
+      keyboardType: widget.type,
+      inputFormatters: widget.formatter,
     );
   }
 }

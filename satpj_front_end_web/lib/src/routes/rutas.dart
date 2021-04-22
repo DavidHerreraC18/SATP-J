@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:satpj_front_end_web/src/utils/widgets/Calendarios/CalendarioAgendar.dart';
 import 'package:satpj_front_end_web/src/views/gestionar_horario_practicante/vista_horario_practicante_opcion_1.dart';
 import 'package:satpj_front_end_web/src/views/gestionar_horario_practicante/vista_gestionar_horario_practicante.dart';
 import 'package:satpj_front_end_web/src/views/gestionar_horario_practicante/vista_horario_practicante_opcion_2.dart';
@@ -24,6 +25,7 @@ Map<String, WidgetBuilder> getAppRoutes() {
     PreRegisterPage1.route: (BuildContext context) => PreRegisterPage1(),
     PreRegisterPage2.route: (BuildContext context) => PreRegisterPage2(),
     PreRegisterPage3.route: (BuildContext context) => PreRegisterPage3(),
+    CalendarioAgendar.route: (BuildContext context) => CalendarioAgendar(),
     VistaRegistroPago.route: (BuildContext context) => VistaRegistroPago(),
     VistaGestionarPacientes.route: (BuildContext context) =>
         VistaGestionarPacientes(),

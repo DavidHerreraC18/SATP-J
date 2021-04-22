@@ -3,8 +3,8 @@ import 'package:satpj_front_end_web/src/model/formulario/formulario_extra.dart';
 
 typedef OnRowSelect = void Function(int index);
 
-class FormularioDataTableSource extends DataTableSource {
-  FormularioDataTableSource({
+class FormularioExtraDataTableSource extends DataTableSource {
+  FormularioExtraDataTableSource({
     @required List<FormularioExtra> formularios,
     @required this.onRowSelect,
   })  : _formularios = formularios,

@@ -1,27 +1,32 @@
 import 'package:flutter/material.dart';
 import 'package:satpj_front_end_web/src/model/formulario/formulario_extra.dart';
 import 'package:satpj_front_end_web/src/model/paciente/paciente.dart';
+import 'package:satpj_front_end_web/src/providers/provider_administracion_pacientes.dart';
+import 'package:satpj_front_end_web/src/providers/provider_autenticacion.dart';
 import 'package:satpj_front_end_web/src/utils/tema.dart';
 import 'package:satpj_front_end_web/src/utils/widgets/Barras/toolbar_inicio.dart';
-import 'package:satpj_front_end_web/src/utils/widgets/botones/button_forms.dart';
 import 'package:satpj_front_end_web/src/utils/widgets/formularios/formulario_paciente_extra.dart';
 import 'package:satpj_front_end_web/src/utils/widgets/formularios/tema_formularios.dart';
 import 'package:satpj_front_end_web/src/views/documentacion/vista_registro_documentos.dart';
 
-Paciente pacienteActual;
-
 class RegisterHomePage extends StatefulWidget {
   static const route = '/registro';
 
-  RegisterHomePage(Paciente pA, {Key key}) : super(key: key) {
-    pacienteActual = pA;
-  }
+  RegisterHomePage({Key key}) : super(key: key) {}
 
   @override
   _RegisterHomePageState createState() => _RegisterHomePageState();
 }
 
 class _RegisterHomePageState extends State<RegisterHomePage> {
+  Paciente pacienteActual;
+  @override
+  Future<void> initState() async {
+    super.initState();
+    String uid = ProviderAuntenticacion.uid;
+    pacienteActual = await ProviderAdministracionPacientes.buscarPaciente(uid);
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -56,7 +61,9 @@ class _RegisterHomePageState extends State<RegisterHomePage> {
                       Container(
                           padding: EdgeInsets.all(40.0),
                           width: 850.0,
-                          child: RegisterForm()),
+                          child: RegisterForm(
+                            pacienteActual: pacienteActual,
+                          )),
                     ],
                   ),
                 ),
@@ -68,17 +75,24 @@ class _RegisterHomePageState extends State<RegisterHomePage> {
 }
 
 class RegisterForm extends StatefulWidget {
+  final Paciente pacienteActual;
+
+  RegisterForm({this.pacienteActual});
+
   @override
   RegisterFormState createState() {
-    return RegisterFormState();
+    return RegisterFormState(this.pacienteActual);
   }
 }
 
 class RegisterFormState extends State<RegisterForm> {
   GlobalKey<FormState> _formKey;
 
-  Paciente paciente;
-  FormularioExtra formularioExtra;
+  Paciente pacienteActual;
+
+  RegisterFormState(Paciente paciente) {
+    this.pacienteActual = paciente;
+  }
 
   String definirRuta() {
     return VistaRegistroDocumentos.route;
@@ -88,10 +102,6 @@ class RegisterFormState extends State<RegisterForm> {
   void initState() {
     super.initState();
     _formKey = GlobalKey<FormState>();
-
-    paciente = pacienteActual;
-    formularioExtra = new FormularioExtra();
-    formularioExtra.paciente = paciente;
   }
 
   @override
@@ -111,7 +121,9 @@ class RegisterFormState extends State<RegisterForm> {
             SizedBox(
               height: 8.0,
             ),
-            FormPatientExtraInformation(),
+            FormPatientExtraInformation(
+              pacienteActual: pacienteActual,
+            ),
           ],
         ),
       ),

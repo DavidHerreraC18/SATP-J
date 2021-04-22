@@ -20,7 +20,7 @@ class FormPatientExtraInformation extends StatefulWidget {
   });
 
   @override
-  _FormState createState() => _FormState();
+  _FormState createState() => _FormState(pacienteActual);
 }
 
 enum EscolaridadChar {
@@ -54,6 +54,10 @@ enum SaludChar {
 }
 
 class _FormState extends State<FormPatientExtraInformation> {
+  Paciente pacienteActual;
+  _FormState(Paciente paciente) {
+    this.pacienteActual = paciente;
+  }
   FormularioExtra formularioExtra;
   TextEditingController textControllerInsti;
   FocusNode textFocusNodeInsti;
@@ -107,6 +111,7 @@ class _FormState extends State<FormPatientExtraInformation> {
   @override
   void initState() {
     formularioExtra = new FormularioExtra();
+    formularioExtra.paciente = pacienteActual;
     textControllerInsti = TextEditingController(text: null);
     textFocusNodeInsti = FocusNode();
 
@@ -858,9 +863,7 @@ class _FormState extends State<FormPatientExtraInformation> {
           formularioExtra.eps = textControllerSalud.text;
         }
         await ProviderAprobacionPacientes.crearFormularioExtra(formularioExtra);
-        Navigator.of(context).pushReplacement(MaterialPageRoute(
-            fullscreenDialog: true,
-            builder: (context) => VistaRegistroDocumentos(pacienteActual)));
+        Navigator.pushNamed(context, VistaRegistroDocumentos.route);
       }
     }
   }

@@ -2,9 +2,13 @@ import 'dart:typed_data';
 
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
+import 'package:satpj_front_end_web/src/model/acudiente/acudiente.dart';
 import 'package:satpj_front_end_web/src/model/paciente/paciente.dart';
+import 'package:satpj_front_end_web/src/providers/provider_administracion_acudientes.dart';
+import 'package:satpj_front_end_web/src/providers/providers_usuarios/provider_acudientes.dart';
 import 'package:satpj_front_end_web/src/utils/tema.dart';
 import 'package:satpj_front_end_web/src/utils/widgets/Firmas/pad_firmas.dart';
+import 'package:satpj_front_end_web/src/utils/widgets/Pdf/helper/info_acudiente_principal_pdf.dart';
 import 'package:satpj_front_end_web/src/utils/widgets/Pdf/helper/info_paciente_principal_pdf.dart';
 import 'package:satpj_front_end_web/src/utils/widgets/Pdf/pdf_consentimiento_principal.dart';
 
@@ -13,9 +17,7 @@ import 'package:satpj_front_end_web/src/utils/widgets/Pdf/helper/save_file_mobil
 
 final PageController pageCtrlr = new PageController();
 int currentContainer = 0;
-final int numberOfContainers = 5;
-Function funcionConsentimientoP;
-Paciente pacienteActual;
+final int numberOfContainers = 6;
 
 void changeContainer(int mov) {
   if (currentContainer + mov > numberOfContainers - 1) return;
@@ -28,19 +30,44 @@ void changeContainer(int mov) {
 }
 
 class DialogoConsentimientoPrincipal extends StatefulWidget {
-  DialogoConsentimientoPrincipal(Function fP, Paciente pA, {Key key})
-      : super(key: key) {
-    pacienteActual = pA;
-    funcionConsentimientoP = fP;
-  }
+  final Paciente pacienteActual;
+  final Function funcionConsentimientoP;
+  DialogoConsentimientoPrincipal(
+      {this.funcionConsentimientoP, this.pacienteActual, Key key})
+      : super(key: key);
   @override
   DialogoConsentimientoPrincipalState createState() {
-    return DialogoConsentimientoPrincipalState();
+    return DialogoConsentimientoPrincipalState(
+        pacienteActual, funcionConsentimientoP);
   }
 }
 
 class DialogoConsentimientoPrincipalState
     extends State<DialogoConsentimientoPrincipal> {
+  Paciente pacienteActual;
+  Acudiente acudienteActual;
+  bool tieneAcudiente = false;
+  Function funcionConsentimientoP;
+  DialogoConsentimientoPrincipalState(
+      Paciente paciente, Function funcionConsentimientoP) {
+    this.acudienteActual = null;
+    this.pacienteActual = paciente;
+    this.funcionConsentimientoP = funcionConsentimientoP;
+  }
+
+  @override
+  void initState() async {
+    List<Acudiente> acudientes =
+        await ProviderAdministracionAcudientes.traerAcudientesPaciente(
+            this.pacienteActual);
+    if (acudientes.isNotEmpty) {
+      this.acudienteActual = acudientes.first;
+      this.tieneAcudiente = true;
+    }
+
+    super.initState();
+  }
+
   @override
   void dispose() {
     pageCtrlr.dispose();
@@ -91,8 +118,18 @@ class DialogoConsentimientoPrincipalState
                             PrimeraPaginaConsentimientoPrincipal(),
                             SegundaPaginaConsentimientoPrincipal(),
                             TerceraPaginaConsentimientoPrincipal(),
-                            CuartaPaginaConsentimientoPrincipal(),
-                            QuintaPaginaConsentimientoPrincipal()
+                            CuartaPaginaConsentimientoPrincipal(
+                                pacienteActual: this.pacienteActual),
+                            QuintaPaginaConsentimientoPrincipal(
+                                pacienteActual: this.pacienteActual,
+                                funcionConsentimientoP: funcionConsentimientoP,
+                                tieneAcudiente: tieneAcudiente),
+                            SextaPaginaConsentimientoPrincipal(
+                              pacienteActual: this.pacienteActual,
+                              funcionConsentimientoP: funcionConsentimientoP,
+                              tieneAcudiente: tieneAcudiente,
+                              acudienteActual: acudienteActual,
+                            )
                           ],
                           onPageChanged: (int index) =>
                               setState(() => currentContainer = index),
@@ -385,7 +422,7 @@ class TerceraPaginaConsentimientoPrincipalState
                     color: kPrimaryColor,
                     child: MaterialButton(
                       onPressed: () {
-                        changeContainer(-1);
+                        changeContainer(1);
                       },
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.center,
@@ -413,9 +450,12 @@ class TerceraPaginaConsentimientoPrincipalState
 }
 
 class CuartaPaginaConsentimientoPrincipal extends StatefulWidget {
+  final Paciente pacienteActual;
+  CuartaPaginaConsentimientoPrincipal({this.pacienteActual});
+
   @override
   CuartaPaginaConsentimientoPrincipalState createState() {
-    return CuartaPaginaConsentimientoPrincipalState();
+    return CuartaPaginaConsentimientoPrincipalState(this.pacienteActual);
   }
 }
 
@@ -425,6 +465,10 @@ final myController = TextEditingController();
 
 class CuartaPaginaConsentimientoPrincipalState
     extends State<CuartaPaginaConsentimientoPrincipal> {
+  Paciente pacienteActual;
+  CuartaPaginaConsentimientoPrincipalState(Paciente paciente) {
+    this.pacienteActual = paciente;
+  }
   void llenarRespuestas() {
     for (int i = 0; i < 10; i++) {
       radioValues.add(Pregunta.Unchecked);
@@ -575,7 +619,7 @@ class CuartaPaginaConsentimientoPrincipalState
                     child: MaterialButton(
                       onPressed: () {
                         if (validarInput()) {
-                          changeContainer(-1);
+                          changeContainer(1);
                         } else {
                           ScaffoldMessenger.of(context).showSnackBar(SnackBar(
                             content: Text(
@@ -661,21 +705,39 @@ class CuartaPaginaConsentimientoPrincipalState
 }
 
 class QuintaPaginaConsentimientoPrincipal extends StatefulWidget {
+  final Paciente pacienteActual;
+  final Function funcionConsentimientoP;
+  final bool tieneAcudiente;
+  QuintaPaginaConsentimientoPrincipal(
+      {this.pacienteActual, this.funcionConsentimientoP, this.tieneAcudiente});
+
   @override
   QuintaPaginaConsentimientoPrincipalState createState() {
-    return QuintaPaginaConsentimientoPrincipalState();
+    return QuintaPaginaConsentimientoPrincipalState(
+        this.pacienteActual, this.funcionConsentimientoP, this.tieneAcudiente);
   }
 }
 
+Uint8List _signatureData;
+
 class QuintaPaginaConsentimientoPrincipalState
     extends State<QuintaPaginaConsentimientoPrincipal> {
-  Uint8List _signatureData;
+  Paciente pacienteActual;
+  Function funcionConsentimientoP;
+  bool tieneAcudiente;
+  QuintaPaginaConsentimientoPrincipalState(
+      Paciente paciente, Function funcionConsentimientoP, bool tieneAcudiente) {
+    this.pacienteActual = paciente;
+    this.funcionConsentimientoP = funcionConsentimientoP;
+    this.tieneAcudiente = tieneAcudiente;
+  }
+
   bool _isSigned = false;
   bool _opcionFirma = false;
   bool _opcionImagen = false;
 
-  callBack(Uint8List _signatureData, bool _isSigned) {
-    this._signatureData = _signatureData;
+  callBack(Uint8List _signatureDataUsuario, bool _isSigned) {
+    _signatureData = _signatureDataUsuario;
     setState(() {
       this._isSigned = _isSigned;
       this._opcionImagen = false;
@@ -711,6 +773,229 @@ class QuintaPaginaConsentimientoPrincipalState
                 ),
                 Text(
                   "Firma",
+                  textAlign: TextAlign.center,
+                  style: TextStyle(color: kPrimaryColor, fontSize: 25),
+                ),
+                SizedBox(height: 50),
+                Container(
+                  alignment: Alignment.center,
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: [
+                      Column(
+                        children: [
+                          Container(
+                            alignment: Alignment.center,
+                            child: _opcionFirma
+                                ? Icon(
+                                    Icons.check,
+                                    color: kAccentColor,
+                                  )
+                                : SizedBox(height: 25),
+                          ),
+                          Container(width: 190, child: PadFirmas(callBack)),
+                        ],
+                      ),
+                      Column(
+                        children: [
+                          SizedBox(height: 25),
+                          Text("O"),
+                          Text("Tambien Puede"),
+                        ],
+                      ),
+                      Column(
+                        children: [
+                          Container(
+                            alignment: Alignment.center,
+                            child: _opcionImagen
+                                ? Icon(
+                                    Icons.check,
+                                    color: kAccentColor,
+                                  )
+                                : SizedBox(
+                                    height: 25,
+                                  ),
+                          ),
+                          ElevatedButton(
+                            style: ButtonStyle(),
+                            child: Text('Suba una imagen de su firma'),
+                            onPressed: () async {
+                              var picked = await FilePicker.platform.pickFiles(
+                                type: FileType.custom,
+                                allowedExtensions: ['jpg', 'png', 'jpeg'],
+                              );
+                              if (picked != null) {
+                                print(picked.files.first.name);
+                                _signatureData = picked.files.first.bytes;
+                                setState(() {
+                                  _isSigned = true;
+                                  _opcionImagen = true;
+                                  _opcionFirma = false;
+                                });
+                                //Image thumbnail = copyResize(imagen, width: 120);
+
+                              }
+                            },
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
+                ),
+                SizedBox(height: 50),
+                Container(
+                  height: 50,
+                  width: 235,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(15),
+                  ),
+                  child: Material(
+                    borderRadius: BorderRadius.circular(15),
+                    color: kPrimaryColor,
+                    child: MaterialButton(
+                      onPressed: () {
+                        currentContainer = 0;
+                        if (_isSigned) {
+                          if (this.tieneAcudiente) {
+                            changeContainer(1);
+                          } else {
+                            completarConsentimientoPrincipal();
+                            Navigator.pop(context);
+                          }
+                        }
+                      },
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Expanded(
+                              child: Text(
+                            "Completar",
+                            textAlign: TextAlign.center,
+                            style: TextStyle(
+                              fontSize: 20,
+                              color: Colors.white,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ))
+                        ],
+                      ),
+                    ),
+                  ),
+                )
+              ],
+            ),
+          ),
+        ));
+  }
+
+  Future<void> completarConsentimientoPrincipal() async {
+    List<String> respuestas = [];
+    for (int i = 0; i < 10; i++) {
+      print(radioValues[i].toString());
+      respuestas.add(radioValues[i].toString());
+    }
+    String nombre = pacienteActual.nombre + " " + pacienteActual.apellido;
+    String edad = pacienteActual.edad.toString();
+    String tipoDocumento = pacienteActual.tipoDocumento;
+    String documento = pacienteActual.documento;
+    String ciudad = myController.text;
+    String telefono = pacienteActual.telefono;
+
+    InfoPacientePrincipalPdf infoP = new InfoPacientePrincipalPdf(
+        nombre: nombre,
+        edad: edad,
+        tipoDocumento: tipoDocumento,
+        documento: documento,
+        ciudad: ciudad,
+        telefono: telefono,
+        respuestas: respuestas,
+        signatureData: _signatureData);
+    PdfConsentimientoPrincipal pdf = PdfConsentimientoPrincipal(infoP);
+    List<int> bytes = await pdf.generatePDF();
+    await FileSaveHelper.saveAndLaunchFile(
+        bytes, 'Consentimiento Informado.pdf');
+    Uint8List aaa = Uint8List.fromList(bytes);
+    funcionConsentimientoP(aaa);
+  }
+}
+
+class SextaPaginaConsentimientoPrincipal extends StatefulWidget {
+  final Paciente pacienteActual;
+  final Function funcionConsentimientoP;
+  final bool tieneAcudiente;
+  final Acudiente acudienteActual;
+  SextaPaginaConsentimientoPrincipal(
+      {this.pacienteActual,
+      this.funcionConsentimientoP,
+      this.tieneAcudiente,
+      this.acudienteActual});
+
+  @override
+  SextaPaginaConsentimientoPrincipalState createState() {
+    return SextaPaginaConsentimientoPrincipalState(this.pacienteActual,
+        this.funcionConsentimientoP, this.tieneAcudiente, this.acudienteActual);
+  }
+}
+
+class SextaPaginaConsentimientoPrincipalState
+    extends State<SextaPaginaConsentimientoPrincipal> {
+  Paciente pacienteActual;
+  Acudiente acudienteActual;
+  Function funcionConsentimientoP;
+  bool tieneAcudiente;
+  SextaPaginaConsentimientoPrincipalState(
+      Paciente paciente,
+      Function funcionConsentimientoP,
+      bool tieneAcudiente,
+      Acudiente acudienteActual) {
+    this.pacienteActual = paciente;
+    this.funcionConsentimientoP = funcionConsentimientoP;
+    this.tieneAcudiente = tieneAcudiente;
+    this.acudienteActual = acudienteActual;
+  }
+
+  Uint8List _signatureDataAcudiente;
+  bool _isSigned = false;
+  bool _opcionFirma = false;
+  bool _opcionImagen = false;
+
+  callBack(Uint8List _signatureData, bool _isSigned) {
+    this._signatureDataAcudiente = _signatureData;
+    setState(() {
+      this._isSigned = _isSigned;
+      this._opcionImagen = false;
+      this._opcionFirma = true;
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Material(
+        color: Colors.white,
+        child: SingleChildScrollView(
+          scrollDirection: Axis.vertical,
+          child: Container(
+            color: Colors.white,
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    SizedBox.shrink(),
+                    IconButton(
+                        icon: Icon(
+                          Icons.cancel,
+                          color: kPrimaryColor,
+                        ),
+                        onPressed: () {
+                          currentContainer = 0;
+                          Navigator.pop(context);
+                        })
+                  ],
+                ),
+                Text(
+                  "Firma Acudiente",
                   textAlign: TextAlign.center,
                   style: TextStyle(color: kPrimaryColor, fontSize: 25),
                 ),
@@ -835,6 +1120,12 @@ class QuintaPaginaConsentimientoPrincipalState
     String ciudad = myController.text;
     String telefono = pacienteActual.telefono;
 
+    String nombreAcudiente =
+        acudienteActual.nombre + " " + acudienteActual.apellido;
+    String tipoDocumentoAcudiente = acudienteActual.tipoDocumento;
+    String documentoAcudiente = acudienteActual.documento;
+    String telefonoAcudiente = acudienteActual.telefono;
+
     InfoPacientePrincipalPdf infoP = new InfoPacientePrincipalPdf(
         nombre: nombre,
         edad: edad,
@@ -844,16 +1135,14 @@ class QuintaPaginaConsentimientoPrincipalState
         telefono: telefono,
         respuestas: respuestas,
         signatureData: _signatureData);
-    InfoPacientePrincipalPdf infoA = new InfoPacientePrincipalPdf(
-        nombre: nombre,
-        edad: edad,
-        tipoDocumento: tipoDocumento,
-        documento: documento,
-        ciudad: ciudad,
-        telefono: telefono,
-        respuestas: respuestas,
-        signatureData: _signatureData);
-    PdfConsentimientoPrincipal pdf = PdfConsentimientoPrincipal(infoP, infoA);
+    InfoAcudientePrincipalPdf infoA = new InfoAcudientePrincipalPdf(
+        nombre: nombreAcudiente,
+        tipoDocumento: tipoDocumentoAcudiente,
+        documento: documentoAcudiente,
+        telefono: telefonoAcudiente,
+        signatureData: _signatureDataAcudiente);
+    PdfConsentimientoPrincipal pdf =
+        PdfConsentimientoPrincipal.acudiente(infoP, infoA);
     List<int> bytes = await pdf.generatePDF();
     await FileSaveHelper.saveAndLaunchFile(
         bytes, 'Consentimiento Informado.pdf');

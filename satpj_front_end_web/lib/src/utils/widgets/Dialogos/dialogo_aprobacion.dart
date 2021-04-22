@@ -5,7 +5,10 @@ import 'package:satpj_front_end_web/src/model/formulario/formulario.dart';
 import 'package:satpj_front_end_web/src/model/formulario/formulario_extra.dart';
 import 'package:satpj_front_end_web/src/providers/provider_aprobacion_pacientes.dart';
 import 'package:satpj_front_end_web/src/providers/provider_preaprobacion_pacientes.dart';
+import 'package:satpj_front_end_web/src/utils/tema.dart';
 import 'package:satpj_front_end_web/src/utils/widgets/Dialogos/header_dialog.dart';
+import 'package:satpj_front_end_web/src/utils/widgets/formularios/formulario_formulario_extra.dart';
+import 'package:satpj_front_end_web/src/utils/widgets/formularios/tema_formularios.dart';
 import 'package:satpj_front_end_web/src/views/gestionar_pacientes/vista_aprobacion_formularios.dart';
 
 class AprobDialog extends StatefulWidget {
@@ -26,53 +29,57 @@ class _AprobDialogState extends State<AprobDialog> {
 
   @override
   Widget build(BuildContext context) {
-    return Dialog(
+    return Theme(
+      data: temaFormularios(),
+      child: Dialog(
         backgroundColor: Colors.white,
         shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(8.0),
+          borderRadius: BorderRadius.circular(6.0),
         ),
-        child: SafeArea(
-          child: Container(
-            height: 600,
-            width: 600,
-            child: Column(
+        child: Container(
+          width: 800.0,
+          child: ListView(children: [
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisSize: MainAxisSize.min,
               children: [
-                HeaderDialog(
-                  label: "Respuestas Formulario",
-                ),
-                Expanded(
-                  child: RawScrollbar(
-                    radius: Radius.circular(8.0),
-                    isAlwaysShown: true,
-                    thumbColor: Theme.of(context).colorScheme.primary,
-                    child: SingleChildScrollView(
-                        padding: const EdgeInsets.all(20.0),
-                        child: Container(
-                          child: _contenido(widget.formularioSeleccionado),
-                        )),
-                  ),
-                ),
-                Divider(
-                  color: Colors.grey[400],
-                  height: 20,
-                ),
-                mensaje != null
-                    ? Center(
-                        child: Padding(
-                          padding: const EdgeInsets.only(
-                            bottom: 20.0,
-                          ),
+                Container(
+                    height: 55.0,
+                    decoration: BoxDecoration(
+                      borderRadius:
+                          BorderRadius.vertical(top: Radius.circular(4.1)),
+                      color: kPrimaryColor,
+                    ),
+                    margin: EdgeInsets.only(bottom: 20.0),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Padding(
+                          padding: EdgeInsets.only(left: 10.0),
                           child: Text(
-                            mensaje,
-                            style: TextStyle(
-                              color: colorMensaje,
-                              fontSize: 14,
-                              // letterSpacing: 3,
-                            ),
+                            'Formulario',
+                            textAlign: TextAlign.left,
+                            style:
+                                TextStyle(fontSize: 20.0, color: Colors.white),
                           ),
                         ),
-                      )
-                    : Container(),
+                        IconButton(
+                          icon: Icon(Icons.close, color: Colors.white),
+                          onPressed: () {
+                            Navigator.pop(
+                                context, widget.formularioSeleccionado);
+                          },
+                        ),
+                      ],
+                    )),
+                Container(
+                  margin: EdgeInsets.symmetric(horizontal: 40.0),
+                  child: FormFormularioExtraInformation(
+                    formularioExtra: widget.formularioSeleccionado,
+                    stack: false,
+                    enabled: false,
+                  ),
+                ),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
@@ -155,45 +162,9 @@ class _AprobDialogState extends State<AprobDialog> {
                 ),
               ],
             ),
-          ),
-        ));
-  }
-
-  Column _contenido(FormularioExtra formularioSeleccionado) {
-    return Column(
-      mainAxisSize: MainAxisSize.min,
-      children: [
-        Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-          Text(
-            'Nombre Completo',
-            textAlign: TextAlign.left,
-            style: Theme.of(context).textTheme.subtitle1,
-          ),
-          SizedBox(
-            height: 2.0,
-          ),
-          Container(
-            width: 600,
-            decoration: BoxDecoration(
-              border: Border.all(
-                color: Theme.of(context).colorScheme.primary,
-                width: 1.5,
-              ),
-              borderRadius: BorderRadius.circular(8),
-            ),
-            child: Padding(
-              padding: EdgeInsets.all(4.0),
-              child: Text(
-                formularioSeleccionado.paciente.nombre +
-                    " " +
-                    formularioSeleccionado.paciente.apellido,
-                textAlign: TextAlign.left,
-                style: TextStyle(fontSize: 18.0),
-              ),
-            ),
-          ),
-        ]),
-      ],
+          ]),
+        ),
+      ),
     );
   }
 

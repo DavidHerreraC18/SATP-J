@@ -19,14 +19,9 @@ import 'package:satpj_front_end_web/src/utils/widgets/Pdf/helper/save_file_mobil
 
 import 'dialogo_consentimiento_principal.dart';
 
-Paciente pacienteActual;
-
 class VistaRegistroDocumentos extends StatefulWidget {
   static const route = '/perfil-documentos';
-
-  VistaRegistroDocumentos(Paciente pA, {Key key}) : super(key: key) {
-    pacienteActual = pA;
-  }
+  VistaRegistroDocumentos({Key key}) : super(key: key);
 
   @override
   _VistaRegistroDocumentosState createState() =>
@@ -34,6 +29,14 @@ class VistaRegistroDocumentos extends StatefulWidget {
 }
 
 class _VistaRegistroDocumentosState extends State<VistaRegistroDocumentos> {
+  Paciente pacienteActual;
+  @override
+  Future<void> initState() async {
+    super.initState();
+    String uid = ProviderAuntenticacion.uid;
+    pacienteActual = await ProviderAdministracionPacientes.buscarPaciente(uid);
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -61,7 +64,10 @@ class _VistaRegistroDocumentosState extends State<VistaRegistroDocumentos> {
                                     left: 20.0,
                                     top: 20.0,
                                     bottom: 0.0),
-                                child: Container(child: NombrePaciente()),
+                                child: Container(
+                                    child: NombrePaciente(
+                                  pacienteActual: this.pacienteActual,
+                                )),
                               ),
                               Divider(),
                               Container(
@@ -105,8 +111,12 @@ class _VistaRegistroDocumentosState extends State<VistaRegistroDocumentos> {
                                   height: 300,
                                   child: TabBarView(
                                     children: [
-                                      DatosPaciente(),
-                                      DocumentosPaciente(),
+                                      DatosPaciente(
+                                        pacienteActual: this.pacienteActual,
+                                      ),
+                                      DocumentosPaciente(
+                                        pacienteActual: this.pacienteActual,
+                                      ),
                                     ],
                                   ),
                                 ),
@@ -120,13 +130,21 @@ class _VistaRegistroDocumentosState extends State<VistaRegistroDocumentos> {
 }
 
 class DatosPaciente extends StatefulWidget {
+  final Paciente pacienteActual;
+  DatosPaciente({this.pacienteActual});
   @override
   DatosPacienteState createState() {
-    return DatosPacienteState();
+    return DatosPacienteState(pacienteActual);
   }
 }
 
 class DatosPacienteState extends State<DatosPaciente> {
+  Paciente pacienteActual;
+
+  DatosPacienteState(Paciente paciente) {
+    this.pacienteActual = paciente;
+  }
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -276,13 +294,22 @@ class DatosPacienteState extends State<DatosPaciente> {
 }
 
 class DocumentosPaciente extends StatefulWidget {
+  final Paciente pacienteActual;
+  DocumentosPaciente({this.pacienteActual});
+
   @override
   DocumentosPacienteState createState() {
-    return DocumentosPacienteState();
+    return DocumentosPacienteState(pacienteActual);
   }
 }
 
 class DocumentosPacienteState extends State<DocumentosPaciente> {
+  Paciente pacienteActual;
+
+  DocumentosPacienteState(Paciente paciente) {
+    this.pacienteActual = paciente;
+  }
+
   Uint8List _consentimientoPrincipal;
   Uint8List _consentimientoTP;
   Uint8List _reciboPago;
@@ -308,9 +335,9 @@ class DocumentosPacienteState extends State<DocumentosPaciente> {
   }
 
   @override
-  initState() {
+  initState() async {
     super.initState();
-    traerDocumentos();
+    await traerDocumentos();
   }
 
   traerDocumentos() async {
@@ -478,7 +505,9 @@ class DocumentosPacienteState extends State<DocumentosPaciente> {
                                 BoxConstraints(minWidth: 50, maxWidth: 350),
                             width: 100,
                             child: DialogoConsentimientoPrincipal(
-                                funcionConsentimientoP, pacienteActual),
+                              pacienteActual: pacienteActual,
+                              funcionConsentimientoP: funcionConsentimientoP,
+                            ),
                           ),
                           _isConsentimientoEntered
                               ? Container(
@@ -717,13 +746,22 @@ class DocumentosPacienteState extends State<DocumentosPaciente> {
 }
 
 class NombrePaciente extends StatefulWidget {
+  final Paciente pacienteActual;
+  NombrePaciente({this.pacienteActual});
+
   @override
   NombrePacienteState createState() {
-    return NombrePacienteState();
+    return NombrePacienteState(this.pacienteActual);
   }
 }
 
 class NombrePacienteState extends State<NombrePaciente> {
+  Paciente pacienteActual;
+
+  NombrePacienteState(Paciente paciente) {
+    this.pacienteActual = paciente;
+  }
+
   @override
   Widget build(BuildContext context) {
     return SizedBox(

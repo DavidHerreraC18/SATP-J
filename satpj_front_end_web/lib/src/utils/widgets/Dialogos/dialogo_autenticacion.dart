@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
+import 'package:satpj_front_end_web/src/model/formulario/formulario_extra.dart';
 import 'package:satpj_front_end_web/src/model/paciente/paciente.dart';
 import 'package:satpj_front_end_web/src/model/usuario/usuario.dart';
 import 'package:satpj_front_end_web/src/providers/provider_administracion_pacientes.dart';
@@ -39,7 +40,7 @@ class _AuthDialogState extends State<AuthDialog> {
         return 'El correo no puede estar vacio';
       } else if (!value.contains(RegExp(
           r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+"))) {
-        return 'Ingrese un correo electronico valido';
+        return 'Ingrese un correo electrónico valido';
       }
     }
 
@@ -101,7 +102,7 @@ class _AuthDialogState extends State<AuthDialog> {
                     bottom: 8,
                   ),
                   child: Text(
-                    'Correo Electronico',
+                    'Correo Electrónico',
                     textAlign: TextAlign.left,
                     style: Theme.of(context).textTheme.subtitle1,
                   ),
@@ -140,7 +141,7 @@ class _AuthDialogState extends State<AuthDialog> {
                       hintStyle: new TextStyle(
                         color: Colors.blueGrey[300],
                       ),
-                      hintText: "Correo Electronico",
+                      hintText: "Correo Electrónico",
                       fillColor: Colors.white,
                       errorText: _isEditingEmail
                           ? _validateEmail(textControllerEmail.text)
@@ -369,16 +370,19 @@ class _AuthDialogState extends State<AuthDialog> {
 
   _funcionFea(BuildContext context) async {
     String uid = ProviderAuntenticacion.uid;
-    print(uid);
     Usuario usuario = await ProviderAdministracionUsuarios.buscarUsuario(uid);
-    print(usuario.tipoUsuario);
     if (usuario.tipoUsuario == "Paciente") {
       Paciente paciente =
           await ProviderAdministracionPacientes.buscarPaciente(usuario.id);
       if (paciente.estadoAprobado == "PreAprobado") {
-        Navigator.of(context).pushReplacement(MaterialPageRoute(
-            fullscreenDialog: true,
-            builder: (context) => RegisterHomePage(paciente)));
+        FormularioExtra formulario =
+            await ProviderAdministracionPacientes.traerFormularioExtraPaciente(
+                paciente);
+        if (formulario == null) {
+          Navigator.pushNamed(context, RegisterHomePage.route);
+        } else {
+          Navigator.pushNamed(context, VistaRegistroDocumentos.route);
+        }
       } else {
         Navigator.of(context).pushReplacement(MaterialPageRoute(
             fullscreenDialog: true, builder: (context) => ContadorPage()));

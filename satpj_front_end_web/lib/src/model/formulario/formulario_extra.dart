@@ -12,6 +12,11 @@ List<FormularioExtra> formularioExtraFromJson(String str) =>
 String formularioExtraToJson(List<FormularioExtra> data) =>
     json.encode(List<dynamic>.from(data.map((x) => x.toJson())));
 
+FormularioExtra singleFormularioExtraFromJson(String str) {
+  FormularioExtra formularioExtra = FormularioExtra.fromJson(json.decode(str));
+  return formularioExtra;
+}
+
 @JsonSerializable(explicitToJson: true)
 class FormularioExtra {
   int id;
