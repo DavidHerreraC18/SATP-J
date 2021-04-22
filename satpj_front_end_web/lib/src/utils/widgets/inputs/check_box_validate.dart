@@ -2,13 +2,13 @@ import 'package:flutter/material.dart';
 
 class CheckBoxValidate extends FormField<bool> {
   CheckBoxValidate(
-      {Widget title,
+      {String title,
       FormFieldSetter<bool> onSaved,
       FormFieldValidator<bool> validator,
-      bool initialValue = false})
+      bool initialValue = false,
+      bool compareValue = false,
+      String errorLabel = ''})
       : super(
-          //onSaved: onSaved,
-          //validator: validator,
           initialValue: initialValue,
           builder: (FormFieldState<bool> state) {
             return Column(
@@ -22,7 +22,7 @@ class CheckBoxValidate extends FormField<bool> {
                         state.didChange(value);
                       }
                     ),
-                    Text('I accept terms'),
+                    Text('Title'),
                   ],
                 ),
                 Text(

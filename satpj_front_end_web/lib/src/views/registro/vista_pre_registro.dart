@@ -89,6 +89,11 @@ class RegisterFormState extends State<RegisterForm> {
                 : null;
   }
 
+  DateTime definirFechaMax(){
+      DateTime hoy = DateTime.now();
+      return DateTime(hoy.year - 18,hoy.month,hoy.day);
+  }
+
   @override
   void initState() {
     _formKey = GlobalKey<FormState>();
@@ -183,6 +188,7 @@ class RegisterFormState extends State<RegisterForm> {
               fechaNacimiento: true,
               prefix: 'su',
               label: '',
+              fechaMax: grupal ? definirFechaMax() : DateTime.now(),
             ),
             Row(
               mainAxisAlignment: MainAxisAlignment.end,

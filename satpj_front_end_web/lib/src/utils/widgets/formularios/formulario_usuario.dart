@@ -8,6 +8,7 @@ import 'package:satpj_front_end_web/src/utils/validators/validadores-input.dart'
 import 'package:satpj_front_end_web/src/utils/widgets/inputs/dropdown.dart';
 import 'package:satpj_front_end_web/src/utils/widgets/inputs/rounded_text_field.dart';
 import 'package:satpj_front_end_web/src/utils/widgets/formularios/tema_formularios.dart';
+import 'package:satpj_front_end_web/src/views/registro/vista_pre_registro.dart';
 
 class FormUserPersonalInformation extends StatefulWidget {
   Usuario usuario = new Usuario();
@@ -16,6 +17,7 @@ class FormUserPersonalInformation extends StatefulWidget {
   final bool enabled;
   final bool fechaNacimiento;
   final requerido;
+  final DateTime fechaMax;
 
   FormUserPersonalInformation({
     this.usuario,
@@ -24,6 +26,7 @@ class FormUserPersonalInformation extends StatefulWidget {
     this.enabled = true,
     this.fechaNacimiento = false,
     this.requerido = true,
+    this.fechaMax,
   });
 
   @override
@@ -90,6 +93,7 @@ class _FormState extends State<FormUserPersonalInformation> {
 
     super.initState();
   }
+
 
   @override
   Widget build(BuildContext context) {
@@ -235,6 +239,7 @@ class _FormState extends State<FormUserPersonalInformation> {
               controller: textControllerFechaNacimiento,
               firstDate: DateTime(1930),
               lastDate: DateTime.now(),
+              initialDate: widget.fechaMax == null ? DateTime.now() : widget.fechaMax,
               icon: Icon(Icons.event),
               dateLabelText: 'Fecha Nacimiento',
               onChanged: (val) {
