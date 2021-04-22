@@ -16,6 +16,7 @@ class FormPatientInformation extends StatefulWidget {
   final bool stack;
   final bool enabled;
   final bool fechaNacimiento;
+  final DateTime fechaMax;
 
   FormPatientInformation(
       {this.paciente,
@@ -23,7 +24,8 @@ class FormPatientInformation extends StatefulWidget {
       this.label = 'de su pareja',
       this.stack = true,
       this.enabled = true,
-      this.fechaNacimiento = true});
+      this.fechaNacimiento = true,
+      this.fechaMax});
 
   @override
   _FormState createState() => _FormState();
@@ -73,6 +75,7 @@ class _FormState extends State<FormPatientInformation> {
                     prefix: widget.prefix,
                     label: widget.label,
                     fechaNacimiento: widget.fechaNacimiento,
+                    fechaMax: widget.fechaMax,
               ),
               Text(
                 'Estrato sociecómico',

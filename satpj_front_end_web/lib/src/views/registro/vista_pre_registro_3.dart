@@ -133,50 +133,78 @@ class RegisterFormState extends State<RegisterForm> {
           SizedBox(
             height: 8.0,
           ),
-          Row(
-            children: [
-              Checkbox(
-                  value: decisionPropia,
-                  activeColor: kPrimaryColor,
-                  onChanged: (bool value) {
-                    setState(() {
-                      decisionPropia = value;
-                      paciente.remitido = false;
-                      cualRemision = false;
-                    });
-                  }),
-              Text(
-                'Decisión propia',
-                style: TextStyle(fontSize: 18.0),
-              ),
-            ],
-          ),
-          SizedBox(
-            height: 8.0,
-          ),
-          Row(
-            children: [
-              Checkbox(
-                  value: paciente.remitido,
-                  activeColor: kPrimaryColor,
-                  onChanged: (bool value) {
-                    setState(() {
-                      paciente.remitido = value;
-                      decisionPropia = false;
-                      cualRemision = false;
-                    });
-                  }),
-              Text(
-                'Remitido',
-                style: TextStyle(fontSize: 18.0),
-              ),
-            ],
+          FormField<bool>(
+            builder: (state) {
+              return Theme(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Row(
+                      children: [
+                        Checkbox(
+                            value: decisionPropia,
+                            activeColor: kPrimaryColor,
+                            onChanged: (bool value) {
+                              setState(() {
+                                decisionPropia = value;
+                                paciente.remitido = false;
+                                cualRemision = false;
+                              });
+                            }),
+                        Text(
+                          'Decisión propia',
+                          style: TextStyle(fontSize: 18.0),
+                        ),
+                      ],
+                    ),
+                    SizedBox(
+                      height: 8.0,
+                    ),
+                    Row(
+                      children: [
+                        Checkbox(
+                            value: paciente.remitido,
+                            activeColor: kPrimaryColor,
+                            onChanged: (bool value) {
+                              setState(() {
+                                paciente.remitido = value;
+                                decisionPropia = false;
+                                cualRemision = false;
+                              });
+                            }),
+                        Text(
+                          'Remitido',
+                          style: TextStyle(fontSize: 18.0),
+                        ),
+                      ],
+                    ),
+                    Container(
+                        margin: EdgeInsets.only(left: 6.5),
+                        child: Text(
+                          state.errorText ?? '',
+                          style: TextStyle(
+                            color: Theme.of(context).colorScheme.error,
+                          ),
+                        ))
+                  ],
+                ),
+                data: ThemeData(
+                  unselectedWidgetColor: state.hasError
+                      ? Theme.of(context).colorScheme.error
+                      : null,
+                ),
+              );
+            },
+            validator: (value) {
+              return ValidadoresInput.validateCheckbox(
+                  [decisionPropia, cualRemision],
+                  'Debe seleccionar porque solicita la atención psicológica');
+            },
           ),
           Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: paciente.remitido
                 ? [
-                    SizedBox(height: 8.0),
                     Text(
                       'Fue remitido por:',
                       textAlign: TextAlign.left,
@@ -385,16 +413,15 @@ class RegisterFormState extends State<RegisterForm> {
                   formKey: _formKey,
                   label: 'Atras',
                   color: Colors.grey[600],
-                  route: grupo.integrantes.length > 0 ? PreRegisterPage1.route : 
-                         PreRegisterPage2.route,
+                  route: grupo.integrantes.length > 0
+                      ? PreRegisterPage1.route
+                      : PreRegisterPage2.route,
                 ),
               ),
               Container(
                 height: 40.0,
                 child: ButtonForms(
-                    formKey: _formKey, 
-                    color: kPrimaryColor, 
-                    label: 'Enviar'),
+                    formKey: _formKey, color: kPrimaryColor, label: 'Enviar'),
               ),
             ],
           ),

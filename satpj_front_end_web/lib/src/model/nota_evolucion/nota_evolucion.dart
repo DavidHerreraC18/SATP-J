@@ -1,7 +1,6 @@
 import 'package:satpj_front_end_web/src/model/nota_evolucion/llave_nota_evolucion.dart';
 
 import 'package:json_annotation/json_annotation.dart';
-import 'dart:html';
 import 'dart:convert';
 
 import 'package:satpj_front_end_web/src/model/practicante/practicante.dart';

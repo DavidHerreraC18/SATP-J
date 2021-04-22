@@ -2,7 +2,6 @@
 import 'package:json_annotation/json_annotation.dart';
 import 'package:satpj_front_end_web/src/model/informe_pago/informe_pago.dart';
 import 'dart:convert';
-import 'dart:html';
 
 import 'package:satpj_front_end_web/src/model/paquete_sesion/paquete_sesion.dart';
 
