@@ -2,29 +2,46 @@ import 'dart:ui';
 
 import 'package:date_time_picker/date_time_picker.dart';
 import 'package:flutter/material.dart';
+import 'package:satpj_front_end_web/src/model/horario/horario.dart';
 import 'package:satpj_front_end_web/src/model/paciente/paciente.dart';
+import 'package:satpj_front_end_web/src/model/practicante/practicante.dart';
 import 'package:satpj_front_end_web/src/model/sesion_terapia/sesion_terapia.dart';
 import 'package:satpj_front_end_web/src/utils/tema.dart';
 import 'package:satpj_front_end_web/src/utils/validators/validadores-input.dart';
+import 'package:satpj_front_end_web/src/utils/widgets/Calendarios/CustomAppointment.dart';
 import 'package:satpj_front_end_web/src/utils/widgets/Dialogos/fotter_dialog.dart';
 import 'package:satpj_front_end_web/src/utils/widgets/Dialogos/header_dialog.dart';
 import 'package:satpj_front_end_web/src/utils/widgets/formularios/tema_formularios.dart';
 import 'package:satpj_front_end_web/src/utils/widgets/inputs/dropdown.dart';
 import 'package:satpj_front_end_web/src/utils/widgets/inputs/rounded_text_field.dart';
-
-import '../../constants.dart';
+import 'package:satpj_front_end_web/src/views/agendar_citas/gestionar_agendamiento.dart';
+import 'package:syncfusion_flutter_calendar/calendar.dart';
 
 class DialogoAgendarSesionTerapia extends StatefulWidget {
-
-  DialogoAgendarSesionTerapia({
-         Paciente paciente, 
-         SesionTerapia sesion,
-         String labelConfirmBtn = 'Crear'
-         }) {
-         pacienteSesion = paciente;
-         sesionTerapia = sesion;
-         labelConfirmB = labelConfirmBtn;
+  DialogoAgendarSesionTerapia(
+      {Paciente paciente,
+      SesionTerapia sesion,
+      Practicante practicante,
+      this.horario,
+      this.appointment,
+      this.selectedAppointment,
+      this.sesionesTerapia,
+      this.events,
+      String labelConfirmBtn = 'Crear'}) {
+    pacienteSesion = paciente;
+    practicanteAsignado = practicante;
+    sesionTerapia = sesion;
+    labelConfirmB = labelConfirmBtn;
   }
+  final List<SesionTerapia> sesionesTerapia;
+
+  final List<CustomAppointment> appointment;
+
+  final CustomAppointment selectedAppointment;
+
+  final CalendarDataSource events;
+
+  final Horario horario;
 
   @override
   _DialogoAgendarSesionTerapiaState createState() =>
@@ -32,6 +49,7 @@ class DialogoAgendarSesionTerapia extends StatefulWidget {
 }
 
 Paciente pacienteSesion = new Paciente();
+Practicante practicanteAsignado = new Practicante();
 SesionTerapia sesionTerapia;
 String labelConfirmB;
 
@@ -75,28 +93,25 @@ class _DialogoAgendarSesionTerapiaState
 
     if (sesionTerapia != null) {
       textControllerFechaSesion = TextEditingController(
-          text: sesionTerapia.fecha.toString() +
-              ' ' +
-              sesionTerapia.hora.toString());
+          text: widget.selectedAppointment.startTime.toString());
       virtual = sesionTerapia.virtual;
       presencial = !sesionTerapia.virtual;
-      
-      if(virtual) 
+
+      if (virtual)
         textControllerConsultorioVirtual =
-        TextEditingController(text: sesionTerapia.consultorio); 
-      
-      else 
+            TextEditingController(text: sesionTerapia.consultorio);
+      else
         textControllerConsultorio.text = sesionTerapia.consultorio;
-      
-    } else{
-      textControllerFechaSesion = TextEditingController(text: null);
-      textControllerConsultorio =
-        TextEditingController(text: null);
+    } else {
+      textControllerFechaSesion = TextEditingController(
+          text: widget.selectedAppointment.startTime.toString());
+      textControllerConsultorio = TextEditingController(text: null);
     }
- 
+
     textControllerPaciente = TextEditingController(
         text: pacienteSesion.nombre + ' ' + pacienteSesion.apellido);
-    textControllerPracticante = TextEditingController(text: null);
+    textControllerPracticante = TextEditingController(
+        text: practicanteAsignado.nombre + ' ' + practicanteAsignado.apellido);
     textControllerSupervisor = TextEditingController(
         text: pacienteSesion.supervisor.nombre +
             ' ' +
@@ -147,6 +162,7 @@ class _DialogoAgendarSesionTerapiaState
                               timeLabelText: 'Hora',
                               dateLabelText: 'Fecha de la sesión de terapia',
                               dateMask: 'dd-MM-yyyy',
+                              enabled: false,
                               controller: textControllerFechaSesion,
                               focusNode: textFocusNodeFechaSesion,
                               //decoration: datePickerDecoration,
@@ -283,32 +299,118 @@ class _DialogoAgendarSesionTerapiaState
                               enabled: false,
                             ),
                           if (presencial)
-                            Dropdown(
-                                textController: textControllerConsultorio,
-                                focusNode: textFocusNodeConsultorio,
-                                hintText: 'Consultorio',
-                                values: kTtipoDocumento,
-                                validate: () {
-                                  if(textControllerConsultorio.text.isNotEmpty)
-                                  sesionTerapia.consultorio =
-                                      textControllerConsultorio.text;
-                                  return ValidadoresInput.validateEmpty(
-                                      textControllerConsultorio.text,
-                                      'Seleccione el consultorio',
-                                      '');
-                                }),
+                            RoundedTextFieldValidators(
+                              textFocusNode: textFocusNodeConsultorio,
+                              textController: textControllerConsultorio,
+                              textInputType: TextInputType.text,
+                              isEditing: false,
+                              enabled: true,
+                            ),
                           SizedBox(
                             height: 20.0,
                           ),
                         ],
                       ),
                     ),
-                    FotterDialog(
-                      labelCancelBtn: 'Cancelar',
-                      labelConfirmBtn: labelConfirmB,
-                      colorConfirmBtn: kPrimaryColor,
-                      width: 120.0,
-                    ),
+                    (sesionTerapia != null)
+                        ? FotterDialog(
+                            labelCancelBtn: 'Regresar',
+                            labelConfirmBtn: "Cancelar Cita",
+                            colorConfirmBtn: kPrimaryColor,
+                            functionConfirmBtn: () {
+                              if (widget.events.appointments.isNotEmpty &&
+                                  widget.events.appointments
+                                      .contains(widget.selectedAppointment)) {
+                                widget.events.appointments.removeAt(widget
+                                    .events.appointments
+                                    .indexOf(widget.selectedAppointment));
+                                widget.events.notifyListeners(
+                                    CalendarDataSourceAction.remove,
+                                    <Appointment>[]
+                                      ..add(widget.selectedAppointment));
+                              }
+                              DateTime newStartTime = new DateTime(
+                                  sesionTerapia.fecha.year,
+                                  sesionTerapia.fecha.month,
+                                  sesionTerapia.fecha.day,
+                                  sesionTerapia.hora.hour,
+                                  sesionTerapia.hora.second);
+                              DateTime newEndTime =
+                                  newStartTime.add(new Duration(hours: 1));
+                              widget.appointment.add(CustomAppointment(
+                                startTime: newStartTime,
+                                endTime: newEndTime,
+                                color: Color(0xFF7EEFC6),
+                                isAllDay: false,
+                                subject: "Disponible",
+                              ));
+                              widget.events.appointments
+                                  .add(widget.appointment[0]);
+                              widget.events.notifyListeners(
+                                  CalendarDataSourceAction.add,
+                                  widget.appointment);
+                            },
+                            width: 120.0,
+                          )
+                        : FotterDialog(
+                            labelCancelBtn: 'Cancelar',
+                            labelConfirmBtn: "Crear",
+                            colorConfirmBtn: kPrimaryColor,
+                            functionConfirmBtn: () {
+                              print("AAAAAAAA");
+                              if (widget.events.appointments.isNotEmpty &&
+                                  widget.events.appointments
+                                      .contains(widget.selectedAppointment)) {
+                                widget.events.appointments.removeAt(widget
+                                    .events.appointments
+                                    .indexOf(widget.selectedAppointment));
+                                widget.events.notifyListeners(
+                                    CalendarDataSourceAction.remove,
+                                    <Appointment>[]
+                                      ..add(widget.selectedAppointment));
+                              }
+                              widget.sesionesTerapia.removeAt(widget
+                                  .sesionesTerapia
+                                  .indexOf(sesionTerapia));
+
+                              DateTime fecha = new DateTime(
+                                  widget.selectedAppointment.startTime.hour,
+                                  widget.selectedAppointment.startTime.month,
+                                  widget.selectedAppointment.startTime.day);
+                              DateTime hora = new DateTime(
+                                  widget.selectedAppointment.startTime.hour,
+                                  widget.selectedAppointment.startTime.month,
+                                  widget.selectedAppointment.startTime.day,
+                                  widget.selectedAppointment.startTime.hour);
+                              SesionTerapia nueva = new SesionTerapia(
+                                fecha: fecha,
+                                hora: hora,
+                                virtual: virtual,
+                                consultorio: (virtual)
+                                    ? ''
+                                    : textControllerConsultorio.text,
+                              );
+                              widget.sesionesTerapia.add(nueva);
+                              widget.appointment.add(CustomAppointment(
+                                id: widget.sesionesTerapia.length = 1,
+                                startTime: widget.selectedAppointment.startTime,
+                                endTime: widget.selectedAppointment.endTime,
+                                color: Color(0xFFFF637D),
+                                notes: '',
+                                isAllDay: false,
+                                subject: virtual
+                                    ? "Sesión Virtual"
+                                    : "Sesion Presencial - Consultorio:" +
+                                        nueva.consultorio,
+                              ));
+                              widget.events.appointments
+                                  .add(widget.appointment[0]);
+                              widget.events.notifyListeners(
+                                  CalendarDataSourceAction.add,
+                                  widget.appointment);
+                            },
+                            width: 120.0,
+                          ),
                   ]),
                 ))));
   }

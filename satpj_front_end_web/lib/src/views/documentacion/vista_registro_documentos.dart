@@ -32,9 +32,9 @@ class _VistaRegistroDocumentosState extends State<VistaRegistroDocumentos> {
   Paciente pacienteActual;
   @override
   Future<void> initState() async {
-    super.initState();
     String uid = ProviderAuntenticacion.uid;
     pacienteActual = await ProviderAdministracionPacientes.buscarPaciente(uid);
+    super.initState();
   }
 
   @override
@@ -336,8 +336,8 @@ class DocumentosPacienteState extends State<DocumentosPaciente> {
 
   @override
   initState() async {
-    super.initState();
     await traerDocumentos();
+    super.initState();
   }
 
   traerDocumentos() async {

@@ -67,6 +67,17 @@ public class ServicioPaciente {
         return repositorioPaciente.findById(id).get();
     }
 
+    @GetMapping(value = "email/{email}", produces = "application/json; charset=UTF-8")
+    public Paciente findByEmail(@AuthenticationPrincipal CustomPrincipal customPrincipal, @PathVariable("email") String email) {
+        List<Paciente> pacientes = repositorioPaciente.findByEmail(email);
+        if(pacientes.isEmpty()){
+            return null;
+        }
+        else{
+            return pacientes.get(0);
+        }
+    }
+
     /*
      * La funcion findAcudientesByPacienteId tiene el proposito de evitar la
      * recursion en JSON que genera la relacion Paciente - Acudiente
@@ -154,7 +165,7 @@ public class ServicioPaciente {
         pActualizar.setEstrato(paciente.getEstrato());
         pActualizar.setEstadoAprobado(paciente.getEstadoAprobado());
         pActualizar.setRemitido(paciente.isRemitido());
-
+        pActualizar.setSupervisor(paciente.getSupervisor());
         repositorioPaciente.save(pActualizar);
     }
 

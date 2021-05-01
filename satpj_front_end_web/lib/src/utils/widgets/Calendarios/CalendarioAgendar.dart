@@ -6,30 +6,39 @@ import 'package:flutter/foundation.dart';
 import 'package:intl/intl.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:satpj_front_end_web/src/model/horario/horario.dart';
+import 'package:satpj_front_end_web/src/model/paciente/paciente.dart';
+import 'package:satpj_front_end_web/src/model/practicante/practicante.dart';
+import 'package:satpj_front_end_web/src/model/sesion_terapia/sesion_terapia.dart';
+import 'package:satpj_front_end_web/src/model/supervisor/supervisor.dart';
 import 'package:satpj_front_end_web/src/utils/tema.dart';
+import 'package:satpj_front_end_web/src/utils/widgets/formularios/tema_formularios.dart';
+import 'package:satpj_front_end_web/src/views/agendar_citas/dialogo_sesion_terapia.dart';
 import 'package:syncfusion_flutter_calendar/calendar.dart';
 import 'package:syncfusion_localizations/syncfusion_localizations.dart';
 import 'package:flutter/foundation.dart' show kIsWeb;
 
+import 'CustomAppointment.dart';
+
 class CalendarioAgendar extends StatelessWidget {
-  static const route = "/calendario";
+  //static const route = "/calendario";
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-        localizationsDelegates: [
-          GlobalMaterialLocalizations.delegate,
-          GlobalWidgetsLocalizations.delegate,
-          SfGlobalLocalizations.delegate,
-        ],
-        supportedLocales: [
-          const Locale('en'),
-          const Locale('es'),
-        ],
-        locale: const Locale('es'),
-        debugShowCheckedModeBanner: false,
-        home: Container(
-            height: 1000, child: Expanded(child: CalendarAppointmentEditor())));
+    return Theme(
+        data: temaFormularios(),
+        child: Dialog(
+            backgroundColor: Colors.white,
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(6.0),
+            ),
+            child: Container(
+              child: Card(
+                child: Flex(
+                    direction: Axis.vertical,
+                    children: [Expanded(child: CalendarAppointmentEditor())]),
+              ),
+            )));
   }
 }
 
@@ -42,20 +51,50 @@ class CalendarAppointmentEditor extends StatefulWidget {
       _CalendarAppointmentEditorState();
 }
 
+Paciente paciente = new Paciente();
+Practicante practicante = new Practicante();
+
 class _CalendarAppointmentEditorState extends State<CalendarAppointmentEditor> {
   _CalendarAppointmentEditorState();
 
+  crearPacienteTemporal() {
+    paciente.nombre = 'Pepito';
+    paciente.apellido = 'Gómez';
+    paciente.tipoDocumento = 'Tarjeta de Identidad';
+    paciente.documento = '1234567';
+    paciente.edad = 15;
+    paciente.email = 'pepito@gmail.com';
+    paciente.telefono = '32324214';
+    paciente.direccion = 'Calle 23 # 44-20';
+    paciente.estrato = 3;
+    paciente.supervisor = new Supervisor();
+    paciente.supervisor.nombre = 'Juanito';
+    paciente.supervisor.apellido = 'Rodriguez';
+  }
+
+  crearPracticanteTemporal() {
+    practicante.nombre = 'Pepito';
+    practicante.apellido = 'Gómez';
+    practicante.tipoDocumento = 'Tarjeta de Identidad';
+    practicante.documento = '1234567';
+    practicante.email = 'pepito@gmail.com';
+    practicante.telefono = '32324214';
+    practicante.direccion = 'Calle 23 # 44-20';
+    practicante.pregrado = true;
+    practicante.aforo = 3;
+    practicante.semestre = 8;
+    paciente.supervisor.nombre = 'Juanito';
+    paciente.supervisor.apellido = 'Rodriguez';
+  }
+
   List<Appointment> _appointments;
+  List<SesionTerapia> _sesionesTerapia;
+  Horario _horarioPracticante;
   bool _isMobile;
 
-  List<Color> _colorCollection;
-  List<String> _colorNames;
   _DataSource _events;
-  Appointment _selectedAppointment;
-  DateTime _startDate;
-  DateTime _endDate;
-  bool _isAllDay;
-  String _subject = '';
+  CustomAppointment _selectedAppointment;
+  SesionTerapia _sesionTerapiaSeleccionada;
 
   final List<CalendarView> _allowedViews = <CalendarView>[
     CalendarView.week,
@@ -77,10 +116,15 @@ class _CalendarAppointmentEditorState extends State<CalendarAppointmentEditor> {
     calendarController = CalendarController();
     calendarController.view = CalendarView.week;
     _view = CalendarView.month;
-    _appointments = _getAppointmentDetails();
+    _sesionesTerapia = _getSesionesTerapia();
+    _horarioPracticante = _getHorario();
+    _appointments =
+        _getAppointmentDetails(_horarioPracticante, _sesionesTerapia);
     _events = _DataSource(_appointments);
     _selectedAppointment = null;
-    _subject = '';
+    _sesionTerapiaSeleccionada = null;
+    crearPacienteTemporal();
+    crearPracticanteTemporal();
     super.initState();
   }
 
@@ -101,9 +145,8 @@ class _CalendarAppointmentEditorState extends State<CalendarAppointmentEditor> {
         child: _getAppointmentEditorCalendar(
             calendarController, _events, _onCalendarTapped, _onViewChanged));
     final double _screenHeight = MediaQuery.of(context).size.height;
-    return Scaffold(
-      resizeToAvoidBottomInset: false,
-      body: kIsWeb && _screenHeight < 800
+    return Container(
+      child: kIsWeb && _screenHeight < 800
           ? Scrollbar(
               isAlwaysShown: true,
               controller: controller,
@@ -112,7 +155,7 @@ class _CalendarAppointmentEditorState extends State<CalendarAppointmentEditor> {
                 children: <Widget>[
                   Container(
                     color: Colors.white,
-                    height: 600,
+                    height: 1000,
                     child: _calendar,
                   )
                 ],
@@ -146,10 +189,14 @@ class _CalendarAppointmentEditorState extends State<CalendarAppointmentEditor> {
     }
 
     _selectedAppointment = null;
-    print(calendarTapDetails.appointments == null);
     if (calendarTapDetails.appointments != null &&
         calendarTapDetails.targetElement == CalendarElement.appointment) {
       _selectedAppointment = calendarTapDetails.appointments[0];
+      if (_selectedAppointment.id != -1) {
+        _sesionTerapiaSeleccionada = _sesionesTerapia[_selectedAppointment.id];
+      } else {
+        _sesionTerapiaSeleccionada = null;
+      }
     }
 
     final DateTime selectedDate = calendarTapDetails.date;
@@ -160,128 +207,244 @@ class _CalendarAppointmentEditorState extends State<CalendarAppointmentEditor> {
     if (kIsWeb && !_isMobile) {
       final bool _isAppointmentTapped =
           calendarTapDetails.targetElement == CalendarElement.appointment;
-      showDialog<Widget>(
-          context: context,
-          builder: (BuildContext context) {
-            final List<Appointment> appointment = <Appointment>[];
-            Appointment newAppointment;
-
-            /// Creates a new appointment, which is displayed on the tapped
-            /// calendar element, when the editor is opened.
-            if (_selectedAppointment == null) {
-              _isAllDay = calendarTapDetails.targetElement ==
-                  CalendarElement.allDayPanel;
-              _subject = '';
-              final DateTime date = calendarTapDetails.date;
-              _startDate = date;
-              _endDate = date.add(const Duration(hours: 1));
-              newAppointment = Appointment(
-                startTime: _startDate,
-                endTime: _endDate,
-                color: Color(0xFFFF637D),
-                isAllDay: _isAllDay,
-                subject: _subject == '' ? '(No title)' : _subject,
-              );
-              appointment.add(newAppointment);
-              _events.appointments.add(appointment[0]);
-
-              SchedulerBinding.instance
-                  .addPostFrameCallback((Duration duration) {
-                _events.notifyListeners(
-                    CalendarDataSourceAction.add, appointment);
-              });
-              _selectedAppointment = newAppointment;
-            }
-            return WillPopScope(
-              onWillPop: () async {
-                if (newAppointment != null) {
-                  /// To remove the created appointment when the pop-up closed
-                  /// without saving the appointment.
-                  _events.appointments
-                      .removeAt(_events.appointments.indexOf(newAppointment));
-                  _events.notifyListeners(CalendarDataSourceAction.remove,
-                      <Appointment>[]..add(newAppointment));
-                }
-                return true;
-              },
-              child: Center(
-                  child: Container(
-                      alignment: Alignment.center,
-                      width: _isAppointmentTapped ? 400 : 500,
-                      height: _isAppointmentTapped
-                          ? _selectedAppointment.location == null ||
-                                  _selectedAppointment.location.isEmpty
-                              ? 150
-                              : 200
-                          : 390,
-                      child: Theme(
-                          data: temaSatpj(),
-                          child: Card(
-                            margin: const EdgeInsets.all(0.0),
-                            color: Colors.white,
-                            shape: const RoundedRectangleBorder(
-                                borderRadius:
-                                    BorderRadius.all(Radius.circular(4))),
-                            child: _isAppointmentTapped
-                                ? displayAppointmentDetails(
-                                    context,
-                                    targetElement,
-                                    selectedDate,
-                                    _selectedAppointment,
-                                    _colorCollection,
-                                    _colorNames,
-                                    _events)
-                                : PopUpAppointmentEditor(
-                                    newAppointment,
-                                    appointment,
-                                    _events,
-                                    _colorCollection,
-                                    _colorNames,
-                                    _selectedAppointment),
-                          )))),
-            );
-          });
+      if (_isAppointmentTapped) {
+        showDialog<Widget>(
+            context: context,
+            builder: (context) => DialogoAgendarSesionTerapia(
+                  appointment: _appointments,
+                  events: _events,
+                  selectedAppointment: _selectedAppointment,
+                  paciente: paciente,
+                  practicante: practicante,
+                  sesionesTerapia: _sesionesTerapia,
+                  sesion: _sesionTerapiaSeleccionada,
+                  horario: _horarioPracticante,
+                ));
+      }
     } else {
       /// Navigates to the appointment editor page on mobile
       Navigator.push<Widget>(
         context,
         MaterialPageRoute(
             builder: (BuildContext context) => AppointmentEditor(
-                _selectedAppointment,
-                targetElement,
-                selectedDate,
-                _colorCollection,
-                _colorNames,
-                _events)),
+                _selectedAppointment, targetElement, selectedDate, _events)),
       );
     }
   }
 
+  void asignacionSesionesAux(
+      List<CustomAppointment> appointmentCollection,
+      List<SesionTerapia> sesiones,
+      DateTime posibleHoyInicio,
+      DateTime posibleHoyFin) {
+    bool noEncontrado = true;
+    for (int i = 0; i < sesiones.length; i++) {
+      if (sesiones[i].hora.hour == posibleHoyInicio.hour &&
+          sesiones[i].fecha.day == posibleHoyInicio.day &&
+          sesiones[i].fecha.month == posibleHoyInicio.month &&
+          sesiones[i].fecha.year == posibleHoyInicio.year) {
+        appointmentCollection.add(CustomAppointment(
+          id: i,
+          startTime: posibleHoyInicio,
+          endTime: posibleHoyFin,
+          color: Color(0xFFFF637D),
+          notes: '',
+          isAllDay: false,
+          subject: sesiones[i].virtual
+              ? "Sesión Virtual"
+              : "Sesion Presencial - Consultorio:" + sesiones[i].consultorio,
+        ));
+        i = sesiones.length;
+        noEncontrado = false;
+      }
+    }
+    if (noEncontrado) {
+      appointmentCollection.add(CustomAppointment(
+        id: -1,
+        startTime: posibleHoyInicio,
+        endTime: posibleHoyFin,
+        color: Color(0xFF7EEFC6),
+        notes: '',
+        isAllDay: false,
+        subject: "Disponible",
+      ));
+    }
+  }
+
+  void asignacionSesiones(List<CustomAppointment> appointmentCollection,
+      List<SesionTerapia> sesiones, List<int> horas) {
+    final DateTime hoy = DateTime.now();
+    int horaValida = 0;
+    for (horaValida = 0; horaValida < horas.length; horaValida++) {
+      if (hoy.hour < horas[horaValida]) {
+        DateTime posibleHoyInicio =
+            new DateTime(hoy.year, hoy.month, hoy.day, horas[horaValida], 0);
+        DateTime posibleHoyFin = posibleHoyInicio.add(new Duration(hours: 1));
+        asignacionSesionesAux(
+            appointmentCollection, sesiones, posibleHoyInicio, posibleHoyFin);
+      }
+    }
+  }
+
+  void asignarDia(
+      DateTime nuevoDia,
+      List<int> horasDia,
+      List<CustomAppointment> appointmentCollection,
+      List<SesionTerapia> sesiones) {
+    for (int i = 0; i < horasDia.length; i++) {
+      DateTime fechaIni = nuevoDia.add(new Duration(hours: horasDia[i]));
+      DateTime fechaFin = nuevoDia.add(new Duration(hours: horasDia[i] + 1));
+      asignacionSesionesAux(
+          appointmentCollection, sesiones, fechaIni, fechaFin);
+    }
+  }
+
+  Horario _getHorario() {
+    Horario horario = new Horario(
+        lunes: "9;11;12;14;15",
+        martes: "",
+        miercoles: "",
+        jueves: "17;18",
+        viernes: "",
+        sabado: "9;11");
+    return horario;
+  }
+
+  List<SesionTerapia> _getSesionesTerapia() {
+    List<SesionTerapia> sesiones = <SesionTerapia>[];
+    sesiones.add(new SesionTerapia(
+        fecha: new DateTime(2021, 4, 29),
+        hora: DateTime(2021, 4, 29, 17, 0),
+        virtual: true));
+    sesiones.add(new SesionTerapia(
+        fecha: new DateTime(2021, 5, 3),
+        hora: DateTime(2021, 5, 3, 11, 0),
+        consultorio: "301",
+        virtual: false));
+    sesiones.add(new SesionTerapia(
+        fecha: new DateTime(2021, 5, 6),
+        hora: DateTime(2021, 5, 6, 17, 0),
+        virtual: true));
+    sesiones.add(new SesionTerapia(
+        fecha: new DateTime(2021, 5, 10),
+        hora: DateTime(2021, 5, 10, 11, 0),
+        consultorio: "307",
+        virtual: false));
+    return sesiones;
+  }
+
   /// Creates the required appointment details as a list, and created the data
   /// source for calendar with required information.
-  List<Appointment> _getAppointmentDetails() {
-    final List<Appointment> appointmentCollection = <Appointment>[];
-
-    final DateTime today = DateTime.now();
-    for (int month = -1; month < 2; month++) {
-      for (int day = -5; day < 5; day++) {
-        for (int hour = 9; hour < 18; hour += 5) {
-          appointmentCollection.add(Appointment(
-            startTime: today
-                .add(Duration(days: (month * 30) + day))
-                .add(Duration(hours: hour)),
-            endTime: today
-                .add(Duration(days: (month * 30) + day))
-                .add(Duration(hours: hour + 2)),
-            color: Color(0xFF7EEFC6),
-            startTimeZone: '',
-            endTimeZone: '',
-            notes: '',
-            isAllDay: false,
-            subject: 'Disponible',
-          ));
-        }
+  List<CustomAppointment> _getAppointmentDetails(
+      Horario horario, List<SesionTerapia> sesiones) {
+    final List<CustomAppointment> appointmentCollection = <CustomAppointment>[];
+    Map<String, List<int>> horas = horario.forView();
+    final DateTime hoy = DateTime.now();
+    List<int> horasLunes = horas['lunes'];
+    List<int> horasMartes = horas['martes'];
+    List<int> horasMiercoles = horas['miercoles'];
+    List<int> horasJueves = horas['jueves'];
+    List<int> horasViernes = horas['viernes'];
+    List<int> horasSabado = horas['sabado'];
+    if (hoy.weekday == 1) {
+      if (horasLunes != null)
+        asignacionSesiones(appointmentCollection, sesiones, horasLunes);
+      DateTime nuevo = new DateTime(hoy.year, hoy.month, hoy.day, 0, 0);
+      nuevo = nuevo.add(new Duration(days: 1));
+      if (horasMartes != null)
+        asignarDia(nuevo, horasMartes, appointmentCollection, sesiones);
+      nuevo = nuevo.add(new Duration(days: 1));
+      if (horasMiercoles != null)
+        asignarDia(nuevo, horasMiercoles, appointmentCollection, sesiones);
+      nuevo = nuevo.add(new Duration(days: 1));
+      if (horasJueves != null)
+        asignarDia(nuevo, horasJueves, appointmentCollection, sesiones);
+      nuevo = nuevo.add(new Duration(days: 1));
+      if (horasViernes != null)
+        asignarDia(nuevo, horasViernes, appointmentCollection, sesiones);
+      nuevo = nuevo.add(new Duration(days: 1));
+      if (horasSabado != null)
+        asignarDia(nuevo, horasSabado, appointmentCollection, sesiones);
+    }
+    if (hoy.weekday == 2) {
+      if (horasMartes != null)
+        asignacionSesiones(appointmentCollection, sesiones, horasMartes);
+      DateTime nuevo = new DateTime(hoy.year, hoy.month, hoy.day, 0, 0);
+      nuevo = nuevo.add(new Duration(days: 1));
+      if (horasMiercoles != null)
+        asignarDia(nuevo, horasMiercoles, appointmentCollection, sesiones);
+      nuevo = nuevo.add(new Duration(days: 1));
+      if (horasJueves != null)
+        asignarDia(nuevo, horasJueves, appointmentCollection, sesiones);
+      nuevo = nuevo.add(new Duration(days: 1));
+      if (horasViernes != null)
+        asignarDia(nuevo, horasViernes, appointmentCollection, sesiones);
+      nuevo = nuevo.add(new Duration(days: 1));
+      if (horasSabado != null)
+        asignarDia(nuevo, horasSabado, appointmentCollection, sesiones);
+    }
+    if (hoy.weekday == 3) {
+      if (horasMiercoles != null)
+        asignacionSesiones(appointmentCollection, sesiones, horasMiercoles);
+      DateTime nuevo = new DateTime(hoy.year, hoy.month, hoy.day, 0, 0);
+      nuevo = nuevo.add(new Duration(days: 1));
+      if (horasJueves != null)
+        asignarDia(nuevo, horasJueves, appointmentCollection, sesiones);
+      nuevo = nuevo.add(new Duration(days: 1));
+      if (horasViernes != null)
+        asignarDia(nuevo, horasViernes, appointmentCollection, sesiones);
+      nuevo = nuevo.add(new Duration(days: 1));
+      if (horasSabado != null)
+        asignarDia(nuevo, horasSabado, appointmentCollection, sesiones);
+    }
+    if (hoy.weekday == 4) {
+      if (horasJueves != null)
+        asignacionSesiones(appointmentCollection, sesiones, horasJueves);
+      DateTime nuevo = new DateTime(hoy.year, hoy.month, hoy.day, 0, 0);
+      nuevo = nuevo.add(new Duration(days: 1));
+      if (horasViernes != null)
+        asignarDia(nuevo, horasViernes, appointmentCollection, sesiones);
+      nuevo = nuevo.add(new Duration(days: 1));
+      if (horasSabado != null)
+        asignarDia(nuevo, horasSabado, appointmentCollection, sesiones);
+    }
+    if (hoy.weekday == 5) {
+      if (horasViernes != null)
+        asignacionSesiones(appointmentCollection, sesiones, horasViernes);
+      DateTime nuevo = new DateTime(hoy.year, hoy.month, hoy.day, 0, 0);
+      nuevo = nuevo.add(new Duration(days: 1));
+      if (horasSabado != null)
+        asignarDia(nuevo, horasSabado, appointmentCollection, sesiones);
+    }
+    if (hoy.weekday == 6) {
+      if (horasSabado != null)
+        asignacionSesiones(appointmentCollection, sesiones, horasSabado);
+    }
+    //asignacion otra semana
+    DateTime nuevo = hoy;
+    for (int i = 0; i < 2; i++) {
+      nuevo = new DateTime(nuevo.year, nuevo.month, nuevo.day, 0, 0);
+      nuevo = nuevo.add(new Duration(days: 1));
+      while (nuevo.weekday != 1) {
+        nuevo = nuevo.add(new Duration(days: 1));
       }
+      if (horasLunes != null)
+        asignarDia(nuevo, horasLunes, appointmentCollection, sesiones);
+      nuevo = nuevo.add(new Duration(days: 1));
+      if (horasMartes != null)
+        asignarDia(nuevo, horasMartes, appointmentCollection, sesiones);
+      nuevo = nuevo.add(new Duration(days: 1));
+      if (horasMiercoles != null)
+        asignarDia(nuevo, horasMiercoles, appointmentCollection, sesiones);
+      nuevo = nuevo.add(new Duration(days: 1));
+      if (horasJueves != null)
+        asignarDia(nuevo, horasJueves, appointmentCollection, sesiones);
+      nuevo = nuevo.add(new Duration(days: 1));
+      if (horasViernes != null)
+        asignarDia(nuevo, horasViernes, appointmentCollection, sesiones);
+      nuevo = nuevo.add(new Duration(days: 1));
+      if (horasSabado != null)
+        asignarDia(nuevo, horasSabado, appointmentCollection, sesiones);
     }
 
     return appointmentCollection;
@@ -311,1266 +474,29 @@ class _CalendarAppointmentEditorState extends State<CalendarAppointmentEditor> {
   }
 }
 
-/// Signature for callback which reports the picker value changed
-typedef _PickerChanged = void Function(
-    _PickerChangedDetails pickerChangedDetails);
-
-/// Details for the [_PickerChanged].
-class _PickerChangedDetails {
-  _PickerChangedDetails({this.index, this.resourceId});
-
-  final int index;
-
-  final Object resourceId;
-}
-
 /// An object to set the appointment collection data source to collection, and
 /// allows to add, remove or reset the appointment collection.
 class _DataSource extends CalendarDataSource {
   _DataSource(this.source);
 
-  List<Appointment> source;
+  List<CustomAppointment> source;
 
   @override
   List<dynamic> get appointments => source;
-}
-
-/// Formats the tapped appointment time text, to display on the pop-up view.
-String _getAppointmentTimeText(Appointment selectedAppointment) {
-  if (selectedAppointment.isAllDay) {
-    return DateFormat('EEEE, MMM dd')
-        .format(selectedAppointment.startTime)
-        .toString();
-  } else if (selectedAppointment.startTime.day !=
-          selectedAppointment.endTime.day ||
-      selectedAppointment.startTime.month !=
-          selectedAppointment.endTime.month ||
-      selectedAppointment.startTime.year != selectedAppointment.endTime.year) {
-    String endFormat = 'EEEE, ';
-    if (selectedAppointment.startTime.month !=
-        selectedAppointment.endTime.month) {
-      endFormat += 'MMM';
-    }
-
-    endFormat += ' dd hh:mm a';
-    return DateFormat('EEEE, MMM dd hh:mm a')
-            .format(selectedAppointment.startTime) +
-        ' - ' +
-        DateFormat(endFormat).format(selectedAppointment.endTime);
-  } else {
-    return DateFormat('EEEE, MMM dd hh:mm a')
-            .format(selectedAppointment.startTime) +
-        ' - ' +
-        DateFormat('hh:mm a').format(selectedAppointment.endTime);
-  }
-}
-
-/// Displays the tapped appointment details in a pop-up view.
-Widget displayAppointmentDetails(
-    BuildContext context,
-    CalendarElement targetElement,
-    DateTime selectedDate,
-    Appointment selectedAppointment,
-    List<Color> colorCollection,
-    List<String> colorNames,
-    CalendarDataSource events) {
-  final Color defaultColor = Colors.black54;
-
-  final Color defaultTextColor = Colors.black87;
-
-  return ListView(padding: const EdgeInsets.all(0.0), children: <Widget>[
-    ListTile(
-        trailing: Row(
-      mainAxisSize: MainAxisSize.min,
-      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: <Widget>[
-        IconButton(
-          icon: Icon(Icons.edit, color: kPrimaryColor),
-          onPressed: () {
-            Navigator.pop(context);
-            showDialog<Widget>(
-                context: context,
-                builder: (BuildContext context) {
-                  return WillPopScope(
-                      onWillPop: () async {
-                        return true;
-                      },
-                      child: Theme(
-                        data: temaSatpj(),
-                        // ignore: prefer_const_literals_to_create_immutables
-                        child: AppointmentEditorWeb(
-                            selectedAppointment,
-                            colorCollection,
-                            colorNames,
-                            events, <Appointment>[]),
-                      ));
-                });
-          },
-        ),
-        IconButton(
-          icon: Icon(Icons.delete, color: kPrimaryColor),
-          onPressed: () {
-            events.appointments
-                .removeAt(events.appointments.indexOf(selectedAppointment));
-            events.notifyListeners(CalendarDataSourceAction.remove,
-                <Appointment>[]..add(selectedAppointment));
-            Navigator.pop(context);
-          },
-        ),
-        IconButton(
-          icon: Icon(Icons.close, color: kPrimaryColor),
-          onPressed: () {
-            Navigator.pop(context);
-          },
-        ),
-      ],
-    )),
-    ListTile(
-        leading: Icon(
-          Icons.lens,
-          color: selectedAppointment.color,
-          size: 20,
-        ),
-        title: Text(selectedAppointment.subject ?? '(No Text)',
-            style: TextStyle(
-                fontSize: 20,
-                color: defaultTextColor,
-                fontWeight: FontWeight.w400)),
-        subtitle: Padding(
-          padding: const EdgeInsets.only(top: 5),
-          child: Text(
-            _getAppointmentTimeText(selectedAppointment),
-            style: TextStyle(
-                fontSize: 15,
-                color: defaultTextColor,
-                fontWeight: FontWeight.w400),
-          ),
-        )),
-    selectedAppointment.resourceIds == null ||
-            selectedAppointment.resourceIds.isEmpty
-        ? Container()
-        : ListTile(
-            leading: Icon(
-              Icons.people,
-              size: 20,
-              color: defaultColor,
-            ),
-            title: Text(
-                _getSelectedResourceText(
-                    selectedAppointment.resourceIds, events.resources),
-                style: TextStyle(
-                    fontSize: 15,
-                    color: defaultTextColor,
-                    fontWeight: FontWeight.w400)),
-          ),
-    selectedAppointment.location == null || selectedAppointment.location.isEmpty
-        ? Container()
-        : ListTile(
-            leading: Icon(
-              Icons.location_on,
-              size: 20,
-              color: defaultColor,
-            ),
-            title: Text(selectedAppointment.location ?? '',
-                style: TextStyle(
-                    fontSize: 15,
-                    color: defaultColor,
-                    fontWeight: FontWeight.w400)),
-          )
-  ]);
-}
-
-/// Returns the selected resource display name based on the ids passed.
-String _getSelectedResourceText(
-    List<Object> resourceIds, List<CalendarResource> resourceCollection) {
-  String resourceNames;
-  for (int i = 0; i < resourceIds.length; i++) {
-    final String name = resourceCollection
-        .firstWhere((resource) => resource.id == resourceIds[i])
-        .displayName;
-    resourceNames = resourceNames == null ? name : resourceNames + ', ' + name;
-  }
-
-  return resourceNames;
-}
-
-///  The time zone picker element for the appointment editor with the available
-///  time zone collection, and returns the selection time zone index
-class _CalendarTimeZonePicker extends StatefulWidget {
-  const _CalendarTimeZonePicker(
-      this.backgroundColor, this.timeZoneCollection, this.selectedTimeZoneIndex,
-      {this.onChanged});
-
-  final Color backgroundColor;
-
-  final List<String> timeZoneCollection;
-
-  final int selectedTimeZoneIndex;
-
-  final _PickerChanged onChanged;
-
-  @override
-  State<StatefulWidget> createState() {
-    return _CalendarTimeZonePickerState();
-  }
-}
-
-class _CalendarTimeZonePickerState extends State<_CalendarTimeZonePicker> {
-  int _selectedTimeZoneIndex;
-
-  @override
-  void initState() {
-    _selectedTimeZoneIndex = widget.selectedTimeZoneIndex;
-    super.initState();
-  }
-
-  @override
-  void didUpdateWidget(_CalendarTimeZonePicker oldWidget) {
-    _selectedTimeZoneIndex = widget.selectedTimeZoneIndex;
-    super.didUpdateWidget(oldWidget);
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return Theme(
-        data: temaSatpj(),
-        child: AlertDialog(
-          content: Container(
-              width: kIsWeb ? 500 : double.maxFinite,
-              child: ListView.builder(
-                padding: const EdgeInsets.all(0),
-                itemCount: widget.timeZoneCollection.length,
-                itemBuilder: (BuildContext context, int index) {
-                  return Container(
-                      height: 50,
-                      child: ListTile(
-                        contentPadding:
-                            const EdgeInsets.symmetric(horizontal: 10),
-                        leading: Icon(
-                          index == _selectedTimeZoneIndex
-                              ? Icons.check_box
-                              : Icons.check_box_outline_blank,
-                          color: widget.backgroundColor,
-                        ),
-                        title: Text(widget.timeZoneCollection[index]),
-                        onTap: () {
-                          setState(() {
-                            _selectedTimeZoneIndex = index;
-                            widget
-                                .onChanged(_PickerChangedDetails(index: index));
-                          });
-
-                          // ignore: always_specify_types
-                          Future.delayed(const Duration(milliseconds: 200), () {
-                            // When task is over, close the dialog
-                            Navigator.pop(context);
-                          });
-                        },
-                      ));
-                },
-              )),
-        ));
-  }
-}
-
-/// Builds the appointment editor with minimal elements in a pop-up based on the
-/// tapped calendar element.
-class PopUpAppointmentEditor extends StatefulWidget {
-  const PopUpAppointmentEditor(
-      this.newAppointment,
-      this.appointment,
-      this.events,
-      this.colorCollection,
-      this.colorNames,
-      this.selectedAppointment);
-
-  final Appointment newAppointment;
-
-  final List<Appointment> appointment;
-
-  final CalendarDataSource events;
-
-  final List<Color> colorCollection;
-
-  final List<String> colorNames;
-
-  final Appointment selectedAppointment;
-
-  @override
-  _PopUpAppointmentEditorState createState() => _PopUpAppointmentEditorState();
-}
-
-class _PopUpAppointmentEditorState extends State<PopUpAppointmentEditor> {
-  DateTime _startDate;
-  DateTime _endDate;
-  TimeOfDay _startTime;
-  TimeOfDay _endTime;
-  bool _isAllDay;
-  String _subject = '';
-  List<Object> _resourceIds;
-
-  @override
-  void initState() {
-    _updateAppointmentProperties();
-    super.initState();
-  }
-
-  @override
-  void didUpdateWidget(PopUpAppointmentEditor oldWidget) {
-    _updateAppointmentProperties();
-    super.didUpdateWidget(oldWidget);
-  }
-
-  /// Updates the required editor's default field
-  void _updateAppointmentProperties() {
-    _startDate = widget.selectedAppointment.startTime;
-    _endDate = widget.selectedAppointment.endTime;
-    _isAllDay = widget.selectedAppointment.isAllDay;
-    _subject = widget.selectedAppointment.subject == '(No title)'
-        ? ''
-        : widget.selectedAppointment.subject;
-    _resourceIds = widget.selectedAppointment.resourceIds;
-
-    _startTime = TimeOfDay(hour: _startDate.hour, minute: _startDate.minute);
-    _endTime = TimeOfDay(hour: _endDate.hour, minute: _endDate.minute);
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    final Color defaultColor = Colors.black54;
-
-    final Color defaultTextColor = Colors.black87;
-
-    final Widget _startDatePicker = RawMaterialButton(
-      padding: const EdgeInsets.symmetric(horizontal: 5),
-      child: Text(DateFormat('MMM dd, yyyy').format(_startDate),
-          style:
-              TextStyle(fontWeight: FontWeight.w500, color: defaultTextColor),
-          textAlign: TextAlign.left),
-      onPressed: () async {
-        final DateTime date = await showDatePicker(
-            context: context,
-            initialDate: _startDate,
-            firstDate: DateTime(1900),
-            lastDate: DateTime(2100),
-            builder: (BuildContext context, Widget child) {
-              /// Theme widget used to apply the theme and primary color to the
-              /// date picker.
-              return Theme(
-                /// The themedata created based
-                ///  on the selected theme and primary color.
-                data: temaSatpj(),
-                child: child,
-              );
-            });
-
-        if (date != null && date != _startDate) {
-          setState(() {
-            final Duration difference = _endDate.difference(_startDate);
-            _startDate = DateTime(date.year, date.month, date.day,
-                _startTime.hour, _startTime.minute, 0);
-            _endDate = _startDate.add(difference);
-            _endTime = TimeOfDay(hour: _endDate.hour, minute: _endDate.minute);
-          });
-        }
-      },
-    );
-
-    final Widget _startTimePicker = RawMaterialButton(
-      padding: const EdgeInsets.symmetric(horizontal: 5),
-      child: Text(
-        DateFormat('hh:mm a').format(_startDate),
-        style: TextStyle(fontWeight: FontWeight.w500, color: defaultTextColor),
-        textAlign: TextAlign.left,
-      ),
-      onPressed: () async {
-        final TimeOfDay time = await showTimePicker(
-            context: context,
-            initialTime:
-                TimeOfDay(hour: _startTime.hour, minute: _startTime.minute),
-            builder: (BuildContext context, Widget child) {
-              /// Theme widget used to apply the theme and primary color to the
-              /// time picker.
-              return Theme(
-                /// The themedata created based
-                /// on the selected theme and primary color.
-                data: temaSatpj(),
-                child: child,
-              );
-            });
-
-        if (time != null && time != _startTime) {
-          setState(() {
-            _startTime = time;
-            final Duration difference = _endDate.difference(_startDate);
-            _startDate = DateTime(_startDate.year, _startDate.month,
-                _startDate.day, _startTime.hour, _startTime.minute, 0);
-            _endDate = _startDate.add(difference);
-            _endTime = TimeOfDay(hour: _endDate.hour, minute: _endDate.minute);
-          });
-        }
-      },
-    );
-
-    final Widget _endTimePicker = RawMaterialButton(
-      padding: const EdgeInsets.symmetric(horizontal: 5),
-      child: Text(
-        DateFormat('hh:mm a').format(_endDate),
-        style: TextStyle(fontWeight: FontWeight.w500, color: defaultTextColor),
-        textAlign: TextAlign.left,
-      ),
-      onPressed: () async {
-        final TimeOfDay time = await showTimePicker(
-            context: context,
-            initialTime:
-                TimeOfDay(hour: _endTime.hour, minute: _endTime.minute),
-            builder: (BuildContext context, Widget child) {
-              /// Theme widget used to apply the theme and primary color to the
-              /// date picker.
-              return Theme(
-                /// The themedata created based
-                /// on the selected theme and primary color.
-                data: temaSatpj(),
-                child: child,
-              );
-            });
-
-        if (time != null && time != _endTime) {
-          setState(() {
-            _endTime = time;
-            final Duration difference = _endDate.difference(_startDate);
-            _endDate = DateTime(_endDate.year, _endDate.month, _endDate.day,
-                _endTime.hour, _endTime.minute, 0);
-            if (_endDate.isBefore(_startDate)) {
-              _startDate = _endDate.subtract(difference);
-              _startTime =
-                  TimeOfDay(hour: _startDate.hour, minute: _startDate.minute);
-            }
-          });
-        }
-      },
-    );
-
-    final Widget _endDatePicker = RawMaterialButton(
-      padding: const EdgeInsets.symmetric(horizontal: 5),
-      child: Text(DateFormat('MMM dd, yyyy').format(_endDate),
-          style:
-              TextStyle(fontWeight: FontWeight.w500, color: defaultTextColor),
-          textAlign: TextAlign.left),
-      onPressed: () async {
-        final DateTime date = await showDatePicker(
-            context: context,
-            initialDate: _endDate,
-            firstDate: DateTime(1900),
-            lastDate: DateTime(2100),
-            builder: (BuildContext context, Widget child) {
-              /// Theme widget used to apply the theme and primary color to the
-              /// date picker.
-              return Theme(
-                /// The themedata created based
-                /// on the selected theme and primary color.
-                data: temaSatpj(),
-                child: child,
-              );
-            });
-
-        if (date != null && date != _startDate) {
-          setState(() {
-            final Duration difference = _endDate.difference(_startDate);
-            _endDate = DateTime(date.year, date.month, date.day, _endTime.hour,
-                _endTime.minute, 0);
-            if (_endDate.isBefore(_startDate)) {
-              _startDate = _endDate.subtract(difference);
-              _startTime =
-                  TimeOfDay(hour: _startDate.hour, minute: _startDate.minute);
-            }
-          });
-        }
-      },
-    );
-
-    return ListView(padding: const EdgeInsets.all(0.0), children: <Widget>[
-      Container(
-          height: 50,
-          child: ListTile(
-            trailing: IconButton(
-              icon: Icon(Icons.close, color: defaultColor),
-              onPressed: () {
-                if (widget.newAppointment != null &&
-                    widget.events.appointments
-                        .contains(widget.newAppointment)) {
-                  /// To remove the created appointment, when the appointment editor
-                  /// closed without saving the appointment.
-                  widget.events.appointments.removeAt(widget.events.appointments
-                      .indexOf(widget.newAppointment));
-                  widget.events.notifyListeners(CalendarDataSourceAction.remove,
-                      <Appointment>[]..add(widget.newAppointment));
-                }
-
-                Navigator.pop(context);
-              },
-            ),
-          )),
-      Container(
-          margin: EdgeInsets.only(bottom: 5),
-          height: 50,
-          child: ListTile(
-            leading: const Text(''),
-            title: TextField(
-              autofocus: true,
-              cursorColor: Colors.white,
-              controller: TextEditingController(text: _subject),
-              onChanged: (String value) {
-                _subject = value;
-              },
-              keyboardType: TextInputType.multiline,
-              maxLines: null,
-              style: TextStyle(
-                  fontSize: 20,
-                  color: defaultTextColor,
-                  fontWeight: FontWeight.w400),
-              decoration: InputDecoration(
-                focusColor: Colors.white,
-                border: const UnderlineInputBorder(),
-                focusedBorder: UnderlineInputBorder(
-                    borderSide: BorderSide(
-                        color: Colors.white,
-                        width: 2.0,
-                        style: BorderStyle.solid)),
-                hintText: 'Add title and time',
-              ),
-            ),
-          )),
-      Container(
-          margin: EdgeInsets.only(bottom: 5),
-          height: 50,
-          child: ListTile(
-            leading: Container(
-                width: 30,
-                alignment: Alignment.centerRight,
-                child: Icon(
-                  Icons.access_time,
-                  size: 20,
-                  color: defaultColor,
-                )),
-            title: _isAllDay
-                ? Row(
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    mainAxisSize: MainAxisSize.min,
-                    children: <Widget>[
-                        _startDatePicker,
-                        const Text(' - '),
-                        _endDatePicker,
-                        const Text(''),
-                        const Text(''),
-                      ])
-                : Row(
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    mainAxisSize: MainAxisSize.min,
-                    children: <Widget>[
-                        _startDatePicker,
-                        _startTimePicker,
-                        const Text(' - '),
-                        _endTimePicker,
-                        _endDatePicker,
-                      ]),
-          )),
-      Container(
-          height: 50,
-          child: ListTile(
-            title: Row(
-              mainAxisAlignment: MainAxisAlignment.end,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: <Widget>[
-                Padding(
-                  padding: EdgeInsets.only(left: 10),
-                  child: RawMaterialButton(
-                    shape: const RoundedRectangleBorder(
-                      borderRadius: BorderRadius.all(Radius.circular(4)),
-                    ),
-                    fillColor: kPrimaryColor,
-                    child: const Text(
-                      'SAVE',
-                      style: TextStyle(
-                          color: Colors.white, fontWeight: FontWeight.w500),
-                    ),
-                    onPressed: () {
-                      if (widget.selectedAppointment != null ||
-                          widget.newAppointment != null) {
-                        if (widget.events.appointments.isNotEmpty &&
-                            widget.events.appointments
-                                .contains(widget.selectedAppointment)) {
-                          widget.events.appointments.removeAt(widget
-                              .events.appointments
-                              .indexOf(widget.selectedAppointment));
-                          widget.events.notifyListeners(
-                              CalendarDataSourceAction.remove,
-                              <Appointment>[]..add(widget.selectedAppointment));
-                        }
-                        if (widget.appointment.isNotEmpty &&
-                            widget.appointment
-                                .contains(widget.newAppointment)) {
-                          widget.appointment.removeAt(widget.appointment
-                              .indexOf(widget.newAppointment));
-                        }
-                      }
-
-                      widget.appointment.add(Appointment(
-                        startTime: _startDate,
-                        endTime: _endDate,
-                        color: Color(0xFFFF637D),
-                        isAllDay: _isAllDay,
-                        subject: _subject == '' ? '(No title)' : _subject,
-                        resourceIds: _resourceIds,
-                      ));
-
-                      widget.events.appointments.add(widget.appointment[0]);
-
-                      widget.events.notifyListeners(
-                          CalendarDataSourceAction.add, widget.appointment);
-
-                      Navigator.pop(context);
-                    },
-                  ),
-                ),
-              ],
-            ),
-          )),
-    ]);
-  }
-}
-
-/// Builds the appointment editor with all the required elements in a pop-up
-/// based on the tapped calendar element.
-class AppointmentEditorWeb extends StatefulWidget {
-  const AppointmentEditorWeb(this.selectedAppointment, this.colorCollection,
-      this.colorNames, this.events,
-      [this.appointment, this.newAppointment]);
-
-  final Appointment newAppointment;
-
-  final List<Appointment> appointment;
-
-  final Appointment selectedAppointment;
-
-  final List<Color> colorCollection;
-
-  final List<String> colorNames;
-
-  final CalendarDataSource events;
-
-  @override
-  _AppointmentEditorWebState createState() => _AppointmentEditorWebState();
-}
-
-class _AppointmentEditorWebState extends State<AppointmentEditorWeb> {
-  DateTime _startDate;
-  TimeOfDay _startTime;
-  DateTime _endDate;
-  TimeOfDay _endTime;
-  bool _isAllDay;
-  String _subject = '';
-  List<Object> _resourceIds;
-
-  @override
-  void initState() {
-    _updateAppointmentProperties();
-    super.initState();
-  }
-
-  @override
-  void didUpdateWidget(AppointmentEditorWeb oldWidget) {
-    _updateAppointmentProperties();
-    super.didUpdateWidget(oldWidget);
-  }
-
-  /// Updates the required editor's default field
-  void _updateAppointmentProperties() {
-    _startDate = widget.selectedAppointment.startTime;
-    _endDate = widget.selectedAppointment.endTime;
-    _isAllDay = widget.selectedAppointment.isAllDay;
-    _subject = widget.selectedAppointment.subject == '(No title)'
-        ? ''
-        : widget.selectedAppointment.subject;
-    _resourceIds = widget.selectedAppointment.resourceIds;
-
-    _startTime = TimeOfDay(hour: _startDate.hour, minute: _startDate.minute);
-    _endTime = TimeOfDay(hour: _endDate.hour, minute: _endDate.minute);
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    final Color defaultColor = Colors.black54;
-
-    final Color defaultTextColor = Colors.black87;
-
-    return Dialog(
-      insetPadding: EdgeInsets.all(20),
-      child: Container(
-        width: 600,
-        decoration: BoxDecoration(
-          shape: BoxShape.rectangle,
-          borderRadius: BorderRadius.all(Radius.circular(4)),
-          color: Colors.white,
-        ),
-        height: 560,
-        alignment: Alignment.center,
-        child: ListView(
-          padding: const EdgeInsets.all(0.0),
-          children: <Widget>[
-            Container(
-                margin: EdgeInsets.symmetric(vertical: 3),
-                child: ListTile(
-                  title: Text(
-                    widget.selectedAppointment != null &&
-                            widget.newAppointment == null
-                        ? 'Edit appointment'
-                        : 'New appointment',
-                    style: TextStyle(
-                        fontSize: 18,
-                        fontWeight: FontWeight.w400,
-                        color: defaultTextColor),
-                  ),
-                  trailing: IconButton(
-                    icon: Icon(Icons.close, color: defaultColor),
-                    onPressed: () {
-                      if (widget.newAppointment != null &&
-                          widget.events.appointments
-                              .contains(widget.newAppointment)) {
-                        /// To remove the created appointment when the pop-up closed
-                        /// without saving the appointment.
-                        widget.events.appointments.removeAt(widget
-                            .events.appointments
-                            .indexOf(widget.newAppointment));
-                        widget.events.notifyListeners(
-                            CalendarDataSourceAction.remove,
-                            <Appointment>[]..add(widget.newAppointment));
-                      }
-
-                      Navigator.pop(context);
-                    },
-                  ),
-                )),
-            Container(
-                margin: EdgeInsets.symmetric(vertical: 3),
-                child: ListTile(
-                    title: Row(
-                  mainAxisSize: MainAxisSize.max,
-                  mainAxisAlignment: MainAxisAlignment.spaceAround,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: <Widget>[
-                    Expanded(
-                        flex: 4,
-                        child: Padding(
-                          padding: const EdgeInsets.only(
-                              left: 5, right: 5, top: 2, bottom: 2),
-                          child: Column(
-                            mainAxisSize: MainAxisSize.min,
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: <Widget>[
-                              Text(
-                                'Title',
-                                style: TextStyle(
-                                    fontSize: 12,
-                                    color: defaultColor,
-                                    fontWeight: FontWeight.w300),
-                                textAlign: TextAlign.start,
-                              ),
-                              TextField(
-                                autofocus: true,
-                                cursorColor: Colors.white,
-                                controller:
-                                    TextEditingController(text: _subject),
-                                onChanged: (String value) {
-                                  _subject = value;
-                                },
-                                keyboardType: TextInputType.multiline,
-                                maxLines: null,
-                                style: TextStyle(
-                                    fontSize: 13,
-                                    color: defaultTextColor,
-                                    fontWeight: FontWeight.w400),
-                                decoration: InputDecoration(
-                                  isDense: true,
-                                  focusColor: Colors.white,
-                                  border: const UnderlineInputBorder(),
-                                  focusedBorder: UnderlineInputBorder(
-                                      borderSide: BorderSide(
-                                          color: Colors.white,
-                                          width: 2.0,
-                                          style: BorderStyle.solid)),
-                                ),
-                              ),
-                            ],
-                          ),
-                        )),
-                  ],
-                ))),
-            Container(
-                margin: EdgeInsets.symmetric(vertical: 3),
-                child: ListTile(
-                    title: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceAround,
-                  mainAxisSize: MainAxisSize.max,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: <Widget>[
-                    Expanded(
-                      flex: 4,
-                      child: Padding(
-                        padding: const EdgeInsets.only(
-                            left: 5, right: 5, top: 5, bottom: 2),
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: <Widget>[
-                            Text(
-                              'Start',
-                              style: TextStyle(
-                                  fontSize: 12,
-                                  color: defaultColor,
-                                  fontWeight: FontWeight.w300),
-                              textAlign: TextAlign.start,
-                            ),
-                            TextField(
-                              readOnly: true,
-                              controller: TextEditingController(
-                                  text: (_isAllDay
-                                          ? DateFormat('dd/MM/yyyy')
-                                          : DateFormat('dd/MM/yy h:mm a'))
-                                      .format(_startDate)),
-                              onChanged: (String value) {
-                                _startDate = DateTime.parse(value);
-                                _startTime = TimeOfDay(
-                                    hour: _startDate.hour,
-                                    minute: _startDate.minute);
-                              },
-                              keyboardType: TextInputType.multiline,
-                              maxLines: null,
-                              style: TextStyle(
-                                  fontSize: 13,
-                                  color: defaultTextColor,
-                                  fontWeight: FontWeight.w400),
-                              decoration: InputDecoration(
-                                isDense: true,
-                                suffix: Container(
-                                  height: 20,
-                                  child: Row(
-                                    mainAxisSize: MainAxisSize.min,
-                                    mainAxisAlignment: MainAxisAlignment.start,
-                                    crossAxisAlignment: CrossAxisAlignment.end,
-                                    children: <Widget>[
-                                      ButtonTheme(
-                                          minWidth: 50.0,
-                                          child: TextButton(
-                                            onPressed: () async {
-                                              final DateTime date =
-                                                  await showDatePicker(
-                                                      context: context,
-                                                      initialDate: _startDate,
-                                                      firstDate: DateTime(1900),
-                                                      lastDate: DateTime(2100),
-                                                      builder:
-                                                          (BuildContext context,
-                                                              Widget child) {
-                                                        return Theme(
-                                                          data: temaSatpj(),
-                                                          child: child,
-                                                        );
-                                                      });
-
-                                              if (date != null &&
-                                                  date != _startDate) {
-                                                setState(() {
-                                                  final Duration difference =
-                                                      _endDate.difference(
-                                                          _startDate);
-                                                  _startDate = DateTime(
-                                                      date.year,
-                                                      date.month,
-                                                      date.day,
-                                                      _startTime.hour,
-                                                      _startTime.minute,
-                                                      0);
-                                                  _endDate = _startDate
-                                                      .add(difference);
-                                                  _endTime = TimeOfDay(
-                                                      hour: _endDate.hour,
-                                                      minute: _endDate.minute);
-                                                });
-                                              }
-                                            },
-                                            child: Icon(
-                                              Icons.date_range,
-                                              color: defaultColor,
-                                              size: 20,
-                                            ),
-                                          )),
-                                      _isAllDay
-                                          ? Text('')
-                                          : ButtonTheme(
-                                              minWidth: 50.0,
-                                              child: TextButton(
-                                                child: Icon(
-                                                  Icons.access_time,
-                                                  color: defaultColor,
-                                                  size: 20,
-                                                ),
-                                                onPressed: () async {
-                                                  final TimeOfDay time =
-                                                      await showTimePicker(
-                                                          context: context,
-                                                          initialTime: TimeOfDay(
-                                                              hour: _startTime
-                                                                  .hour,
-                                                              minute: _startTime
-                                                                  .minute),
-                                                          builder: (BuildContext
-                                                                  context,
-                                                              Widget child) {
-                                                            return Theme(
-                                                              data: ThemeData
-                                                                  .light(),
-                                                              child: child,
-                                                            );
-                                                          });
-
-                                                  if (time != null &&
-                                                      time != _startTime) {
-                                                    setState(() {
-                                                      _startTime = time;
-                                                      final Duration
-                                                          difference =
-                                                          _endDate.difference(
-                                                              _startDate);
-                                                      _startDate = DateTime(
-                                                          _startDate.year,
-                                                          _startDate.month,
-                                                          _startDate.day,
-                                                          _startTime.hour,
-                                                          _startTime.minute,
-                                                          0);
-                                                      _endDate = _startDate
-                                                          .add(difference);
-                                                      _endTime = TimeOfDay(
-                                                          hour: _endDate.hour,
-                                                          minute:
-                                                              _endDate.minute);
-                                                    });
-                                                  }
-                                                },
-                                              ))
-                                    ],
-                                  ),
-                                ),
-                                focusColor: Colors.white,
-                                border: const UnderlineInputBorder(),
-                                focusedBorder: UnderlineInputBorder(
-                                    borderSide: BorderSide(
-                                        color: Colors.white,
-                                        width: 2.0,
-                                        style: BorderStyle.solid)),
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                    ),
-                    Expanded(
-                      flex: 4,
-                      child: Padding(
-                        padding: const EdgeInsets.only(
-                            left: 5, right: 5, top: 5, bottom: 2),
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: <Widget>[
-                            Text('End',
-                                style: TextStyle(
-                                    fontSize: 12,
-                                    color: defaultColor,
-                                    fontWeight: FontWeight.w300),
-                                textAlign: TextAlign.start),
-                            TextField(
-                              readOnly: true,
-                              controller: TextEditingController(
-                                  text: (_isAllDay
-                                          ? DateFormat('dd/MM/yyyy')
-                                          : DateFormat('dd/MM/yy h:mm a'))
-                                      .format(_endDate)),
-                              onChanged: (String value) {
-                                _endDate = DateTime.parse(value);
-                                _endTime = TimeOfDay(
-                                    hour: _endDate.hour,
-                                    minute: _endDate.minute);
-                              },
-                              keyboardType: TextInputType.multiline,
-                              maxLines: null,
-                              style: TextStyle(
-                                  fontSize: 13,
-                                  color: defaultTextColor,
-                                  fontWeight: FontWeight.w400),
-                              decoration: InputDecoration(
-                                isDense: true,
-                                suffix: Container(
-                                  height: 20,
-                                  child: Row(
-                                    mainAxisSize: MainAxisSize.min,
-                                    children: <Widget>[
-                                      ButtonTheme(
-                                          minWidth: 50.0,
-                                          child: TextButton(
-                                            child: Icon(
-                                              Icons.date_range,
-                                              color: defaultColor,
-                                              size: 20,
-                                            ),
-                                            onPressed: () async {
-                                              final DateTime date =
-                                                  await showDatePicker(
-                                                      context: context,
-                                                      initialDate: _endDate,
-                                                      firstDate: DateTime(1900),
-                                                      lastDate: DateTime(2100),
-                                                      builder:
-                                                          (BuildContext context,
-                                                              Widget child) {
-                                                        return Theme(
-                                                          data: temaSatpj(),
-                                                          child: child,
-                                                        );
-                                                      });
-
-                                              if (date != null &&
-                                                  date != _endDate) {
-                                                setState(() {
-                                                  final Duration difference =
-                                                      _endDate.difference(
-                                                          _startDate);
-                                                  _endDate = DateTime(
-                                                      date.year,
-                                                      date.month,
-                                                      date.day,
-                                                      _endTime.hour,
-                                                      _endTime.minute,
-                                                      0);
-                                                  if (_endDate
-                                                      .isBefore(_startDate)) {
-                                                    _startDate = _endDate
-                                                        .subtract(difference);
-                                                    _startTime = TimeOfDay(
-                                                        hour: _startDate.hour,
-                                                        minute:
-                                                            _startDate.minute);
-                                                  }
-                                                });
-                                              }
-                                            },
-                                          )),
-                                      _isAllDay
-                                          ? Text('')
-                                          : ButtonTheme(
-                                              minWidth: 50.0,
-                                              child: TextButton(
-                                                child: Icon(
-                                                  Icons.access_time,
-                                                  color: defaultColor,
-                                                  size: 20,
-                                                ),
-                                                onPressed: () async {
-                                                  final TimeOfDay time =
-                                                      await showTimePicker(
-                                                          context: context,
-                                                          initialTime: TimeOfDay(
-                                                              hour:
-                                                                  _endTime.hour,
-                                                              minute: _endTime
-                                                                  .minute),
-                                                          builder: (BuildContext
-                                                                  context,
-                                                              Widget child) {
-                                                            return Theme(
-                                                              data: ThemeData
-                                                                  .light(),
-                                                              child: child,
-                                                            );
-                                                          });
-
-                                                  if (time != null &&
-                                                      time != _endTime) {
-                                                    setState(() {
-                                                      _endTime = time;
-                                                      final Duration
-                                                          difference =
-                                                          _endDate.difference(
-                                                              _startDate);
-                                                      _endDate = DateTime(
-                                                          _endDate.year,
-                                                          _endDate.month,
-                                                          _endDate.day,
-                                                          _endTime.hour,
-                                                          _endTime.minute,
-                                                          0);
-                                                      if (_endDate.isBefore(
-                                                          _startDate)) {
-                                                        _startDate =
-                                                            _endDate.subtract(
-                                                                difference);
-                                                        _startTime = TimeOfDay(
-                                                            hour:
-                                                                _startDate.hour,
-                                                            minute: _startDate
-                                                                .minute);
-                                                      }
-                                                    });
-                                                  }
-                                                },
-                                              ))
-                                    ],
-                                  ),
-                                ),
-                                focusColor: Colors.white,
-                                border: const UnderlineInputBorder(),
-                                focusedBorder: UnderlineInputBorder(
-                                    borderSide: BorderSide(
-                                        color: Colors.white,
-                                        width: 2.0,
-                                        style: BorderStyle.solid)),
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                    ),
-                  ],
-                ))),
-            Container(
-                margin: EdgeInsets.symmetric(vertical: 3),
-                child: ListTile(
-                  title: Row(
-                    mainAxisAlignment: MainAxisAlignment.end,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    mainAxisSize: MainAxisSize.max,
-                    children: <Widget>[
-                      Padding(
-                        padding: EdgeInsets.only(right: 10),
-                        child: RawMaterialButton(
-                          child: Text(
-                            'CANCEL',
-                            style: TextStyle(
-                                fontWeight: FontWeight.w500,
-                                color: defaultTextColor),
-                          ),
-                          onPressed: () {
-                            if (widget.newAppointment != null) {
-                              widget.events.appointments.removeAt(widget
-                                  .events.appointments
-                                  .indexOf(widget.newAppointment));
-                              widget.events.notifyListeners(
-                                  CalendarDataSourceAction.remove,
-                                  <Appointment>[]..add(widget.newAppointment));
-                            }
-                            Navigator.pop(context);
-                          },
-                        ),
-                      ),
-                      Padding(
-                        padding: EdgeInsets.only(left: 10),
-                        child: RawMaterialButton(
-                          shape: const RoundedRectangleBorder(
-                            borderRadius: BorderRadius.all(Radius.circular(4)),
-                          ),
-                          fillColor: kPrimaryColor,
-                          child: const Text(
-                            'SAVE',
-                            style: TextStyle(
-                                fontWeight: FontWeight.w500,
-                                color: Colors.white),
-                          ),
-                          onPressed: () {
-                            if (widget.selectedAppointment != null ||
-                                widget.newAppointment != null) {
-                              if (widget.events.appointments.isNotEmpty &&
-                                  widget.events.appointments
-                                      .contains(widget.selectedAppointment)) {
-                                widget.events.appointments.removeAt(widget
-                                    .events.appointments
-                                    .indexOf(widget.selectedAppointment));
-                                widget.events.notifyListeners(
-                                    CalendarDataSourceAction.remove,
-                                    <Appointment>[]
-                                      ..add(widget.selectedAppointment));
-                              }
-                              if (widget.appointment.isNotEmpty &&
-                                  widget.appointment
-                                      .contains(widget.newAppointment)) {
-                                widget.appointment.removeAt(widget.appointment
-                                    .indexOf(widget.newAppointment));
-                              }
-
-                              if (widget.newAppointment != null &&
-                                  widget.events.appointments.isNotEmpty &&
-                                  widget.events.appointments
-                                      .contains(widget.newAppointment)) {
-                                widget.events.appointments.removeAt(widget
-                                    .events.appointments
-                                    .indexOf(widget.newAppointment));
-                                widget.events.notifyListeners(
-                                    CalendarDataSourceAction.remove,
-                                    <Appointment>[]
-                                      ..add(widget.newAppointment));
-                              }
-                            }
-
-                            widget.appointment.add(Appointment(
-                                startTime: _startDate,
-                                endTime: _endDate,
-                                color: Color(0xFFFF637D),
-                                isAllDay: _isAllDay,
-                                subject:
-                                    _subject == '' ? '(No title)' : _subject,
-                                resourceIds: _resourceIds));
-
-                            widget.events.appointments
-                                .add(widget.appointment[0]);
-
-                            widget.events.notifyListeners(
-                                CalendarDataSourceAction.add,
-                                widget.appointment);
-
-                            Navigator.pop(context);
-                          },
-                        ),
-                      ),
-                    ],
-                  ),
-                )),
-          ],
-        ),
-      ),
-    );
-  }
 }
 
 /// Builds the appointment editor with all the required elements based on the
 /// tapped calendar element for mobile.
 class AppointmentEditor extends StatefulWidget {
   const AppointmentEditor(this.selectedAppointment, this.targetElement,
-      this.selectedDate, this.colorCollection, this.colorNames, this.events,
+      this.selectedDate, this.events,
       [this.selectedResource]);
 
-  final Appointment selectedAppointment;
+  final CustomAppointment selectedAppointment;
 
   final CalendarElement targetElement;
 
   final DateTime selectedDate;
-
-  final List<Color> colorCollection;
-
-  final List<String> colorNames;
 
   final CalendarDataSource events;
 
@@ -1581,7 +507,6 @@ class AppointmentEditor extends StatefulWidget {
 }
 
 class _AppointmentEditorState extends State<AppointmentEditor> {
-  int _selectedColorIndex = 0;
   DateTime _startDate;
   TimeOfDay _startTime;
   DateTime _endDate;
@@ -1609,8 +534,6 @@ class _AppointmentEditorState extends State<AppointmentEditor> {
       _startDate = widget.selectedAppointment.startTime;
       _endDate = widget.selectedAppointment.endTime;
       _isAllDay = widget.selectedAppointment.isAllDay;
-      _selectedColorIndex =
-          widget.colorCollection.indexOf(widget.selectedAppointment.color);
       _subject = widget.selectedAppointment.subject == '(No title)'
           ? ''
           : widget.selectedAppointment.subject;
@@ -1618,7 +541,6 @@ class _AppointmentEditorState extends State<AppointmentEditor> {
       _resourceIds = widget.selectedAppointment.resourceIds;
     } else {
       _isAllDay = widget.targetElement == CalendarElement.allDayPanel;
-      _selectedColorIndex = 0;
       _subject = '';
       _notes = '';
 
@@ -1916,7 +838,7 @@ class _AppointmentEditorState extends State<AppointmentEditor> {
         child: Scaffold(
             backgroundColor: Colors.white,
             appBar: AppBar(
-              backgroundColor: widget.colorCollection[_selectedColorIndex],
+              backgroundColor: Color(0xFFFF637D),
               leading: IconButton(
                 icon: const Icon(
                   Icons.close,
@@ -1934,19 +856,21 @@ class _AppointmentEditorState extends State<AppointmentEditor> {
                       color: Colors.white,
                     ),
                     onPressed: () {
-                      final List<Appointment> appointment = <Appointment>[];
+                      final List<CustomAppointment> appointment =
+                          <CustomAppointment>[];
                       if (widget.selectedAppointment != null) {
                         widget.events.appointments.removeAt(widget
                             .events.appointments
                             .indexOf(widget.selectedAppointment));
                         widget.events.notifyListeners(
                             CalendarDataSourceAction.remove,
-                            <Appointment>[]..add(widget.selectedAppointment));
+                            <CustomAppointment>[]
+                              ..add(widget.selectedAppointment));
                       }
-                      appointment.add(Appointment(
+                      appointment.add(CustomAppointment(
                           startTime: _startDate,
                           endTime: _endDate,
-                          color: widget.colorCollection[_selectedColorIndex],
+                          color: Color(0xFFFF637D),
                           notes: _notes,
                           isAllDay: _isAllDay,
                           subject: _subject == '' ? '(No title)' : _subject,
@@ -1980,7 +904,7 @@ class _AppointmentEditorState extends State<AppointmentEditor> {
                                 .indexOf(widget.selectedAppointment));
                             widget.events.notifyListeners(
                                 CalendarDataSourceAction.remove,
-                                <Appointment>[]
+                                <CustomAppointment>[]
                                   ..add(widget.selectedAppointment));
                             Navigator.pop(context);
                           }
