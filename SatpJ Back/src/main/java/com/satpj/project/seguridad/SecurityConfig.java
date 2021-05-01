@@ -85,6 +85,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers(HttpMethod.POST, "/practicantes").permitAll()
                 .antMatchers(HttpMethod.POST, "/supervisores").permitAll()
                 .antMatchers(HttpMethod.POST, "/auxiliares").permitAll()
+                .antMatchers(HttpMethod.POST, "/formularios").permitAll()
                 .anyRequest().authenticated();
         http.addFilterBefore(tokenAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class);
     }

@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:satpj_front_end_web/src/model/Notificadores/practicantes_notifier.dart';
 import 'package:satpj_front_end_web/src/model/practicante/practicante.dart';
+import 'package:satpj_front_end_web/src/providers/provider_administracion_practicantes.dart';
 import 'package:satpj_front_end_web/src/utils/widgets/Barras/toolbar_auxiliar_administrativo.dart';
 import 'package:satpj_front_end_web/src/utils/widgets/Dialogos/dialog_delete.dart';
 import 'package:satpj_front_end_web/src/utils/widgets/FuentesDatos/datatablesource_practicantes.dart';
@@ -175,17 +176,31 @@ class _InternalWidget extends StatelessWidget {
   void _details(BuildContext c, Practicante data) async =>
       await showDialog<bool>(
           context: c,
-          builder: (_) =>
-              DialogoVisualizarPracticante(/*practicanteSeleccionado: data*/));
+          builder: (_) => DialogoVisualizarPracticante(practicante: data));
 
   void _edit(BuildContext c, Practicante data) async => await showDialog<bool>(
       context: c,
-      builder: (_) =>
-          DialogoEditarPracticante(/*practicanteSeleccionado: data*/));
+      builder: (_) => WillPopScope(
+          child: DialogoEditarPracticante(practicante: data),
+          onWillPop: () {
+            Navigator.pushNamed(c, VistaAdministrarPracticantes.route);
+          }));
 
   void _delete(BuildContext c, Practicante data) async =>
-      await showDialog<bool>(context: c, builder: (_) => DialogDelete());
+      await showDialog<bool>(
+          context: c,
+          builder: (_) => DialogDelete(
+                labelHeader: 'Eliminar Practicante',
+                label: '¿Esta seguro de que desea eliminar el practicante?',
+                labelCancelBtn: 'Cancelar',
+                labelConfirmBtn: 'Confirmar',
+                colorConfirmBtn: Theme.of(c).colorScheme.error,
+                functionDelete: () {
+                  ProviderAdministracionPracticantes.borrarPracticante(data);
+                },
+              ));
 
   void _create(BuildContext c) async => await showDialog<bool>(
-      context: c, builder: (_) => DialogoCrearPracticante());
+      context: c,
+      builder: (_) => DialogoCrearPracticante(practicante: new Practicante()));
 }

@@ -3,7 +3,7 @@ import 'package:satpj_front_end_web/src/providers/provider_autenticacion.dart';
 import 'package:satpj_front_end_web/src/views/gestionar_pacientes/vista_aprobacion_formularios.dart';
 import 'package:satpj_front_end_web/src/views/gestionar_pacientes/vista_administrar_pacientes.dart';
 import 'package:satpj_front_end_web/src/views/gestionar_practicantes/vista_administrar_practicantes.dart';
-import 'package:satpj_front_end_web/src/views/gestionar_supervisores.dart/vista_administracion_supervisores.dart';
+import 'package:satpj_front_end_web/src/views/gestionar_supervisores/vista_administracion_supervisores.dart';
 
 AppBar toolbarAuxiliarAdministrativo(BuildContext context) {
   return AppBar(

@@ -6,11 +6,9 @@ import 'package:satpj_front_end_web/src/utils/widgets/formularios/tema_formulari
 import 'package:satpj_front_end_web/src/utils/widgets/formularios/formulario_paciente.dart';
 
 class DialogoEditarPaciente extends StatefulWidget {
-  DialogoEditarPaciente({
-    this.pacienteSeleccionado,
-  });
+  Paciente paciente = new Paciente();
 
-  final Paciente pacienteSeleccionado;
+  DialogoEditarPaciente({this.paciente});
 
   @override
   _DialogoEditarPacienteState createState() => _DialogoEditarPacienteState();
@@ -27,7 +25,7 @@ class _DialogoEditarPacienteState extends State<DialogoEditarPaciente> {
 
   @override
   Widget build(BuildContext context) {
-    print(widget.pacienteSeleccionado.nombre);
+    print(widget.paciente.nombre);
     return Theme(
       data: temaFormularios(),
       child: Dialog(
@@ -67,8 +65,7 @@ class _DialogoEditarPacienteState extends State<DialogoEditarPaciente> {
                           IconButton(
                             icon: Icon(Icons.close, color: Colors.white),
                             onPressed: () {
-                              Navigator.pop(
-                                  context, widget.pacienteSeleccionado);
+                              Navigator.pop(context, widget.paciente);
                             },
                           ),
                         ],
@@ -76,7 +73,7 @@ class _DialogoEditarPacienteState extends State<DialogoEditarPaciente> {
                   Container(
                     margin: EdgeInsets.symmetric(horizontal: 40.0),
                     child: FormPatientInformation(
-                      paciente: widget.pacienteSeleccionado,
+                      paciente: widget.paciente,
                       prefix: 'el',
                       label: 'del paciente',
                       fechaNacimiento: true,

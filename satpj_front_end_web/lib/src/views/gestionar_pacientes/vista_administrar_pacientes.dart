@@ -173,15 +173,20 @@ class _InternalWidget extends StatelessWidget {
   }
 
   void _details(BuildContext c, Paciente data) async => await showDialog<bool>(
-      context: c,
-      builder: (_) => DialogoVisualizarPaciente(pacienteSeleccionado: data));
+      context: c, builder: (_) => DialogoVisualizarPaciente(paciente: data));
 
   void _edit(BuildContext c, Paciente data) async => await showDialog<bool>(
-      context: c,
-      builder: (_) => DialogoEditarPaciente(pacienteSeleccionado: data));
+      context: c, builder: (_) => DialogoEditarPaciente(paciente: data));
 
-  void _delete(BuildContext c, Paciente data) async =>
-      await showDialog<bool>(context: c, builder: (_) => DialogDelete());
+  void _delete(BuildContext c, Paciente data) async => await showDialog<bool>(
+      context: c,
+      builder: (_) => DialogDelete(
+            labelHeader: 'Eliminar Paciente',
+            label: '¿Esta seguro de que desea eliminar el paciente?',
+            labelCancelBtn: 'Cancelar',
+            labelConfirmBtn: 'Confirmar',
+            colorConfirmBtn: Theme.of(c).colorScheme.primary,
+          ));
 
   void _create(BuildContext c) async => await showDialog<bool>(
       context: c, builder: (_) => DialogoCrearPaciente());

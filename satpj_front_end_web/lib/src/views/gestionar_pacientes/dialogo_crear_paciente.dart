@@ -20,20 +20,21 @@ final int numberOfContainers = 5;
 
 void changeContainer(int container) {
   if (currentContainer + container > numberOfContainers - 1) return;
-  
-  pageCtrlr.animateToPage(
-      currentContainer + container,
-      duration: Duration(milliseconds: 350),
-      curve: Curves.linear,
-  );
 
+  pageCtrlr.animateToPage(
+    currentContainer + container,
+    duration: Duration(milliseconds: 350),
+    curve: Curves.linear,
+  );
 }
 
 class DialogoCrearPaciente extends StatefulWidget {
+  Paciente paciente = new Paciente();
+
+  DialogoCrearPaciente({this.paciente});
+
   @override
-  DialogoCrearPacienteState createState() {
-    return DialogoCrearPacienteState();
-  }
+  DialogoCrearPacienteState createState() => DialogoCrearPacienteState();
 }
 
 Paciente paciente;
@@ -54,50 +55,30 @@ class DialogoCrearPacienteState extends State<DialogoCrearPaciente> {
 
   @override
   Widget build(BuildContext context) {
-    return ElevatedButton(
-        child: Text("Subir"),
-        onPressed: () {
-          showGeneralDialog(
-              barrierLabel: 'label',
-              barrierDismissible: true,
-              barrierColor: Colors.black.withOpacity(0.5),
-              transitionDuration: Duration(milliseconds: 300),
-              context: context,
-              transitionBuilder: (context, anim1, anim2, child) {
-                return SlideTransition(
-                  position: Tween(begin: Offset(0, 1), end: Offset(0, 0))
-                      .animate(anim1),
-                  child: child,
-                );
-              },
-              pageBuilder: (context, anim1, anim2) {
-                return Align(
-                  alignment: Alignment.center,
-                  child: Container(
-                    height: 600,
-                    width: 800,
-                    decoration: BoxDecoration(
-                      color: Colors.white,
-                      borderRadius: BorderRadius.circular(15),
-                    ),
-                    child: PageView(
-                      controller: pageCtrlr,
-                      physics:
-                          NeverScrollableScrollPhysics(), // disables scrolling
-                      children: [
-                        PrimeraPaginaCrearPaciente(),
-                        SegundaPaginaCrearPaciente(),
-                        TerceraPaginaCrearPaciente(),
-                        CuartaPaginaCrearPaciente(),
-                        QuintaPaginaConsentimientoPrincipal()
-                      ],
-                      onPageChanged: (int index) =>
-                          setState(() => currentContainer = index),
-                    ),
-                  ),
-                );
-              });
-        });
+    return Align(
+      alignment: Alignment.center,
+      child: Container(
+        height: 600,
+        width: 800,
+        decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.circular(15),
+        ),
+        child: PageView(
+          controller: pageCtrlr,
+          physics: NeverScrollableScrollPhysics(), // disables scrolling
+          children: [
+            PrimeraPaginaCrearPaciente(),
+            SegundaPaginaCrearPaciente(),
+            TerceraPaginaCrearPaciente(),
+            CuartaPaginaCrearPaciente(),
+            QuintaPaginaConsentimientoPrincipal()
+          ],
+          onPageChanged: (int index) =>
+              setState(() => currentContainer = index),
+        ),
+      ),
+    );
   }
 }
 

@@ -65,4 +65,90 @@ class ProviderAdministracionPracticantes {
 
     return _completer.future;
   }
+
+  static Future<String> crearPracticante(Practicante practicante) async {
+    //
+    final _completer = Completer<String>();
+
+    String jsonPracticante = jsonEncode(practicante.toJson());
+
+    print("JSON GENERADO" + jsonPracticante);
+    try {
+      Map<String, String> headers = {
+        "Authorization":
+            "Bearer " + await ProviderAuntenticacion.extractToken(),
+        "Cache-Control": "no-cache",
+        "Accept": "*/*",
+        "Accept-Encoding": "gzip, deflate, br",
+        "Connection": "keep-alive",
+        'Content-Type': 'application/json; charset=UTF-8',
+      };
+      final resp = await http.post(Uri.http(_url, "/practicantes"),
+          headers: headers, body: jsonPracticante);
+      _completer.complete(resp.body);
+    } catch (e) {
+      print("Error en provider" + e);
+      _completer.completeError("Error");
+    }
+
+    return _completer.future;
+  }
+
+  static Future<String> editarPracticante(Practicante practicante) async {
+    //
+    final _completer = Completer<String>();
+
+    String id = practicante.id;
+
+    String jsonPracticante = jsonEncode(practicante.toJson());
+
+    print("JSON GENERADO" + jsonPracticante);
+    try {
+      Map<String, String> headers = {
+        "Authorization":
+            "Bearer " + await ProviderAuntenticacion.extractToken(),
+        "Cache-Control": "no-cache",
+        "Accept": "*/*",
+        "Accept-Encoding": "gzip, deflate, br",
+        "Connection": "keep-alive",
+        'Content-Type': 'application/json; charset=UTF-8',
+      };
+      final resp = await http.put(Uri.http(_url, "/practicantes/" + id),
+          headers: headers, body: jsonPracticante);
+      _completer.complete(resp.body);
+    } catch (e) {
+      print("Error en provider" + e);
+      _completer.completeError("Error");
+    }
+
+    return _completer.future;
+  }
+
+  static Future<String> borrarPracticante(Practicante practicante) async {
+    //
+    final _completer = Completer<String>();
+
+    String id = practicante.id;
+
+    print("ID PRACTICANTE BORRADO" + id);
+    try {
+      Map<String, String> headers = {
+        "Authorization":
+            "Bearer " + await ProviderAuntenticacion.extractToken(),
+        "Cache-Control": "no-cache",
+        "Accept": "*/*",
+        "Accept-Encoding": "gzip, deflate, br",
+        "Connection": "keep-alive",
+        'Content-Type': 'application/json; charset=UTF-8',
+      };
+      final resp = await http.delete(Uri.http(_url, "/practicantes/" + id),
+          headers: headers);
+      _completer.complete(resp.body);
+    } catch (e) {
+      print("Error en provider" + e);
+      _completer.completeError("Error");
+    }
+
+    return _completer.future;
+  }
 }

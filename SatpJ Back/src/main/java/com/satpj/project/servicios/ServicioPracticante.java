@@ -62,7 +62,7 @@ public class ServicioPracticante {
 
     @PutMapping(value = "/{id}")
     @ResponseStatus(HttpStatus.OK)
-    public void updatePracticante(@AuthenticationPrincipal CustomPrincipal customPrincipal, @PathVariable("id") Long id, @RequestBody Practicante practicante) {
+    public void updatePracticante(@AuthenticationPrincipal CustomPrincipal customPrincipal, @PathVariable("id") String id, @RequestBody Practicante practicante) {
         Preconditions.checkNotNull(practicante);
 
         Practicante pActualizar = repositorioPracticante.findById(practicante.getId()).orElse(null);

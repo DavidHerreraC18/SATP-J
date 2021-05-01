@@ -54,7 +54,8 @@ class ProviderAuntenticacion {
       var token = await user.getIdToken();
       print("TOKEN: " + token);
 
-      return 'Successfully registered, User UID: ${user.uid}';
+      print('Successfully registered, User UID: ${user.uid}');
+      return user.uid;
     }
 
     return null;

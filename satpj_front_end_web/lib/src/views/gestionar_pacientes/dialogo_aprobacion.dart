@@ -195,10 +195,10 @@ class _AprobDialogState extends State<AprobDialog> {
   }
 
   Future<void> _aprobarPaciente(FormularioExtra formulario) async {
-    String resuesta =
+    String respuesta =
         await ProviderAprobacionPacientes.aprobarPaciente(formulario);
-    print(resuesta);
-    if (resuesta == "Error") {
+    print(respuesta);
+    if (respuesta == "Error") {
       mensaje = "Error procesando la solicitud, intenta de nuevo mas tarde";
       colorMensaje = Theme.of(context).colorScheme.error;
     } else {
