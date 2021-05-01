@@ -8,13 +8,15 @@ class DialogDelete extends StatefulWidget {
   String labelCancelBtn;
   String labelConfirmBtn;
   Color colorConfirmBtn;
+  Function functionDelete;
 
   DialogDelete(
       {this.labelHeader = '',
       this.label = '',
       this.labelCancelBtn = '',
       this.labelConfirmBtn = '',
-      this.colorConfirmBtn});
+      this.colorConfirmBtn,
+      this.functionDelete});
 
   @override
   _DialogDeleteState createState() => _DialogDeleteState();
@@ -36,19 +38,16 @@ class _DialogDeleteState extends State<DialogDelete> {
               Container(
                 margin: EdgeInsets.all(15.0),
                 alignment: Alignment.center,
-                child: Text(
-                  widget.label,
-                  textAlign: TextAlign.center,
-                  style: TextStyle(
-                    fontSize: 18.0, 
-                    fontWeight: FontWeight.normal 
-                    )
-                ),
+                child: Text(widget.label,
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                        fontSize: 18.0, fontWeight: FontWeight.normal)),
               ),
               FotterDialog(
                 labelCancelBtn: widget.labelCancelBtn,
                 labelConfirmBtn: widget.labelConfirmBtn,
                 colorConfirmBtn: widget.colorConfirmBtn,
+                functionConfirmBtn: widget.functionDelete,
               )
             ],
           ),

@@ -15,14 +15,12 @@ class DialogoEditarPaciente extends StatefulWidget {
 }
 
 class _DialogoEditarPacienteState extends State<DialogoEditarPaciente> {
-  
   GlobalKey<FormState> _formKey;
 
   @override
-  void initState() { 
+  void initState() {
     _formKey = new GlobalKey<FormState>();
     super.initState();
-    
   }
 
   @override
@@ -38,8 +36,8 @@ class _DialogoEditarPacienteState extends State<DialogoEditarPaciente> {
         child: Container(
           width: 800.0,
           child: Form(
-             key: _formKey,
-             child: ListView(children: [
+            key: _formKey,
+            child: ListView(children: [
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 mainAxisSize: MainAxisSize.min,
@@ -60,8 +58,8 @@ class _DialogoEditarPacienteState extends State<DialogoEditarPaciente> {
                             child: Text(
                               'Editar Paciente',
                               textAlign: TextAlign.left,
-                              style:
-                                  TextStyle(fontSize: 20.0, color: Colors.white),
+                              style: TextStyle(
+                                  fontSize: 20.0, color: Colors.white),
                             ),
                           ),
                           IconButton(
@@ -74,14 +72,13 @@ class _DialogoEditarPacienteState extends State<DialogoEditarPaciente> {
                       )),
                   Container(
                     margin: EdgeInsets.symmetric(horizontal: 40.0),
-                    child: 
-                      FormPatientInformation(
-                        paciente: widget.paciente,
-                        prefix: 'el',
-                        label: 'del paciente',
-                        fechaNacimiento: true,
-                        stack: false,
-                      ),
+                    child: FormPatientInformation(
+                      paciente: widget.paciente,
+                      prefix: 'el',
+                      label: 'del paciente',
+                      fechaNacimiento: true,
+                      stack: false,
+                    ),
                   ),
                 ],
               ),
@@ -103,7 +100,7 @@ class _DialogoEditarPacienteState extends State<DialogoEditarPaciente> {
                                   Colors.grey[600]),
                             ),
                             onPressed: () {
-                               Navigator.pop(context);
+                              Navigator.pop(context);
                             },
                             child: Padding(
                               padding: EdgeInsets.symmetric(horizontal: 20.0),

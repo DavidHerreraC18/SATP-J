@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import '../../tema.dart';
 
 class HeaderDialog extends StatefulWidget {
-
   String label;
   double height;
   HeaderDialog({this.label = '', this.height = 45.0});
@@ -18,7 +17,7 @@ class _HeaderDialogState extends State<HeaderDialog> {
     return Container(
         height: widget.height,
         decoration: BoxDecoration(
-          //borderRadius: BorderRadius.vertical(top: Radius.circular(3.6)),
+          borderRadius: BorderRadius.vertical(top: Radius.circular(3.6)),
           color: kPrimaryColor,
         ),
         margin: EdgeInsets.only(bottom: 20.0),
@@ -35,15 +34,15 @@ class _HeaderDialogState extends State<HeaderDialog> {
             ),
             IconButton(
               icon: Icon(
-                Icons.close, 
+                Icons.close,
                 color: Colors.white,
                 size: 20.0,
-                ),
+              ),
               onPressed: () {
                 Navigator.pop(context);
               },
             ),
           ],
-       ));
+        ));
   }
 }

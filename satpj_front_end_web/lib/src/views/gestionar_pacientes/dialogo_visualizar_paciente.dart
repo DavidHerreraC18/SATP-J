@@ -10,11 +10,11 @@ class DialogoVisualizarPaciente extends StatefulWidget {
   DialogoVisualizarPaciente({this.paciente});
 
   @override
-  _DialogoVisualizarPacienteState createState() => _DialogoVisualizarPacienteState();
+  _DialogoVisualizarPacienteState createState() =>
+      _DialogoVisualizarPacienteState();
 }
 
 class _DialogoVisualizarPacienteState extends State<DialogoVisualizarPaciente> {
-
   @override
   Widget build(BuildContext context) {
     print(widget.paciente.nombre);
@@ -62,15 +62,14 @@ class _DialogoVisualizarPacienteState extends State<DialogoVisualizarPaciente> {
                     )),
                 Container(
                   margin: EdgeInsets.symmetric(horizontal: 40.0),
-                  child: 
-                  FormPatientInformation(
+                  child: FormPatientInformation(
                     paciente: widget.paciente,
                     prefix: 'el',
                     label: 'del paciente',
                     fechaNacimiento: true,
                     stack: false,
                     enabled: false,
-                   ),
+                  ),
                 ),
               ],
             ),

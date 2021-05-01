@@ -61,6 +61,19 @@ public class ServicioPaciente {
     public List<Paciente> findAll(@AuthenticationPrincipal CustomPrincipal customPrincipal) {
         return repositorioPaciente.findAll();
     }
+
+    /*Encuentra todos los pacientes que han sido aprobados*/
+    @GetMapping(value = "/aprobados")
+    public List<Paciente> findAllAprobados(@AuthenticationPrincipal CustomPrincipal customPrincipal) {
+        List<Paciente> pacientes = repositorioPaciente.findAll();
+        List<Paciente> pacientesNP = new ArrayList<Paciente>(); 
+        for (Paciente paciente : pacientes) { 
+            if((paciente.getEstadoAprobado().equals("Aprobado"))){ 
+                pacientesNP.add(paciente); 
+            } 
+        } 
+        return pacientesNP; 
+    }
  
     @GetMapping(value = "/{id}", produces = "application/json; charset=UTF-8")
     public Paciente findById(@AuthenticationPrincipal CustomPrincipal customPrincipal, @PathVariable("id") String id) {
@@ -77,7 +90,7 @@ public class ServicioPaciente {
             return pacientes.get(0);
         }
     }
-
+    
     /*
      * La funcion findAcudientesByPacienteId tiene el proposito de evitar la
      * recursion en JSON que genera la relacion Paciente - Acudiente

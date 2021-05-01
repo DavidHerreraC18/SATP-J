@@ -49,6 +49,7 @@ dependencies:
 
   flutter_localizations:
     sdk: flutter
+  jitsi_meet: ^4.0.0
   
 
 dev_dependencies:

@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:lite_rolling_switch/lite_rolling_switch.dart';
 
 import 'package:provider/provider.dart';
-import 'package:satpj_front_end_web/src/model/Notificadores/data_notifier.dart';
+import 'package:satpj_front_end_web/src/model/Notificadores/formulario_notifier.dart';
 import 'package:satpj_front_end_web/src/model/formulario/formulario.dart';
 import 'package:satpj_front_end_web/src/model/formulario/formulario_extra.dart';
 import 'package:satpj_front_end_web/src/utils/tema.dart';
@@ -13,9 +13,8 @@ import 'package:satpj_front_end_web/src/utils/widgets/FuentesDatos/datatablesour
 import 'package:satpj_front_end_web/src/utils/widgets/FuentesDatos/datatablesource_formulario_extra.dart';
 import 'package:satpj_front_end_web/src/utils/widgets/custom_paginated_datatable.dart';
 
-class VistaAprobacionFormularios extends StatefulWidget {
-  static const route = '/preapobar-pacientes';
-  VistaAprobacionFormularios({Key key}) : super(key: key);
+class VistaAprobacionFormularios extends StatelessWidget {
+  static const route = '/preaprobar-pacientes';
 
   @override
   VistaAprobacionFormulariosState createState() =>
@@ -204,14 +203,10 @@ class _InternalWidgetPreAprob extends StatelessWidget {
     );
   }*/
 
-  void _showDetails(BuildContext c, Formulario data) async => await showDialog<
-          bool>(
-      context: c,
-      /*builder: (_) => CustomDialog(
-          showPadding: false,
-          child: OtherDetails(data: data),
-        ),*/
-      builder: (_) => PreAprobDialog(formularioSeleccionado: data));
+  void _showDetails(BuildContext c, Formulario data) async =>
+      await showDialog<bool>(
+          context: c,
+          builder: (_) => PreAprobDialog(formularioSeleccionado: data));
 }
 
 class _InternalWidgetAprob extends StatelessWidget {
