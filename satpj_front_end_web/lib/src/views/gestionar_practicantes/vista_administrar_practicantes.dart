@@ -11,6 +11,7 @@ import 'package:satpj_front_end_web/src/utils/widgets/custom_paginated_datatable
 import 'package:satpj_front_end_web/src/views/gestionar_practicantes/dialogo_crear_practicante.dart';
 import 'package:satpj_front_end_web/src/views/gestionar_practicantes/dialogo_editar_practicante.dart';
 import 'package:satpj_front_end_web/src/views/gestionar_practicantes/dialogo_visualizar_practicante.dart';
+import 'package:satpj_front_end_web/src/views/gestionar_practicantes/vista_agregar_pacientes-practicantes.dart';
 
 class VistaAdministrarPracticantes extends StatelessWidget {
   static const route = '/administrar-practicantes';
@@ -21,9 +22,15 @@ class VistaAdministrarPracticantes extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: toolbarAuxiliarAdministrativo(context),
-      body: ChangeNotifierProvider<PracticanteNotifier>(
-        create: (_) => PracticanteNotifier(),
-        child: _InternalWidget(),
+      body: Column(
+        children: [
+          Expanded(
+            child: ChangeNotifierProvider<PracticanteNotifier>(
+              create: (_) => PracticanteNotifier(),
+              child: _InternalWidget(),
+            ),
+          ),
+        ],
       ),
     );
   }
@@ -45,6 +52,7 @@ class _InternalWidget extends StatelessWidget {
       onRowSelectDetail: (index) => _details(context, _model[index]),
       onRowSelectEdit: (index) => _edit(context, _model[index]),
       onRowSelectDelete: (index) => _delete(context, _model[index]),
+      onRowSelectPacientes: (index) => _pacientes(context, _model[index]),
       practicantes: _model,
     );
 
@@ -197,10 +205,21 @@ class _InternalWidget extends StatelessWidget {
                 colorConfirmBtn: Theme.of(c).colorScheme.error,
                 functionDelete: () {
                   ProviderAdministracionPracticantes.borrarPracticante(data);
+                  Future.delayed(Duration(milliseconds: 1000), () {
+                    Navigator.of(c)
+                        .pushNamed(VistaAdministrarPracticantes.route);
+                  });
                 },
               ));
 
   void _create(BuildContext c) async => await showDialog<bool>(
       context: c,
       builder: (_) => DialogoCrearPracticante(practicante: new Practicante()));
+
+  void _pacientes(BuildContext c, Practicante data) {
+    Future.delayed(Duration(milliseconds: 1000), () {
+      Navigator.of(c)
+          .pushNamed(VistaAgregarPacientesPracticantes.route, arguments: data);
+    });
+  }
 }

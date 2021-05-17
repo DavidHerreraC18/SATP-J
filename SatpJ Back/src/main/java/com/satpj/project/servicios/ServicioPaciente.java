@@ -92,7 +92,7 @@ public class ServicioPaciente {
             return pacientes.get(0);
         }
     }
-    
+
     /*
      * La funcion findSupervisorByPacienteId tiene el proposito de evitar la
      * recursion en JSON que genera la relacion Paciente - Supervisor
@@ -173,7 +173,7 @@ public class ServicioPaciente {
         List<Practicante> practicantes = new ArrayList<Practicante>();
         for (PracticantePaciente practicantePaciente : practicantePacientes) {
             if (practicantePaciente.isActivo()) {
-                practicantes.add(practicantePaciente.getPracticante());
+                //practicantes.add(practicantePaciente.getPracticante());
             }
         }
         return practicantes;
@@ -236,17 +236,26 @@ public class ServicioPaciente {
         Paciente paciente = repositorioPaciente.findById(id).orElse(null);
         Preconditions.checkNotNull(paciente);
 
-        List<Acudiente> acudientes = paciente.getAcudientes();
-        for (Acudiente acudiente : acudientes) {
-            servicioAcudiente.delete(customPrincipal,acudiente.getId());
+        if(paciente.getAcudientes() != null){
+            List<Acudiente> acudientes = paciente.getAcudientes();
+            for (Acudiente acudiente : acudientes) {
+                servicioAcudiente.delete(customPrincipal,acudiente.getId());
+            }
+        }   
+
+        if(paciente.getFormulario() != null){
+        servicioFormulario.delete(customPrincipal, paciente.getFormulario().getId());
+        }
+        
+        if(paciente.getFormularioExtra() != null){
+        servicioFormularioExtra.delete(customPrincipal, paciente.getFormularioExtra().getId());
         }
 
-        servicioFormulario.delete(customPrincipal, paciente.getFormulario().getId());
-        servicioFormularioExtra.delete(customPrincipal, paciente.getFormularioExtra().getId());
-
-        List<DocumentoPaciente> documentosPaciente = paciente.getDocumentosPaciente();
-        for (DocumentoPaciente documentoPaciente : documentosPaciente) {
-            servicioDocumentoPaciente.delete(customPrincipal,documentoPaciente.getId());
+        if(paciente.getDocumentosPaciente() != null){
+            List<DocumentoPaciente> documentosPaciente = paciente.getDocumentosPaciente();
+            for (DocumentoPaciente documentoPaciente : documentosPaciente) {
+                servicioDocumentoPaciente.delete(customPrincipal,documentoPaciente.getId());
+            }
         }
 
         repositorioPaciente.deleteById(id);

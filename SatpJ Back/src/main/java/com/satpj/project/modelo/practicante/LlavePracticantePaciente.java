@@ -1,7 +1,6 @@
 package com.satpj.project.modelo.practicante;
 
 import java.io.Serializable;
-import java.util.Objects;
 
 import com.ibm.db2.cmx.annotation.Column;
 
@@ -22,20 +21,55 @@ public class LlavePracticantePaciente implements Serializable {
     @Column(name = "paciente_id")
     private String paciente_id;
 
-    @Override
-    public boolean equals(Object o) {
+    public String getPPracticanteId() {
+        return pPracticanteId;
+    }
 
-        if (o == this)
-            return true;
-        if (!(o instanceof LlavePracticantePaciente)) {
-            return false;
-        }
-        LlavePracticantePaciente llave = (LlavePracticantePaciente) o;
-        return this.practicante_id.equals(llave.practicante_id) && this.paciente_id.equals(llave.paciente_id);
+    public void setPPracticanteId(String pPracticanteId) {
+        this.pPracticanteId = pPracticanteId;
+    }
+
+    public String getPPacienteId() {
+        return pPacienteId;
+    }
+
+    public void setPPacienteId(String pPacienteId) {
+        this.pPacienteId = pPacienteId;
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(practicante_id, paciente_id);
+        final int prime = 31;
+        int result = 1;
+        result = prime * result + ((paciente_id == null) ? 0 : paciente_id.hashCode());
+        result = prime * result + ((practicante_id == null) ? 0 : practicante_id.hashCode());
+        return result;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj)
+            return true;
+        if (obj == null)
+            return false;
+        if (getClass() != obj.getClass())
+            return false;
+        LlavePracticantePaciente other = (LlavePracticantePaciente) obj;
+        if (paciente_id == null) {
+            if (other.paciente_id != null)
+                return false;
+        } else if (!paciente_id.equals(other.paciente_id))
+            return false;
+        if (practicante_id == null) {
+            if (other.practicante_id != null)
+                return false;
+        } else if (!practicante_id.equals(other.practicante_id))
+            return false;
+        return true;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(pPracticanteId, pPacienteId);
     }
 }

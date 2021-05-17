@@ -139,7 +139,6 @@ public class ServicioPracticante {
             practicantePaciente.setPracticante(practicante);
             return RepositorioPracticantePaciente.save(practicantePaciente);
         }
-        Preconditions.checkNotNull(null);
         return null;
         
     }
@@ -224,7 +223,6 @@ public class ServicioPracticante {
                 practicante = practicantePaciente.getPracticante();
             }
         }
-        Preconditions.checkNotNull(practicante);
         return practicante;
     }
 

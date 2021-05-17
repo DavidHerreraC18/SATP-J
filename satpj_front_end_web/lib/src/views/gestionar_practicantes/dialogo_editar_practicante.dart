@@ -6,6 +6,7 @@ import 'package:satpj_front_end_web/src/utils/widgets/Dialogos/fotter_dialog.dar
 import 'package:satpj_front_end_web/src/utils/widgets/Dialogos/header_dialog.dart';
 import 'package:satpj_front_end_web/src/utils/widgets/formularios/formulario_practicante.dart';
 import 'package:satpj_front_end_web/src/utils/widgets/formularios/tema_formularios.dart';
+import 'package:satpj_front_end_web/src/views/gestionar_practicantes/vista_administrar_practicantes.dart';
 
 class DialogoEditarPracticante extends StatefulWidget {
   Practicante practicante = new Practicante();
@@ -53,7 +54,11 @@ class _DialogoEditarPracticanteState extends State<DialogoEditarPracticante> {
                   width: 120.0,
                   //formKey: _formKey,
                   functionConfirmBtn: () {
-                    return _editarPracticante(widget.practicante);
+                    _editarPracticante(widget.practicante);
+                    Future.delayed(Duration(milliseconds: 1000), () {
+                      Navigator.of(context)
+                          .pushNamed(VistaAdministrarPracticantes.route);
+                    });
                   },
                 )
               ],

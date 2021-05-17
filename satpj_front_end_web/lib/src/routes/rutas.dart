@@ -9,6 +9,7 @@ import 'package:satpj_front_end_web/src/views/gestionar_pacientes/vista_aprobaci
 import 'package:satpj_front_end_web/src/views/gestionar_pacientes/vista_administrar_pacientes.dart';
 import 'package:satpj_front_end_web/src/views/gestionar_perfil/vista_editar_auxiliar.dart';
 import 'package:satpj_front_end_web/src/views/gestionar_practicantes/vista_administrar_practicantes.dart';
+import 'package:satpj_front_end_web/src/views/gestionar_practicantes/vista_agregar_pacientes-practicantes.dart';
 import 'package:satpj_front_end_web/src/views/gestionar_supervisores/vista_administracion_supervisores.dart';
 import 'package:satpj_front_end_web/src/views/pagos/vista_registro_pago.dart';
 import 'package:satpj_front_end_web/src/views/registro/vista_pre_registro.dart';
@@ -45,6 +46,8 @@ Map<String, WidgetBuilder> getAppRoutes() {
         VistaAprobacionFormularios(),
     VistaGestionarAgendamiento.route: (BuildContext context) =>
         VistaGestionarAgendamiento(),
+    VistaAgregarPacientesPracticantes.route: (BuildContext context) =>
+        VistaAgregarPacientesPracticantes(),
     RegisterHomePage.route: (BuildContext context) => RegisterHomePage(),
     VistaRegistroDocumentos.route: (BuildContext contex) =>
         VistaRegistroDocumentos(),

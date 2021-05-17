@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:satpj_front_end_web/src/model/Notificadores/pacientes_notifier.dart';
 import 'package:satpj_front_end_web/src/model/paciente/paciente.dart';
+import 'package:satpj_front_end_web/src/providers/provider_administracion_pacientes.dart';
 import 'package:satpj_front_end_web/src/utils/widgets/Barras/toolbar_auxiliar_administrativo.dart';
 import 'package:satpj_front_end_web/src/utils/widgets/Dialogos/dialog_delete.dart';
 import 'package:satpj_front_end_web/src/utils/widgets/FuentesDatos/datatablesource_pacientes.dart';
@@ -20,9 +21,15 @@ class VistaAdministrarPacientes extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: toolbarAuxiliarAdministrativo(context),
-      body: ChangeNotifierProvider<PacienteNotifier>(
-        create: (_) => PacienteNotifier(),
-        child: _InternalWidget(),
+      body: Column(
+        children: [
+          Expanded(
+            child: ChangeNotifierProvider<PacienteNotifier>(
+              create: (_) => PacienteNotifier(),
+              child: _InternalWidget(),
+            ),
+          ),
+        ],
       ),
     );
   }
@@ -186,6 +193,9 @@ class _InternalWidget extends StatelessWidget {
             labelCancelBtn: 'Cancelar',
             labelConfirmBtn: 'Confirmar',
             colorConfirmBtn: Theme.of(c).colorScheme.primary,
+            functionDelete: () {
+              ProviderAdministracionPacientes.borrarPaciente(data);
+            },
           ));
 
   void _create(BuildContext c) async => await showDialog<bool>(

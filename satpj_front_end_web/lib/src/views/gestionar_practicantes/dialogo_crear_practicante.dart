@@ -7,6 +7,7 @@ import 'package:satpj_front_end_web/src/utils/widgets/Dialogos/fotter_dialog.dar
 import 'package:satpj_front_end_web/src/utils/widgets/Dialogos/header_dialog.dart';
 import 'package:satpj_front_end_web/src/utils/widgets/formularios/formulario_practicante.dart';
 import 'package:satpj_front_end_web/src/utils/widgets/formularios/tema_formularios.dart';
+import 'package:satpj_front_end_web/src/views/gestionar_practicantes/vista_administrar_practicantes.dart';
 
 // ignore: must_be_immutable
 class DialogoCrearPracticante extends StatefulWidget {
@@ -58,7 +59,11 @@ class _DialogoCrearPracticanteState extends State<DialogoCrearPracticante> {
                     width: 120.0,
                     functionConfirmBtn: () {
                       print("ENTREEEEE" + widget.practicante.toString());
-                      return _crearPracticante(widget.practicante);
+                      _crearPracticante(widget.practicante);
+                      Future.delayed(Duration(milliseconds: 1000), () {
+                        Navigator.of(context)
+                            .pushNamed(VistaAdministrarPracticantes.route);
+                      });
                     },
                   )
                 ],

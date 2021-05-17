@@ -6,6 +6,7 @@ import 'package:satpj_front_end_web/src/model/documento_paciente/documento_pacie
 import 'package:satpj_front_end_web/src/model/formulario/formulario_extra.dart';
 import 'package:satpj_front_end_web/src/model/grupo/grupo.dart';
 import 'package:satpj_front_end_web/src/model/paciente/paciente.dart';
+import 'package:satpj_front_end_web/src/model/practicante/practicante_paciente.dart';
 import 'package:satpj_front_end_web/src/model/practicante/practicante.dart';
 import 'package:satpj_front_end_web/src/model/supervisor/supervisor.dart';
 import 'package:satpj_front_end_web/src/providers/provider_autenticacion.dart';
@@ -67,6 +68,94 @@ class ProviderAdministracionPacientes {
     } catch (exc) {
       print("Error en provider" + exc);
       _completer.completeError(<Paciente>[]);
+    }
+
+    return _completer.future;
+  }
+
+  static Future<String> crearPaciente(Paciente paciente) async {
+    //
+    final _completer = Completer<String>();
+    print("PACIENTE A CREAR " + paciente.id);
+    try {
+      //ProviderAuntenticacion.extractToken();
+      Map<String, String> headers = {
+        "Authorization":
+            "Bearer " + await ProviderAuntenticacion.extractToken(),
+        "Cache-Control": "no-cache",
+        "Accept": "*/*",
+        "Accept-Encoding": "gzip, deflate, br",
+        "Connection": "keep-alive",
+      };
+      final resp =
+          await http.delete(Uri.http(_url, "/pacientes/"), headers: headers);
+      print("JSON RECIBIDO" + resp.body);
+      if (resp.statusCode == 200) {
+        final _data = singlePacienteFromJson(resp.body);
+        _completer.complete(resp.body);
+      }
+    } catch (exc) {
+      print("Error en provider" + exc);
+      _completer.completeError("Error");
+    }
+
+    return _completer.future;
+  }
+
+  static Future<String> editarPaciente(Paciente paciente) async {
+    //
+    final _completer = Completer<String>();
+
+    String id = paciente.id;
+
+    String jsonPaciente = jsonEncode(paciente.toJson());
+
+    print("JSON GENERADO" + jsonPaciente);
+    try {
+      Map<String, String> headers = {
+        "Authorization":
+            "Bearer " + await ProviderAuntenticacion.extractToken(),
+        "Cache-Control": "no-cache",
+        "Accept": "*/*",
+        "Accept-Encoding": "gzip, deflate, br",
+        "Connection": "keep-alive",
+        'Content-Type': 'application/json; charset=UTF-8',
+      };
+      final resp = await http.put(Uri.http(_url, "/pacientes/" + id),
+          headers: headers, body: jsonPaciente);
+      _completer.complete(resp.body);
+    } catch (e) {
+      print("Error en provider" + e);
+      _completer.completeError("Error");
+    }
+
+    return _completer.future;
+  }
+
+  static Future<String> borrarPaciente(Paciente paciente) async {
+    //
+    final _completer = Completer<String>();
+    print("PACIENTE A BORRAR " + paciente.id);
+    String pacienteID = paciente.id;
+    try {
+      //ProviderAuntenticacion.extractToken();
+      Map<String, String> headers = {
+        "Authorization":
+            "Bearer " + await ProviderAuntenticacion.extractToken(),
+        "Cache-Control": "no-cache",
+        "Accept": "*/*",
+        "Accept-Encoding": "gzip, deflate, br",
+        "Connection": "keep-alive",
+      };
+      final resp = await http.delete(Uri.http(_url, "/pacientes/" + pacienteID),
+          headers: headers);
+      print("JSON RECIBIDO" + resp.body);
+      if (resp.statusCode == 200) {
+        _completer.complete(resp.body);
+      }
+    } catch (e) {
+      print("Error en provider" + e);
+      _completer.completeError("Error");
     }
 
     return _completer.future;
