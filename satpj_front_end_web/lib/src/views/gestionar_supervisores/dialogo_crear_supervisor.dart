@@ -7,6 +7,7 @@ import 'package:satpj_front_end_web/src/utils/widgets/Dialogos/fotter_dialog.dar
 import 'package:satpj_front_end_web/src/utils/widgets/Dialogos/header_dialog.dart';
 import 'package:satpj_front_end_web/src/utils/widgets/formularios/formulario_supervisor.dart';
 import 'package:satpj_front_end_web/src/utils/widgets/formularios/tema_formularios.dart';
+import 'package:satpj_front_end_web/src/views/gestionar_supervisores/vista_administracion_supervisores.dart';
 
 class DialogoCrearSupervisor extends StatefulWidget {
   Supervisor supervisor = new Supervisor();
@@ -56,7 +57,11 @@ class _DialogoCrearSupervisorState extends State<DialogoCrearSupervisor> {
                 colorConfirmBtn: kPrimaryColor,
                 width: 120.0,
                 functionConfirmBtn: () {
-                  return _crearSupervisor(widget.supervisor);
+                  _crearSupervisor(widget.supervisor);
+                  Future.delayed(Duration(milliseconds: 1000), () {
+                    Navigator.of(context)
+                        .pushNamed(VistaAdministrarSupervisores.route);
+                  });
                 },
               )
             ]),

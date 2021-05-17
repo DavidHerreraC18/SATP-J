@@ -19,9 +19,15 @@ class VistaAprobacionFormularios extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: toolbarAuxiliarAdministrativo(context),
-      body: ChangeNotifierProvider<FormularioNotifier>(
-        create: (_) => FormularioNotifier(),
-        child: _InternalWidget(),
+      body: Column(
+        children: [
+          Expanded(
+            child: ChangeNotifierProvider<FormularioNotifier>(
+              create: (_) => FormularioNotifier(),
+              child: _InternalWidget(),
+            ),
+          ),
+        ],
       ),
     );
   }

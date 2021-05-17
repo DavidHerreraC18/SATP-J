@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:satpj_front_end_web/src/model/paciente/paciente.dart';
+import 'package:satpj_front_end_web/src/providers/provider_administracion_pacientes.dart';
 import 'package:satpj_front_end_web/src/utils/tema.dart';
+import 'package:satpj_front_end_web/src/utils/widgets/Dialogos/fotter_dialog.dart';
 import 'package:satpj_front_end_web/src/utils/widgets/botones/button_forms.dart';
 import 'package:satpj_front_end_web/src/utils/widgets/formularios/tema_formularios.dart';
 import 'package:satpj_front_end_web/src/utils/widgets/formularios/formulario_paciente.dart';
+import 'package:satpj_front_end_web/src/views/gestionar_pacientes/vista_administrar_pacientes.dart';
 
 class DialogoEditarPaciente extends StatefulWidget {
   Paciente paciente = new Paciente();
@@ -82,52 +85,39 @@ class _DialogoEditarPacienteState extends State<DialogoEditarPaciente> {
                   ),
                 ],
               ),
-              Divider(
-                color: Colors.grey[400],
-                height: 20,
-              ),
-              Container(
-                  margin: EdgeInsets.only(bottom: 18.0, top: 10.0),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Container(
-                          width: 120.0,
-                          height: 35.0,
-                          child: ElevatedButton(
-                            style: ButtonStyle(
-                              backgroundColor: MaterialStateProperty.all<Color>(
-                                  Colors.grey[600]),
-                            ),
-                            onPressed: () {
-                              Navigator.pop(context);
-                            },
-                            child: Padding(
-                              padding: EdgeInsets.symmetric(horizontal: 20.0),
-                              child: Text('Cancelar',
-                                  style: TextStyle(
-                                      fontSize: 18.0,
-                                      fontWeight: FontWeight.normal)),
-                            ),
-                          )),
-                      SizedBox(
-                        width: 8.0,
-                      ),
-                      Container(
-                        width: 120.0,
-                        height: 35.0,
-                        child: ButtonForms(
-                          formKey: _formKey,
-                          label: 'Editar',
-                          color: kPrimaryColor,
-                        ),
-                      ),
-                    ],
-                  )),
+              FotterDialog(
+                labelCancelBtn: 'Cancelar',
+                labelConfirmBtn: 'Editar',
+                colorConfirmBtn: kPrimaryColor,
+                width: 120.0,
+                functionConfirmBtn: () {
+                  _editarPaciente(widget.paciente);
+                  Future.delayed(Duration(milliseconds: 1000), () {
+                    Navigator.of(context)
+                        .pushNamed(VistaAdministrarPacientes.route);
+                  });
+                },
+              )
             ]),
           ),
         ),
       ),
     );
+  }
+}
+
+Future<void> _editarPaciente(Paciente paciente) async {
+  String respuesta =
+      await ProviderAdministracionPacientes.editarPaciente(paciente);
+  print(respuesta);
+  if (respuesta == "Error") {
+    /*mensaje = "Error procesando la solicitud, intenta de nuevo mas tarde";
+      colorMensaje = Theme.of(context).colorScheme.error;*/
+    print("Error procesando la solicitud, intenta de nuevo mas tarde");
+  } else {
+    /*mensaje = "¡Paciente creado exitosamente!";
+      colorMensaje = Theme.of(context).colorScheme.secondaryVariant;*/
+    print(respuesta);
+    print("¡Paciente creado exitosamente!");
   }
 }

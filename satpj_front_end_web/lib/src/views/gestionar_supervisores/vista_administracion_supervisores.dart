@@ -21,9 +21,15 @@ class VistaAdministrarSupervisores extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: toolbarAuxiliarAdministrativo(context),
-      body: ChangeNotifierProvider<SupervisorNotifier>(
-        create: (_) => SupervisorNotifier(),
-        child: _InternalWidget(),
+      body: Column(
+        children: [
+          Expanded(
+            child: ChangeNotifierProvider<SupervisorNotifier>(
+              create: (_) => SupervisorNotifier(),
+              child: _InternalWidget(),
+            ),
+          ),
+        ],
       ),
     );
   }
@@ -191,6 +197,9 @@ class _InternalWidget extends StatelessWidget {
             colorConfirmBtn: Theme.of(c).colorScheme.error,
             functionDelete: () {
               ProviderAdministracionSupervisores.borrarSupervisor(data);
+              Future.delayed(Duration(milliseconds: 1000), () {
+                Navigator.of(c).pushNamed(VistaAdministrarSupervisores.route);
+              });
             },
           ));
 

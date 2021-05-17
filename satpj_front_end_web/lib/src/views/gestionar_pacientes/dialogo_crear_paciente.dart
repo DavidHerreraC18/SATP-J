@@ -3,6 +3,8 @@ import 'package:satpj_front_end_web/src/constants.dart';
 import 'package:satpj_front_end_web/src/model/acudiente/acudiente.dart';
 import 'package:satpj_front_end_web/src/model/formulario/formulario.dart';
 import 'package:satpj_front_end_web/src/model/paciente/paciente.dart';
+import 'package:satpj_front_end_web/src/providers/provider_administracion_pacientes.dart';
+import 'package:satpj_front_end_web/src/providers/provider_autenticacion.dart';
 import 'package:satpj_front_end_web/src/utils/tema.dart';
 import 'package:satpj_front_end_web/src/utils/validators/validadores-input.dart';
 import 'package:satpj_front_end_web/src/utils/widgets/Dialogos/fotter_dialog.dart';
@@ -13,6 +15,7 @@ import 'package:satpj_front_end_web/src/utils/widgets/formularios/formulario_pac
 import 'package:satpj_front_end_web/src/utils/widgets/formularios/formulario_usuario.dart';
 import 'package:satpj_front_end_web/src/utils/widgets/formularios/tema_formularios.dart';
 import 'package:satpj_front_end_web/src/utils/widgets/inputs/rounded_text_field.dart';
+import 'package:satpj_front_end_web/src/views/gestionar_pacientes/vista_administrar_pacientes.dart';
 
 final PageController pageCtrlr = new PageController();
 int currentContainer = 0;
@@ -643,8 +646,11 @@ class _CuartaPaginaCrearPacienteState extends State<CuartaPaginaCrearPaciente> {
                     },
                     functionConfirmBtn: () {
                       currentContainer = 0;
-                      ScaffoldMessenger.of(context).showSnackBar(
-                          SnackBar(content: Text('Guardando Información')));
+                      _crearPaciente(paciente);
+                      Future.delayed(Duration(milliseconds: 1000), () {
+                        Navigator.of(context)
+                            .pushNamed(VistaAdministrarPacientes.route);
+                      });
                     },
                     width: 120.0,
                   ),
@@ -757,6 +763,26 @@ class InfoPacientePrincipal {
 
   InfoPacientePrincipal(this.nombre, this.edad, this.fecha, this.cedula,
       this.respuestas, this._signatureData);
+}
+
+Future<void> _crearPaciente(Paciente paciente) async {
+  String idPaciente = await ProviderAuntenticacion.registerWithEmailPassword(
+      paciente.email, paciente.documento);
+  paciente.id = idPaciente;
+  paciente.tipoUsuario = "Paciente";
+  String respuesta =
+      await ProviderAdministracionPacientes.crearPaciente(paciente);
+  print(respuesta);
+  if (respuesta == "Error") {
+    /*mensaje = "Error procesando la solicitud, intenta de nuevo mas tarde";
+      colorMensaje = Theme.of(context).colorScheme.error;*/
+    print("Error procesando la solicitud, intenta de nuevo mas tarde");
+  } else {
+    /*mensaje = "¡Paciente creado exitosamente!";
+      colorMensaje = Theme.of(context).colorScheme.secondaryVariant;*/
+    print(respuesta);
+    print("¡Paciente creado exitosamente!");
+  }
 }
 
 /*

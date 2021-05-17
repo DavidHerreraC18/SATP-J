@@ -41,6 +41,9 @@ public class ServicioPracticante {
     private RepositorioPracticante repositorioPracticante;
 
     @Autowired
+    private ServicioPaciente servicioPaciente;
+
+    @Autowired
     private RepositorioPracticantePaciente RepositorioPracticantePaciente;
 
     @GetMapping(produces = "application/json; charset=UTF-8")
@@ -97,8 +100,8 @@ public class ServicioPracticante {
     public PracticantePaciente findPracticantePacienteById(@AuthenticationPrincipal CustomPrincipal customPrincipal, @PathVariable("idPracticante") String idPracticante,
             @PathVariable("idPaciente") String idPaciente) {
         LlavePracticantePaciente llave = new LlavePracticantePaciente();
-        llave.setPPacienteId(idPaciente);
-        llave.setPPacienteId(idPracticante);
+        llave.setPaciente_id(idPaciente);
+        llave.setPracticante_id(idPracticante);
         PracticantePaciente practicantePaciente = RepositorioPracticantePaciente.findById(llave).get();
         Preconditions.checkNotNull(practicantePaciente);
         return practicantePaciente;
@@ -112,12 +115,32 @@ public class ServicioPracticante {
 
         return practicante.getPracticantesPaciente();
     }
-
+    
     @PostMapping(value = "/pacientes")
     @ResponseStatus(HttpStatus.CREATED)
     public PracticantePaciente createPracticantePaciente(@AuthenticationPrincipal CustomPrincipal customPrincipal, @RequestBody PracticantePaciente practicantePaciente) {
         Preconditions.checkNotNull(practicantePaciente);
         return RepositorioPracticantePaciente.save(practicantePaciente);
+    }
+
+    @PostMapping(value = "/pacientes/{idPracticante}/{idPaciente}")
+    @ResponseStatus(HttpStatus.CREATED)
+    public PracticantePaciente createPracticantePaciente(@AuthenticationPrincipal CustomPrincipal customPrincipal, @PathVariable("idPracticante") String idPracticante,
+    @PathVariable("idPaciente") String idPaciente) {
+        Practicante practicante = this.findPracticanteById(customPrincipal, idPracticante);
+        Paciente paciente = servicioPaciente.findById(customPrincipal, idPaciente);
+        if(practicante != null && paciente != null){
+            LlavePracticantePaciente llave = new LlavePracticantePaciente();
+            llave.setPaciente_id(paciente.getId());
+            llave.setPracticante_id(practicante.getId());
+            PracticantePaciente practicantePaciente = new PracticantePaciente();
+            practicantePaciente.setId(llave);
+            practicantePaciente.setPaciente(paciente);
+            practicantePaciente.setPracticante(practicante);
+            return RepositorioPracticantePaciente.save(practicantePaciente);
+        }
+        return null;
+        
     }
 
     @PutMapping(value = "/{idPracticante}/{idPaciente}")
@@ -127,8 +150,8 @@ public class ServicioPracticante {
         Preconditions.checkNotNull(practicantePaciente);
 
         LlavePracticantePaciente llave = new LlavePracticantePaciente();
-        llave.setPPacienteId(idPaciente);
-        llave.setPPacienteId(idPracticante);
+        llave.setPaciente_id(idPaciente);
+        llave.setPracticante_id(idPracticante);
         PracticantePaciente ppActualizar = RepositorioPracticantePaciente.findById(llave).get();
         Preconditions.checkNotNull(ppActualizar);
         ppActualizar.setActivo(practicantePaciente.isActivo());
@@ -141,8 +164,8 @@ public class ServicioPracticante {
     public void deletePracticante(@AuthenticationPrincipal CustomPrincipal customPrincipal, @PathVariable("idPracticante") String idPracticante,
             @PathVariable("idPaciente") String idPaciente) {
         LlavePracticantePaciente llave = new LlavePracticantePaciente();
-        llave.setPPacienteId(idPaciente);
-        llave.setPPacienteId(idPracticante);
+        llave.setPaciente_id(idPaciente);
+        llave.setPracticante_id(idPracticante);
         RepositorioPracticantePaciente.deleteById(llave);
     }
 
@@ -152,7 +175,7 @@ public class ServicioPracticante {
      * Practicante
      */
     @GetMapping(value = "/pacientes/activos/{id}", produces = "application/json; charset=UTF-8")
-    public List<Paciente> findPacientesActivosByPacienteId(@AuthenticationPrincipal CustomPrincipal customPrincipal, @PathVariable("id") String id) {
+    public List<Paciente> findPacientesActivosByPracticanteId(@AuthenticationPrincipal CustomPrincipal customPrincipal, @PathVariable("id") String id) {
         Practicante practicante = repositorioPracticante.findById(id).get();
         Preconditions.checkNotNull(practicante);
         List<PracticantePaciente> practicantePacientes = practicante.getPracticantesPaciente();
@@ -170,7 +193,7 @@ public class ServicioPracticante {
      * a los Pacientes que hayan sido atendidos por el Practicante
      */
     @GetMapping(value = "/pacientes/noactivos/{id}", produces = "application/json; charset=UTF-8")
-    public List<Paciente> findPacientesNoActivosByPacienteId(@AuthenticationPrincipal CustomPrincipal customPrincipal, @PathVariable("id") String id) {
+    public List<Paciente> findPacientesNoActivosByPracticanteId(@AuthenticationPrincipal CustomPrincipal customPrincipal, @PathVariable("id") String id) {
         Practicante practicante = repositorioPracticante.findById(id).get();
         Preconditions.checkNotNull(practicante);
         List<PracticantePaciente> practicantePacientes = practicante.getPracticantesPaciente();
@@ -182,5 +205,26 @@ public class ServicioPracticante {
         }
         return pacientes;
     }
+
+
+    /*
+     * La funcion findPracticanteActivoByPacienteId tiene el proposito de encontrar al
+     * Practicante que actualmente se encuentren atendiendo al
+     * Practicante
+     */
+    @GetMapping(value = "/practicante/activo/{id}", produces = "application/json; charset=UTF-8")
+    public Practicante findPracticanteActivoByPacienteId(@AuthenticationPrincipal CustomPrincipal customPrincipal, @PathVariable("id") String id) {
+        Paciente paciente = servicioPaciente.findById(customPrincipal, id);
+        Preconditions.checkNotNull(paciente);
+        List<PracticantePaciente> practicantePacientes = paciente.getPracticantesPaciente();
+        Practicante practicante = null;
+        for (PracticantePaciente practicantePaciente : practicantePacientes) {
+            if (practicantePaciente.isActivo()) {
+                practicante = practicantePaciente.getPracticante();
+            }
+        }
+        return practicante;
+    }
+
 
 }

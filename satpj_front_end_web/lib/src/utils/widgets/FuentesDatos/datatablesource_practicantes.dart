@@ -5,13 +5,15 @@ import 'package:satpj_front_end_web/src/model/practicante/practicante.dart';
 typedef OnRowSelectDetail = void Function(int index);
 typedef OnRowSelectEdit = void Function(int index);
 typedef OnRowSelectDelete = void Function(int index);
+typedef OnRowSelectPacientes = void Function(int index);
 
 class PracticantesDataTableSource extends DataTableSource {
   PracticantesDataTableSource(
       {@required List<Practicante> practicantes,
       @required this.onRowSelectDetail,
       @required this.onRowSelectEdit,
-      @required this.onRowSelectDelete})
+      @required this.onRowSelectDelete,
+      @required this.onRowSelectPacientes})
       : _practicantes = practicantes,
         assert(practicantes != null);
 
@@ -19,6 +21,7 @@ class PracticantesDataTableSource extends DataTableSource {
   final OnRowSelectDetail onRowSelectDetail;
   final OnRowSelectEdit onRowSelectEdit;
   final OnRowSelectDelete onRowSelectDelete;
+  final OnRowSelectPacientes onRowSelectPacientes;
 
   @override
   DataRow getRow(int index) {
@@ -44,7 +47,7 @@ class PracticantesDataTableSource extends DataTableSource {
               IconButton(
                 color: Color(0xFF2E5EAA),
                 icon: const Icon(Icons.person_add),
-                onPressed: () {},
+                onPressed: () => onRowSelectPacientes(index),
               ),
               IconButton(
                 color: Color(0xFF2E5EAA),

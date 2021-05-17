@@ -1,7 +1,6 @@
 package com.satpj.project.modelo.practicante;
 
 import java.io.Serializable;
-import java.util.Objects;
 
 import com.ibm.db2.cmx.annotation.Column;
 
@@ -12,41 +11,57 @@ import com.ibm.db2.cmx.annotation.Column;
 public class LlavePracticantePaciente implements Serializable {
 
     @Column(name = "practicante_id")
-    private String pPracticanteId;
+    private String practicante_id;
 
     @Column(name = "paciente_id")
-    private String pPacienteId;
+    private String paciente_id;
 
-    public String getPPracticanteId() {
-        return pPracticanteId;
+    public String getPracticante_id() {
+        return practicante_id;
     }
 
-    public void setPPracticanteId(String pPracticanteId) {
-        this.pPracticanteId = pPracticanteId;
+    public void setPracticante_id(String practicante_id) {
+        this.practicante_id = practicante_id;
     }
 
-    public String getPPacienteId() {
-        return pPacienteId;
+    public String getPaciente_id() {
+        return paciente_id;
     }
 
-    public void setPPacienteId(String pPacienteId) {
-        this.pPacienteId = pPacienteId;
-    }
-
-    @Override
-    public boolean equals(Object o) {
-
-        if (o == this)
-            return true;
-        if (!(o instanceof LlavePracticantePaciente)) {
-            return false;
-        }
-        LlavePracticantePaciente llave = (LlavePracticantePaciente) o;
-        return this.pPracticanteId.equals(llave.pPracticanteId) && this.pPacienteId.equals(llave.pPacienteId);
+    public void setPaciente_id(String paciente_id) {
+        this.paciente_id = paciente_id;
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(pPracticanteId, pPacienteId);
+        final int prime = 31;
+        int result = 1;
+        result = prime * result + ((paciente_id == null) ? 0 : paciente_id.hashCode());
+        result = prime * result + ((practicante_id == null) ? 0 : practicante_id.hashCode());
+        return result;
     }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj)
+            return true;
+        if (obj == null)
+            return false;
+        if (getClass() != obj.getClass())
+            return false;
+        LlavePracticantePaciente other = (LlavePracticantePaciente) obj;
+        if (paciente_id == null) {
+            if (other.paciente_id != null)
+                return false;
+        } else if (!paciente_id.equals(other.paciente_id))
+            return false;
+        if (practicante_id == null) {
+            if (other.practicante_id != null)
+                return false;
+        } else if (!practicante_id.equals(other.practicante_id))
+            return false;
+        return true;
+    }
+
+    
 }
