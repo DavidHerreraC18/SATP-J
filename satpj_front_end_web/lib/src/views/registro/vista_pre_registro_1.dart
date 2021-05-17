@@ -69,9 +69,11 @@ class RegisterFormPersonalInformationState extends State<RegisterFormPersonalInf
     _formKey = new GlobalKey<FormState>();
      
      paciente = new Paciente();
-     paciente.edad = 0;  
+     paciente.edad = 0;
+     paciente.remitido = false;  
      paciente.estadoAprobado='PendienteAprobacion';
-
+     paciente.tipoUsuario = "Paciente";
+     
      grupo = new Grupo();
      grupo.integrantes = [];
 
@@ -86,6 +88,7 @@ class RegisterFormPersonalInformationState extends State<RegisterFormPersonalInf
     if (arguments != null){
         grupo.integrantes.add(arguments['arguments'] as Paciente);
         grupo.integrantes.add(paciente);
+        grupo.tipo = 'Pareja';
         print(grupo.integrantes.length);
     }
     

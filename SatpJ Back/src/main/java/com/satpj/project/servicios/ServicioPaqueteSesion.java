@@ -4,6 +4,8 @@ import java.util.List;
 
 import com.google.api.client.util.Preconditions;
 import com.satpj.project.modelo.comprobante_pago.ComprobantePago;
+import com.satpj.project.modelo.paciente.Paciente;
+import com.satpj.project.modelo.paciente.RepositorioPaciente;
 import com.satpj.project.modelo.paquete_sesion.*;
 import com.satpj.project.seguridad.CustomPrincipal;
 
@@ -42,6 +44,9 @@ public class ServicioPaqueteSesion {
     @Autowired
     private ServicioComprobantePago servicioComprobantePago;
 
+    @Autowired
+    private RepositorioPaciente repositorioPaciente;
+
     @GetMapping(produces = "application/json; charset=UTF-8")
     public List<PaqueteSesion> findAll(@AuthenticationPrincipal CustomPrincipal customPrincipal) {
         return repositorioPaqueteSesion.findAll();
@@ -52,10 +57,18 @@ public class ServicioPaqueteSesion {
         return repositorioPaqueteSesion.findById(id).get();
     }
 
-    /*
-     * La funcion findComprobanteByPaqueteId tiene el proposito de evitar la
-     * recursion en JSON que genera la relacion PaqueteSesion - ComprobantePago
-     */
+    @GetMapping(value = "/{pacienteId}", produces = "application/json; charset=UTF-8")
+    public List<PaqueteSesion> findPaquetesByPacienteId(@PathVariable("pacienteId") String pacienteId) {
+        List<PaqueteSesion> paqueteSesion = null;
+        Paciente paciente = repositorioPaciente.findById(pacienteId).get();
+        
+        if(paciente != null){
+             paqueteSesion = repositorioPaqueteSesion.findByPaciente(paciente);
+        }
+
+        return paqueteSesion;
+    }
+
     @GetMapping(value = "/{id}/comprobante", produces = "application/json; charset=UTF-8")
     public ComprobantePago findComprobanteByPaqueteId(@AuthenticationPrincipal CustomPrincipal customPrincipal, @PathVariable("id") Long id) {
         PaqueteSesion paqueteSesion = repositorioPaqueteSesion.findById(id).get();

@@ -100,6 +100,9 @@ class RegisterFormState extends State<RegisterForm> {
     
     paciente = new Paciente();
     paciente.edad = 0;
+    paciente.estadoAprobado = 'PendienteAprobacion';
+    paciente.remitido = false;
+    paciente.tipoUsuario = "Paciente";
     
     super.initState();
   }

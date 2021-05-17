@@ -40,12 +40,26 @@ class ButtonForms extends StatelessWidget {
               'Guardando Información',
               style: TextStyle(color: Colors.black),
             )));
+
+            if (arguments is Paciente) {
+              Paciente p = arguments as Paciente;
+              print(p.nombre);
+              print(p.apellido);
+              print(p.documento);
+              print(p.tipoDocumento);
+              print(p.edad);
+              print(p.direccion);
+              print(p.telefono);
+              print(p.estrato);
+            }
+
             Navigator.pushNamed(context, finalRoute,
                 arguments: {'arguments': arguments});
           }
         }
 
         if (providerFunction != null) {
+          print("ME ESTOY EJECUTANDO");
           providerFunction();
         }
       },

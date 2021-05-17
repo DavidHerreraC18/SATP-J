@@ -1,0 +1,736 @@
+import 'package:flutter/material.dart';
+import 'package:satpj_front_end_web/src/constants.dart';
+import 'package:satpj_front_end_web/src/model/acudiente/acudiente.dart';
+import 'package:satpj_front_end_web/src/model/formulario/formulario.dart';
+import 'package:satpj_front_end_web/src/model/paciente/paciente.dart';
+import 'package:satpj_front_end_web/src/utils/tema.dart';
+import 'package:satpj_front_end_web/src/utils/validators/validadores-input.dart';
+import 'package:satpj_front_end_web/src/utils/widgets/Dialogos/fotter_dialog.dart';
+import 'package:satpj_front_end_web/src/utils/widgets/Dialogos/header_dialog.dart';
+import 'package:satpj_front_end_web/src/utils/widgets/formularios/formulario_paciente.dart';
+import 'package:satpj_front_end_web/src/utils/widgets/formularios/formulario_usuario.dart';
+import 'package:satpj_front_end_web/src/utils/widgets/formularios/tema_formularios.dart';
+import 'package:satpj_front_end_web/src/utils/widgets/inputs/rounded_text_field.dart';
+
+final PageController pageCtrlr = new PageController();
+int currentContainer = 0;
+final int numberOfContainers = 4;
+
+void changeContainer(int container) {
+  if (currentContainer + container > numberOfContainers - 1) return;
+
+  pageCtrlr.animateToPage(
+    currentContainer + container,
+    duration: Duration(milliseconds: 350),
+    curve: Curves.linear,
+  );
+}
+
+// ignore: must_be_immutable
+class DialogoPaciente extends StatefulWidget {
+  
+  Paciente paciente;
+  IconData icon;
+  bool enabled;
+
+  DialogoPaciente({this.paciente, this.icon, this.enabled = true}){
+    if(this.paciente == null) this.paciente = new Paciente();
+  }
+
+  @override
+  DialogoPacienteState createState() {
+    return DialogoPacienteState();
+  }
+}
+
+class DialogoPacienteState extends State<DialogoPaciente> {
+
+  @override
+  void dispose() {
+    pageCtrlr.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return IconButton(
+        icon: Icon(widget.icon, color: kPrimaryColor),
+        onPressed: () {
+          showGeneralDialog(
+              barrierLabel: 'label',
+              barrierDismissible: true,
+              barrierColor: Colors.black.withOpacity(0.5),
+              transitionDuration: Duration(milliseconds: 300),
+              context: context,
+              transitionBuilder: (context, anim1, anim2, child) {
+                return SlideTransition(
+                  position: Tween(begin: Offset(0, 1), end: Offset(0, 0))
+                      .animate(anim1),
+                  child: child,
+                );
+              },
+              pageBuilder: (context, anim1, anim2) {
+                return Align(
+                  alignment: Alignment.center,
+                  child: Container(
+                    height: 600,
+                    width: 800,
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.circular(15),
+                    ),
+                    child: PageView(
+                      controller: pageCtrlr,
+                      physics:
+                          NeverScrollableScrollPhysics(), // disables scrolling
+                      children: [
+                        PrimeraPaginaCrearPaciente(paciente: widget.paciente,),
+                        SegundaPaginaCrearPaciente(paciente: widget.paciente,),
+                        TerceraPaginaCrearPaciente(paciente: widget.paciente,),
+                        CuartaPaginaCrearPaciente(paciente: widget.paciente,),
+                      ],
+                      onPageChanged: (int index) =>
+                          setState(() => currentContainer = index),
+                    ),
+                  ),
+                );
+              });
+        });
+  }
+}
+
+// ignore: must_be_immutable
+class PrimeraPaginaCrearPaciente extends StatefulWidget {
+  
+  Paciente paciente;
+  bool enabled;
+
+  PrimeraPaginaCrearPaciente({this.paciente, this.enabled = true}){
+    if(paciente == null) paciente = new Paciente();
+  }
+
+  @override
+  _PrimeraPaginaCrearPacienteState createState() =>
+      _PrimeraPaginaCrearPacienteState();
+}
+
+class _PrimeraPaginaCrearPacienteState
+    extends State<PrimeraPaginaCrearPaciente> {
+  GlobalKey<FormState> _formKey = new GlobalKey<FormState>();
+
+  @override
+  void initState() {
+    super.initState();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Material(
+      color: Colors.white,
+      child: Theme(
+        data: temaFormularios(),
+        child: Form(
+          key: _formKey,
+          child: ListView(children: [
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                HeaderDialog(
+                  label: 'Crear Paciente',
+                  height: 55.0,
+                ),
+                RawScrollbar(
+                  radius: Radius.circular(8.0),
+                  isAlwaysShown: true,
+                  thumbColor: Theme.of(context).colorScheme.primary,
+                  child: SingleChildScrollView(
+                    child: Container(
+                      margin: EdgeInsets.symmetric(horizontal: 40.0),
+                      child: FormPatientInformation(
+                        paciente: widget.paciente,
+                        prefix: 'el',
+                        label: 'del paciente',
+                        fechaNacimiento: true,
+                        stack: false,
+                        enabled: widget.enabled
+                      ),
+                    ),
+                )),
+              ],
+            ),
+            FotterDialog(
+              labelConfirmBtn: 'Siguiente',
+              colorConfirmBtn: kPrimaryColor,
+              formKey: _formKey,
+              paginator: true,
+              functionConfirmBtn: () {
+                changeContainer(widget.paciente.esAdulto() == true ? 3 : 1);
+              },
+              width: 120.0,
+            ),
+          ]),
+        ),
+      ),
+    );
+  }
+}
+
+// ignore: must_be_immutable
+class SegundaPaginaCrearPaciente extends StatefulWidget {
+  
+  Paciente paciente;
+  bool enabled;
+
+  SegundaPaginaCrearPaciente({this.paciente, this.enabled = true}){
+    if(paciente == null) paciente = new Paciente();
+  }
+
+  @override
+  _SegundaPaginaCrearPacienteState createState() =>
+      _SegundaPaginaCrearPacienteState();
+}
+
+class _SegundaPaginaCrearPacienteState
+    extends State<SegundaPaginaCrearPaciente> {
+  GlobalKey<FormState> _formKey = new GlobalKey<FormState>();
+
+  Acudiente madre;
+
+  @override
+  void initState() {
+    madre = new Acudiente();
+
+    if(widget.paciente.acudientes != null){
+      if(widget.paciente.acudientes.isNotEmpty){
+         madre = widget.paciente.acudientes.first;
+      }
+    }
+    else{
+      widget.paciente.acudientes = [];
+    }
+       
+    super.initState();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Material(
+      color: Colors.white,
+      child: Theme(
+        data: temaFormularios(),
+        child: Container(
+          decoration: BoxDecoration(
+            color: Colors.white,
+            borderRadius: BorderRadius.circular(80),
+          ),
+          width: 700.0,
+          child: Form(
+            key: _formKey,
+            child: ListView(children: [
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  HeaderDialog(
+                    label: 'Información de la madre o responsable',
+                    height: 55.0,
+                  ),
+                  Container(
+                    margin: EdgeInsets.symmetric(horizontal: 40.0),
+                    child: FormUserPersonalInformation(
+                      usuario: madre,
+                      prefix: 'el',
+                      label: 'de la madre o responsable',
+                      fechaNacimiento: true,
+                      enabled: widget.enabled,
+                    ),
+                  ),
+                ],
+              ),
+              FotterDialog(
+                labelCancelBtn: 'Atrás',
+                labelConfirmBtn: 'Siguiente',
+                colorConfirmBtn: kPrimaryColor,
+                formKey: _formKey,
+                paginator: true,
+                functionCancelBtn: () {
+                  changeContainer(-1);
+                },
+                functionConfirmBtn: () {
+                  changeContainer(1);
+                },
+                width: 120.0,
+              ),
+            ]),
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+// ignore: must_be_immutable
+class TerceraPaginaCrearPaciente extends StatefulWidget {
+  
+  Paciente paciente;
+  bool enabled;
+  
+  TerceraPaginaCrearPaciente({this.paciente, this.enabled = true}){
+    if(paciente == null) paciente = new Paciente();
+  }
+
+  @override
+  _TerceraPaginaCrearPacienteState createState() =>
+      _TerceraPaginaCrearPacienteState();
+}
+
+class _TerceraPaginaCrearPacienteState
+    extends State<TerceraPaginaCrearPaciente> {
+  GlobalKey<FormState> _formKey = new GlobalKey<FormState>();
+
+  Acudiente padre;
+
+  @override
+  void initState() {
+    padre = new Acudiente();
+    
+    if(widget.paciente.acudientes != null){
+      if(widget.paciente.acudientes.isNotEmpty){
+         padre = widget.paciente.acudientes.last;
+      }
+    }
+    else{
+      widget.paciente.acudientes = [];
+    }
+    
+    super.initState();
+
+
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Material(
+        color: Colors.white,
+        child: Theme(
+            data: temaFormularios(),
+            child: Container(
+              decoration: BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.circular(80),
+              ),
+              width: 700.0,
+              child: Form(
+                key: _formKey,
+                child: ListView(children: [
+                  Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        HeaderDialog(
+                          label: 'Información del padre o responsable',
+                          height: 55.0,
+                        ),
+                        Container(
+                          margin: EdgeInsets.symmetric(horizontal: 40.0),
+                          child: FormUserPersonalInformation(
+                            usuario: padre,
+                            prefix: 'el',
+                            label: 'del padre o responsable',
+                            fechaNacimiento: true,
+                            requerido: false,
+                            enabled: widget.enabled,
+                          ),
+                        ),
+                        FotterDialog(
+                          labelCancelBtn: 'Atrás',
+                          labelConfirmBtn: 'Siguiente',
+                          colorConfirmBtn: kPrimaryColor,
+                          formKey: _formKey,
+                          paginator: true,
+                          functionCancelBtn: () {
+                            changeContainer(-1);
+                          },
+                          functionConfirmBtn: () {
+                            changeContainer(1);
+                          },
+                          width: 120.0,
+                        ),
+                      ]),
+                ]),
+              ),
+            )));
+  }
+}
+
+// ignore: must_be_immutable
+class CuartaPaginaCrearPaciente extends StatefulWidget {
+  
+  Paciente paciente;
+  bool enabled;
+  
+  CuartaPaginaCrearPaciente({this.paciente, this.enabled = true}){
+    if(paciente == null) paciente = new Paciente();
+  }
+
+  @override
+  _CuartaPaginaCrearPacienteState createState() =>
+      _CuartaPaginaCrearPacienteState();
+}
+
+class _CuartaPaginaCrearPacienteState extends State<CuartaPaginaCrearPaciente> {
+  Formulario formularioPreRegistro;
+
+  TextEditingController textControllerInstitucionRemision;
+
+  TextEditingController textControllerNombreInstitucion;
+  FocusNode textFocusNodeNombreInstitucion;
+  bool _isEditingNombreInstitucion = false;
+
+  TextEditingController textControllerMotivo;
+  FocusNode textFocusNodeMotivo;
+  bool _isEditingMotivo = false;
+
+  TextEditingController textControllerInstitucionAtencion;
+  FocusNode textFocusNodeInstitucionAtencion;
+  bool _isEditingInstitucionAtencion = false;
+
+  bool decisionPropia = false;
+  bool cualRemision = false;
+  bool atendidoNo = false;
+
+  final _formKey = GlobalKey<FormState>();
+
+  @override
+  void initState() {
+    widget.paciente.remitido = false;
+    widget.paciente.estadoAprobado = 'PendienteAprobacion';
+
+    formularioPreRegistro = new Formulario();
+    formularioPreRegistro.fueAtendido = false;
+
+    textControllerInstitucionRemision = TextEditingController(text: null);
+    textControllerMotivo = TextEditingController(text: null);
+    textControllerInstitucionAtencion = TextEditingController(text: null);
+    textControllerNombreInstitucion = TextEditingController(text: null);
+
+    textFocusNodeMotivo = FocusNode();
+    textFocusNodeInstitucionAtencion = FocusNode();
+    textFocusNodeNombreInstitucion = FocusNode();
+
+    super.initState();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Material(
+        color: Colors.white,
+        child: Theme(
+            data: temaFormularios(),
+            child: Container(
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                ),
+                width: 700.0,
+                child: ListView(children: [
+                  HeaderDialog(
+                    label: 'Crear Paciente',
+                    height: 55.0,
+                  ),
+                  Container(
+                    margin: EdgeInsets.symmetric(horizontal: 40.0),
+                    child: Form(
+                        key: _formKey,
+                        child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                'Solicita la atención psicológica por:',
+                                textAlign: TextAlign.left,
+                                style: TextStyle(fontSize: 18.0),
+                              ),
+                              SizedBox(
+                                height: 8.0,
+                              ),
+                              Row(
+                                children: [
+                                  Checkbox(
+                                      value: decisionPropia,
+                                      activeColor: kPrimaryColor,
+                                      onChanged: (bool value) {
+                                        setState(() {
+                                          decisionPropia = value;
+                                          widget.paciente.remitido = false;
+                                          cualRemision = false;
+                                        });
+                                      }),
+                                  Text(
+                                    'Decisión propia',
+                                    style: TextStyle(fontSize: 18.0),
+                                  ),
+                                ],
+                              ),
+                              SizedBox(
+                                height: 8.0,
+                              ),
+                              Row(
+                                children: [
+                                  Checkbox(
+                                      value: widget.paciente.remitido,
+                                      activeColor: kPrimaryColor,
+                                      onChanged: (bool value) {
+                                        setState(() {
+                                          widget.paciente.remitido = value;
+                                          decisionPropia = false;
+                                          cualRemision = false;
+                                        });
+                                      }),
+                                  Text(
+                                    'Remitido',
+                                    style: TextStyle(fontSize: 18.0),
+                                  ),
+                                ],
+                              ),
+                              Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: widget.paciente.remitido
+                                    ? [
+                                        SizedBox(height: 8.0),
+                                        Text(
+                                          'Fue remitido por:',
+                                          textAlign: TextAlign.left,
+                                          style: TextStyle(fontSize: 18.0),
+                                        ),
+                                        SizedBox(
+                                          height: 8.0,
+                                        ),
+                                        DropdownButtonFormField<String>(
+                                          iconSize: 24,
+                                          elevation: 16,
+                                          hint: Text('Instituciones'),
+                                          decoration: inputDecoration(),
+                                          style: TextStyle(
+                                              color: Colors.black87,
+                                              fontSize: 17.0,
+                                              fontFamily: 'Dubai'),
+                                          items: kInstituciones
+                                              .map((value) => DropdownMenuItem(
+                                                    value: value,
+                                                    child: Text(
+                                                      value,
+                                                      style: TextStyle(
+                                                          color: Colors.black87,
+                                                          fontSize: 16.5,
+                                                          fontFamily: 'Dubai'),
+                                                    ),
+                                                  ))
+                                              .toList(),
+                                          onChanged: (value) {
+                                            setState(() {
+                                              textControllerInstitucionRemision
+                                                  .text = value;
+                                              formularioPreRegistro.remitente =
+                                                  value;
+                                              if (textControllerInstitucionRemision
+                                                      .text ==
+                                                  'Otra') {
+                                                cualRemision = true;
+                                                formularioPreRegistro
+                                                    .remitente = '';
+                                              }
+                                            });
+                                          },
+                                          validator: (value) => value == null
+                                              ? ValidadoresInput.validateEmpty(
+                                                  textControllerInstitucionRemision
+                                                      .text,
+                                                  'Seleccione una institución',
+                                                  '')
+                                              : null,
+                                        ),
+                                        SizedBox(
+                                          height: 8.0,
+                                        ),
+                                      ]
+                                    : [],
+                              ),
+                              Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: cualRemision
+                                    ? [
+                                        Text(
+                                          'Indique el nombre de la institución de donde fue remitido:',
+                                          textAlign: TextAlign.left,
+                                          style: TextStyle(fontSize: 18.0),
+                                        ),
+                                        SizedBox(
+                                          height: 8.0,
+                                        ),
+                                        RoundedTextFieldValidators(
+                                            textFocusNode:
+                                                textFocusNodeNombreInstitucion,
+                                            textController:
+                                                textControllerNombreInstitucion,
+                                            textInputType: TextInputType.text,
+                                            isEditing:
+                                                _isEditingNombreInstitucion,
+                                            hintText: 'Institución de remisión',
+                                            validate: () {
+                                              formularioPreRegistro.remitente =
+                                                  textControllerNombreInstitucion
+                                                      .text;
+                                              if (cualRemision) {
+                                                return ValidadoresInput.validateEmpty(
+                                                    textControllerNombreInstitucion
+                                                        .text,
+                                                    'Debe ingresar el nombre de la institución de donde fue remitido',
+                                                    '');
+                                              }
+                                              return null;
+                                            }),
+                                      ]
+                                    : [],
+                              ),
+                              SizedBox(
+                                height: 20.0,
+                              ),
+                              Text(
+                                'Motivo de la consulta:',
+                                textAlign: TextAlign.left,
+                                style: TextStyle(fontSize: 18.0),
+                              ),
+                              SizedBox(
+                                height: 8.0,
+                              ),
+                              RoundedTextFieldValidators(
+                                  textFocusNode: textFocusNodeMotivo,
+                                  textController: textControllerMotivo,
+                                  textInputType: TextInputType.text,
+                                  isEditing: _isEditingMotivo,
+                                  hintText: 'Motivo de la consulta',
+                                  validate: () {
+                                    formularioPreRegistro.motivoConsulta =
+                                        textControllerMotivo.text;
+                                    return ValidadoresInput.validateEmpty(
+                                        textControllerMotivo.text,
+                                        'Debe ingresar el Motivo de la consulta',
+                                        '');
+                                  }),
+                              SizedBox(
+                                height: 20.0,
+                              ),
+                              Text(
+                                'Anteriormente ha recibido atención por psicológia o psiquiatría:',
+                                textAlign: TextAlign.left,
+                                style: TextStyle(fontSize: 18.0),
+                              ),
+                              SizedBox(
+                                height: 8.0,
+                              ),
+                              Row(
+                                children: [
+                                  Checkbox(
+                                      value: formularioPreRegistro.fueAtendido,
+                                      activeColor: kPrimaryColor,
+                                      onChanged: (bool value) {
+                                        setState(() {
+                                          formularioPreRegistro.fueAtendido =
+                                              value;
+                                          atendidoNo = false;
+                                        });
+                                      }),
+                                  Text(
+                                    'Sí',
+                                    style: TextStyle(fontSize: 18.0),
+                                  ),
+                                ],
+                              ),
+                              SizedBox(
+                                height: 8.0,
+                              ),
+                              Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: formularioPreRegistro.fueAtendido
+                                    ? [
+                                        Text(
+                                          '¿Dónde recibió la atención médica?',
+                                          textAlign: TextAlign.left,
+                                          style: TextStyle(fontSize: 18.0),
+                                        ),
+                                        SizedBox(
+                                          height: 8.0,
+                                        ),
+                                        RoundedTextFieldValidators(
+                                            textFocusNode:
+                                                textFocusNodeInstitucionAtencion,
+                                            textController:
+                                                textControllerInstitucionAtencion,
+                                            textInputType: TextInputType.text,
+                                            isEditing:
+                                                _isEditingInstitucionAtencion,
+                                            hintText:
+                                                'Institución donde recibio atención psicológica',
+                                            validate: () {
+                                              formularioPreRegistro
+                                                      .lugarAtencion =
+                                                  textControllerInstitucionAtencion
+                                                      .text;
+                                              if (formularioPreRegistro
+                                                  .fueAtendido) {
+                                                return ValidadoresInput.validateEmpty(
+                                                    textControllerInstitucionAtencion
+                                                        .text,
+                                                    'Ingrese el nombre de la institución donde recibio atención psicológica',
+                                                    '');
+                                              }
+                                              return null;
+                                            }),
+                                        SizedBox(
+                                          height: 20.0,
+                                        ),
+                                      ]
+                                    : [],
+                              ),
+                              Row(
+                                children: [
+                                  Checkbox(
+                                      value: atendidoNo,
+                                      activeColor: kPrimaryColor,
+                                      onChanged: (bool newValue) {
+                                        setState(() {
+                                          atendidoNo = newValue;
+                                          formularioPreRegistro.fueAtendido =
+                                              false;
+                                        });
+                                      }),
+                                  Text(
+                                    'No',
+                                    style: TextStyle(fontSize: 18.0),
+                                  ),
+                                ],
+                              ),
+                              SizedBox(
+                                height: 20.0,
+                              ),
+                            ])),
+                  ),
+                  FotterDialog(
+                    labelCancelBtn: 'Atrás',
+                    labelConfirmBtn: 'Crear',
+                    colorConfirmBtn: kPrimaryColor,
+                    formKey: _formKey,
+                    paginator: true,
+                    functionCancelBtn: () {
+                      changeContainer(-1);
+                    },
+                    functionConfirmBtn: () {
+                      currentContainer = 0;
+                      ScaffoldMessenger.of(context).showSnackBar(
+                          SnackBar(content: Text('Guardando Información')));
+                    },
+                    width: 120.0,
+                  ),
+                ]))));
+  }
+}

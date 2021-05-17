@@ -2,13 +2,13 @@ import 'package:date_time_picker/date_time_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:satpj_front_end_web/src/constants.dart';
+import 'package:satpj_front_end_web/src/model/paciente/fecha_nacimiento.dart';
 import 'package:satpj_front_end_web/src/model/paciente/paciente.dart';
 import 'package:satpj_front_end_web/src/model/usuario/usuario.dart';
 import 'package:satpj_front_end_web/src/utils/validators/validadores-input.dart';
 import 'package:satpj_front_end_web/src/utils/widgets/inputs/dropdown.dart';
 import 'package:satpj_front_end_web/src/utils/widgets/inputs/rounded_text_field.dart';
 import 'package:satpj_front_end_web/src/utils/widgets/formularios/tema_formularios.dart';
-import 'package:satpj_front_end_web/src/views/registro/vista_pre_registro.dart';
 
 class FormUserPersonalInformation extends StatefulWidget {
   Usuario usuario = new Usuario();
@@ -184,7 +184,6 @@ class _FormState extends State<FormUserPersonalInformation> {
                 widget.usuario.tipoDocumento = textControllerTipoDocumento.text;
             },
             validate: () {
-              widget.usuario.tipoDocumento = textControllerTipoDocumento.text;
               if (widget.requerido) {
                 return ValidadoresInput.validateEmpty(
                     textControllerTipoDocumento.text,
@@ -217,12 +216,15 @@ class _FormState extends State<FormUserPersonalInformation> {
               formatter: <TextInputFormatter>[
                 FilteringTextInputFormatter.digitsOnly
               ],
+              onChanged: () {
+                if (textControllerDocumento.text.isNotEmpty)
+                  widget.usuario.documento = textControllerDocumento.text;
+              },
               hintText: 'Ingrese ' +
                   widget.prefix +
                   ' número de documento ' +
                   widget.label,
               validate: () {
-                widget.usuario.documento = textControllerDocumento.text;
                 if (widget.requerido) {
                   return ValidadoresInput.validateEmpty(
                       textControllerDocumento.text,
@@ -250,9 +252,9 @@ class _FormState extends State<FormUserPersonalInformation> {
               dateLabelText: 'Fecha Nacimiento',
               onChanged: (val) {
                 if (widget.usuario is Paciente) {
-                  Paciente paciente = widget.usuario as Paciente;
-                  paciente.esAdulto(
-                      fechaNacimiento: textControllerFechaNacimiento.text);
+                (widget.usuario as Paciente).definirEdad(
+                      fechaNacimiento: textControllerFechaNacimiento.text,
+                  );
                 }
               },
               validator: (val) {

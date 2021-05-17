@@ -47,6 +47,12 @@ class _ButtonDialogState extends State<ButtonDialog> {
         } else {
           Navigator.pop(context);
         }
+        else if(widget.paginator == true && widget.function != null){
+          widget.function();
+        }
+        else{
+           Navigator.pop(context); 
+        }      
       },
       child: Text(widget.label.toString(),
           style: TextStyle(fontSize: 18.0, fontWeight: FontWeight.normal)),

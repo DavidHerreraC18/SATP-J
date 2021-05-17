@@ -29,9 +29,10 @@ class _PreRegisterPage2State extends State<PreRegisterPage2> {
     final Map arguments = ModalRoute.of(context).settings.arguments as Map;
 
     if (arguments != null) {
-      print('Holi');
       paciente = arguments['arguments'] as Paciente;
-      print(paciente.nombre);
+      if(paciente != null){
+        paciente.acudientes = [];
+      }
     }
 
     return Scaffold(
@@ -80,9 +81,11 @@ class RegisterFormState extends State<RegisterForm> {
   void initState() {
     //--------------Madre o Responsable--------------
     madre = new Acudiente();
+    madre.tipoUsuario = "Acudiente";
 
     //--------------Padre o Responsable--------------
     padre = new Acudiente();
+    padre.tipoUsuario = "Acudiente";
 
     super.initState();
   }
@@ -133,11 +136,11 @@ class RegisterFormState extends State<RegisterForm> {
           child: FormUserPersonalInformation(
             usuario: madre,
             prefix: 'el',
-            label: 'de la madre o responsable',
+            label: 'de la madre, responsable o tutor legal',
             fechaNacimiento: true,
           ),
         ),
-        labelContainerStack('de la madre o responsable'),
+        labelContainerStack('de la madre, responsable o tutor legal'),
       ],
     );
 
@@ -153,12 +156,12 @@ class RegisterFormState extends State<RegisterForm> {
           child: FormUserPersonalInformation(
             usuario: padre,
             prefix: 'el',
-            label: 'del padre o responsable',
+            label: 'del padre, responsable o tutor legal',
             fechaNacimiento: true,
             requerido: false,
           ),
         ),
-        labelContainerStack('del padre o responsable'),
+        labelContainerStack('del padre, responsable o tutor legal'),
       ],
     );
 
@@ -193,10 +196,10 @@ class RegisterFormState extends State<RegisterForm> {
                   label: 'Siguiente',
                   color: kPrimaryColor,
                   route: PreRegisterPage3.route,
-                  arguments: () {
+                  providerFunction: (){
                     insertarAcudientes();
-                    return paciente;
                   },
+                  arguments: paciente,
                 ),
               ),
             ],

@@ -30,7 +30,7 @@ import com.satpj.project.modelo.usuario.Usuario;
 public class Acudiente extends Usuario{
     
     @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    @JoinColumn(name = "paciente_id", nullable = false)
+    @JoinColumn(name = "paciente_id", nullable = true)
     private Paciente paciente;
 
 }

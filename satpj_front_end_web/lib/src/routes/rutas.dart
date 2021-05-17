@@ -12,22 +12,27 @@ import 'package:satpj_front_end_web/src/views/gestionar_practicantes/vista_admin
 import 'package:satpj_front_end_web/src/views/gestionar_practicantes/vista_agregar_pacientes-practicantes.dart';
 import 'package:satpj_front_end_web/src/views/gestionar_supervisores/vista_administracion_supervisores.dart';
 import 'package:satpj_front_end_web/src/views/pagos/vista_registro_pago.dart';
+import 'package:satpj_front_end_web/src/views/pagos/vista_registro_paquete_sesion.dart';
+import 'package:satpj_front_end_web/src/views/pagos/vista_visualizar_pagos.dart';
 import 'package:satpj_front_end_web/src/views/registro/vista_pre_registro.dart';
 import 'package:satpj_front_end_web/src/views/registro/vista_pre_registro_1.dart';
 import 'package:satpj_front_end_web/src/views/registro/vista_pre_registro_2.dart';
 import 'package:satpj_front_end_web/src/views/registro/vista_pre_registro_3.dart';
+import 'package:satpj_front_end_web/src/views/registro/vista_pre_registro_4.dart';
 import 'package:satpj_front_end_web/src/views/registro/vista_registro.dart';
 import 'package:satpj_front_end_web/src/views/vista_inicio.dart';
 
 Map<String, WidgetBuilder> getAppRoutes() {
   return <String, WidgetBuilder>{
     '/': (BuildContext context) => VistaInicio(),
-    //RegisterPage1.route: (BuildContext context) => RegisterPage1(),
     PreRegisterHomePage.route: (BuildContext context) => PreRegisterHomePage(),
     PreRegisterPage1.route: (BuildContext context) => PreRegisterPage1(),
     PreRegisterPage2.route: (BuildContext context) => PreRegisterPage2(),
     PreRegisterPage3.route: (BuildContext context) => PreRegisterPage3(),
-    VistaRegistroPago.route: (BuildContext context) => VistaRegistroPago(),
+    PreRegisterPage4.route              :  (BuildContext context) => PreRegisterPage4(),
+    VistaRegistroPaquetesSesiones.route : (BuildContext context) => VistaRegistroPaquetesSesiones(),
+    VistaRegistroPago.route             : (BuildContext context) => VistaRegistroPago(),
+    VistaVisualizarPagos.route          : (BuildContext context) => VistaVisualizarPagos(),
     VistaAdministrarPacientes.route: (BuildContext context) =>
         VistaAdministrarPacientes(),
     VistaAdministrarPracticantes.route: (BuildContext context) =>

@@ -173,6 +173,7 @@ class _DialogoAgendarSesionTerapiaState
                               //decoration: datePickerDecoration,
                               firstDate: DateTime(DateTime.now().year),
                               lastDate: DateTime.now(),
+                              
                               icon: Icon(Icons.event, color: kPrimaryColor),
                               onChanged: (val) {},
                               validator: (val) {
