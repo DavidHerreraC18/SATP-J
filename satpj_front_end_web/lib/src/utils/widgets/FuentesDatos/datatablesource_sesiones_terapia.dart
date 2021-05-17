@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:satpj_front_end_web/src/model/sesion_terapia/sesion_terapia.dart';
 import 'package:satpj_front_end_web/src/utils/tema.dart';
 
@@ -25,16 +26,17 @@ class SesionesTerapiaDataTableSource extends DataTableSource {
       return null;
     }
     final _sesion = _sesiones[index];
+    final DateFormat formatter = DateFormat('yyyy-MM-dd');
 
     return DataRow.byIndex(
       index: index, // DONT MISS THIS
       cells: <DataCell>[
-        DataCell(Text('${_sesion.fecha.toString()}')),
-        DataCell(Text('${_sesion.hora.toString()}')),
+        DataCell(Text('${formatter.format(_sesion.fecha)}')),
+        DataCell(Text('${DateFormat.Hms().format(_sesion.fecha)}')),
         DataCell(Text('${_sesion.virtual ? 'Virtual' : 'Presencial'}')),
         DataCell(Text('${_sesion.consultorio}')),
         DataCell(
-             Row(
+          Row(
             children: [
               IconButton(
                 icon: Icon(
@@ -53,7 +55,7 @@ class SesionesTerapiaDataTableSource extends DataTableSource {
                 ),
                 color: kPrimaryColor,
                 onPressed: () {
-                   onRowSelectDelete(index);
+                  onRowSelectDelete(index);
                 },
               ),
             ],
@@ -88,7 +90,8 @@ class SesionesTerapiaDataTableSource extends DataTableSource {
     nums.sort();
     print(nums);  // [-11, 2, 13] 
    */
-  void sort<T>(Comparable<T> Function(SesionTerapia s) getField, bool ascending) {
+  void sort<T>(
+      Comparable<T> Function(SesionTerapia s) getField, bool ascending) {
     _sesiones.sort((a, b) {
       final aValue = getField(a);
       final bValue = getField(b);

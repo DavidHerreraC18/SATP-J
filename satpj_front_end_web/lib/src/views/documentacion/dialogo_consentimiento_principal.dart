@@ -8,6 +8,7 @@ import 'package:satpj_front_end_web/src/providers/provider_administracion_acudie
 import 'package:satpj_front_end_web/src/providers/providers_usuarios/provider_acudientes.dart';
 import 'package:satpj_front_end_web/src/utils/tema.dart';
 import 'package:satpj_front_end_web/src/utils/widgets/Firmas/pad_firmas.dart';
+import 'package:satpj_front_end_web/src/utils/widgets/LoadingWidgets/LoadingWanderingCube.dart';
 import 'package:satpj_front_end_web/src/utils/widgets/Pdf/helper/info_acudiente_principal_pdf.dart';
 import 'package:satpj_front_end_web/src/utils/widgets/Pdf/helper/info_paciente_principal_pdf.dart';
 import 'package:satpj_front_end_web/src/utils/widgets/Pdf/pdf_consentimiento_principal.dart';
@@ -56,7 +57,11 @@ class DialogoConsentimientoPrincipalState
   }
 
   @override
-  void initState() async {
+  initState() {
+    super.initState();
+  }
+
+  Future<String> obtenerAcudientes() async {
     List<Acudiente> acudientes =
         await ProviderAdministracionAcudientes.traerAcudientesPaciente(
             this.pacienteActual);
@@ -64,8 +69,7 @@ class DialogoConsentimientoPrincipalState
       this.acudienteActual = acudientes.first;
       this.tieneAcudiente = true;
     }
-
-    super.initState();
+    return Future.value("Data download successfully");
   }
 
   @override
@@ -76,78 +80,94 @@ class DialogoConsentimientoPrincipalState
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      height: 20,
-      width: 100,
-      child: Material(
-        borderRadius: BorderRadius.circular(15),
-        color: kPrimaryColor,
-        child: MaterialButton(
-            onPressed: () {
-              showGeneralDialog(
-                  barrierLabel: 'label',
-                  barrierDismissible: true,
-                  barrierColor: Colors.black.withOpacity(0.5),
-                  transitionDuration: Duration(milliseconds: 300),
-                  context: context,
-                  transitionBuilder: (context, anim1, anim2, child) {
-                    return SlideTransition(
-                      position: Tween(begin: Offset(0, 1), end: Offset(0, 0))
-                          .animate(anim1),
-                      child: child,
-                    );
-                  },
-                  pageBuilder: (context, anim1, anim2) {
-                    return Align(
-                      alignment: Alignment.center,
-                      child: Container(
-                        height: 500,
-                        width: 700,
-                        padding:
-                            EdgeInsets.only(right: 15, left: 15, bottom: 20),
-                        decoration: BoxDecoration(
-                          color: Colors.white,
-                          borderRadius: BorderRadius.circular(15),
-                        ),
-                        child: PageView(
-                          controller:
-                              pageCtrlr, // assign your page controller to the page view
-                          physics:
-                              NeverScrollableScrollPhysics(), // disables scrolling
-                          children: [
-                            PrimeraPaginaConsentimientoPrincipal(),
-                            SegundaPaginaConsentimientoPrincipal(),
-                            TerceraPaginaConsentimientoPrincipal(),
-                            CuartaPaginaConsentimientoPrincipal(
-                                pacienteActual: this.pacienteActual),
-                            QuintaPaginaConsentimientoPrincipal(
-                                pacienteActual: this.pacienteActual,
-                                funcionConsentimientoP: funcionConsentimientoP,
-                                tieneAcudiente: tieneAcudiente),
-                            SextaPaginaConsentimientoPrincipal(
-                              pacienteActual: this.pacienteActual,
-                              funcionConsentimientoP: funcionConsentimientoP,
-                              tieneAcudiente: tieneAcudiente,
-                              acudienteActual: acudienteActual,
-                            )
-                          ],
-                          onPageChanged: (int index) =>
-                              setState(() => currentContainer = index),
-                        ),
+    return FutureBuilder<String>(
+      future: obtenerAcudientes(), // function where you call your api
+      builder: (BuildContext context, AsyncSnapshot<String> snapshot) {
+        // AsyncSnapshot<Your object type>
+        if (snapshot.connectionState == ConnectionState.waiting) {
+          return LoadingWanderingCube();
+        } else {
+          if (snapshot.hasError)
+            return Center(child: Text('Error: ${snapshot.error}'));
+          else
+            return Container(
+              height: 20,
+              width: 100,
+              child: Material(
+                borderRadius: BorderRadius.circular(15),
+                color: kPrimaryColor,
+                child: MaterialButton(
+                    onPressed: () {
+                      showGeneralDialog(
+                          barrierLabel: 'label',
+                          barrierDismissible: true,
+                          barrierColor: Colors.black.withOpacity(0.5),
+                          transitionDuration: Duration(milliseconds: 300),
+                          context: context,
+                          transitionBuilder: (context, anim1, anim2, child) {
+                            return SlideTransition(
+                              position:
+                                  Tween(begin: Offset(0, 1), end: Offset(0, 0))
+                                      .animate(anim1),
+                              child: child,
+                            );
+                          },
+                          pageBuilder: (context, anim1, anim2) {
+                            return Align(
+                              alignment: Alignment.center,
+                              child: Container(
+                                height: 500,
+                                width: 700,
+                                padding: EdgeInsets.only(
+                                    right: 15, left: 15, bottom: 20),
+                                decoration: BoxDecoration(
+                                  color: Colors.white,
+                                  borderRadius: BorderRadius.circular(15),
+                                ),
+                                child: PageView(
+                                  controller:
+                                      pageCtrlr, // assign your page controller to the page view
+                                  physics:
+                                      NeverScrollableScrollPhysics(), // disables scrolling
+                                  children: [
+                                    PrimeraPaginaConsentimientoPrincipal(),
+                                    SegundaPaginaConsentimientoPrincipal(),
+                                    TerceraPaginaConsentimientoPrincipal(),
+                                    CuartaPaginaConsentimientoPrincipal(
+                                        pacienteActual: this.pacienteActual),
+                                    QuintaPaginaConsentimientoPrincipal(
+                                        pacienteActual: this.pacienteActual,
+                                        funcionConsentimientoP:
+                                            funcionConsentimientoP,
+                                        tieneAcudiente: tieneAcudiente),
+                                    SextaPaginaConsentimientoPrincipal(
+                                      pacienteActual: this.pacienteActual,
+                                      funcionConsentimientoP:
+                                          funcionConsentimientoP,
+                                      tieneAcudiente: tieneAcudiente,
+                                      acudienteActual: acudienteActual,
+                                    )
+                                  ],
+                                  onPageChanged: (int index) =>
+                                      setState(() => currentContainer = index),
+                                ),
+                              ),
+                            );
+                          });
+                    },
+                    child: Text(
+                      "Subir",
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                        fontSize: 13,
+                        color: Colors.white,
+                        fontWeight: FontWeight.bold,
                       ),
-                    );
-                  });
-            },
-            child: Text(
-              "Subir",
-              textAlign: TextAlign.center,
-              style: TextStyle(
-                fontSize: 13,
-                color: Colors.white,
-                fontWeight: FontWeight.bold,
+                    )),
               ),
-            )),
-      ),
+            ); // snapshot.data  :- get your object which is pass from your downloadData() function
+        }
+      },
     );
   }
 }

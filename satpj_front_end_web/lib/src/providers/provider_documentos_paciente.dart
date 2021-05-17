@@ -18,7 +18,7 @@ class ProviderDocumentosPaciente {
     String fotoPerfil = Base64Codec().encode(_fotoDocumento);
     //print(fotoPerfil);
     DocumentoPaciente documentoFoto = new DocumentoPaciente(
-      id: 1005,
+      id: null,
       nombre: "FotoPerfil-" + nombrePaciente,
       radicacion: DateTime.now(),
       tipo: "FotoPerfil",
@@ -57,7 +57,7 @@ class ProviderDocumentosPaciente {
         Base64Codec().encode(_consentimientoPrincipal);
     //print(consentimientoPrincipal);
     DocumentoPaciente documentoConsentimientoPrincipal = new DocumentoPaciente(
-        id: 1004,
+        id: null,
         nombre: "ConsentimientoPrincipal-" + nombrePaciente,
         radicacion: DateTime.now(),
         tipo: "ConsentimientoPrincipal",
@@ -95,7 +95,7 @@ class ProviderDocumentosPaciente {
     String reciboPago = Base64Codec().encode(_reciboPago);
     //print(reciboPago);
     DocumentoPaciente documentoReciboPago = new DocumentoPaciente(
-        id: 1002,
+        id: null,
         nombre: "ReciboPago-" + nombrePaciente,
         radicacion: DateTime.now(),
         tipo: "ReciboPago",
@@ -132,7 +132,7 @@ class ProviderDocumentosPaciente {
     String consentimientoTP = Base64Codec().encode(_consentimientoTP);
     //print(consentimientoTP);
     DocumentoPaciente documentoConsentimientoTP = new DocumentoPaciente(
-      id: 1001,
+      id: null,
       nombre: "ConsentimientoTP-" + nombrePaciente,
       radicacion: DateTime.now(),
       tipo: "ConsentimientoTP",

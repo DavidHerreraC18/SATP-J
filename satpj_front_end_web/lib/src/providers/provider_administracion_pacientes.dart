@@ -4,7 +4,10 @@ import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:satpj_front_end_web/src/model/documento_paciente/documento_paciente.dart';
 import 'package:satpj_front_end_web/src/model/formulario/formulario_extra.dart';
+import 'package:satpj_front_end_web/src/model/grupo/grupo.dart';
 import 'package:satpj_front_end_web/src/model/paciente/paciente.dart';
+import 'package:satpj_front_end_web/src/model/practicante/practicante.dart';
+import 'package:satpj_front_end_web/src/model/supervisor/supervisor.dart';
 import 'package:satpj_front_end_web/src/providers/provider_autenticacion.dart';
 
 const _url = "localhost:8082";
@@ -63,7 +66,7 @@ class ProviderAdministracionPacientes {
       }
     } catch (exc) {
       print("Error en provider" + exc);
-      _completer.completeError(<DocumentoPaciente>[]);
+      _completer.completeError(<Paciente>[]);
     }
 
     return _completer.future;
@@ -121,10 +124,99 @@ class ProviderAdministracionPacientes {
       if (resp.statusCode == 200) {
         final _data = singleFormularioExtraFromJson(resp.body);
         _completer.complete(_data);
+      } else {
+        final _data = null;
+        _completer.complete(_data);
       }
     } catch (exc) {
       print("Error en provider" + exc);
       _completer.completeError(<FormularioExtra>[]);
+    }
+
+    return _completer.future;
+  }
+
+  static Future<Supervisor> traerSupervisorPaciente(
+      Paciente pacienteActual) async {
+    //
+    final _completer = Completer<Supervisor>();
+
+    try {
+      //ProviderAuntenticacion.extractToken();
+      Map<String, String> headers = {
+        "Authorization":
+            "Bearer " + await ProviderAuntenticacion.extractToken(),
+        "Cache-Control": "no-cache",
+        "Accept": "*/*",
+      };
+      final resp = await http.get(
+          Uri.http(_url, "/pacientes/" + pacienteActual.id + "/supervisor"),
+          headers: headers);
+      //print("JSON RECIBIDO" + resp.body);
+      if (resp.statusCode == 200) {
+        final _data = singleSupervisorFromJson(resp.body);
+        _completer.complete(_data);
+      }
+    } catch (exc) {
+      print("Error en provider" + exc);
+      _completer.completeError(<Supervisor>[]);
+    }
+
+    return _completer.future;
+  }
+
+  static Future<Practicante> traerPracticanteActivoPaciente(
+      Paciente pacienteActual) async {
+    //
+    final _completer = Completer<Practicante>();
+
+    try {
+      //ProviderAuntenticacion.extractToken();
+      Map<String, String> headers = {
+        "Authorization":
+            "Bearer " + await ProviderAuntenticacion.extractToken(),
+        "Cache-Control": "no-cache",
+        "Accept": "*/*",
+      };
+      final resp = await http.get(
+          Uri.http(_url, "/pacientes/practicante/" + pacienteActual.id),
+          headers: headers);
+      //print("JSON RECIBIDO" + resp.body);
+      if (resp.statusCode == 200) {
+        final _data = singlePracticanteFromJson(resp.body);
+        _completer.complete(_data);
+      }
+    } catch (exc) {
+      print("Error en provider" + exc);
+      _completer.completeError(<Practicante>[]);
+    }
+
+    return _completer.future;
+  }
+
+  static Future<Grupo> traerGrupoPaciente(Paciente pacienteActual) async {
+    //
+    final _completer = Completer<Grupo>();
+
+    try {
+      //ProviderAuntenticacion.extractToken();
+      Map<String, String> headers = {
+        "Authorization":
+            "Bearer " + await ProviderAuntenticacion.extractToken(),
+        "Cache-Control": "no-cache",
+        "Accept": "*/*",
+      };
+      final resp = await http.get(
+          Uri.http(_url, "/" + pacienteActual.id + "/grupo"),
+          headers: headers);
+      //print("JSON RECIBIDO" + resp.body);
+      if (resp.statusCode == 200) {
+        final _data = singleGrupoFromJson(resp.body);
+        _completer.complete(_data);
+      }
+    } catch (exc) {
+      print("Error en provider" + exc);
+      _completer.completeError(<Grupo>[]);
     }
 
     return _completer.future;

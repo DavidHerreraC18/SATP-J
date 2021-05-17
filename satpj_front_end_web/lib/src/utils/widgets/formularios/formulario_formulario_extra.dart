@@ -4,18 +4,23 @@ import 'dart:typed_data';
 import 'package:flutter/material.dart';
 import 'package:satpj_front_end_web/src/model/documento_paciente/documento_paciente.dart';
 import 'package:satpj_front_end_web/src/model/formulario/formulario_extra.dart';
+import 'package:satpj_front_end_web/src/model/supervisor/supervisor.dart';
 import 'package:satpj_front_end_web/src/providers/provider_administracion_pacientes.dart';
+import 'package:satpj_front_end_web/src/providers/provider_administracion_supervisores.dart';
 import 'package:satpj_front_end_web/src/utils/tema.dart';
+import 'package:satpj_front_end_web/src/utils/widgets/LoadingWidgets/LoadingWanderingCube.dart';
 import 'package:satpj_front_end_web/src/utils/widgets/Pdf/helper/save_file_web.dart';
 import 'package:satpj_front_end_web/src/utils/widgets/formularios/tema_formularios.dart';
 import 'package:satpj_front_end_web/src/utils/widgets/inputs/rounded_text_field.dart';
 
 class FormFormularioExtraInformation extends StatefulWidget {
   final FormularioExtra formularioExtra;
+  final Function funcionAsignacionPaciente;
   final bool stack;
   final bool enabled;
 
   FormFormularioExtraInformation({
+    this.funcionAsignacionPaciente,
     this.formularioExtra,
     this.stack = true,
     this.enabled = true,
@@ -31,15 +36,20 @@ class _FormState extends State<FormFormularioExtraInformation> {
   Uint8List _reciboPago;
   Uint8List _fotoDocumento;
 
+  List<Supervisor> supervisores;
+  List<String> supervisoresNombres;
+  List<DropdownMenuItem<String>> _dropDownMenuItems;
+  String _supervisorNombreActual;
+  Supervisor _supervisorActual;
+
   bool _isCompleted = false;
 
   @override
-  initState() async {
-    await traerDocumentos();
+  initState() {
     super.initState();
   }
 
-  traerDocumentos() async {
+  Future<String> traerDocumentos() async {
     List<DocumentoPaciente> documentos =
         await ProviderAdministracionPacientes.traerDocumentosPaciente(
             widget.formularioExtra.paciente);
@@ -61,299 +71,403 @@ class _FormState extends State<FormFormularioExtraInformation> {
         }
       });
     }
+    supervisores = await ProviderAdministracionSupervisores.traerSupervisores();
+    if (supervisores.isNotEmpty) {
+      for (int i = 0; i < supervisores.length; i++) {
+        supervisoresNombres
+            .add(supervisores[i].nombre + " " + supervisores[i].apellido);
+      }
+      _supervisorNombreActual = supervisoresNombres[0];
+      _supervisorActual = supervisores[0];
+      _dropDownMenuItems = getDropDownMenuItems();
+    }
+    return Future.value("Data download successfully");
+  }
+
+  List<DropdownMenuItem<String>> getDropDownMenuItems() {
+    List<DropdownMenuItem<String>> items = [];
+    for (String supervi in supervisoresNombres) {
+      items.add(new DropdownMenuItem(value: supervi, child: new Text(supervi)));
+    }
+    return items;
+  }
+
+  void changedDropDownItem(String selectedSup) {
+    setState(() {
+      _supervisorNombreActual = selectedSup;
+      for (int i = 0; i < supervisoresNombres.length; i++) {
+        if (supervisoresNombres[i] == _supervisorNombreActual) {
+          _supervisorActual = supervisores[i];
+          i = supervisoresNombres.length;
+        }
+      }
+    });
+    widget.funcionAsignacionPaciente(_supervisorActual);
   }
 
   @override
   Widget build(BuildContext context) {
-    return Stack(
-      children: [
-        Container(
-          margin: widget.stack
-              ? EdgeInsets.symmetric(vertical: 35.0, horizontal: 5.0)
-              : null,
-          padding: widget.stack
-              ? EdgeInsets.only(
-                  left: 20.0, right: 20.0, top: 30.0, bottom: 20.0)
-              : null,
-          decoration: widget.stack
-              ? BoxDecoration(
-                  borderRadius: BorderRadius.all(Radius.circular(5)),
-                  border: Border.all(color: kPrimaryColor, width: 2.0),
-                )
-              : null,
-          child: Theme(
-            data: temaFormularios(),
-            child:
-                Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-              Text(
-                'Escolaridad',
-                textAlign: TextAlign.left,
-                style: TextStyle(fontSize: 18.0),
-              ),
-              RoundedTextFieldDisabled(
-                  type: TextInputType.text,
-                  hintText: widget.formularioExtra.escolaridad),
-              SizedBox(
-                height: 20.0,
-              ),
-              Text(
-                'Ocupación',
-                textAlign: TextAlign.left,
-                style: TextStyle(fontSize: 18.0),
-              ),
-              RoundedTextFieldDisabled(
-                  type: TextInputType.text,
-                  hintText: widget.formularioExtra.ocupacion),
-              SizedBox(
-                height: 20.0,
-              ),
-              Text(
-                'Institución donde trabaja o estudia',
-                textAlign: TextAlign.left,
-                style: TextStyle(fontSize: 18.0),
-              ),
-              SizedBox(
-                height: 8.0,
-              ),
-              RoundedTextFieldDisabled(
-                  type: TextInputType.text,
-                  hintText: widget.formularioExtra.lugarOcupacion),
-              SizedBox(
-                height: 20.0,
-              ),
-              Text(
-                'Estado Civil',
-                textAlign: TextAlign.left,
-                style: TextStyle(fontSize: 18.0),
-              ),
-              SizedBox(
-                height: 8.0,
-              ),
-              RoundedTextFieldDisabled(
-                  type: TextInputType.text,
-                  hintText: widget.formularioExtra.estadoCivil),
-              SizedBox(
-                height: 20.0,
-              ),
-              Text(
-                'Servicio de salud',
-                textAlign: TextAlign.left,
-                style: TextStyle(fontSize: 18.0),
-              ),
-              SizedBox(
-                height: 8.0,
-              ),
-              RoundedTextFieldDisabled(
-                  type: TextInputType.text,
-                  hintText: widget.formularioExtra.tieneEps ? "Si" : "No"),
-              SizedBox(
-                height: 20.0,
-              ),
-              widget.formularioExtra.tieneEps
-                  ? Text(
-                      'EPS',
-                      textAlign: TextAlign.left,
-                      style: TextStyle(fontSize: 18.0),
-                    )
-                  : SizedBox.shrink(),
-              widget.formularioExtra.tieneEps
-                  ? SizedBox(
-                      height: 8.0,
-                    )
-                  : SizedBox.shrink(),
-              widget.formularioExtra.tieneEps
-                  ? RoundedTextFieldDisabled(
-                      type: TextInputType.text,
-                      hintText: widget.formularioExtra.eps)
-                  : SizedBox.shrink(),
-              widget.formularioExtra.tieneEps
-                  ? SizedBox(
-                      height: 20.0,
-                    )
-                  : SizedBox.shrink(),
-              widget.formularioExtra.tieneEps
-                  ? Text(
-                      'Tipo de Vinculación',
-                      textAlign: TextAlign.left,
-                      style: TextStyle(fontSize: 18.0),
-                    )
-                  : SizedBox.shrink(),
-              widget.formularioExtra.tieneEps
-                  ? SizedBox(
-                      height: 8.0,
-                    )
-                  : SizedBox.shrink(),
-              widget.formularioExtra.tieneEps
-                  ? RoundedTextFieldDisabled(
-                      type: TextInputType.text,
-                      hintText: widget.formularioExtra.estadoEps)
-                  : SizedBox.shrink(),
-              Text(
-                '¿Cómo se enteró del servicio de Consultores en Psicología?',
-                textAlign: TextAlign.left,
-                style: TextStyle(fontSize: 18.0),
-              ),
-              SizedBox(
-                height: 8.0,
-              ),
-              RoundedTextFieldDisabled(
-                  type: TextInputType.text,
-                  hintText: widget.formularioExtra.servicio),
-              SizedBox(
-                height: 20.0,
-              ),
-              Text(
-                'Acudiente #1',
-                textAlign: TextAlign.left,
-                style: TextStyle(fontSize: 18.0),
-              ),
-              SizedBox(
-                height: 8.0,
-              ),
-              Text(
-                'Nombre del acudiente',
-                textAlign: TextAlign.left,
-                style: TextStyle(fontSize: 18.0),
-              ),
-              SizedBox(
-                height: 8.0,
-              ),
-              RoundedTextFieldDisabled(
-                  type: TextInputType.text,
-                  hintText: widget.formularioExtra.nombreAcudiente1),
-              SizedBox(
-                height: 8.0,
-              ),
-              Text(
-                'Número del acudiente',
-                textAlign: TextAlign.left,
-                style: TextStyle(fontSize: 18.0),
-              ),
-              SizedBox(
-                height: 8.0,
-              ),
-              RoundedTextFieldDisabled(
-                  type: TextInputType.text,
-                  hintText: widget.formularioExtra.numeroAcudiente1),
-              SizedBox(
-                height: 20.0,
-              ),
-              Text(
-                'Acudiente #2',
-                textAlign: TextAlign.left,
-                style: TextStyle(fontSize: 18.0),
-              ),
-              SizedBox(
-                height: 8.0,
-              ),
-              Text(
-                'Nombre del acudiente',
-                textAlign: TextAlign.left,
-                style: TextStyle(fontSize: 18.0),
-              ),
-              SizedBox(
-                height: 8.0,
-              ),
-              RoundedTextFieldDisabled(
-                  type: TextInputType.text,
-                  hintText: widget.formularioExtra.nombreAcudiente2),
-              SizedBox(
-                height: 8.0,
-              ),
-              Text(
-                'Número del acudiente',
-                textAlign: TextAlign.left,
-                style: TextStyle(fontSize: 18.0),
-              ),
-              SizedBox(
-                height: 8.0,
-              ),
-              RoundedTextFieldDisabled(
-                  type: TextInputType.text,
-                  hintText: widget.formularioExtra.numeroAcudiente2),
-              SizedBox(
-                height: 8.0,
-              ),
-              Divider(
-                height: 1,
-              ),
-              Row(
-                children: [
-                  Container(
-                      height: 40.0,
-                      child: ElevatedButton(
-                        style: ButtonStyle(
-                          backgroundColor:
-                              MaterialStateProperty.all<Color>(kPrimaryColor),
-                        ),
-                        onPressed:
-                            this._isCompleted ? descargarDocumento() : null,
-                        child: Padding(
-                          padding: EdgeInsets.symmetric(horizontal: 20.0),
-                          child: Text("Ver Documento",
-                              style: TextStyle(
-                                  fontSize: 18.0,
-                                  fontWeight: FontWeight.normal)),
-                        ),
-                      )),
-                  Container(
-                      height: 40.0,
-                      child: ElevatedButton(
-                        style: ButtonStyle(
-                          backgroundColor:
-                              MaterialStateProperty.all<Color>(kPrimaryColor),
-                        ),
-                        onPressed: this._isCompleted
-                            ? descargarConsentimientoP()
-                            : null,
-                        child: Padding(
-                          padding: EdgeInsets.symmetric(horizontal: 20.0),
-                          child: Text("Ver Consentimiento Principal",
-                              style: TextStyle(
-                                  fontSize: 18.0,
-                                  fontWeight: FontWeight.normal)),
-                        ),
-                      )),
-                  Container(
-                      height: 40.0,
-                      child: ElevatedButton(
-                        style: ButtonStyle(
-                          backgroundColor:
-                              MaterialStateProperty.all<Color>(kPrimaryColor),
-                        ),
-                        onPressed: this._isCompleted
-                            ? descargarConsentimientoTP()
-                            : null,
-                        child: Padding(
-                          padding: EdgeInsets.symmetric(horizontal: 20.0),
-                          child: Text("Ver Consentimiento Telepsicología",
-                              style: TextStyle(
-                                  fontSize: 18.0,
-                                  fontWeight: FontWeight.normal)),
-                        ),
-                      )),
-                  Container(
-                      height: 40.0,
-                      child: ElevatedButton(
-                        style: ButtonStyle(
-                          backgroundColor:
-                              MaterialStateProperty.all<Color>(kPrimaryColor),
-                        ),
-                        onPressed: this._isCompleted ? descargarRecibo() : null,
-                        child: Padding(
-                          padding: EdgeInsets.symmetric(horizontal: 20.0),
-                          child: Text("Ver Recibo de Pago",
-                              style: TextStyle(
-                                  fontSize: 18.0,
-                                  fontWeight: FontWeight.normal)),
-                        ),
-                      )),
-                ],
-              )
-            ]),
-          ),
-        ),
-      ],
+    return FutureBuilder<String>(
+      future: traerDocumentos(), // function where you call your api
+      builder: (BuildContext context, AsyncSnapshot<String> snapshot) {
+        // AsyncSnapshot<Your object type>
+        if (snapshot.connectionState == ConnectionState.waiting) {
+          return LoadingWanderingCube();
+        } else {
+          if (snapshot.hasError)
+            return Center(child: Text('Error: ${snapshot.error}'));
+          else
+            return Stack(
+              children: [
+                Container(
+                  margin: widget.stack
+                      ? EdgeInsets.symmetric(vertical: 35.0, horizontal: 5.0)
+                      : null,
+                  padding: widget.stack
+                      ? EdgeInsets.only(
+                          left: 20.0, right: 20.0, top: 30.0, bottom: 20.0)
+                      : null,
+                  decoration: widget.stack
+                      ? BoxDecoration(
+                          borderRadius: BorderRadius.all(Radius.circular(5)),
+                          border: Border.all(color: kPrimaryColor, width: 2.0),
+                        )
+                      : null,
+                  child: Theme(
+                    data: temaFormularios(),
+                    child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            'Escolaridad',
+                            textAlign: TextAlign.left,
+                            style: TextStyle(fontSize: 18.0),
+                          ),
+                          RoundedTextFieldDisabled(
+                              type: TextInputType.text,
+                              hintText: widget.formularioExtra.escolaridad),
+                          SizedBox(
+                            height: 20.0,
+                          ),
+                          Text(
+                            'Ocupación',
+                            textAlign: TextAlign.left,
+                            style: TextStyle(fontSize: 18.0),
+                          ),
+                          RoundedTextFieldDisabled(
+                              type: TextInputType.text,
+                              hintText: widget.formularioExtra.ocupacion),
+                          SizedBox(
+                            height: 20.0,
+                          ),
+                          Text(
+                            'Institución donde trabaja o estudia',
+                            textAlign: TextAlign.left,
+                            style: TextStyle(fontSize: 18.0),
+                          ),
+                          SizedBox(
+                            height: 8.0,
+                          ),
+                          RoundedTextFieldDisabled(
+                              type: TextInputType.text,
+                              hintText: widget.formularioExtra.lugarOcupacion),
+                          SizedBox(
+                            height: 20.0,
+                          ),
+                          Text(
+                            'Estado Civil',
+                            textAlign: TextAlign.left,
+                            style: TextStyle(fontSize: 18.0),
+                          ),
+                          SizedBox(
+                            height: 8.0,
+                          ),
+                          RoundedTextFieldDisabled(
+                              type: TextInputType.text,
+                              hintText: widget.formularioExtra.estadoCivil),
+                          SizedBox(
+                            height: 20.0,
+                          ),
+                          Text(
+                            'Servicio de salud',
+                            textAlign: TextAlign.left,
+                            style: TextStyle(fontSize: 18.0),
+                          ),
+                          SizedBox(
+                            height: 8.0,
+                          ),
+                          RoundedTextFieldDisabled(
+                              type: TextInputType.text,
+                              hintText: widget.formularioExtra.tieneEps
+                                  ? "Si"
+                                  : "No"),
+                          SizedBox(
+                            height: 20.0,
+                          ),
+                          widget.formularioExtra.tieneEps
+                              ? Text(
+                                  'EPS',
+                                  textAlign: TextAlign.left,
+                                  style: TextStyle(fontSize: 18.0),
+                                )
+                              : SizedBox.shrink(),
+                          widget.formularioExtra.tieneEps
+                              ? SizedBox(
+                                  height: 8.0,
+                                )
+                              : SizedBox.shrink(),
+                          widget.formularioExtra.tieneEps
+                              ? RoundedTextFieldDisabled(
+                                  type: TextInputType.text,
+                                  hintText: widget.formularioExtra.eps)
+                              : SizedBox.shrink(),
+                          widget.formularioExtra.tieneEps
+                              ? SizedBox(
+                                  height: 20.0,
+                                )
+                              : SizedBox.shrink(),
+                          widget.formularioExtra.tieneEps
+                              ? Text(
+                                  'Tipo de Vinculación',
+                                  textAlign: TextAlign.left,
+                                  style: TextStyle(fontSize: 18.0),
+                                )
+                              : SizedBox.shrink(),
+                          widget.formularioExtra.tieneEps
+                              ? SizedBox(
+                                  height: 8.0,
+                                )
+                              : SizedBox.shrink(),
+                          widget.formularioExtra.tieneEps
+                              ? RoundedTextFieldDisabled(
+                                  type: TextInputType.text,
+                                  hintText: widget.formularioExtra.estadoEps)
+                              : SizedBox.shrink(),
+                          Text(
+                            '¿Cómo se enteró del servicio de Consultores en Psicología?',
+                            textAlign: TextAlign.left,
+                            style: TextStyle(fontSize: 18.0),
+                          ),
+                          SizedBox(
+                            height: 8.0,
+                          ),
+                          RoundedTextFieldDisabled(
+                              type: TextInputType.text,
+                              hintText: widget.formularioExtra.servicio),
+                          SizedBox(
+                            height: 20.0,
+                          ),
+                          Text(
+                            'Acudiente #1',
+                            textAlign: TextAlign.left,
+                            style: TextStyle(fontSize: 18.0),
+                          ),
+                          SizedBox(
+                            height: 8.0,
+                          ),
+                          Text(
+                            'Nombre del acudiente',
+                            textAlign: TextAlign.left,
+                            style: TextStyle(fontSize: 18.0),
+                          ),
+                          SizedBox(
+                            height: 8.0,
+                          ),
+                          RoundedTextFieldDisabled(
+                              type: TextInputType.text,
+                              hintText:
+                                  widget.formularioExtra.nombreAcudiente1),
+                          SizedBox(
+                            height: 8.0,
+                          ),
+                          Text(
+                            'Número del acudiente',
+                            textAlign: TextAlign.left,
+                            style: TextStyle(fontSize: 18.0),
+                          ),
+                          SizedBox(
+                            height: 8.0,
+                          ),
+                          RoundedTextFieldDisabled(
+                              type: TextInputType.text,
+                              hintText:
+                                  widget.formularioExtra.numeroAcudiente1),
+                          SizedBox(
+                            height: 20.0,
+                          ),
+                          Text(
+                            'Acudiente #2',
+                            textAlign: TextAlign.left,
+                            style: TextStyle(fontSize: 18.0),
+                          ),
+                          SizedBox(
+                            height: 8.0,
+                          ),
+                          Text(
+                            'Nombre del acudiente',
+                            textAlign: TextAlign.left,
+                            style: TextStyle(fontSize: 18.0),
+                          ),
+                          SizedBox(
+                            height: 8.0,
+                          ),
+                          RoundedTextFieldDisabled(
+                              type: TextInputType.text,
+                              hintText:
+                                  widget.formularioExtra.nombreAcudiente2),
+                          SizedBox(
+                            height: 8.0,
+                          ),
+                          Text(
+                            'Número del acudiente',
+                            textAlign: TextAlign.left,
+                            style: TextStyle(fontSize: 18.0),
+                          ),
+                          SizedBox(
+                            height: 8.0,
+                          ),
+                          RoundedTextFieldDisabled(
+                              type: TextInputType.text,
+                              hintText:
+                                  widget.formularioExtra.numeroAcudiente2),
+                          SizedBox(
+                            height: 8.0,
+                          ),
+                          Divider(
+                            height: 1,
+                          ),
+                          Text(
+                            'Asignele un Supervisor al Practicante',
+                            textAlign: TextAlign.left,
+                            style: TextStyle(fontSize: 18.0),
+                          ),
+                          SizedBox(
+                            height: 8.0,
+                          ),
+                          DropdownButton(
+                            value: _supervisorNombreActual,
+                            items: _dropDownMenuItems,
+                            onChanged: changedDropDownItem,
+                          ),
+                          Text('Enfoque: ' + _supervisorActual.enfoque),
+                          Text('Correo: ' + _supervisorActual.email),
+                          SizedBox(
+                            height: 8.0,
+                          ),
+                          Divider(
+                            height: 1,
+                          ),
+                          Column(
+                            children: [
+                              Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Container(
+                                      height: 40.0,
+                                      child: ElevatedButton(
+                                        style: ButtonStyle(
+                                          backgroundColor:
+                                              MaterialStateProperty.all<Color>(
+                                                  kPrimaryColor),
+                                        ),
+                                        onPressed: this._isCompleted
+                                            ? descargarDocumento()
+                                            : null,
+                                        child: Padding(
+                                          padding: EdgeInsets.symmetric(
+                                              horizontal: 20.0),
+                                          child: Text("Ver Documento",
+                                              style: TextStyle(
+                                                  color: Colors.white,
+                                                  fontSize: 18.0,
+                                                  fontWeight:
+                                                      FontWeight.normal)),
+                                        ),
+                                      )),
+                                  Container(
+                                      height: 40.0,
+                                      child: ElevatedButton(
+                                        style: ButtonStyle(
+                                          backgroundColor:
+                                              MaterialStateProperty.all<Color>(
+                                                  kPrimaryColor),
+                                        ),
+                                        onPressed: this._isCompleted
+                                            ? descargarConsentimientoP()
+                                            : null,
+                                        child: Padding(
+                                          padding: EdgeInsets.symmetric(
+                                              horizontal: 20.0),
+                                          child: Text(
+                                              "Ver Consentimiento Principal",
+                                              style: TextStyle(
+                                                  color: Colors.white,
+                                                  fontSize: 18.0,
+                                                  fontWeight:
+                                                      FontWeight.normal)),
+                                        ),
+                                      )),
+                                ],
+                              ),
+                              Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Container(
+                                      height: 40.0,
+                                      child: ElevatedButton(
+                                        style: ButtonStyle(
+                                          backgroundColor:
+                                              MaterialStateProperty.all<Color>(
+                                                  kPrimaryColor),
+                                        ),
+                                        onPressed: this._isCompleted
+                                            ? descargarConsentimientoTP()
+                                            : null,
+                                        child: Padding(
+                                          padding: EdgeInsets.symmetric(
+                                              horizontal: 20.0),
+                                          child: Text(
+                                              "Ver Consentimiento Telepsicología",
+                                              style: TextStyle(
+                                                  color: Colors.white,
+                                                  fontSize: 18.0,
+                                                  fontWeight:
+                                                      FontWeight.normal)),
+                                        ),
+                                      )),
+                                  Container(
+                                      height: 40.0,
+                                      child: ElevatedButton(
+                                        style: ButtonStyle(
+                                          backgroundColor:
+                                              MaterialStateProperty.all<Color>(
+                                                  kPrimaryColor),
+                                        ),
+                                        onPressed: this._isCompleted
+                                            ? descargarRecibo()
+                                            : null,
+                                        child: Padding(
+                                          padding: EdgeInsets.symmetric(
+                                              horizontal: 20.0),
+                                          child: Text("Ver Recibo de Pago",
+                                              style: TextStyle(
+                                                  color: Colors.white,
+                                                  fontSize: 18.0,
+                                                  fontWeight:
+                                                      FontWeight.normal)),
+                                        ),
+                                      )),
+                                ],
+                              ),
+                            ],
+                          )
+                        ]),
+                  ),
+                ),
+              ],
+            ); // snapshot.data  :- get your object which is pass from your downloadData() function
+        }
+      },
     );
   }
 

@@ -8,9 +8,11 @@ import com.satpj.project.modelo.acudiente.Acudiente;
 import com.satpj.project.modelo.documento_paciente.DocumentoPaciente;
 import com.satpj.project.modelo.formulario.Formulario;
 import com.satpj.project.modelo.formulario.FormularioExtra;
+import com.satpj.project.modelo.grupo.Grupo;
 import com.satpj.project.modelo.paciente.*;
 import com.satpj.project.modelo.practicante.Practicante;
 import com.satpj.project.modelo.practicante.PracticantePaciente;
+import com.satpj.project.modelo.supervisor.Supervisor;
 import com.satpj.project.seguridad.CustomPrincipal;
 
 import lombok.Getter;
@@ -92,6 +94,30 @@ public class ServicioPaciente {
     }
     
     /*
+     * La funcion findSupervisorByPacienteId tiene el proposito de evitar la
+     * recursion en JSON que genera la relacion Paciente - Supervisor
+     */
+    @GetMapping(value = "/{id}/supervisor", produces = "application/json; charset=UTF-8")
+    public Supervisor findSupervisorByPacienteId(@AuthenticationPrincipal CustomPrincipal customPrincipal, @PathVariable("id") String id) {
+        Paciente paciente = repositorioPaciente.findById(id).get();
+        Preconditions.checkNotNull(paciente);
+        Preconditions.checkNotNull(paciente.getSupervisor());
+        return paciente.getSupervisor();
+    }
+
+    /*
+     * La funcion findSupervisorByPacienteId tiene el proposito de evitar la
+     * recursion en JSON que genera la relacion Paciente - Supervisor
+     */
+    @GetMapping(value = "/{id}/grupo", produces = "application/json; charset=UTF-8")
+    public Grupo findGrupoByPacienteId(@AuthenticationPrincipal CustomPrincipal customPrincipal, @PathVariable("id") String id) {
+        Paciente paciente = repositorioPaciente.findById(id).get();
+        Preconditions.checkNotNull(paciente);
+        Preconditions.checkNotNull(paciente.getGrupo());
+        return paciente.getGrupo();
+    }
+    
+    /*
      * La funcion findAcudientesByPacienteId tiene el proposito de evitar la
      * recursion en JSON que genera la relacion Paciente - Acudiente
      */
@@ -121,6 +147,7 @@ public class ServicioPaciente {
     public Formulario findFormularioByPacienteId(@AuthenticationPrincipal CustomPrincipal customPrincipal, @PathVariable("id") String id) {
         Paciente paciente = repositorioPaciente.findById(id).get();
         Preconditions.checkNotNull(paciente);
+        Preconditions.checkNotNull(paciente.getFormulario());
         return paciente.getFormulario();
     }
 
@@ -128,6 +155,7 @@ public class ServicioPaciente {
     public FormularioExtra findFormularioExtraByPacienteId(@AuthenticationPrincipal CustomPrincipal customPrincipal, @PathVariable("id") String id) {
         Paciente paciente = repositorioPaciente.findById(id).get();
         Preconditions.checkNotNull(paciente);
+        Preconditions.checkNotNull(paciente.getFormularioExtra());
         return paciente.getFormularioExtra();
     }
 
@@ -150,6 +178,25 @@ public class ServicioPaciente {
         }
         return practicantes;
     }
+
+    /*
+     * La funcion findPracticanteActivoByPacienteId tiene el proposito de encontrar al
+     * Practicante que actualmente se encuentre atendiendo al Paciente.
+     */
+    @GetMapping(value = "/practicante/{id}", produces = "application/json; charset=UTF-8")
+    public Practicante findPracticanteActivoByPacienteId(@AuthenticationPrincipal CustomPrincipal customPrincipal, @PathVariable("id") String id) {
+        Paciente paciente = repositorioPaciente.findById(id).get();
+        Preconditions.checkNotNull(paciente);
+        List<PracticantePaciente> practicantePacientes = paciente.getPracticantesPaciente();
+        Practicante practicante = null;
+        for (PracticantePaciente practicantePaciente : practicantePacientes) {
+            if (practicantePaciente.isActivo()) {
+                practicante = practicantePaciente.getPracticante();
+            }
+        }
+        return practicante;
+    }
+
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)

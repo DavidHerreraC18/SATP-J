@@ -15,6 +15,11 @@ List<Practicante> practicanteFromJson(String str) => List<Practicante>.from(
 String practicanteToJson(List<Practicante> data) =>
     json.encode(List<dynamic>.from(data.map((x) => x.toJson())));
 
+Practicante singlePracticanteFromJson(String str) {
+  Practicante practicante = Practicante.fromJson(json.decode(str));
+  return practicante;
+}
+
 @JsonSerializable(explicitToJson: true)
 class Practicante extends Usuario {
   List<PracticantePaciente> practicante;

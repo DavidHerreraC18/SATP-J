@@ -26,7 +26,8 @@ class ProviderAprobacionPacientes {
         "Connection": "keep-alive",
         'Content-Type': 'application/json; charset=UTF-8',
       };
-      final resp = await http.get(Uri.http(_url, "/formularios/pre-aprobados"),
+      final resp = await http.get(
+          Uri.http(_url, "/formularios-extra/pre-aprobados"),
           headers: headers);
       print("JSON RECIBIDO" + resp.body);
       if (resp.statusCode == 200) {
@@ -68,9 +69,8 @@ class ProviderAprobacionPacientes {
     return _completer.future;
   }
 
-  static Future<String> aprobarPaciente(FormularioExtra formulario) async {
+  static Future<String> aprobarPaciente(Paciente paciente) async {
     final _completer = Completer<String>();
-    Paciente paciente = formulario.paciente;
     paciente.estadoAprobado = "Aprobado";
     String json = jsonEncode(paciente.toJson());
 
@@ -95,9 +95,34 @@ class ProviderAprobacionPacientes {
     return _completer.future;
   }
 
-  static Future<String> rechazarPaciente(FormularioExtra formulario) async {
+  static Future<String> aprobarPacienteGrupo(Paciente paciente) async {
     final _completer = Completer<String>();
-    Paciente paciente = formulario.paciente;
+    paciente.estadoAprobado = "GrupoNoAprobado";
+    String json = jsonEncode(paciente.toJson());
+
+    print("JSON GENERADO" + json);
+    try {
+      Map<String, String> headers = {
+        "Authorization":
+            "Bearer " + await ProviderAuntenticacion.extractToken(),
+        "Cache-Control": "no-cache",
+        "Accept": "*/*",
+        "Accept-Encoding": "gzip, deflate, br",
+        "Connection": "keep-alive",
+        'Content-Type': 'application/json; charset=UTF-8',
+      };
+      final resp = await http.put(Uri.http(_url, "/pacientes/" + paciente.id),
+          headers: headers, body: json);
+      _completer.complete(resp.body);
+    } catch (e) {
+      print(e);
+      _completer.completeError("Error");
+    }
+    return _completer.future;
+  }
+
+  static Future<String> rechazarPaciente(Paciente paciente) async {
+    final _completer = Completer<String>();
     paciente.estadoAprobado = "NoAprobado";
     String json = jsonEncode(paciente.toJson());
 

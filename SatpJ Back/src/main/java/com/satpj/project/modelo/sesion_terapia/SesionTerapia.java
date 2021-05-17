@@ -1,7 +1,6 @@
 package com.satpj.project.modelo.sesion_terapia;
 
-import java.time.LocalDate;
-import java.time.LocalTime;
+import java.time.LocalDateTime;
 import java.util.List;
 
 import lombok.Getter;
@@ -16,10 +15,12 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.satpj.project.modelo.consultorio.Consultorio;
 import com.satpj.project.modelo.paquete_sesion.PaqueteSesion;
 
 /**
@@ -46,11 +47,7 @@ public class SesionTerapia {
 
 	@NotNull(message = "La Fecha de la Sesión de Terapia es obligatoria")
 	@Column(name = "fecha", nullable = false)
-	private LocalDate fecha;
-
-	@NotNull(message = "La Hora de la Sesión de Terapia es obligatoria")
-	@Column(name = "hora", nullable = false)
-	private LocalTime hora;
+	private LocalDateTime fecha;
 
 	/* Indica si la Sesión de Terapia se realizará presencial o virtual */
 	@NotNull(message = "Indicar si la Sesión de Terapia es Virtual o Presencial")
@@ -61,8 +58,7 @@ public class SesionTerapia {
 	 * Puede contener el número de consultorio o el link a la sala de la
 	 * videollamada
 	 */
-	@NotNull(message = "El Consultorio de la Sesión de Terapia es obligatorio")
-	@Column(name = "consultorio", nullable = false)
-	private String consultorio;
+	@OneToOne(fetch = FetchType.EAGER)
+	private Consultorio consultorio;
 
 }

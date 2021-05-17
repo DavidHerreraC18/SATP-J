@@ -1,13 +1,17 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:satpj_front_end_web/src/model/Notificadores/sesion_notifier.dart';
-import 'package:satpj_front_end_web/src/model/formulario/formulario.dart';
 import 'package:satpj_front_end_web/src/model/paciente/paciente.dart';
+import 'package:satpj_front_end_web/src/model/practicante/practicante.dart';
 import 'package:satpj_front_end_web/src/model/sesion_terapia/sesion_terapia.dart';
-import 'package:satpj_front_end_web/src/model/supervisor/supervisor.dart';
+import 'package:satpj_front_end_web/src/providers/provider_administracion_pacientes.dart';
+import 'package:satpj_front_end_web/src/providers/provider_autenticacion.dart';
 import 'package:satpj_front_end_web/src/utils/tema.dart';
 import 'package:satpj_front_end_web/src/utils/widgets/Barras/toolbar_auxiliar_administrativo.dart';
+import 'package:satpj_front_end_web/src/utils/widgets/Calendarios/CalendarioAgendar.dart';
 import 'package:satpj_front_end_web/src/utils/widgets/Dialogos/dialog_delete.dart';
 import 'package:satpj_front_end_web/src/utils/widgets/FuentesDatos/datatablesource_sesiones_terapia.dart';
+import 'package:satpj_front_end_web/src/utils/widgets/LoadingWidgets/LoadingWanderingCube.dart';
 import 'package:satpj_front_end_web/src/views/agendar_citas/dialogo_sesion_terapia.dart';
 import 'package:provider/provider.dart';
 import 'package:satpj_front_end_web/src/utils/widgets/custom_paginated_datatable.dart';
@@ -22,61 +26,71 @@ class VistaGestionarAgendamiento extends StatefulWidget {
       _VistaGestionarAgendamientoState();
 }
 
-Paciente paciente = new Paciente();
-SesionTerapia sesion = new SesionTerapia();
-
 class _VistaGestionarAgendamientoState
     extends State<VistaGestionarAgendamiento> {
-  crearPacienteTemporal() {
-    paciente.nombre = 'Pepito';
-    paciente.apellido = 'Gómez';
-    paciente.tipoDocumento = 'Tarjeta de Identidad';
-    paciente.documento = '1234567';
-    paciente.edad = 15;
-    paciente.email = 'pepito@gmail.com';
-    paciente.telefono = '32324214';
-    paciente.direccion = 'Calle 23 # 44-20';
-    paciente.estrato = 3;
-    paciente.supervisor = new Supervisor();
-    paciente.supervisor.nombre = 'Juanito';
-    paciente.supervisor.apellido = 'Rodriguez';
-  }
-
-  crearSesionTemporal() {
-    sesion.fecha = new DateTime.now();
-    sesion.hora = new DateTime.now();
-    sesion.consultorio = 'Tarjeta de Identidad';
-    sesion.virtual = true;
-  }
+  Paciente paciente;
+  Practicante practicante;
 
   @override
   void initState() {
-    crearPacienteTemporal();
-    crearSesionTemporal();
     super.initState();
+  }
+
+  Future<String> obtenerInfoPacientePracticante() async {
+    String uid = ProviderAuntenticacion.uid;
+    paciente = await ProviderAdministracionPacientes.buscarPaciente(uid);
+    practicante =
+        await ProviderAdministracionPacientes.traerPracticanteActivoPaciente(
+            paciente);
+    return Future.value("Data download successfully");
+    //crearPacienteTemporal();
+    //crearSesionTemporal();
   }
 
   @override
   Widget build(BuildContext context) {
-    final Map arguments = ModalRoute.of(context).settings.arguments as Map;
+    return FutureBuilder<String>(
+      future:
+          obtenerInfoPacientePracticante(), // function where you call your api
+      builder: (BuildContext context, AsyncSnapshot<String> snapshot) {
+        // AsyncSnapshot<Your object type>
+        if (snapshot.connectionState == ConnectionState.waiting) {
+          return LoadingWanderingCube();
+        } else {
+          if (snapshot.hasError)
+            return Center(child: Text('Error: ${snapshot.error}'));
+          else {
+            final Map arguments =
+                ModalRoute.of(context).settings.arguments as Map;
 
-    if (arguments != null) {
-      paciente = arguments['arguments'] as Paciente;
-    }
+            if (arguments != null) {
+              paciente = arguments['arguments'] as Paciente;
+            }
 
-    print(paciente.nombre);
-    return Scaffold(
-      appBar: toolbarAuxiliarAdministrativo(context),
-      body: ChangeNotifierProvider<SesionNotifier>(
-        create: (_) => SesionNotifier(),
-        child: _InternalWidget(),
-      ),
+            print(paciente.nombre);
+            return Scaffold(
+              appBar: toolbarAuxiliarAdministrativo(context),
+              body: ChangeNotifierProvider<SesionNotifier>(
+                create: (_) => SesionNotifier(),
+                child: _InternalWidget(
+                  paciente: this.paciente,
+                  practicante: this.practicante,
+                ),
+              ),
+            );
+          }
+        }
+      },
     );
   }
 }
 
 class _InternalWidget extends StatelessWidget {
-  const _InternalWidget({Key key}) : super(key: key);
+  const _InternalWidget({this.paciente, this.practicante, Key key})
+      : super(key: key);
+
+  final Paciente paciente;
+  final Practicante practicante;
 
   @override
   Widget build(BuildContext context) {
@@ -96,7 +110,7 @@ class _InternalWidget extends StatelessWidget {
 
     return CustomPaginatedTable(
       actions: [
-         IconButton(
+        IconButton(
           icon: Icon(
             Icons.add,
             color: kPrimaryColor,
@@ -105,9 +119,8 @@ class _InternalWidget extends StatelessWidget {
           onPressed: () {
             showDialog(
                 context: context,
-                builder: (context) => DialogoAgendarSesionTerapia(
-                      paciente: paciente,
-                    ));
+                builder: (context) => CalendarioAgendar(
+                    paciente: paciente, practicante: practicante));
           },
         ),
         IconButton(
@@ -115,7 +128,7 @@ class _InternalWidget extends StatelessWidget {
           //splashColor: Colors.transparent,
           icon: const Icon(Icons.refresh),
           onPressed: () {
-            _provider.fetchData();
+            _provider.fetchData(paciente.id);
             //_showSBar(context, DataTableConstants.refresh);
           },
         ),
@@ -161,8 +174,8 @@ class _InternalWidget extends StatelessWidget {
           ),
           tooltip: "Hora de la sesión de terapia",
           onSort: (colIndex, asc) {
-            _sort<String>((sesion) => sesion.hora.toString(), colIndex, asc,
-                _src, _provider);
+            _sort<String>((sesion) => DateFormat.Hms().format(sesion.fecha),
+                colIndex, asc, _src, _provider);
           },
         ),
         DataColumn(
@@ -183,8 +196,8 @@ class _InternalWidget extends StatelessWidget {
           ),
           tooltip: "Consultorio de la sesión de terapia",
           onSort: (colIndex, asc) {
-            _sort<String>(
-                (sesion) => sesion.consultorio, colIndex, asc, _src, _provider);
+            _sort<String>((sesion) => sesion.consultorio.consultorio, colIndex,
+                asc, _src, _provider);
           },
         ),
         DataColumn(

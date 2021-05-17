@@ -15,6 +15,11 @@ List<Supervisor> supervisorFromJson(String str) =>
 String supervisorToJson(List<Supervisor> data) =>
     json.encode(List<dynamic>.from(data.map((x) => x.toJson())));
 
+Supervisor singleSupervisorFromJson(String str) {
+  Supervisor supervisor = Supervisor.fromJson(json.decode(str));
+  return supervisor;
+}
+
 @JsonSerializable(explicitToJson: true)
 class Supervisor extends Usuario {
   String enfoque;

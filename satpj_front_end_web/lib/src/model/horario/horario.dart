@@ -11,6 +11,11 @@ List<Horario> horarioFromJson(String str) =>
 String horarioToJson(List<Horario> data) =>
     json.encode(List<dynamic>.from(data.map((x) => x.toJson())));
 
+Horario singleHorarioFromJson(String str) {
+  Horario horario = Horario.fromJson(json.decode(str));
+  return horario;
+}
+
 @JsonSerializable(explicitToJson: true)
 class Horario {
   int id;

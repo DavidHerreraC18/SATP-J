@@ -33,7 +33,7 @@ class PdfConsentimientoTelepsicologia {
     page2.graphics.drawString(
         infoPaciente.nombre, PdfStandardFont(PdfFontFamily.timesRoman, 9),
         bounds: Rect.fromLTWH(108, 223, 500, 40));
-    if (infoPaciente.tipoDocumento == "CC") {
+    if (infoPaciente.tipoDocumento == "Cédula de Ciudadanía") {
       page2.graphics.drawString(
           infoPaciente.documento, PdfStandardFont(PdfFontFamily.timesRoman, 9),
           bounds: Rect.fromLTWH(398, 223, 500, 40));

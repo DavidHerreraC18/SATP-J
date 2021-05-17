@@ -264,7 +264,7 @@ class _AuthDialogState extends State<AuthDialog> {
                                       Future.delayed(
                                           Duration(milliseconds: 500), () {
                                         //Navigator.of(context).pop();
-                                        _funcionFea(context);
+                                        _funcionRedireccion(context);
                                       });
                                     }
                                   }).catchError((error) {
@@ -368,7 +368,7 @@ class _AuthDialogState extends State<AuthDialog> {
     );
   }
 
-  _funcionFea(BuildContext context) async {
+  _funcionRedireccion(BuildContext context) async {
     String uid = ProviderAuntenticacion.uid;
     Usuario usuario = await ProviderAdministracionUsuarios.buscarUsuario(uid);
     if (usuario.tipoUsuario == "Paciente") {
@@ -385,11 +385,11 @@ class _AuthDialogState extends State<AuthDialog> {
         }
       } else {
         Navigator.of(context).pushReplacement(MaterialPageRoute(
-            fullscreenDialog: true, builder: (context) => ContadorPage()));
+            fullscreenDialog: true, builder: (context) => HomePage()));
       }
     } else {
       Navigator.of(context).pushReplacement(MaterialPageRoute(
-          fullscreenDialog: true, builder: (context) => ContadorPage()));
+          fullscreenDialog: true, builder: (context) => HomePage()));
     }
   }
 }

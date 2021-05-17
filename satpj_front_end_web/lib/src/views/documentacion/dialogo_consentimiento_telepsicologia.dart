@@ -5,6 +5,7 @@ import 'dart:typed_data';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:satpj_front_end_web/src/model/paciente/paciente.dart';
+import 'package:satpj_front_end_web/src/model/practicante/practicante.dart';
 import 'package:satpj_front_end_web/src/utils/tema.dart';
 import 'package:satpj_front_end_web/src/utils/widgets/Archivos/file_picker_demo.dart';
 import 'package:satpj_front_end_web/src/utils/widgets/Firmas/pad_firmas.dart';
@@ -19,8 +20,6 @@ import 'package:satpj_front_end_web/src/utils/widgets/Pdf/pdf_consentimiento_tel
 final PageController pageCtrlr = new PageController();
 int currentContainer = 0;
 final int numberOfContainers = 3;
-Function funcionConsentimientoTP;
-Paciente pacienteActual;
 
 void changeContainer() {
   if (currentContainer + 1 > numberOfContainers - 1) return;
@@ -33,11 +32,11 @@ void changeContainer() {
 }
 
 class DialogoConsentimientoTelepsicologia extends StatefulWidget {
-  DialogoConsentimientoTelepsicologia(Function fTP, Paciente pA, {Key key})
-      : super(key: key) {
-    funcionConsentimientoTP = fTP;
-    pacienteActual = pA;
-  }
+  final Paciente pacienteActual;
+  final Function funcionConsentimientoTP;
+  DialogoConsentimientoTelepsicologia(
+      {this.funcionConsentimientoTP, this.pacienteActual, key})
+      : super(key: key);
   @override
   DialogoConsentimientoTelepsicologiaState createState() {
     return DialogoConsentimientoTelepsicologiaState();
@@ -94,8 +93,13 @@ class DialogoConsentimientoTelepsicologiaState
                               NeverScrollableScrollPhysics(), // disables scrolling
                           children: [
                             PrimeraPaginaConsentimientoTelepsicologia(),
-                            SegundaPaginaConsentimientoTelepsicologia(),
-                            TerceraPaginaConsentimientoTelepsicologia(),
+                            SegundaPaginaConsentimientoTelepsicologia(
+                                pacienteActual: widget.pacienteActual),
+                            TerceraPaginaConsentimientoTelepsicologia(
+                              pacienteActual: widget.pacienteActual,
+                              funcionConsentimientoTP:
+                                  widget.funcionConsentimientoTP,
+                            ),
                           ],
                           onPageChanged: (int index) =>
                               setState(() => currentContainer = index),
@@ -213,6 +217,8 @@ class PrimeraPaginaConsentimientoTelepsicologiaState
 }
 
 class SegundaPaginaConsentimientoTelepsicologia extends StatefulWidget {
+  final Paciente pacienteActual;
+  SegundaPaginaConsentimientoTelepsicologia({this.pacienteActual});
   @override
   SegundaPaginaConsentimientoTelepsicologiaState createState() {
     return SegundaPaginaConsentimientoTelepsicologiaState();
@@ -264,13 +270,13 @@ class SegundaPaginaConsentimientoTelepsicologiaState
                 SizedBox(width: 50),
                 Text(
                     "Yo " +
-                        pacienteActual.nombre +
+                        widget.pacienteActual.nombre +
                         " " +
-                        pacienteActual.apellido +
+                        widget.pacienteActual.apellido +
                         ", identificado con " +
-                        pacienteActual.tipoDocumento +
+                        widget.pacienteActual.tipoDocumento +
                         ": " +
-                        pacienteActual.documento +
+                        widget.pacienteActual.documento +
                         " expedida en: ",
                     textAlign: TextAlign.justify,
                     style: TextStyle(fontSize: 15)),
@@ -337,6 +343,10 @@ class SegundaPaginaConsentimientoTelepsicologiaState
 }
 
 class TerceraPaginaConsentimientoTelepsicologia extends StatefulWidget {
+  final Paciente pacienteActual;
+  final Function funcionConsentimientoTP;
+  TerceraPaginaConsentimientoTelepsicologia(
+      {this.pacienteActual, this.funcionConsentimientoTP});
   @override
   TerceraPaginaConsentimientoTelepsicologiaState createState() {
     return TerceraPaginaConsentimientoTelepsicologiaState();
@@ -497,9 +507,10 @@ class TerceraPaginaConsentimientoTelepsicologiaState
   }
 
   Future<void> completarConsentimientoPrincipal() async {
-    String nombre = pacienteActual.nombre + " " + pacienteActual.apellido;
-    String tipoDocumento = pacienteActual.tipoDocumento;
-    String documento = pacienteActual.documento;
+    String nombre =
+        widget.pacienteActual.nombre + " " + widget.pacienteActual.apellido;
+    String tipoDocumento = widget.pacienteActual.tipoDocumento;
+    String documento = widget.pacienteActual.documento;
     String ciudad = myController.text;
 
     InfoPacienteTelepsicologiaPdf infoP = new InfoPacienteTelepsicologiaPdf(
@@ -514,6 +525,6 @@ class TerceraPaginaConsentimientoTelepsicologiaState
     await FileSaveHelper.saveAndLaunchFile(
         bytes, 'Consentimiento Telepsciologia.pdf');
     Uint8List aaa = Uint8List.fromList(bytes);
-    funcionConsentimientoTP(aaa);
+    widget.funcionConsentimientoTP(aaa);
   }
 }

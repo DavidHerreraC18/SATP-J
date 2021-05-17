@@ -8,6 +8,7 @@ import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 
+import com.ibm.db2.cmx.annotation.JoinColumn;
 import com.satpj.project.modelo.paciente.Paciente;
 
 import lombok.Getter;
@@ -29,6 +30,7 @@ public class FormularioExtra {
 	private Long id;
 
     @OneToOne
+    @JoinColumn(name = "paciente_id")
     private Paciente paciente;
 
     @NotNull(message = "La Escolaridad es obligatoria")

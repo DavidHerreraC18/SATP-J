@@ -19,9 +19,10 @@ SesionTerapia _$SesionTerapiaFromJson(Map<String, dynamic> json) {
         : PaqueteSesion.fromJson(json['paqueteSesion'] as Map<String, dynamic>),
     fecha:
         json['fecha'] == null ? null : DateTime.parse(json['fecha'] as String),
-    hora: json['hora'] == null ? null : DateTime.parse(json['hora'] as String),
     virtual: json['virtual'] as bool,
-    consultorio: json['consultorio'] as String,
+    consultorio: json['consultorio'] == null
+        ? null
+        : Consultorio.fromJson(json['consultorio'] as Map<String, dynamic>),
   );
 }
 
@@ -31,7 +32,6 @@ Map<String, dynamic> _$SesionTerapiaToJson(SesionTerapia instance) =>
       'sesiones': instance.sesiones?.map((e) => e?.toJson())?.toList(),
       'paqueteSesion': instance.paqueteSesion?.toJson(),
       'fecha': instance.fecha?.toIso8601String(),
-      'hora': instance.hora?.toIso8601String(),
       'virtual': instance.virtual,
-      'consultorio': instance.consultorio,
+      'consultorio': instance.consultorio?.toJson(),
     };

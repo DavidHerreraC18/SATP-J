@@ -42,11 +42,9 @@ class _ButtonDialogState extends State<ButtonDialog> {
             }
           }
         } else if (widget.function != null) {
-          print("INGRESO FUNCION");
           widget.function();
           Navigator.pop(context);
         } else {
-          print("KEY NULA");
           Navigator.pop(context);
         }
       },

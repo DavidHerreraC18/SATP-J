@@ -1,5 +1,7 @@
 package com.satpj.project.modelo.sesion_terapia;
 
+import java.util.List;
+
 import org.springframework.data.jpa.repository.JpaRepository;
 
 /**
@@ -7,5 +9,5 @@ import org.springframework.data.jpa.repository.JpaRepository;
  * la Entidad sesion_usuario
  */
 public interface RepositorioSesionUsuario extends JpaRepository<SesionUsuario, LlaveSesionUsuario> {
-
+    List<SesionUsuario> findByIdUsuarioId(String usuario_id);
 }

@@ -196,7 +196,7 @@ class _AprobDialogState extends State<AprobDialog> {
 
   Future<void> _aprobarPaciente(FormularioExtra formulario) async {
     String respuesta =
-        await ProviderAprobacionPacientes.aprobarPaciente(formulario);
+        await ProviderAprobacionPacientes.aprobarPaciente(formulario.paciente);
     print(respuesta);
     if (respuesta == "Error") {
       mensaje = "Error procesando la solicitud, intenta de nuevo mas tarde";
@@ -209,7 +209,7 @@ class _AprobDialogState extends State<AprobDialog> {
 
   Future<void> _rechazarPaciente(FormularioExtra formulario) async {
     String resuesta =
-        await ProviderAprobacionPacientes.rechazarPaciente(formulario);
+        await ProviderAprobacionPacientes.rechazarPaciente(formulario.paciente);
     print(resuesta);
     if (resuesta == "Error") {
       mensaje = "Error procesando la solicitud, intenta de nuevo mas tarde";

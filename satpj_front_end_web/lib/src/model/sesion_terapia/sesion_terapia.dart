@@ -1,5 +1,5 @@
-
 import 'package:json_annotation/json_annotation.dart';
+import 'package:satpj_front_end_web/src/model/consultorio/consultorio.dart';
 import 'package:satpj_front_end_web/src/model/paquete_sesion/paquete_sesion.dart';
 import 'dart:convert';
 
@@ -14,9 +14,13 @@ List<SesionTerapia> sesionTerapiaFromJson(String str) =>
 String sesionTerapiaToJson(List<SesionTerapia> data) =>
     json.encode(List<dynamic>.from(data.map((x) => x.toJson())));
 
-@JsonSerializable(explicitToJson: true)
-class SesionTerapia{
+SesionTerapia singleSesionTerapiaFromJson(String str) {
+  SesionTerapia sesionTerapia = SesionTerapia.fromJson(json.decode(str));
+  return sesionTerapia;
+}
 
+@JsonSerializable(explicitToJson: true)
+class SesionTerapia {
   int id;
 
   List<SesionUsuario> sesiones;
@@ -25,23 +29,20 @@ class SesionTerapia{
 
   DateTime fecha;
 
-  DateTime hora;
-
   bool virtual;
-  
-  String consultorio;
 
-  SesionTerapia({
-    this.id,
-    this.sesiones,
-    this.paqueteSesion,
-    this.fecha,
-    this.hora,
-    this.virtual,
-    this.consultorio
-  });
+  Consultorio consultorio;
 
-  factory SesionTerapia.fromJson(Map<String, dynamic> json) => _$SesionTerapiaFromJson(json);
+  SesionTerapia(
+      {this.id,
+      this.sesiones,
+      this.paqueteSesion,
+      this.fecha,
+      this.virtual,
+      this.consultorio});
+
+  factory SesionTerapia.fromJson(Map<String, dynamic> json) =>
+      _$SesionTerapiaFromJson(json);
 
   Map<String, dynamic> toJson() => _$SesionTerapiaToJson(this);
 }

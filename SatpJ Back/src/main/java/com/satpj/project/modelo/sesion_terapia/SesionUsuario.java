@@ -28,13 +28,13 @@ public class SesionUsuario {
     private LlaveSesionUsuario id;
 
     @ManyToOne
-    @MapsId("usuario_id")
+    @MapsId("usuarioId")
     @JoinColumn(name = "usuario_id")
     private Usuario usuario;
 
     @ManyToOne
     @MapsId("sesion_terapia_id")
-    @JoinColumn(name = "sesion_terapia__id")
+    @JoinColumn(name = "sesion_terapia_id")
     private SesionTerapia sesionTerapia;
 
     @Column(name = "observador")

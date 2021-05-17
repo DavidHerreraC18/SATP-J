@@ -111,12 +111,16 @@ class _FormState extends State<FormPatientExtraInformation> {
   @override
   void initState() {
     formularioExtra = new FormularioExtra();
-    formularioExtra.paciente = pacienteActual;
+    pacienteActual = widget.pacienteActual;
+    formularioExtra.paciente = widget.pacienteActual;
     textControllerInsti = TextEditingController(text: null);
     textFocusNodeInsti = FocusNode();
 
     textControllerSalud = TextEditingController(text: null);
     textFocusNodeSalud = FocusNode();
+
+    textControllerServicio = TextEditingController(text: null);
+    textFocusNodeServicio = FocusNode();
 
     textControllerNombre1 = TextEditingController(text: null);
     textFocusNodeNombre1 = FocusNode();
@@ -801,30 +805,31 @@ class _FormState extends State<FormPatientExtraInformation> {
               SizedBox(
                 height: 8.0,
               ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.end,
+                children: [
+                  Container(
+                      height: 40.0,
+                      child: ElevatedButton(
+                        style: ButtonStyle(
+                          backgroundColor:
+                              MaterialStateProperty.all<Color>(kPrimaryColor),
+                        ),
+                        onPressed: () {
+                          validarInformacion();
+                        },
+                        child: Padding(
+                          padding: EdgeInsets.symmetric(horizontal: 20.0),
+                          child: Text("Siguiente",
+                              style: TextStyle(
+                                  fontSize: 18.0,
+                                  fontWeight: FontWeight.normal)),
+                        ),
+                      )),
+                ],
+              ),
             ]),
           ),
-        ),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.end,
-          children: [
-            Container(
-                height: 40.0,
-                child: ElevatedButton(
-                  style: ButtonStyle(
-                    backgroundColor:
-                        MaterialStateProperty.all<Color>(kPrimaryColor),
-                  ),
-                  onPressed: () {
-                    validarInformacion();
-                  },
-                  child: Padding(
-                    padding: EdgeInsets.symmetric(horizontal: 20.0),
-                    child: Text("Siguiente",
-                        style: TextStyle(
-                            fontSize: 18.0, fontWeight: FontWeight.normal)),
-                  ),
-                )),
-          ],
         ),
       ],
     );
@@ -833,8 +838,7 @@ class _FormState extends State<FormPatientExtraInformation> {
   Future<void> validarInformacion() async {
     if (_resp != EscolaridadChar.unchecked &&
         _respCivil != CivilChar.unchecked &&
-        _respEps != EpsChar.unchecked &&
-        _respSalud != SaludChar.unchecked) {
+        _respEps != EpsChar.unchecked) {
       if (!estudiante &&
           !empleado &&
           !trabajadorIndependiente &&
@@ -859,11 +863,25 @@ class _FormState extends State<FormPatientExtraInformation> {
           formularioExtra.ocupacion = formularioExtra.ocupacion +
               textControllerOtroOcupacion.text +
               ",";
-        if (textControllerSalud.text.isNotEmpty && eps == true) {
-          formularioExtra.eps = textControllerSalud.text;
+        if (_respEps == EpsChar.si) {
+          if (_respSalud != SaludChar.unchecked) {
+            if (textControllerSalud.text.isNotEmpty && eps == true) {
+              formularioExtra.eps = textControllerSalud.text;
+              formularioExtra.paciente = pacienteActual;
+              await ProviderAprobacionPacientes.crearFormularioExtra(
+                  formularioExtra);
+              Navigator.pushNamed(context, VistaRegistroDocumentos.route);
+            }
+          }
+        } else {
+          if (pacienteActual == null) {
+            print("DIE");
+          }
+          formularioExtra.paciente = pacienteActual;
+          await ProviderAprobacionPacientes.crearFormularioExtra(
+              formularioExtra);
+          Navigator.pushNamed(context, VistaRegistroDocumentos.route);
         }
-        await ProviderAprobacionPacientes.crearFormularioExtra(formularioExtra);
-        Navigator.pushNamed(context, VistaRegistroDocumentos.route);
       }
     }
   }

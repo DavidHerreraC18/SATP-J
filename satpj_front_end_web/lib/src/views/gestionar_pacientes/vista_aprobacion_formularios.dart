@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:lite_rolling_switch/lite_rolling_switch.dart';
 
 import 'package:provider/provider.dart';
+import 'package:satpj_front_end_web/src/model/Notificadores/formulario_extra_notifier.dart';
 import 'package:satpj_front_end_web/src/model/Notificadores/formulario_notifier.dart';
 import 'package:satpj_front_end_web/src/model/formulario/formulario.dart';
 import 'package:satpj_front_end_web/src/model/formulario/formulario_extra.dart';
@@ -11,9 +11,10 @@ import 'package:satpj_front_end_web/src/utils/widgets/Dialogos/dialogo_aprobacio
 import 'package:satpj_front_end_web/src/utils/widgets/Dialogos/dialogo_preaprobacion.dart';
 import 'package:satpj_front_end_web/src/utils/widgets/FuentesDatos/datatablesource_formulario.dart';
 import 'package:satpj_front_end_web/src/utils/widgets/FuentesDatos/datatablesource_formulario_extra.dart';
+import 'package:satpj_front_end_web/src/utils/widgets/botones/switch_button.dart';
 import 'package:satpj_front_end_web/src/utils/widgets/custom_paginated_datatable.dart';
 
-class VistaAprobacionFormularios extends StatelessWidget {
+class VistaAprobacionFormularios extends StatefulWidget {
   static const route = '/preaprobar-pacientes';
 
   @override
@@ -24,30 +25,37 @@ class VistaAprobacionFormularios extends StatelessWidget {
 class VistaAprobacionFormulariosState
     extends State<VistaAprobacionFormularios> {
   bool estado = true;
+  cambioDeAprobado(bool state) {
+    setState(() {
+      estado = state;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: toolbarAuxiliarAdministrativo(context),
       body: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          LiteRollingSwitch(
-            //initial value
+          CustomSwitch(
+            activeColor: kPrimaryColor,
             value: estado,
-            textOn: 'Pendientes Aprobación',
-            textOff: 'Pre-Aprobados',
-            colorOn: kPrimaryColor,
-            colorOff: kAccentColor,
-            iconOn: Icons.accessibility_new,
-            iconOff: Icons.attribution_outlined,
-            textSize: 13.0,
-            onChanged: (bool state) {
-              //Use it to manage the different states
+            onChanged: (value) {
               setState(() {
-                estado = state;
+                estado = value;
               });
             },
           ),
+          estado
+              ? Text(
+                  'Nuevos',
+                  style: TextStyle(color: Colors.black, fontSize: 20.0),
+                )
+              : Text(
+                  'PreAprobados',
+                  style: TextStyle(color: Colors.black, fontSize: 20.0),
+                ),
           estado
               ? Expanded(
                   child: Container(

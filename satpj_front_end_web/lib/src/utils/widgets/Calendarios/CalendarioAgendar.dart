@@ -10,19 +10,24 @@ import 'package:satpj_front_end_web/src/model/horario/horario.dart';
 import 'package:satpj_front_end_web/src/model/paciente/paciente.dart';
 import 'package:satpj_front_end_web/src/model/practicante/practicante.dart';
 import 'package:satpj_front_end_web/src/model/sesion_terapia/sesion_terapia.dart';
-import 'package:satpj_front_end_web/src/model/supervisor/supervisor.dart';
+import 'package:satpj_front_end_web/src/model/sesion_terapia/sesion_usuario.dart';
+import 'package:satpj_front_end_web/src/providers/provider_administracion_usuarios.dart';
+import 'package:satpj_front_end_web/src/providers/provider_sesiones_terapia.dart';
+import 'package:satpj_front_end_web/src/providers/providers_usuarios/provider_usuarios.dart';
 import 'package:satpj_front_end_web/src/utils/tema.dart';
+import 'package:satpj_front_end_web/src/utils/widgets/LoadingWidgets/LoadingWanderingCube.dart';
 import 'package:satpj_front_end_web/src/utils/widgets/formularios/tema_formularios.dart';
 import 'package:satpj_front_end_web/src/views/agendar_citas/dialogo_sesion_terapia.dart';
 import 'package:syncfusion_flutter_calendar/calendar.dart';
-import 'package:syncfusion_localizations/syncfusion_localizations.dart';
 import 'package:flutter/foundation.dart' show kIsWeb;
 
 import 'CustomAppointment.dart';
 
 class CalendarioAgendar extends StatelessWidget {
   //static const route = "/calendario";
-
+  CalendarioAgendar({@required this.paciente, @required this.practicante});
+  final Paciente paciente;
+  final Practicante practicante;
   @override
   Widget build(BuildContext context) {
     return Theme(
@@ -34,9 +39,12 @@ class CalendarioAgendar extends StatelessWidget {
             ),
             child: Container(
               child: Card(
-                child: Flex(
-                    direction: Axis.vertical,
-                    children: [Expanded(child: CalendarAppointmentEditor())]),
+                child: Flex(direction: Axis.vertical, children: [
+                  Expanded(
+                      child: CalendarAppointmentEditor(
+                          paciente: this.paciente,
+                          practicante: this.practicante))
+                ]),
               ),
             )));
   }
@@ -44,48 +52,17 @@ class CalendarioAgendar extends StatelessWidget {
 
 class CalendarAppointmentEditor extends StatefulWidget {
   /// creates the appointment editor
-  const CalendarAppointmentEditor({Key key}) : super(key: key);
-
+  const CalendarAppointmentEditor({this.paciente, this.practicante, Key key})
+      : super(key: key);
+  final Paciente paciente;
+  final Practicante practicante;
   @override
   _CalendarAppointmentEditorState createState() =>
       _CalendarAppointmentEditorState();
 }
 
-Paciente paciente = new Paciente();
-Practicante practicante = new Practicante();
-
 class _CalendarAppointmentEditorState extends State<CalendarAppointmentEditor> {
   _CalendarAppointmentEditorState();
-
-  crearPacienteTemporal() {
-    paciente.nombre = 'Pepito';
-    paciente.apellido = 'Gómez';
-    paciente.tipoDocumento = 'Tarjeta de Identidad';
-    paciente.documento = '1234567';
-    paciente.edad = 15;
-    paciente.email = 'pepito@gmail.com';
-    paciente.telefono = '32324214';
-    paciente.direccion = 'Calle 23 # 44-20';
-    paciente.estrato = 3;
-    paciente.supervisor = new Supervisor();
-    paciente.supervisor.nombre = 'Juanito';
-    paciente.supervisor.apellido = 'Rodriguez';
-  }
-
-  crearPracticanteTemporal() {
-    practicante.nombre = 'Pepito';
-    practicante.apellido = 'Gómez';
-    practicante.tipoDocumento = 'Tarjeta de Identidad';
-    practicante.documento = '1234567';
-    practicante.email = 'pepito@gmail.com';
-    practicante.telefono = '32324214';
-    practicante.direccion = 'Calle 23 # 44-20';
-    practicante.pregrado = true;
-    practicante.aforo = 3;
-    practicante.semestre = 8;
-    paciente.supervisor.nombre = 'Juanito';
-    paciente.supervisor.apellido = 'Rodriguez';
-  }
 
   List<Appointment> _appointments;
   List<SesionTerapia> _sesionesTerapia;
@@ -116,16 +93,18 @@ class _CalendarAppointmentEditorState extends State<CalendarAppointmentEditor> {
     calendarController = CalendarController();
     calendarController.view = CalendarView.week;
     _view = CalendarView.month;
-    _sesionesTerapia = _getSesionesTerapia();
-    _horarioPracticante = _getHorario();
+    _selectedAppointment = null;
+    _sesionTerapiaSeleccionada = null;
+    super.initState();
+  }
+
+  Future<String> obtenerInformacion() async {
+    _sesionesTerapia = await _getSesionesTerapia();
+    _horarioPracticante = await _getHorario();
     _appointments =
         _getAppointmentDetails(_horarioPracticante, _sesionesTerapia);
     _events = _DataSource(_appointments);
-    _selectedAppointment = null;
-    _sesionTerapiaSeleccionada = null;
-    crearPacienteTemporal();
-    crearPracticanteTemporal();
-    super.initState();
+    return Future.value("Data download successfully"); // return your response
   }
 
   @override
@@ -136,32 +115,56 @@ class _CalendarAppointmentEditorState extends State<CalendarAppointmentEditor> {
 
   @override
   Widget build([BuildContext context]) {
-    final Widget _calendar = Theme(
+    return FutureBuilder<String>(
+      future: obtenerInformacion(), // function where you call your api
+      builder: (BuildContext context, AsyncSnapshot<String> snapshot) {
+        // AsyncSnapshot<Your object type>
+        if (snapshot.connectionState == ConnectionState.waiting) {
+          return LoadingWanderingCube();
+        } else {
+          if (snapshot.hasError)
+            return Center(child: Text('Error: ${snapshot.error}'));
+          else {
+            final Widget _calendar = Theme(
 
-        /// The key set here to maintain the state,
-        ///  when we change the parent of the widget
-        key: _globalKey,
-        data: temaSatpj(),
-        child: _getAppointmentEditorCalendar(
-            calendarController, _events, _onCalendarTapped, _onViewChanged));
-    final double _screenHeight = MediaQuery.of(context).size.height;
-    return Container(
-      child: kIsWeb && _screenHeight < 800
-          ? Scrollbar(
-              isAlwaysShown: true,
-              controller: controller,
-              child: ListView(
-                controller: controller,
-                children: <Widget>[
-                  Container(
-                    color: Colors.white,
-                    height: 1000,
-                    child: _calendar,
-                  )
-                ],
-              ))
-          : Container(color: Colors.white, child: _calendar),
+                /// The key set here to maintain the state,
+                ///  when we change the parent of the widget
+                key: _globalKey,
+                data: temaSatpj(),
+                child: _getAppointmentEditorCalendar(calendarController,
+                    _events, _onCalendarTapped, _onViewChanged));
+            final double _screenHeight = MediaQuery.of(context).size.height;
+            return Container(
+              child: kIsWeb && _screenHeight < 800
+                  ? Scrollbar(
+                      isAlwaysShown: true,
+                      controller: controller,
+                      child: ListView(
+                        controller: controller,
+                        children: <Widget>[
+                          Container(
+                            color: Colors.white,
+                            height: 1000,
+                            child: _calendar,
+                          )
+                        ],
+                      ))
+                  : Container(color: Colors.white, child: _calendar),
+            );
+          } // snapshot.data  :- get your object which is pass from your downloadData() function
+        }
+      },
     );
+  }
+
+  void actualizarInfo(
+      List<SesionTerapia> sesionesNuevas,
+      List<CustomAppointment> appointments,
+      _DataSource events,
+      List<dynamic> app2) {
+    _sesionesTerapia = sesionesNuevas;
+    _events = events;
+    _events.appointments = app2;
   }
 
   /// The method called whenever the calendar view navigated to previous/next
@@ -211,14 +214,14 @@ class _CalendarAppointmentEditorState extends State<CalendarAppointmentEditor> {
         showDialog<Widget>(
             context: context,
             builder: (context) => DialogoAgendarSesionTerapia(
-                  appointment: _appointments,
                   events: _events,
                   selectedAppointment: _selectedAppointment,
-                  paciente: paciente,
-                  practicante: practicante,
+                  paciente: widget.paciente,
+                  practicante: widget.practicante,
                   sesionesTerapia: _sesionesTerapia,
                   sesion: _sesionTerapiaSeleccionada,
                   horario: _horarioPracticante,
+                  funcionActualizar: actualizarInfo,
                 ));
       }
     } else {
@@ -239,7 +242,7 @@ class _CalendarAppointmentEditorState extends State<CalendarAppointmentEditor> {
       DateTime posibleHoyFin) {
     bool noEncontrado = true;
     for (int i = 0; i < sesiones.length; i++) {
-      if (sesiones[i].hora.hour == posibleHoyInicio.hour &&
+      if (sesiones[i].fecha.hour == posibleHoyInicio.hour &&
           sesiones[i].fecha.day == posibleHoyInicio.day &&
           sesiones[i].fecha.month == posibleHoyInicio.month &&
           sesiones[i].fecha.year == posibleHoyInicio.year) {
@@ -252,7 +255,8 @@ class _CalendarAppointmentEditorState extends State<CalendarAppointmentEditor> {
           isAllDay: false,
           subject: sesiones[i].virtual
               ? "Sesión Virtual"
-              : "Sesion Presencial - Consultorio:" + sesiones[i].consultorio,
+              : "Sesion Presencial - Consultorio:" +
+                  sesiones[i].consultorio.consultorio,
         ));
         i = sesiones.length;
         noEncontrado = false;
@@ -299,19 +303,23 @@ class _CalendarAppointmentEditorState extends State<CalendarAppointmentEditor> {
     }
   }
 
-  Horario _getHorario() {
+  Future<Horario> _getHorario() async {
+    /*
     Horario horario = new Horario(
         lunes: "9;11;12;14;15",
         martes: "",
         miercoles: "",
         jueves: "17;18",
         viernes: "",
-        sabado: "9;11");
+        sabado: "9;11");*/
+    Horario horario =
+        await ProviderAdministracionUsuarios.traerHorarioSeleccionado(
+            widget.practicante.id);
     return horario;
   }
 
-  List<SesionTerapia> _getSesionesTerapia() {
-    List<SesionTerapia> sesiones = <SesionTerapia>[];
+  Future<List<SesionTerapia>> _getSesionesTerapia() async {
+    /*List<SesionTerapia> sesiones = <SesionTerapia>[];
     sesiones.add(new SesionTerapia(
         fecha: new DateTime(2021, 4, 29),
         hora: DateTime(2021, 4, 29, 17, 0),
@@ -329,7 +337,23 @@ class _CalendarAppointmentEditorState extends State<CalendarAppointmentEditor> {
         fecha: new DateTime(2021, 5, 10),
         hora: DateTime(2021, 5, 10, 11, 0),
         consultorio: "307",
-        virtual: false));
+        virtual: false));*/
+    List<SesionUsuario> sesionesUsuarioPaciente =
+        await ProviderSesionesTerapia.obtenerSesionesUsuario(
+            widget.paciente.id);
+    List<SesionTerapia> sesionesPaciente = <SesionTerapia>[];
+    for (int i = 0; i < sesionesUsuarioPaciente.length; i++) {
+      sesionesPaciente.add(sesionesUsuarioPaciente[i].sesionTerapia);
+    }
+    List<SesionUsuario> sesionesUsuarioPracticante =
+        await ProviderSesionesTerapia.obtenerSesionesUsuario(
+            widget.paciente.id);
+    List<SesionTerapia> sesiones = List.from(sesionesPaciente);
+    for (int i = 0; i < sesionesUsuarioPracticante.length; i++) {
+      SesionTerapia sesionTerapia = sesionesUsuarioPracticante[i].sesionTerapia;
+      sesiones.removeWhere((item) => item.id == sesionTerapia.id);
+      sesionesPaciente.add(sesionTerapia);
+    }
     return sesiones;
   }
 

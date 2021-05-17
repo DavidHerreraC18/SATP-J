@@ -9,6 +9,8 @@ import 'package:satpj_front_end_web/src/providers/provider_autenticacion.dart';
 import 'package:satpj_front_end_web/src/providers/provider_documentos_paciente.dart';
 import 'package:satpj_front_end_web/src/utils/tema.dart';
 import 'package:satpj_front_end_web/src/utils/widgets/Barras/toolbar_inicio.dart';
+import 'package:satpj_front_end_web/src/utils/widgets/Barras/toolbar_paciente_preaprobado.dart';
+import 'package:satpj_front_end_web/src/utils/widgets/LoadingWidgets/LoadingWanderingCube.dart';
 import 'package:satpj_front_end_web/src/utils/widgets/formularios/tema_formularios.dart';
 import 'package:flutter_icons/flutter_icons.dart';
 import 'package:satpj_front_end_web/src/views/documentacion/dialogo_consentimiento_telepsicologia.dart';
@@ -31,101 +33,125 @@ class VistaRegistroDocumentos extends StatefulWidget {
 class _VistaRegistroDocumentosState extends State<VistaRegistroDocumentos> {
   Paciente pacienteActual;
   @override
-  Future<void> initState() async {
+  initState() {
+    super.initState();
+  }
+
+  Future<String> buscarPaciente() async {
     String uid = ProviderAuntenticacion.uid;
     pacienteActual = await ProviderAdministracionPacientes.buscarPaciente(uid);
-    super.initState();
+    return Future.value("Data download successfully");
   }
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-        backgroundColor: Colors.white,
-        appBar: toolbarInicio(context),
-        body: Theme(
-            data: temaFormularios(),
-            child: DefaultTabController(
-                length: 2,
-                child: ListView(
-                  children: [
-                    Column(
-                      children: [
-                        Card(
-                            margin: EdgeInsets.only(
-                                right: 80.0,
-                                left: 80.0,
-                                top: 20.0,
-                                bottom: 25.0),
-                            elevation: 25.0,
-                            child: Column(children: [
-                              Padding(
-                                padding: EdgeInsets.only(
-                                    right: 20.0,
-                                    left: 20.0,
-                                    top: 20.0,
-                                    bottom: 0.0),
-                                child: Container(
-                                    child: NombrePaciente(
-                                  pacienteActual: this.pacienteActual,
-                                )),
-                              ),
-                              Divider(),
-                              Container(
-                                child: TabBar(
-                                  isScrollable: true,
-                                  tabs: [
-                                    Container(
-                                      height: 30,
-                                      alignment: Alignment.center,
-                                      child: Text(
-                                        "Información",
-                                        style: TextStyle(
-                                            fontSize: 18, color: Colors.black),
-                                      ),
-                                    ),
-                                    Container(
-                                      height: 30,
-                                      alignment: Alignment.center,
-                                      child: Text(
-                                        "Documentos",
-                                        style: TextStyle(
-                                            fontSize: 18, color: Colors.black),
-                                      ),
-                                    ),
-                                  ],
+    return FutureBuilder<String>(
+      future: buscarPaciente(), // function where you call your api
+      builder: (BuildContext context, AsyncSnapshot<String> snapshot) {
+        // AsyncSnapshot<Your object type>
+        if (snapshot.connectionState == ConnectionState.waiting) {
+          return LoadingWanderingCube();
+        } else {
+          if (snapshot.hasError)
+            return Center(child: Text('Error: ${snapshot.error}'));
+          else
+            return Scaffold(
+                backgroundColor: Colors.white,
+                appBar: toolbarPacientePreaprobado(context),
+                body: Theme(
+                    data: temaFormularios(),
+                    child: DefaultTabController(
+                        length: 2,
+                        child: ListView(
+                          children: [
+                            Column(
+                              children: [
+                                Container(
+                                  width: 1300,
+                                  child: Card(
+                                      margin: EdgeInsets.only(
+                                          right: 80.0,
+                                          left: 80.0,
+                                          top: 20.0,
+                                          bottom: 25.0),
+                                      elevation: 25.0,
+                                      child: Column(children: [
+                                        Padding(
+                                          padding: EdgeInsets.only(
+                                              right: 20.0,
+                                              left: 20.0,
+                                              top: 20.0,
+                                              bottom: 0.0),
+                                          child: Container(
+                                              child: NombrePaciente(
+                                            pacienteActual: this.pacienteActual,
+                                          )),
+                                        ),
+                                        Divider(),
+                                        Container(
+                                          child: TabBar(
+                                            isScrollable: true,
+                                            tabs: [
+                                              Container(
+                                                height: 30,
+                                                alignment: Alignment.center,
+                                                child: Text(
+                                                  "Información",
+                                                  style: TextStyle(
+                                                      fontSize: 18,
+                                                      color: Colors.black),
+                                                ),
+                                              ),
+                                              Container(
+                                                height: 30,
+                                                alignment: Alignment.center,
+                                                child: Text(
+                                                  "Documentos",
+                                                  style: TextStyle(
+                                                      fontSize: 18,
+                                                      color: Colors.black),
+                                                ),
+                                              ),
+                                            ],
+                                          ),
+                                        )
+                                      ])),
                                 ),
-                              )
-                            ])),
-                        Card(
-                            margin: EdgeInsets.only(
-                                right: 50.0,
-                                left: 50.0,
-                                top: 20.0,
-                                bottom: 20.0),
-                            elevation: 25.0,
-                            child: Column(children: [
-                              Padding(
-                                padding: EdgeInsets.all(20.0),
-                                child: Container(
-                                  width: 900,
-                                  height: 300,
-                                  child: TabBarView(
-                                    children: [
-                                      DatosPaciente(
-                                        pacienteActual: this.pacienteActual,
+                                Card(
+                                    margin: EdgeInsets.only(
+                                        right: 50.0,
+                                        left: 50.0,
+                                        top: 20.0,
+                                        bottom: 20.0),
+                                    elevation: 25.0,
+                                    child: Column(children: [
+                                      Padding(
+                                        padding: EdgeInsets.all(20.0),
+                                        child: Container(
+                                          width: 900,
+                                          height: 300,
+                                          child: TabBarView(
+                                            children: [
+                                              DatosPaciente(
+                                                pacienteActual:
+                                                    this.pacienteActual,
+                                              ),
+                                              DocumentosPaciente(
+                                                pacienteActual:
+                                                    this.pacienteActual,
+                                              ),
+                                            ],
+                                          ),
+                                        ),
                                       ),
-                                      DocumentosPaciente(
-                                        pacienteActual: this.pacienteActual,
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                              ),
-                            ])),
-                      ],
-                    ),
-                  ],
-                ))));
+                                    ])),
+                              ],
+                            ),
+                          ],
+                        )))); // snapshot.data  :- get your object which is pass from your downloadData() function
+        }
+      },
+    );
   }
 }
 
@@ -180,13 +206,13 @@ class DatosPacienteState extends State<DatosPaciente> {
                       Flexible(
                           child: _containerDatos(
                               pacienteActual.tipoDocumento,
-                              pacienteActual.documento,
+                              " " + pacienteActual.documento,
                               Icon(FontAwesome.address_card,
                                   size: 20.0, color: kPrimaryColor))),
                       Flexible(
                           child: _containerDatos(
                               "Edad: ",
-                              pacienteActual.edad.toString() + "años",
+                              pacienteActual.edad.toString() + " años",
                               Icon(Icons.person,
                                   size: 20.0, color: kPrimaryColor))),
                     ],
@@ -335,12 +361,11 @@ class DocumentosPacienteState extends State<DocumentosPaciente> {
   }
 
   @override
-  initState() async {
-    await traerDocumentos();
+  initState() {
     super.initState();
   }
 
-  traerDocumentos() async {
+  Future<String> traerDocumentos() async {
     List<DocumentoPaciente> documentos =
         await ProviderAdministracionPacientes.traerDocumentosPaciente(
             pacienteActual);
@@ -366,382 +391,424 @@ class DocumentosPacienteState extends State<DocumentosPaciente> {
         }
       });
     }
+    return Future.value("Data download successfully");
   }
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-        height: 200,
-        alignment: Alignment.topLeft,
-        child: Column(
-          children: [
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Padding(
-                    padding: EdgeInsets.only(
-                        right: 5.0, left: 5.0, top: 0.0, bottom: 10.0),
-                    child: Container(
-                      height: 20,
-                      alignment: Alignment.centerLeft,
-                      child: Text(
-                        "Documentos",
-                        style: TextStyle(
-                            fontSize: 17,
-                            color: Colors.black,
-                            fontWeight: FontWeight.bold),
-                      ),
-                    )),
-                Divider(height: 1),
-                Padding(
-                  padding: EdgeInsets.only(
-                      right: 5.0, left: 5.0, top: 0.0, bottom: 25.0),
-                  child: Container(
-                      height: 20,
-                      width: 700,
-                      alignment: Alignment.center,
-                      child: Row(
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: [
-                          Flexible(
+    return FutureBuilder<String>(
+      future: traerDocumentos(), // function where you call your api
+      builder: (BuildContext context, AsyncSnapshot<String> snapshot) {
+        // AsyncSnapshot<Your object type>
+        if (snapshot.connectionState == ConnectionState.waiting) {
+          return LoadingWanderingCube();
+        } else {
+          if (snapshot.hasError)
+            return Center(child: Text('Error: ${snapshot.error}'));
+          else
+            return Container(
+                height: 200,
+                alignment: Alignment.topLeft,
+                child: Column(
+                  children: [
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Padding(
+                            padding: EdgeInsets.only(
+                                right: 5.0, left: 5.0, top: 0.0, bottom: 10.0),
                             child: Container(
-                                alignment: Alignment.center,
-                                height: 20.0,
-                                constraints: BoxConstraints(
-                                    minWidth: 125, maxWidth: 500),
-                                width: 500,
-                                child: ListTile(
-                                    title: Text("Documento de Identidad",
-                                        style: TextStyle(
-                                            height: 1.1,
-                                            fontSize: 16,
-                                            color: Colors.black)),
-                                    leading: Icon(FontAwesome.address_card,
-                                        size: 20.0, color: kPrimaryColor))),
-                          ),
-                          _isFotoDocumentoEntered
-                              ? Icon(
-                                  Icons.check,
-                                  color: kAccentColor,
-                                )
-                              : SizedBox(
-                                  width: 23,
-                                ),
-                          Container(
-                            height: 20,
-                            width: 100,
-                            child: Material(
-                              borderRadius: BorderRadius.circular(15),
-                              color: kPrimaryColor,
-                              child: MaterialButton(
-                                  onPressed: () async {
-                                    var picked =
-                                        await FilePicker.platform.pickFiles(
-                                      type: FileType.custom,
-                                      allowedExtensions: ['jpg', 'png', 'jpeg'],
-                                    );
-                                    if (picked != null) {
-                                      print(picked
-                                          .files.first.bytes.lengthInBytes);
-                                      setState(() {
-                                        _fotoDocumento =
-                                            picked.files.first.bytes;
-                                        _isFotoDocumentoEntered = true;
-                                      });
-                                    }
-                                  },
-                                  child: Text(
-                                    "Subir",
-                                    textAlign: TextAlign.center,
-                                    style: TextStyle(
-                                      fontSize: 13,
-                                      color: Colors.white,
-                                      fontWeight: FontWeight.bold,
-                                    ),
-                                  )),
-                            ),
-                          ),
-                        ],
-                      )),
-                ),
-                Divider(height: 1),
-                Padding(
-                  padding: EdgeInsets.only(
-                      right: 5.0, left: 5.0, top: 0.0, bottom: 25.0),
-                  child: Container(
-                      height: 20,
-                      width: 900,
-                      //alignment: Alignment.center,
-                      child: Row(
-                        children: [
-                          Flexible(
-                            child: Container(
-                                alignment: Alignment.center,
-                                height: 20.0,
-                                constraints: BoxConstraints(
-                                    minWidth: 125, maxWidth: 500),
-                                width: 500,
-                                child: ListTile(
-                                    title: Text("Consentimiento Informado",
-                                        style: TextStyle(
-                                            height: 1.1,
-                                            fontSize: 16,
-                                            color: Colors.black)),
-                                    leading: Icon(Ionicons.md_document,
-                                        size: 23.0, color: kPrimaryColor))),
-                          ),
-                          _isConsentimientoEntered
-                              ? Icon(
-                                  Icons.check,
-                                  color: kAccentColor,
-                                )
-                              : SizedBox(
-                                  width: 23,
-                                ),
-                          Container(
-                            alignment: Alignment.center,
-                            height: 20.0,
-                            constraints:
-                                BoxConstraints(minWidth: 50, maxWidth: 350),
-                            width: 100,
-                            child: DialogoConsentimientoPrincipal(
-                              pacienteActual: pacienteActual,
-                              funcionConsentimientoP: funcionConsentimientoP,
-                            ),
-                          ),
-                          _isConsentimientoEntered
-                              ? Container(
-                                  height: 20,
-                                  width: 100,
-                                  child: Material(
-                                    borderRadius: BorderRadius.circular(15),
-                                    color: kPrimaryColor,
-                                    child: MaterialButton(
-                                        onPressed: () async {
-                                          List<int> bytes =
-                                              _consentimientoPrincipal.toList();
-                                          await FileSaveHelper.saveAndLaunchFile(
-                                              bytes,
-                                              'Consentimiento Informado.pdf');
-                                        },
-                                        child: Text(
-                                          "Visualizar",
-                                          textAlign: TextAlign.center,
-                                          style: TextStyle(
-                                            fontSize: 13,
-                                            color: Colors.white,
-                                            fontWeight: FontWeight.bold,
-                                          ),
-                                        )),
-                                  ),
-                                )
-                              : SizedBox(
-                                  width: 23,
-                                ),
-                        ],
-                      )),
-                ),
-                Divider(height: 1),
-                Padding(
-                  padding: EdgeInsets.only(
-                      right: 5.0, left: 5.0, top: 0.0, bottom: 25.0),
-                  child: Container(
-                      height: 20,
-                      width: 900,
-                      //alignment: Alignment.center,
-                      child: Row(
-                        children: [
-                          Flexible(
-                            child: Container(
-                                alignment: Alignment.center,
-                                height: 20.0,
-                                constraints: BoxConstraints(
-                                    minWidth: 125, maxWidth: 500),
-                                width: 500,
-                                child: ListTile(
-                                    title: Text(
-                                        "Consentimiento Informado Telepsicología",
-                                        style: TextStyle(
-                                            height: 1.1,
-                                            fontSize: 16,
-                                            color: Colors.black)),
-                                    leading: Icon(Ionicons.md_document,
-                                        size: 23.0, color: kPrimaryColor))),
-                          ),
-                          _isConsentimientoTPEntered
-                              ? Icon(
-                                  Icons.check,
-                                  color: kAccentColor,
-                                )
-                              : SizedBox(
-                                  width: 23,
-                                ),
-                          Container(
-                            alignment: Alignment.center,
-                            height: 20.0,
-                            constraints:
-                                BoxConstraints(minWidth: 50, maxWidth: 350),
-                            width: 100,
-                            child: DialogoConsentimientoTelepsicologia(
-                                funcionConsentimientoTP, pacienteActual),
-                          ),
-                          _isConsentimientoTPEntered
-                              ? Container(
-                                  height: 20,
-                                  width: 100,
-                                  child: Material(
-                                    borderRadius: BorderRadius.circular(15),
-                                    color: kPrimaryColor,
-                                    child: MaterialButton(
-                                        onPressed: () async {
-                                          List<int> bytes =
-                                              _consentimientoTP.toList();
-                                          await FileSaveHelper.saveAndLaunchFile(
-                                              bytes,
-                                              'Consentimiento Informado Telepsicologia.pdf');
-                                        },
-                                        child: Text(
-                                          "Visualizar",
-                                          textAlign: TextAlign.center,
-                                          style: TextStyle(
-                                            fontSize: 13,
-                                            color: Colors.white,
-                                            fontWeight: FontWeight.bold,
-                                          ),
-                                        )),
-                                  ),
-                                )
-                              : SizedBox(
-                                  width: 23,
-                                ),
-                        ],
-                      )),
-                ),
-                Divider(height: 1),
-                Padding(
-                  padding: EdgeInsets.only(
-                      right: 5.0, left: 5.0, top: 0.0, bottom: 25.0),
-                  child: Container(
-                      height: 20,
-                      width: 700,
-                      //alignment: Alignment.center,
-                      child: Row(
-                        children: [
-                          Flexible(
-                            child: Container(
-                                alignment: Alignment.center,
-                                height: 20.0,
-                                constraints: BoxConstraints(
-                                    minWidth: 125, maxWidth: 500),
-                                width: 500,
-                                child: ListTile(
-                                    title: Text("Recibo de Servicio Público",
-                                        style: TextStyle(
-                                            height: 1.1,
-                                            fontSize: 16,
-                                            color: Colors.black)),
-                                    leading: Icon(Ionicons.md_document,
-                                        size: 23.0, color: kPrimaryColor))),
-                          ),
-                          _isReciboPagoEntered
-                              ? Icon(
-                                  Icons.check,
-                                  color: kAccentColor,
-                                )
-                              : SizedBox(
-                                  width: 23,
-                                ),
-                          Container(
-                            height: 20,
-                            width: 100,
-                            child: Material(
-                              borderRadius: BorderRadius.circular(15),
-                              color: kPrimaryColor,
-                              child: MaterialButton(
-                                  onPressed: () async {
-                                    var picked =
-                                        await FilePicker.platform.pickFiles(
-                                      type: FileType.custom,
-                                      allowedExtensions: ['jpg', 'png', 'jpeg'],
-                                    );
-                                    if (picked != null) {
-                                      print(picked.files.first.name);
-                                      setState(() {
-                                        _reciboPago = picked.files.first.bytes;
-                                        _isReciboPagoEntered = true;
-                                      });
-                                    }
-                                  },
-                                  child: Text(
-                                    "Subir",
-                                    textAlign: TextAlign.center,
-                                    style: TextStyle(
-                                      fontSize: 13,
-                                      color: Colors.white,
-                                      fontWeight: FontWeight.bold,
-                                    ),
-                                  )),
-                            ),
-                          ),
-                        ],
-                      )),
-                )
-              ],
-            ),
-            SizedBox(
-              height: 35,
-            ),
-            _isCompleted
-                ? SizedBox(height: 10)
-                : Container(
-                    height: 50,
-                    width: 235,
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(15),
-                    ),
-                    child: Material(
-                      borderRadius: BorderRadius.circular(15),
-                      color: kPrimaryColor,
-                      child: MaterialButton(
-                        onPressed: () {
-                          if (_isConsentimientoEntered &&
-                              _isConsentimientoTPEntered &&
-                              _isFotoDocumentoEntered &&
-                              _isReciboPagoEntered) {
-                            ProviderDocumentosPaciente.documentarPacienteFoto(
-                                pacienteActual, _fotoDocumento);
-                            ProviderDocumentosPaciente
-                                .documentarPacienteReciboPago(
-                                    pacienteActual, _reciboPago);
-                            ProviderDocumentosPaciente
-                                .documentarPacienteConsentimientoP(
-                                    pacienteActual, _consentimientoPrincipal);
-                            ProviderDocumentosPaciente
-                                .documentarPacienteConsentimientoTP(
-                                    pacienteActual, _consentimientoTP);
-                            _isCompleted = true;
-                          }
-                        },
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Expanded(
-                                child: Text(
-                              "Completar Registro",
-                              textAlign: TextAlign.center,
-                              style: TextStyle(
-                                fontSize: 20,
-                                color: Colors.white,
-                                fontWeight: FontWeight.bold,
+                              height: 20,
+                              alignment: Alignment.centerLeft,
+                              child: Text(
+                                "Documentos",
+                                style: TextStyle(
+                                    fontSize: 17,
+                                    color: Colors.black,
+                                    fontWeight: FontWeight.bold),
                               ),
-                            ))
-                          ],
+                            )),
+                        Divider(height: 1),
+                        Padding(
+                          padding: EdgeInsets.only(
+                              right: 5.0, left: 5.0, top: 0.0, bottom: 25.0),
+                          child: Container(
+                              height: 20,
+                              width: 700,
+                              alignment: Alignment.center,
+                              child: Row(
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                children: [
+                                  Flexible(
+                                    child: Container(
+                                        alignment: Alignment.center,
+                                        height: 20.0,
+                                        constraints: BoxConstraints(
+                                            minWidth: 125, maxWidth: 500),
+                                        width: 500,
+                                        child: ListTile(
+                                            title: Text(
+                                                "Documento de Identidad",
+                                                style: TextStyle(
+                                                    height: 1.1,
+                                                    fontSize: 16,
+                                                    color: Colors.black)),
+                                            leading: Icon(
+                                                FontAwesome.address_card,
+                                                size: 20.0,
+                                                color: kPrimaryColor))),
+                                  ),
+                                  _isFotoDocumentoEntered
+                                      ? Icon(
+                                          Icons.check,
+                                          color: kAccentColor,
+                                        )
+                                      : SizedBox(
+                                          width: 23,
+                                        ),
+                                  Container(
+                                    height: 20,
+                                    width: 100,
+                                    child: Material(
+                                      borderRadius: BorderRadius.circular(15),
+                                      color: kPrimaryColor,
+                                      child: MaterialButton(
+                                          onPressed: () async {
+                                            var picked = await FilePicker
+                                                .platform
+                                                .pickFiles(
+                                              type: FileType.custom,
+                                              allowedExtensions: [
+                                                'jpg',
+                                                'png',
+                                                'jpeg'
+                                              ],
+                                            );
+                                            if (picked != null) {
+                                              print(picked.files.first.bytes
+                                                  .lengthInBytes);
+                                              setState(() {
+                                                _fotoDocumento =
+                                                    picked.files.first.bytes;
+                                                _isFotoDocumentoEntered = true;
+                                              });
+                                            }
+                                          },
+                                          child: Text(
+                                            "Subir",
+                                            textAlign: TextAlign.center,
+                                            style: TextStyle(
+                                              fontSize: 13,
+                                              color: Colors.white,
+                                              fontWeight: FontWeight.bold,
+                                            ),
+                                          )),
+                                    ),
+                                  ),
+                                ],
+                              )),
                         ),
-                      ),
+                        Divider(height: 1),
+                        Padding(
+                          padding: EdgeInsets.only(
+                              right: 5.0, left: 5.0, top: 0.0, bottom: 25.0),
+                          child: Container(
+                              height: 20,
+                              width: 900,
+                              //alignment: Alignment.center,
+                              child: Row(
+                                children: [
+                                  Flexible(
+                                    child: Container(
+                                        alignment: Alignment.center,
+                                        height: 20.0,
+                                        constraints: BoxConstraints(
+                                            minWidth: 125, maxWidth: 500),
+                                        width: 500,
+                                        child: ListTile(
+                                            title: Text(
+                                                "Consentimiento Informado",
+                                                style: TextStyle(
+                                                    height: 1.1,
+                                                    fontSize: 16,
+                                                    color: Colors.black)),
+                                            leading: Icon(Ionicons.md_document,
+                                                size: 23.0,
+                                                color: kPrimaryColor))),
+                                  ),
+                                  _isConsentimientoEntered
+                                      ? Icon(
+                                          Icons.check,
+                                          color: kAccentColor,
+                                        )
+                                      : SizedBox(
+                                          width: 23,
+                                        ),
+                                  Container(
+                                    alignment: Alignment.center,
+                                    height: 20.0,
+                                    constraints: BoxConstraints(
+                                        minWidth: 50, maxWidth: 350),
+                                    width: 100,
+                                    child: DialogoConsentimientoPrincipal(
+                                      pacienteActual: pacienteActual,
+                                      funcionConsentimientoP:
+                                          funcionConsentimientoP,
+                                    ),
+                                  ),
+                                  _isConsentimientoEntered
+                                      ? Container(
+                                          height: 20,
+                                          width: 100,
+                                          child: Material(
+                                            borderRadius:
+                                                BorderRadius.circular(15),
+                                            color: kPrimaryColor,
+                                            child: MaterialButton(
+                                                onPressed: () async {
+                                                  List<int> bytes =
+                                                      _consentimientoPrincipal
+                                                          .toList();
+                                                  await FileSaveHelper
+                                                      .saveAndLaunchFile(bytes,
+                                                          'Consentimiento Informado.pdf');
+                                                },
+                                                child: Text(
+                                                  "Visualizar",
+                                                  textAlign: TextAlign.center,
+                                                  style: TextStyle(
+                                                    fontSize: 13,
+                                                    color: Colors.white,
+                                                    fontWeight: FontWeight.bold,
+                                                  ),
+                                                )),
+                                          ),
+                                        )
+                                      : SizedBox(
+                                          width: 23,
+                                        ),
+                                ],
+                              )),
+                        ),
+                        Divider(height: 1),
+                        Padding(
+                          padding: EdgeInsets.only(
+                              right: 5.0, left: 5.0, top: 0.0, bottom: 25.0),
+                          child: Container(
+                              height: 20,
+                              width: 900,
+                              //alignment: Alignment.center,
+                              child: Row(
+                                children: [
+                                  Flexible(
+                                    child: Container(
+                                        alignment: Alignment.center,
+                                        height: 20.0,
+                                        constraints: BoxConstraints(
+                                            minWidth: 125, maxWidth: 500),
+                                        width: 500,
+                                        child: ListTile(
+                                            title: Text(
+                                                "Consentimiento Informado Telepsicología",
+                                                style: TextStyle(
+                                                    height: 1.1,
+                                                    fontSize: 16,
+                                                    color: Colors.black)),
+                                            leading: Icon(Ionicons.md_document,
+                                                size: 23.0,
+                                                color: kPrimaryColor))),
+                                  ),
+                                  _isConsentimientoTPEntered
+                                      ? Icon(
+                                          Icons.check,
+                                          color: kAccentColor,
+                                        )
+                                      : SizedBox(
+                                          width: 23,
+                                        ),
+                                  Container(
+                                    alignment: Alignment.center,
+                                    height: 20.0,
+                                    constraints: BoxConstraints(
+                                        minWidth: 50, maxWidth: 350),
+                                    width: 100,
+                                    child: DialogoConsentimientoTelepsicologia(
+                                        funcionConsentimientoTP:
+                                            funcionConsentimientoTP,
+                                        pacienteActual: pacienteActual),
+                                  ),
+                                  _isConsentimientoTPEntered
+                                      ? Container(
+                                          height: 20,
+                                          width: 100,
+                                          child: Material(
+                                            borderRadius:
+                                                BorderRadius.circular(15),
+                                            color: kPrimaryColor,
+                                            child: MaterialButton(
+                                                onPressed: () async {
+                                                  List<int> bytes =
+                                                      _consentimientoTP
+                                                          .toList();
+                                                  await FileSaveHelper
+                                                      .saveAndLaunchFile(bytes,
+                                                          'Consentimiento Informado Telepsicologia.pdf');
+                                                },
+                                                child: Text(
+                                                  "Visualizar",
+                                                  textAlign: TextAlign.center,
+                                                  style: TextStyle(
+                                                    fontSize: 13,
+                                                    color: Colors.white,
+                                                    fontWeight: FontWeight.bold,
+                                                  ),
+                                                )),
+                                          ),
+                                        )
+                                      : SizedBox(
+                                          width: 23,
+                                        ),
+                                ],
+                              )),
+                        ),
+                        Divider(height: 1),
+                        Padding(
+                          padding: EdgeInsets.only(
+                              right: 5.0, left: 5.0, top: 0.0, bottom: 25.0),
+                          child: Container(
+                              height: 20,
+                              width: 700,
+                              //alignment: Alignment.center,
+                              child: Row(
+                                children: [
+                                  Flexible(
+                                    child: Container(
+                                        alignment: Alignment.center,
+                                        height: 20.0,
+                                        constraints: BoxConstraints(
+                                            minWidth: 125, maxWidth: 500),
+                                        width: 500,
+                                        child: ListTile(
+                                            title: Text(
+                                                "Recibo de Servicio Público",
+                                                style: TextStyle(
+                                                    height: 1.1,
+                                                    fontSize: 16,
+                                                    color: Colors.black)),
+                                            leading: Icon(Ionicons.md_document,
+                                                size: 23.0,
+                                                color: kPrimaryColor))),
+                                  ),
+                                  _isReciboPagoEntered
+                                      ? Icon(
+                                          Icons.check,
+                                          color: kAccentColor,
+                                        )
+                                      : SizedBox(
+                                          width: 23,
+                                        ),
+                                  Container(
+                                    height: 20,
+                                    width: 100,
+                                    child: Material(
+                                      borderRadius: BorderRadius.circular(15),
+                                      color: kPrimaryColor,
+                                      child: MaterialButton(
+                                          onPressed: () async {
+                                            var picked = await FilePicker
+                                                .platform
+                                                .pickFiles(
+                                              type: FileType.custom,
+                                              allowedExtensions: [
+                                                'jpg',
+                                                'png',
+                                                'jpeg'
+                                              ],
+                                            );
+                                            if (picked != null) {
+                                              print(picked.files.first.name);
+                                              setState(() {
+                                                _reciboPago =
+                                                    picked.files.first.bytes;
+                                                _isReciboPagoEntered = true;
+                                              });
+                                            }
+                                          },
+                                          child: Text(
+                                            "Subir",
+                                            textAlign: TextAlign.center,
+                                            style: TextStyle(
+                                              fontSize: 13,
+                                              color: Colors.white,
+                                              fontWeight: FontWeight.bold,
+                                            ),
+                                          )),
+                                    ),
+                                  ),
+                                ],
+                              )),
+                        )
+                      ],
                     ),
-                  )
-          ],
-        ));
+                    SizedBox(
+                      height: 35,
+                    ),
+                    _isCompleted
+                        ? SizedBox(height: 10)
+                        : Container(
+                            height: 50,
+                            width: 235,
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(15),
+                            ),
+                            child: Material(
+                              borderRadius: BorderRadius.circular(15),
+                              color: kPrimaryColor,
+                              child: MaterialButton(
+                                onPressed: () {
+                                  if (_isConsentimientoEntered &&
+                                      _isConsentimientoTPEntered &&
+                                      _isFotoDocumentoEntered &&
+                                      _isReciboPagoEntered) {
+                                    ProviderDocumentosPaciente
+                                        .documentarPacienteFoto(
+                                            pacienteActual, _fotoDocumento);
+                                    ProviderDocumentosPaciente
+                                        .documentarPacienteReciboPago(
+                                            pacienteActual, _reciboPago);
+                                    ProviderDocumentosPaciente
+                                        .documentarPacienteConsentimientoP(
+                                            pacienteActual,
+                                            _consentimientoPrincipal);
+                                    ProviderDocumentosPaciente
+                                        .documentarPacienteConsentimientoTP(
+                                            pacienteActual, _consentimientoTP);
+                                    _isCompleted = true;
+                                  }
+                                },
+                                child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    Expanded(
+                                        child: Text(
+                                      "Completar Registro",
+                                      textAlign: TextAlign.center,
+                                      style: TextStyle(
+                                        fontSize: 20,
+                                        color: Colors.white,
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                    ))
+                                  ],
+                                ),
+                              ),
+                            ),
+                          )
+                  ],
+                )); // snapshot.data  :- get your object which is pass from your downloadData() function
+        }
+      },
+    );
   }
 }
 

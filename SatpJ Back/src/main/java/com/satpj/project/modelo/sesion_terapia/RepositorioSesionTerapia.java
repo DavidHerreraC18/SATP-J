@@ -1,5 +1,8 @@
 package com.satpj.project.modelo.sesion_terapia;
 
+import java.time.LocalDateTime;
+import java.util.List;
+
 import org.springframework.data.jpa.repository.JpaRepository;
 
 /**
@@ -7,5 +10,5 @@ import org.springframework.data.jpa.repository.JpaRepository;
  * la Entidad sesion_terapia
  */
 public interface RepositorioSesionTerapia extends JpaRepository<SesionTerapia, Long> {
-
+    List<SesionTerapia> findByFecha(LocalDateTime fecha); 
 }

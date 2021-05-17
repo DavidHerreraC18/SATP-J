@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:satpj_front_end_web/src/model/Notificadores/data_notifier.dart';
 import 'package:satpj_front_end_web/src/model/formulario/formulario.dart';
 import 'package:satpj_front_end_web/src/model/formulario/formulario_extra.dart';
+import 'package:satpj_front_end_web/src/model/grupo/grupo.dart';
+import 'package:satpj_front_end_web/src/model/paciente/paciente.dart';
+import 'package:satpj_front_end_web/src/model/supervisor/supervisor.dart';
+import 'package:satpj_front_end_web/src/providers/provider_administracion_pacientes.dart';
 import 'package:satpj_front_end_web/src/providers/provider_aprobacion_pacientes.dart';
-import 'package:satpj_front_end_web/src/providers/provider_preaprobacion_pacientes.dart';
 import 'package:satpj_front_end_web/src/utils/tema.dart';
 import 'package:satpj_front_end_web/src/utils/widgets/Dialogos/header_dialog.dart';
 import 'package:satpj_front_end_web/src/utils/widgets/formularios/formulario_formulario_extra.dart';
@@ -26,6 +28,11 @@ class AprobDialog extends StatefulWidget {
 class _AprobDialogState extends State<AprobDialog> {
   String mensaje;
   Color colorMensaje;
+  Supervisor supervisor;
+
+  void asignarSupervisor(Supervisor supervisor) {
+    this.supervisor = supervisor;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -75,6 +82,7 @@ class _AprobDialogState extends State<AprobDialog> {
                 Container(
                   margin: EdgeInsets.symmetric(horizontal: 40.0),
                   child: FormFormularioExtraInformation(
+                    funcionAsignacionPaciente: asignarSupervisor,
                     formularioExtra: widget.formularioSeleccionado,
                     stack: false,
                     enabled: false,
@@ -113,7 +121,7 @@ class _AprobDialogState extends State<AprobDialog> {
                           bottom: 15.0,
                         ),
                         child: Text(
-                          'Pre-Aprobar Paciente',
+                          'Aprobar Paciente',
                           style: TextStyle(
                             fontSize: 14,
                             color: Colors.white,
@@ -169,28 +177,88 @@ class _AprobDialogState extends State<AprobDialog> {
   }
 
   Future<void> _aprobarPaciente(FormularioExtra formulario) async {
-    String resuesta =
-        await ProviderAprobacionPacientes.aprobarPaciente(formulario);
-    print(resuesta);
-    if (resuesta == "Error") {
-      mensaje = "Error procesando la solicitud, intenta de nuevo mas tarde";
-      colorMensaje = Theme.of(context).colorScheme.error;
+    Grupo grupo = await ProviderAdministracionPacientes.traerGrupoPaciente(
+        formulario.paciente);
+    if (grupo != null) {
+      bool posible = false;
+      int po = 0;
+      for (int i = 0; i < grupo.integrantes.length; i++) {
+        Paciente paciente = grupo.integrantes[i];
+        if (paciente.estadoAprobado == "GrupoNoAprobado") {
+          po++;
+        }
+      }
+      if (po == grupo.integrantes.length) {
+        posible = true;
+      }
+      if (posible) {
+        for (int i = 0; i < grupo.integrantes.length; i++) {
+          Paciente paciente = grupo.integrantes[i];
+          paciente.supervisor = this.supervisor;
+          String respuesta =
+              await ProviderAprobacionPacientes.aprobarPaciente(paciente);
+          if (respuesta == "Error") {
+            mensaje =
+                "Error procesando la solicitud, intenta de nuevo mas tarde";
+            colorMensaje = Theme.of(context).colorScheme.error;
+          } else {
+            mensaje = "¡Paciente aprobado exitosamente!";
+            colorMensaje = Theme.of(context).colorScheme.secondaryVariant;
+          }
+        }
+      } else {
+        formulario.paciente.supervisor = this.supervisor;
+        String resuesta =
+            await ProviderAprobacionPacientes.aprobarPacienteGrupo(
+                formulario.paciente);
+        if (resuesta == "Error") {
+          mensaje = "Error procesando la solicitud, intenta de nuevo mas tarde";
+          colorMensaje = Theme.of(context).colorScheme.error;
+        } else {
+          mensaje = "¡Paciente aprobado exitosamente!";
+          colorMensaje = Theme.of(context).colorScheme.secondaryVariant;
+        }
+      }
     } else {
-      mensaje = "¡Paciente aprobado exitosamente!";
-      colorMensaje = Theme.of(context).colorScheme.secondaryVariant;
+      formulario.paciente.supervisor = this.supervisor;
+      String resuesta = await ProviderAprobacionPacientes.aprobarPaciente(
+          formulario.paciente);
+      if (resuesta == "Error") {
+        mensaje = "Error procesando la solicitud, intenta de nuevo mas tarde";
+        colorMensaje = Theme.of(context).colorScheme.error;
+      } else {
+        mensaje = "¡Paciente aprobado exitosamente!";
+        colorMensaje = Theme.of(context).colorScheme.secondaryVariant;
+      }
     }
   }
 
   Future<void> _rechazarPaciente(FormularioExtra formulario) async {
-    String resuesta =
-        await ProviderAprobacionPacientes.rechazarPaciente(formulario);
-    print(resuesta);
-    if (resuesta == "Error") {
-      mensaje = "Error procesando la solicitud, intenta de nuevo mas tarde";
-      colorMensaje = Theme.of(context).colorScheme.error;
+    Grupo grupo = await ProviderAdministracionPacientes.traerGrupoPaciente(
+        formulario.paciente);
+    if (grupo != null) {
+      for (int i = 0; i < grupo.integrantes.length; i++) {
+        Paciente paciente = grupo.integrantes[i];
+        String resuesta =
+            await ProviderAprobacionPacientes.rechazarPaciente(paciente);
+        if (resuesta == "Error") {
+          mensaje = "Error procesando la solicitud, intenta de nuevo mas tarde";
+          colorMensaje = Theme.of(context).colorScheme.error;
+        } else {
+          mensaje = "¡Paciente rechazado exitosamente!";
+          colorMensaje = Theme.of(context).colorScheme.secondaryVariant;
+        }
+      }
     } else {
-      mensaje = "¡Paciente aprobado exitosamente!";
-      colorMensaje = Theme.of(context).colorScheme.secondaryVariant;
+      String resuesta = await ProviderAprobacionPacientes.rechazarPaciente(
+          formulario.paciente);
+      if (resuesta == "Error") {
+        mensaje = "Error procesando la solicitud, intenta de nuevo mas tarde";
+        colorMensaje = Theme.of(context).colorScheme.error;
+      } else {
+        mensaje = "¡Paciente rechazado exitosamente!";
+        colorMensaje = Theme.of(context).colorScheme.secondaryVariant;
+      }
     }
   }
 }

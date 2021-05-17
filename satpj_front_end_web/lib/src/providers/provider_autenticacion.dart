@@ -37,7 +37,6 @@ class ProviderAuntenticacion {
       email: email,
       password: password,
     );
-
     final User user = userCredential.user;
 
     if (user != null) {
@@ -59,6 +58,22 @@ class ProviderAuntenticacion {
     }
 
     return null;
+  }
+
+  static Future<void> sendChangePasswordEmail(String email) {
+    return _auth.sendPasswordResetEmail(email: email);
+  }
+
+  static Future<String> updateEmail(String newEmail) {
+    var message;
+    User user = _auth.currentUser;
+    user
+        .updateEmail(newEmail)
+        .then(
+          (value) => message = 'Success',
+        )
+        .catchError((onError) => message = 'error');
+    return message;
   }
 
   static Future<String> signInWithEmailPassword(

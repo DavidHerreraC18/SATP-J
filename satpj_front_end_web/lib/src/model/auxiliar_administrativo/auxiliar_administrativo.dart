@@ -16,6 +16,12 @@ List<AuxiliarAdministrativo> auxiliarAdministrativoFromJson(String str) =>
 String auxiliarAdministrativoToJson(List<AuxiliarAdministrativo> data) =>
     json.encode(List<dynamic>.from(data.map((x) => x.toJson())));
 
+AuxiliarAdministrativo singleAuxiliarFromJson(String str) {
+  AuxiliarAdministrativo auxiliar =
+      AuxiliarAdministrativo.fromJson(json.decode(str));
+  return auxiliar;
+}
+
 @JsonSerializable(explicitToJson: true)
 class AuxiliarAdministrativo extends Usuario {
   AuxiliarAdministrativo({
