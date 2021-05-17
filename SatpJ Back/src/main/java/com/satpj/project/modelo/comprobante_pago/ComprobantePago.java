@@ -38,7 +38,7 @@ public class ComprobantePago {
     @Column(name = "comprobante_pago_id")
     private Long id;
 
-    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @OneToOne(cascade = CascadeType.MERGE, fetch = FetchType.EAGER)
     @JoinColumn(name = "paquete_sesion_id", nullable = false)
     private PaqueteSesion paqueteSesion;
 

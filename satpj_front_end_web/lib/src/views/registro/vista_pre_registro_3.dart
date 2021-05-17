@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:satpj_front_end_web/src/model/formulario/formulario.dart';
 import 'package:satpj_front_end_web/src/model/grupo/grupo.dart';
 import 'package:satpj_front_end_web/src/model/paciente/paciente.dart';
+import 'package:satpj_front_end_web/src/providers/provider_pre_registro.dart';
 import 'package:satpj_front_end_web/src/utils/tema.dart';
 import 'package:satpj_front_end_web/src/utils/validators/validadores-input.dart';
 import 'package:satpj_front_end_web/src/utils/widgets/Barras/toolbar_inicio.dart';
@@ -10,6 +11,7 @@ import 'package:satpj_front_end_web/src/utils/widgets/inputs/rounded_text_field.
 import 'package:satpj_front_end_web/src/utils/widgets/formularios/tema_formularios.dart';
 import 'package:satpj_front_end_web/src/views/registro/vista_pre_registro_1.dart';
 import 'package:satpj_front_end_web/src/views/registro/vista_pre_registro_2.dart';
+import 'package:satpj_front_end_web/src/views/registro/vista_pre_registro_4.dart';
 
 import '../../constants.dart';
 
@@ -77,8 +79,15 @@ class RegisterFormState extends State<RegisterForm> {
   bool _isEditingInstitucionAtencion = false;
 
   bool decisionPropia = false;
+  bool remitido = false;
   bool cualRemision = false;
   bool atendidoNo = false;
+  bool individual = false;
+
+  String sufFue='';
+  String sufRemision='';
+  String sufAtencion='';
+  String sufDonde = 'recibió';
 
   final _formKey = GlobalKey<FormState>();
 
@@ -107,16 +116,51 @@ class RegisterFormState extends State<RegisterForm> {
     super.initState();
   }
 
+  void modificarRemisionGrupo(bool remitido) {
+    if (grupo != null) {
+      if (grupo.integrantes != null) {
+        if (grupo.integrantes.length > 0) {
+          for (Paciente paciente in grupo.integrantes) {
+            paciente.remitido = remitido;
+          }
+        }
+      }
+    }
+  }
+
+  void asignarFormulario(){
+   if (grupo != null) {
+      if (grupo.integrantes != null) {
+        if (grupo.integrantes.length > 0) {
+          for (Paciente paciente in grupo.integrantes) {
+            paciente.formulario = formularioPreRegistro;
+          }
+        }
+      }
+    } 
+  }
+
   @override
   Widget build(BuildContext context) {
     final Map arguments = ModalRoute.of(context).settings.arguments as Map;
 
     if (arguments != null) {
       if (arguments['arguments'] is Paciente) {
+        print(arguments['arguments']);
         paciente = arguments['arguments'] as Paciente;
-      } else {
+        individual = true;
+      } else if (arguments['arguments'] is Grupo) {
         grupo = arguments['arguments'] as Grupo;
+
+        sufFue = 'ron';
+        sufRemision = 's';
+        sufAtencion = 'n';
+        sufDonde = 'recibieron';
+
         paciente = grupo.integrantes.first;
+
+        asignarFormulario();
+
         print(
             'PANTALLA 3 ${grupo.integrantes.length} GRUPO ${grupo.integrantes.last.nombre}');
       }
@@ -133,7 +177,7 @@ class RegisterFormState extends State<RegisterForm> {
           SizedBox(
             height: 8.0,
           ),
-          FormField<bool>(
+          /*FormField<bool>(
             builder: (state) {
               return Theme(
                 child: Column(
@@ -163,10 +207,11 @@ class RegisterFormState extends State<RegisterForm> {
                     Row(
                       children: [
                         Checkbox(
-                            value: paciente.remitido,
+                            value: remitido,
                             activeColor: kPrimaryColor,
                             onChanged: (bool value) {
                               setState(() {
+                                remitido = value;
                                 paciente.remitido = value;
                                 decisionPropia = false;
                                 cualRemision = false;
@@ -200,13 +245,57 @@ class RegisterFormState extends State<RegisterForm> {
                   [decisionPropia, cualRemision],
                   'Debe seleccionar porque solicita la atención psicológica');
             },
+          ),*/
+          Row(
+            children: [
+              Checkbox(
+                  value: decisionPropia,
+                  activeColor: kPrimaryColor,
+                  onChanged: (bool value) {
+                    setState(() {
+                      remitido = false;
+                      individual ? paciente.remitido = remitido :  modificarRemisionGrupo(remitido);
+                      decisionPropia = value;
+                      cualRemision = false;
+                    });
+                  }),
+              Text(
+                'Decisión propia',
+                style: TextStyle(fontSize: 18.0),
+              ),
+            ],
+          ),
+          SizedBox(
+            height: 8.0,
+          ),
+          Row(
+            children: [
+              Checkbox(
+                  value: remitido,
+                  activeColor: kPrimaryColor,
+                  onChanged: (bool value) {
+                    setState(() {
+                      remitido = value;
+                      individual ? paciente.remitido = remitido :  modificarRemisionGrupo(remitido);
+                      decisionPropia = false;
+                      cualRemision = false;
+                    });
+                  }),
+              Text(
+                'Remisión',
+                style: TextStyle(fontSize: 18.0),
+              ),
+            ],
           ),
           Column(
             crossAxisAlignment: CrossAxisAlignment.start,
-            children: paciente.remitido
-                ? [
+            children: remitido
+                ? [ 
+                    SizedBox(
+                      height: 8.0,
+                    ),
                     Text(
-                      'Fue remitido por:',
+                      'Fue' + sufFue + ' remitido' + sufRemision + ' por:',
                       textAlign: TextAlign.left,
                       style: TextStyle(fontSize: 18.0),
                     ),
@@ -252,18 +341,22 @@ class RegisterFormState extends State<RegisterForm> {
                               '')
                           : null,
                     ),
-                    SizedBox(
-                      height: 8.0,
-                    ),
                   ]
                 : [],
           ),
           Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: cualRemision
-                ? [
+                ? [ 
+                    SizedBox(
+                      height: 20.0,
+                    ),
                     Text(
-                      'Indique el nombre de la institución de donde fue remitido:',
+                      'Indique el nombre de la institución de donde ' +
+                          'fue' +
+                          sufFue +
+                          ' remitido' +
+                          sufRemision +':',
                       textAlign: TextAlign.left,
                       style: TextStyle(fontSize: 18.0),
                     ),
@@ -282,7 +375,10 @@ class RegisterFormState extends State<RegisterForm> {
                           if (cualRemision) {
                             return ValidadoresInput.validateEmpty(
                                 textControllerNombreInstitucion.text,
-                                'Debe ingresar el nombre de la institución de donde fue remitido',
+                                'Debe ingresar el nombre de la institución de donde fue' +
+                                    sufFue +
+                                    ' remitido' +
+                                    sufRemision,
                                 '');
                           }
                           return null;
@@ -317,7 +413,9 @@ class RegisterFormState extends State<RegisterForm> {
             height: 20.0,
           ),
           Text(
-            'Anteriormente ha recibido atención por psicológia o psiquiatría:',
+            'Anteriormente ha' +
+                sufAtencion +
+                ' recibido atención por psicológia o psiquiatría:',
             textAlign: TextAlign.left,
             style: TextStyle(fontSize: 18.0),
           ),
@@ -349,7 +447,7 @@ class RegisterFormState extends State<RegisterForm> {
             children: formularioPreRegistro.fueAtendido
                 ? [
                     Text(
-                      '¿Dónde recibió la atención médica?',
+                      '¿Dónde ' + sufDonde + ' la atención médica?',
                       textAlign: TextAlign.left,
                       style: TextStyle(fontSize: 18.0),
                     ),
@@ -361,15 +459,18 @@ class RegisterFormState extends State<RegisterForm> {
                         textController: textControllerInstitucionAtencion,
                         textInputType: TextInputType.text,
                         isEditing: _isEditingInstitucionAtencion,
-                        hintText:
-                            'Institución donde recibio atención psicológica',
+                        hintText: 'Institución donde ' +
+                            sufDonde +
+                            ' atención psicológica',
                         validate: () {
                           formularioPreRegistro.lugarAtencion =
                               textControllerInstitucionAtencion.text;
                           if (formularioPreRegistro.fueAtendido) {
                             return ValidadoresInput.validateEmpty(
                                 textControllerInstitucionAtencion.text,
-                                'Ingrese el nombre de la institución donde recibio atención psicológica',
+                                'Ingrese el nombre de la institución donde ' +
+                                    sufDonde +
+                                    ' atención psicológica',
                                 '');
                           }
                           return null;
@@ -421,7 +522,20 @@ class RegisterFormState extends State<RegisterForm> {
               Container(
                 height: 40.0,
                 child: ButtonForms(
-                    formKey: _formKey, color: kPrimaryColor, label: 'Enviar'),
+                  formKey: _formKey,
+                  color: kPrimaryColor,
+                  label: 'Enviar',
+                  providerFunction: individual
+                      ? () {
+                          ProviderPreRegistro.crearFormularioIndividual(
+                              formularioPreRegistro, paciente);
+                        }
+                      : () {
+                          ProviderPreRegistro.crearFormularioGrupo(
+                              formularioPreRegistro, grupo);
+                        },
+                  route: PreRegisterPage4.route,
+                ),
               ),
             ],
           ),

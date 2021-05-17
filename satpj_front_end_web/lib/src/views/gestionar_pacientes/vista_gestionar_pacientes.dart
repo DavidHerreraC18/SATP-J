@@ -4,10 +4,8 @@ import 'package:satpj_front_end_web/src/model/supervisor/supervisor.dart';
 import 'package:satpj_front_end_web/src/utils/tema.dart';
 import 'package:satpj_front_end_web/src/utils/widgets/Barras/toolbar_auxiliar_administrativo.dart';
 import 'package:satpj_front_end_web/src/views/agendar_citas/dialogo_sesion_terapia.dart';
-import 'package:satpj_front_end_web/src/views/gestionar_pacientes/dialogo_crear_paciente.dart';
-
-import 'dialogo_editar_paciente.dart';
-import 'dialogo_visualizar_paciente.dart';
+import 'package:satpj_front_end_web/src/views/gestionar_pacientes/dialogo_asignar_practicante.dart';
+import 'package:satpj_front_end_web/src/views/gestionar_pacientes/dialogo_paciente.dart';
 
 class VistaGestionarPacientes extends StatefulWidget {
   static const route = '/gestionar-pacientes';
@@ -53,7 +51,7 @@ class _VistaGestionarPacientesState extends State<VistaGestionarPacientes> {
         children: [
             IconButton(
               icon: Icon(
-                Icons.add,
+                Icons.event_rounded,
                 color: kPrimaryColor,
               ),
               color: kPrimaryColor,
@@ -61,25 +59,10 @@ class _VistaGestionarPacientesState extends State<VistaGestionarPacientes> {
                 showDialog(context: context, builder: (context) => DialogoAgendarSesionTerapia(paciente: paciente,));
               },
             ),
-            DialogoCrearPaciente(),
-            IconButton(
-              icon: Icon(
-                Icons.edit,
-                color: Colors.white,
-              ),
-              color: kPrimaryColor,
+            DialogoPaciente(icon: Icons.add),
+            DialogoPaciente(paciente: paciente, icon: Icons.edit),
+            DialogoPaciente(paciente: paciente, icon: Icons.remove_red_eye, enabled: false,),
 
-              onPressed: () {
-                showDialog(context: context, builder: (context) => DialogoEditarPaciente(paciente: paciente));
-              },
-            ),
-          Container(
-            alignment: Alignment.center,
-            height: 20.0,
-            constraints: BoxConstraints(minWidth: 50, maxWidth: 350),
-            width: 100,
-            child: DialogoEditarPaciente(paciente: paciente),
-          ),
           /*
              Container(
                         alignment: Alignment.center,
@@ -92,15 +75,14 @@ class _VistaGestionarPacientesState extends State<VistaGestionarPacientes> {
 
           IconButton(
             icon: Icon(
-              Icons.edit,
-              color: Colors.white,
+              Icons.person_add,
+              color: kPrimaryColor,
             ),
-            color: kPrimaryColor,
             onPressed: () {
               showDialog(
                   context: context,
                   builder: (context) =>
-                      DialogoVisualizarPaciente(paciente: paciente));
+                      DialogoAsignarPracticante(pacienteP: paciente));
             },
           ),
         ],

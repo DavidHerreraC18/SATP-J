@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:satpj_front_end_web/src/model/supervisor/supervisor.dart';
+import 'package:satpj_front_end_web/src/providers/provider_pagos.dart';
 import 'package:satpj_front_end_web/src/utils/tema.dart';
 import 'package:satpj_front_end_web/src/utils/widgets/Dialogos/fotter_dialog.dart';
 import 'package:satpj_front_end_web/src/utils/widgets/Dialogos/header_dialog.dart';

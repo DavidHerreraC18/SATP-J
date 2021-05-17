@@ -8,6 +8,7 @@ import 'package:satpj_front_end_web/src/model/grupo/grupo.dart';
 
 import 'package:json_annotation/json_annotation.dart';
 import 'package:satpj_front_end_web/src/model/horario/horario.dart';
+import 'package:satpj_front_end_web/src/model/paciente/fecha_nacimiento.dart';
 import 'package:satpj_front_end_web/src/model/paquete_sesion/paquete_sesion.dart';
 import 'package:satpj_front_end_web/src/model/practicante/practicante_paciente.dart';
 import 'package:satpj_front_end_web/src/model/sesion_terapia/sesion_usuario.dart';
@@ -107,19 +108,17 @@ class Paciente extends Usuario {
 
   Map<String, dynamic> toJson() => _$PacienteToJson(this);
 
-  bool esAdulto({String fechaNacimiento = '00-00-0000'}) {
+  void definirEdad({String fechaNacimiento = '00-00-0000'}) {
     if (fechaNacimiento != null && fechaNacimiento.isNotEmpty) {
-      DateTime birthDate = new DateFormat("yyyy-MM-dd").parse(fechaNacimiento);
-      DateTime today = DateTime.now();
+        DateTime birthDate = new DateFormat("yyyy-MM-dd").parse(fechaNacimiento);
+        DateTime today = DateTime.now();
+        edad =  today.year - birthDate.year;
+    }
+  }
 
-      int yearDiff = today.year - birthDate.year;
-      int monthDiff = today.month - birthDate.month;
-      int dayDiff = today.day - birthDate.day;
-      edad = yearDiff;
-
-      if (yearDiff > 18 || (yearDiff == 18 && monthDiff >= 0 && dayDiff >= 0)) {
+  bool esAdulto({FechaNacimiento fecha}) {
+    if (edad >= 18 ) {
         return true;
-      }
     }
     return false;
   }

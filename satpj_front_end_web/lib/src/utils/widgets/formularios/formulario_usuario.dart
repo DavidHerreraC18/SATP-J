@@ -2,13 +2,13 @@ import 'package:date_time_picker/date_time_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:satpj_front_end_web/src/constants.dart';
+import 'package:satpj_front_end_web/src/model/paciente/fecha_nacimiento.dart';
 import 'package:satpj_front_end_web/src/model/paciente/paciente.dart';
 import 'package:satpj_front_end_web/src/model/usuario/usuario.dart';
 import 'package:satpj_front_end_web/src/utils/validators/validadores-input.dart';
 import 'package:satpj_front_end_web/src/utils/widgets/inputs/dropdown.dart';
 import 'package:satpj_front_end_web/src/utils/widgets/inputs/rounded_text_field.dart';
 import 'package:satpj_front_end_web/src/utils/widgets/formularios/tema_formularios.dart';
-import 'package:satpj_front_end_web/src/views/registro/vista_pre_registro.dart';
 
 class FormUserPersonalInformation extends StatefulWidget {
   Usuario usuario = new Usuario();
@@ -94,7 +94,6 @@ class _FormState extends State<FormUserPersonalInformation> {
     super.initState();
   }
 
-
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -146,8 +145,10 @@ class _FormState extends State<FormUserPersonalInformation> {
               textInputType: TextInputType.text,
               isEditing: _isEditingApellidos,
               enabled: widget.enabled,
-              hintText:
-                  'Ingrese ' + (widget.prefix =='el' ? 'lo' : widget.prefix )+ 's apellidos ' + widget.label,
+              hintText: 'Ingrese ' +
+                  (widget.prefix == 'el' ? 'lo' : widget.prefix) +
+                  's apellidos ' +
+                  widget.label,
               validate: () {
                 widget.usuario.apellido = textControllerApellidos.text;
                 if (widget.requerido) {
@@ -178,8 +179,11 @@ class _FormState extends State<FormUserPersonalInformation> {
             focusNode: textFocusNodeTipoDocumento,
             hintText: 'Tipo de documento',
             values: kTtipoDocumento,
+            onChanged: () {
+              if (textControllerTipoDocumento.text.isNotEmpty)
+                widget.usuario.tipoDocumento = textControllerTipoDocumento.text;
+            },
             validate: () {
-              widget.usuario.tipoDocumento = textControllerTipoDocumento.text;
               if (widget.requerido) {
                 return ValidadoresInput.validateEmpty(
                     textControllerTipoDocumento.text,
@@ -212,12 +216,15 @@ class _FormState extends State<FormUserPersonalInformation> {
               formatter: <TextInputFormatter>[
                 FilteringTextInputFormatter.digitsOnly
               ],
+              onChanged: () {
+                if (textControllerDocumento.text.isNotEmpty)
+                  widget.usuario.documento = textControllerDocumento.text;
+              },
               hintText: 'Ingrese ' +
                   widget.prefix +
                   ' número de documento ' +
                   widget.label,
               validate: () {
-                widget.usuario.documento = textControllerDocumento.text;
                 if (widget.requerido) {
                   return ValidadoresInput.validateEmpty(
                       textControllerDocumento.text,
@@ -239,14 +246,15 @@ class _FormState extends State<FormUserPersonalInformation> {
               controller: textControllerFechaNacimiento,
               firstDate: DateTime(1930),
               lastDate: DateTime.now(),
-              initialDate: widget.fechaMax == null ? DateTime.now() : widget.fechaMax,
+              initialDate:
+                  widget.fechaMax == null ? DateTime.now() : widget.fechaMax,
               icon: Icon(Icons.event),
               dateLabelText: 'Fecha Nacimiento',
               onChanged: (val) {
                 if (widget.usuario is Paciente) {
-                  Paciente paciente = widget.usuario as Paciente;
-                  paciente.esAdulto(
-                      fechaNacimiento: textControllerFechaNacimiento.text);
+                (widget.usuario as Paciente).definirEdad(
+                      fechaNacimiento: textControllerFechaNacimiento.text,
+                  );
                 }
               },
               validator: (val) {

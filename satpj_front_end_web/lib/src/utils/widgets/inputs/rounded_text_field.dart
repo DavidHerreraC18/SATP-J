@@ -51,6 +51,7 @@ class RoundedTextFieldValidators extends StatefulWidget {
   bool numberFormat;
   List<TextInputFormatter> formatter;
   bool enabled;
+  Function onChanged;
   
   RoundedTextFieldValidators(
       {this.textFocusNode,
@@ -61,7 +62,8 @@ class RoundedTextFieldValidators extends StatefulWidget {
       this.hintText,
       this.numberFormat,
       this.formatter,
-      this.enabled = true});
+      this.enabled = true,
+      this.onChanged});
 
   @override
   _RoundedTextFieldValidatorsState createState() =>
@@ -83,6 +85,9 @@ class _RoundedTextFieldValidatorsState
       onChanged: (value) {
         setState(() {
           widget.isEditing = true;
+          if(widget.onChanged != null){
+             widget.onChanged();
+          }
         });
       },
       validator: (value) {

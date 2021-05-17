@@ -44,6 +44,9 @@ class _ButtonDialogState extends State<ButtonDialog> {
             }
           }      
         }
+        else if(widget.paginator == true && widget.function != null){
+          widget.function();
+        }
         else{
            Navigator.pop(context); 
         }      

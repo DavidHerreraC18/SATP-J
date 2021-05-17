@@ -1,4 +1,7 @@
 
+import 'package:satpj_front_end_web/src/model/usuario/usuario.dart';
+import 'package:satpj_front_end_web/src/providers/providers_usuarios/provider_usuarios.dart';
+
 class ValidadoresInput {
 
   /*static Future<String> currencyFormat(String value) async{
@@ -33,6 +36,8 @@ class ValidadoresInput {
         }
     }
 
+    return null;
+
   }
 
   static String validateEmpty(String value, String messageEmpty, String vacio){
@@ -61,17 +66,35 @@ class ValidadoresInput {
 
   static String validateEmail(String value) {
     value = value.trim();
-
     if (value != null) {
       if (value.isEmpty) {
         return 'El correo no puede estar vacio';
       } else if (!value.contains(RegExp(
           r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+"))) {
         return 'Ingrese un correo electronico valido';
+      }else {
+        bool registrado = false;
+        validateExistEmail(value).then((data) =>  registrado = data);
+        print(registrado);
+        if(registrado)
+           return 'El correo electronico ya se encuentra registrado';
       }
     }
 
     return null;
+  }
+
+  static validateExistEmail(String email) async {
+    
+    final usuario = await ProviderUsuarios.obtenerUsuarioPorEmail(email);
+    bool validate = false;
+    if(usuario.first != null){
+       if(usuario.first.email == email){
+         return validate = true;
+       }
+    }
+
+    return validate;
   }
 
   String _validatePassword(String value) {

@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:satpj_front_end_web/src/model/Notificadores/sesion_notifier.dart';
-import 'package:satpj_front_end_web/src/model/formulario/formulario.dart';
 import 'package:satpj_front_end_web/src/model/paciente/paciente.dart';
 import 'package:satpj_front_end_web/src/model/sesion_terapia/sesion_terapia.dart';
 import 'package:satpj_front_end_web/src/model/supervisor/supervisor.dart';

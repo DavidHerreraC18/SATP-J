@@ -2,10 +2,20 @@ package com.satpj.project.servicios;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import com.google.api.client.util.Preconditions;
+import com.google.gson.Gson;
+import com.satpj.project.modelo.acudiente.Acudiente;
+import com.satpj.project.modelo.acudiente.RepositorioAcudiente;
 import com.satpj.project.modelo.formulario.Formulario;
 import com.satpj.project.modelo.formulario.RepositorioFormulario;
+import com.satpj.project.modelo.grupo.Grupo;
+import com.satpj.project.modelo.grupo.RepositorioGrupo;
+import com.satpj.project.modelo.paciente.Paciente;
+import com.satpj.project.modelo.paciente.RepositorioPaciente;
+import com.satpj.project.modelo.usuario.RepositorioUsuario;
+import com.satpj.project.modelo.usuario.Usuario;
 import com.satpj.project.seguridad.CustomPrincipal;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,13 +37,12 @@ import lombok.Getter;
 import lombok.Setter;
 
 /**
- * Servicio de la entidad Formulario Permite que se puedan acceder
- * a todos los servicios asociados a los Formularios de forma
- * REST
+ * Servicio de la entidad Formulario Permite que se puedan acceder a todos los
+ * servicios asociados a los Formularios de forma REST
  */
 @Getter
 @Setter
-@EnableAutoConfiguration(exclude= SecurityAutoConfiguration.class)
+@EnableAutoConfiguration(exclude = SecurityAutoConfiguration.class)
 @RestController
 @RequestMapping("formularios")
 public class ServicioFormulario {
@@ -41,45 +50,99 @@ public class ServicioFormulario {
     @Autowired
     private RepositorioFormulario repositorioFormulario;
 
+    @Autowired
+    private RepositorioGrupo repositorioGrupo;
+
+    @Autowired
+    private RepositorioPaciente repositorioPaciente;
+
+    @Autowired
+    private RepositorioUsuario repositorioUsuario;
+
+    @Autowired
+    private RepositorioAcudiente repositorioAcudiente;
+
     @GetMapping(produces = "application/json; charset=UTF-8")
     public List<Formulario> findAll(@AuthenticationPrincipal CustomPrincipal customPrincipal) {
         return repositorioFormulario.findAll();
     }
-    
-    @GetMapping(value = "/pendientes-aprobacion", produces = "application/json; charset=UTF-8") 
-    public List<Formulario> findAllPendientesAprobacion(@AuthenticationPrincipal CustomPrincipal customPrincipal) { 
-        List<Formulario> formularios = repositorioFormulario.findAll(); 
-        List<Formulario> formulariosPA = new ArrayList<Formulario>(); 
-        for (Formulario formulario : formularios) { 
-            if(formulario.getPaciente().getEstadoAprobado().equals("PendienteAprobacion")){ 
-                formulariosPA.add(formulario); 
-            } 
-        } 
-        return formulariosPA; 
-    } 
- 
-    @GetMapping(value = "/aprobados", produces = "application/json; charset=UTF-8") 
-    public List<Formulario> findAllAprobados(@AuthenticationPrincipal CustomPrincipal customPrincipal) { 
-        List<Formulario> formularios = repositorioFormulario.findAll(); 
-        List<Formulario> formulariosA = new ArrayList<Formulario>(); 
-        for (Formulario formulario : formularios) { 
-            if(formulario.getPaciente().getEstadoAprobado().equals("Aprobado")){ 
-                formulariosA.add(formulario); 
-            } 
-        } 
-        return formulariosA; 
-    } 
+
+    @GetMapping(value = "/pendientes-aprobacion", produces = "application/json; charset=UTF-8")
+    public List<Formulario> findAllPendientesAprobacion(@AuthenticationPrincipal CustomPrincipal customPrincipal) {
+        List<Formulario> formularios = repositorioFormulario.findAll();
+        List<Formulario> formulariosPA = new ArrayList<Formulario>();
+        for (Formulario formulario : formularios) {
+            if (formulario.getPaciente().getEstadoAprobado().equals("PendienteAprobacion")) {
+                formulariosPA.add(formulario);
+            }
+        }
+        return formulariosPA;
+    }
+
+    @GetMapping(value = "/aprobados", produces = "application/json; charset=UTF-8")
+    public List<Formulario> findAllAprobados(@AuthenticationPrincipal CustomPrincipal customPrincipal) {
+        List<Formulario> formularios = repositorioFormulario.findAll();
+        List<Formulario> formulariosA = new ArrayList<Formulario>();
+        for (Formulario formulario : formularios) {
+            if (formulario.getPaciente().getEstadoAprobado().equals("Aprobado")) {
+                formulariosA.add(formulario);
+            }
+        }
+        return formulariosA;
+    }
 
     @GetMapping(value = "/{id}", produces = "application/json; charset=UTF-8")
     public Formulario findById(@AuthenticationPrincipal CustomPrincipal customPrincipal, @PathVariable("id") Long id) {
         return repositorioFormulario.findById(id).get();
     }
 
-    @PostMapping
+    @PostMapping()
     @ResponseStatus(HttpStatus.CREATED)
-    public Formulario create(@RequestBody Formulario formulario) {
-        Preconditions.checkNotNull(formulario);
+    public Formulario create(@RequestBody String json) {
+
+        Formulario formulario = new Gson().fromJson(json, Formulario.class);
+
+        if (formulario.getPaciente() != null) {
+            List<Acudiente> acudientes = formulario.getPaciente().getAcudientes();
+            if (acudientes != null) {
+                if (acudientes.size() > 0) {
+                    for (Acudiente a : acudientes) {
+                        a = repositorioUsuario.save(a);
+                        a.setPaciente(formulario.getPaciente());
+                        repositorioAcudiente.save(a);
+                    }
+
+                }
+            }
+
+            repositorioUsuario.save(formulario.getPaciente());
+            repositorioPaciente.save(formulario.getPaciente());
+        }
+
         return repositorioFormulario.save(formulario);
+    }
+
+    @PostMapping(path = "/grupal")
+    @ResponseStatus(HttpStatus.CREATED)
+    public Grupo createGrupal(@RequestBody String json) {
+        
+        Grupo grupo = new Gson().fromJson(json, Grupo.class);
+        if (grupo != null) {
+            for (Paciente p : grupo.getIntegrantes()) {
+                if (p != null) {
+                    
+                    Formulario formulario = p.getFormulario();
+                    p.setFormulario(null);
+                    
+                    repositorioUsuario.save(p);
+                    repositorioPaciente.save(p);
+                    
+                    formulario.setPaciente(p);
+                    repositorioFormulario.save(formulario);
+                }
+            }
+        }
+        return repositorioGrupo.save(grupo);
     }
 
     @PutMapping(value = "/{id}")
@@ -105,5 +168,5 @@ public class ServicioFormulario {
     public void delete(@AuthenticationPrincipal CustomPrincipal customPrincipal, @PathVariable("id") Long id) {
         repositorioFormulario.deleteById(id);
     }
-    
+
 }

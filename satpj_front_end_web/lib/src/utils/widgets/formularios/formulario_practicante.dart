@@ -171,6 +171,9 @@ class _FormState extends State<FormInternInformation> {
                  focusNode: textFocusNodeEnfoque,
                  hintText: 'Enfoque',
                  values: kEnfoques,
+                 onChanged: (){
+                   widget.practicante.enfoque = textControllerEnfoque.text;
+                 },
                  validate: () {
                    widget.practicante.enfoque = textControllerEnfoque.text;
                    return ValidadoresInput.validateEmpty(textControllerEnfoque.text,

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:satpj_front_end_web/src/model/paciente/fecha_nacimiento.dart';
 import 'package:satpj_front_end_web/src/model/paciente/paciente.dart';
 import 'package:satpj_front_end_web/src/utils/tema.dart';
 import 'package:satpj_front_end_web/src/utils/validators/validadores-input.dart';
@@ -17,6 +18,7 @@ class FormPatientInformation extends StatefulWidget {
   final bool enabled;
   final bool fechaNacimiento;
   final DateTime fechaMax;
+  final FechaNacimiento fecha;
 
   FormPatientInformation(
       {this.paciente,
@@ -25,7 +27,8 @@ class FormPatientInformation extends StatefulWidget {
       this.stack = true,
       this.enabled = true,
       this.fechaNacimiento = true,
-      this.fechaMax});
+      this.fechaMax,
+      this.fecha});
 
   @override
   _FormState createState() => _FormState();
@@ -36,7 +39,7 @@ class _FormState extends State<FormPatientInformation> {
   FocusNode textFocusNodeEstrato;
 
   @override
-  void initState() {   
+  void initState() {
     textControllerEstrato =
         TextEditingController(text: widget.paciente.estrato.toString());
 
@@ -48,7 +51,7 @@ class _FormState extends State<FormPatientInformation> {
   @override
   Widget build(BuildContext context) {
     return Stack(
-      children: [    
+      children: [
         Container(
           margin: widget.stack
               ? EdgeInsets.symmetric(vertical: 35.0, horizontal: 5.0)
@@ -66,16 +69,12 @@ class _FormState extends State<FormPatientInformation> {
           child: Theme(
             data: temaFormularios(),
             child:
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.start, 
-              children: 
-             [
+                Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
               FormUserPersonalInformation(
-                    usuario: widget.paciente,
-                    prefix: widget.prefix,
-                    label: widget.label,
-                    fechaNacimiento: widget.fechaNacimiento,
-                    fechaMax: widget.fechaMax,
+                usuario: widget.paciente,
+                prefix: widget.prefix,
+                label: widget.label,
+                fechaNacimiento: widget.fechaNacimiento,
               ),
               Text(
                 'Estrato sociecómico',
@@ -90,11 +89,12 @@ class _FormState extends State<FormPatientInformation> {
                 textController: textControllerEstrato,
                 hintText: 'Estrato socieconómico',
                 values: kEstratoSocioeconomico,
-                validate: () {
+                onChanged: () {
                   if (textControllerEstrato.text.isNotEmpty)
                     widget.paciente.estrato =
                         int.parse(textControllerEstrato.text);
-
+                },
+                validate: () {
                   return ValidadoresInput.validateEmpty(
                       textControllerEstrato.text,
                       'Seleccione ' +
@@ -111,7 +111,9 @@ class _FormState extends State<FormPatientInformation> {
           ),
         ),
         if (widget.stack)
-          labelContainerStack(widget.label != null && widget.label.isNotEmpty ? widget.label : 'personal' ),
+          labelContainerStack(widget.label != null && widget.label.isNotEmpty
+              ? widget.label
+              : 'personal'),
       ],
     );
   }

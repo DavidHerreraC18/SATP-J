@@ -1,5 +1,7 @@
 package com.satpj.project.modelo.usuario;
 
+import java.util.Optional;
+
 import org.springframework.data.jpa.repository.JpaRepository;
 
 /**
@@ -7,4 +9,8 @@ import org.springframework.data.jpa.repository.JpaRepository;
  * Entidad usuario
  */
 public interface RepositorioUsuario extends JpaRepository<Usuario, String> {
+
+    Optional<Usuario> findByDocumento(String documento);
+
+    Optional<Usuario> findByEmail(String email);
 }

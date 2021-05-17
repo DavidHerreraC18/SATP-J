@@ -44,7 +44,7 @@ class ProviderAuntenticacion {
       // checking if uid or email is null
       assert(user.uid != null);
       assert(user.email != null);
-
+      print(user.uid);
       uid = user.uid;
       userEmail = user.email;
 
@@ -54,7 +54,7 @@ class ProviderAuntenticacion {
       var token = await user.getIdToken();
       print("TOKEN: " + token);
 
-      return 'Successfully registered, User UID: ${user.uid}';
+      return user.uid;
     }
 
     return null;
