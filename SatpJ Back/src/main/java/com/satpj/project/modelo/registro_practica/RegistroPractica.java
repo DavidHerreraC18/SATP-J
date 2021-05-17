@@ -11,7 +11,6 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.MapsId;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
@@ -34,7 +33,6 @@ public class RegistroPractica {
 
     @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JoinColumn(name = "practicante_id", nullable = false)
-    @MapsId
     private Practicante practicante;
 
     /* Horas totales de las Sesiones de Terapia realizadas */

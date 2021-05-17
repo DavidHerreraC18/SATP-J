@@ -42,12 +42,12 @@ public class ServicioPaqueteSesion {
     @Autowired
     private ServicioComprobantePago servicioComprobantePago;
 
-    @GetMapping(produces = "application/json")
+    @GetMapping(produces = "application/json; charset=UTF-8")
     public List<PaqueteSesion> findAll(@AuthenticationPrincipal CustomPrincipal customPrincipal) {
         return repositorioPaqueteSesion.findAll();
     }
 
-    @GetMapping(value = "/{id}", produces = "application/json")
+    @GetMapping(value = "/{id}", produces = "application/json; charset=UTF-8")
     public PaqueteSesion findById(@AuthenticationPrincipal CustomPrincipal customPrincipal, @PathVariable("id") Long id) {
         return repositorioPaqueteSesion.findById(id).get();
     }
@@ -56,7 +56,7 @@ public class ServicioPaqueteSesion {
      * La funcion findComprobanteByPaqueteId tiene el proposito de evitar la
      * recursion en JSON que genera la relacion PaqueteSesion - ComprobantePago
      */
-    @GetMapping(value = "/{id}/comprobante", produces = "application/json")
+    @GetMapping(value = "/{id}/comprobante", produces = "application/json; charset=UTF-8")
     public ComprobantePago findComprobanteByPaqueteId(@AuthenticationPrincipal CustomPrincipal customPrincipal, @PathVariable("id") Long id) {
         PaqueteSesion paqueteSesion = repositorioPaqueteSesion.findById(id).get();
         Preconditions.checkNotNull(paqueteSesion);
@@ -82,6 +82,7 @@ public class ServicioPaqueteSesion {
         psActualizar.setCantidadSesiones(paqueteSesion.getCantidadSesiones());
         psActualizar.setTotal(paqueteSesion.getTotal());
         psActualizar.setPaciente(paqueteSesion.getPaciente());
+        psActualizar.setFecha(paqueteSesion.getFecha());
 
         repositorioPaqueteSesion.save(psActualizar);
     }

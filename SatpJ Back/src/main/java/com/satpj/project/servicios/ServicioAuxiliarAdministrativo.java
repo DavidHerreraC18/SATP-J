@@ -44,7 +44,7 @@ public class ServicioAuxiliarAdministrativo {
         return repositorioAuxiliarAdministrativo.findAll();
     }
 
-    @GetMapping(value = "/{id}", produces = "application/json")
+    @GetMapping(value = "/{id}",  produces = "application/json; charset=UTF-8")
     public AuxiliarAdministrativo findById(@AuthenticationPrincipal CustomPrincipal customPrincipal, @PathVariable("id") String id) {
         return repositorioAuxiliarAdministrativo.findById(id).get();
     }

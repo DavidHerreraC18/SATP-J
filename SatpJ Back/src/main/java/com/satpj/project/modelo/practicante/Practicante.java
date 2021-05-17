@@ -41,6 +41,10 @@ public class Practicante extends Usuario {
 	@Column(name = "semestre", nullable = false)
 	private int semestre;
 
+	@NotNull(message = "El Aforo es obligatorio")
+	@Column(name = "aforo", nullable = false)
+	private int aforo;
+
 	/*
 	 * El enfoque es la escuela de psicología con la que realiza la Terapia
 	 */

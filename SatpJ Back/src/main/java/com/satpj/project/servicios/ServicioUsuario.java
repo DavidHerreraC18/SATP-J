@@ -49,12 +49,12 @@ public class ServicioUsuario {
     @Autowired
     private ServicioHorario servicioHorario;
 
-    @GetMapping(produces = "application/json")
+    @GetMapping(produces = "application/json; charset=UTF-8")
     public List<Usuario> findAll(@AuthenticationPrincipal CustomPrincipal customPrincipal) {
         return repositorioUsuario.findAll();
     }
 
-    @GetMapping(value = "/{id}", produces = "application/json")
+    @GetMapping(value = "/{id}", produces = "application/json; charset=UTF-8")
     public Usuario findById(@AuthenticationPrincipal CustomPrincipal customPrincipal, @PathVariable("id") String id) {
         return repositorioUsuario.findById(id).get();
     }
@@ -63,7 +63,7 @@ public class ServicioUsuario {
      * La funcion findSesionesByUsuarioId tiene el proposito de evitar la recursion
      * en JSON que genera la relacion Usuario - SesionUsuario
      */
-    @GetMapping(value = "/sesiones/{id}", produces = "application/json")
+    @GetMapping(value = "/sesiones/{id}", produces = "application/json; charset=UTF-8")
     public List<SesionUsuario> findSesionesByUsuarioId(@AuthenticationPrincipal CustomPrincipal customPrincipal, @PathVariable("id") String id) {
         Usuario usuario = repositorioUsuario.findById(id).get();
         Preconditions.checkNotNull(usuario);
@@ -74,11 +74,30 @@ public class ServicioUsuario {
      * La funcion findHorariosByUsuarioId tiene el proposito de evitar la recursion
      * en JSON que genera la relacion Usuario - Horario
      */
-    @GetMapping(value = "/horarios/{id}", produces = "application/json")
+    @GetMapping(value = "/horarios/{id}", produces = "application/json; charset=UTF-8")
     public List<Horario> findHorariosByUsuarioId(@AuthenticationPrincipal CustomPrincipal customPrincipal, @PathVariable("id") String id) {
         Usuario usuario = repositorioUsuario.findById(id).get();
         Preconditions.checkNotNull(usuario);
         return usuario.getHorarios();
+    }
+
+    /*
+     * La funcion findHorariosByUsuarioId tiene el proposito de evitar la recursion
+     * en JSON que genera la relacion Usuario - Horario
+     */
+    @GetMapping(value = "/horarios/seleccionado/{id}", produces = "application/json; charset=UTF-8")
+    public Horario findHorarioSeleccionadoByUsuarioId(@AuthenticationPrincipal CustomPrincipal customPrincipal, @PathVariable("id") String id) {
+        Usuario usuario = repositorioUsuario.findById(id).get();
+        Preconditions.checkNotNull(usuario);
+        Horario seleccionado = null;
+        for(Horario horario: usuario.getHorarios()){
+            if(horario.getOpcion().equals("Seleccionado"))
+            {
+                seleccionado = horario;
+            }
+        }
+        Preconditions.checkNotNull(seleccionado);
+        return seleccionado;
     }
 
     @PostMapping
@@ -103,6 +122,7 @@ public class ServicioUsuario {
         uActualizar.setTipoDocumento(usuario.getTipoDocumento());
         uActualizar.setDocumento(usuario.getDocumento());
         uActualizar.setEmail(usuario.getEmail());
+        uActualizar.setDireccion(usuario.getDireccion());
 
         repositorioUsuario.save(uActualizar);
     }
@@ -110,20 +130,16 @@ public class ServicioUsuario {
     @DeleteMapping(value = "/{id}")
     @ResponseStatus(HttpStatus.OK)
     public void delete(@AuthenticationPrincipal CustomPrincipal customPrincipal, @PathVariable("id") String id) {
-
         Usuario usuario = repositorioUsuario.findById(id).orElse(null);
         Preconditions.checkNotNull(usuario);
-
         List<AlertaUsuario> alertasUsuario = usuario.getAlertasUsuario();
         for (AlertaUsuario alertaUsuario : alertasUsuario) {
             servicioAlerta.deleteAlertaUsuario(customPrincipal, alertaUsuario.getAlerta().getId(), alertaUsuario);
         }
-
         List<Horario> horarios = usuario.getHorarios();
         for (Horario horario : horarios) {
             servicioHorario.delete(customPrincipal, horario.getId());
         }
-
         repositorioUsuario.deleteById(id);
     }
 

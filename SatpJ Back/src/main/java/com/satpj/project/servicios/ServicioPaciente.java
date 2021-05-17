@@ -7,9 +7,12 @@ import com.google.api.client.util.Preconditions;
 import com.satpj.project.modelo.acudiente.Acudiente;
 import com.satpj.project.modelo.documento_paciente.DocumentoPaciente;
 import com.satpj.project.modelo.formulario.Formulario;
+import com.satpj.project.modelo.formulario.FormularioExtra;
+import com.satpj.project.modelo.grupo.Grupo;
 import com.satpj.project.modelo.paciente.*;
 import com.satpj.project.modelo.practicante.Practicante;
 import com.satpj.project.modelo.practicante.PracticantePaciente;
+import com.satpj.project.modelo.supervisor.Supervisor;
 import com.satpj.project.seguridad.CustomPrincipal;
 
 import lombok.Getter;
@@ -50,21 +53,75 @@ public class ServicioPaciente {
     @Autowired
     private ServicioDocumentoPaciente servicioDocumentoPaciente;
 
-    @GetMapping(produces = "application/json")
+    @Autowired
+    private ServicioFormulario servicioFormulario;
+
+    @Autowired
+    private ServicioFormularioExtra servicioFormularioExtra;
+
+    @GetMapping(produces = "application/json; charset=UTF-8")
     public List<Paciente> findAll(@AuthenticationPrincipal CustomPrincipal customPrincipal) {
         return repositorioPaciente.findAll();
     }
 
-    @GetMapping(value = "/{id}", produces = "application/json")
+    /*Encuentra todos los pacientes que han sido aprobados*/
+    @GetMapping(value = "/aprobados")
+    public List<Paciente> findAllAprobados(@AuthenticationPrincipal CustomPrincipal customPrincipal) {
+        List<Paciente> pacientes = repositorioPaciente.findAll();
+        List<Paciente> pacientesNP = new ArrayList<Paciente>(); 
+        for (Paciente paciente : pacientes) { 
+            if((paciente.getEstadoAprobado().equals("Aprobado"))){ 
+                pacientesNP.add(paciente); 
+            } 
+        } 
+        return pacientesNP; 
+    }
+ 
+    @GetMapping(value = "/{id}", produces = "application/json; charset=UTF-8")
     public Paciente findById(@AuthenticationPrincipal CustomPrincipal customPrincipal, @PathVariable("id") String id) {
         return repositorioPaciente.findById(id).get();
     }
 
+    @GetMapping(value = "email/{email}", produces = "application/json; charset=UTF-8")
+    public Paciente findByEmail(@AuthenticationPrincipal CustomPrincipal customPrincipal, @PathVariable("email") String email) {
+        List<Paciente> pacientes = repositorioPaciente.findByEmail(email);
+        if(pacientes.isEmpty()){
+            return null;
+        }
+        else{
+            return pacientes.get(0);
+        }
+    }
+    
+    /*
+     * La funcion findSupervisorByPacienteId tiene el proposito de evitar la
+     * recursion en JSON que genera la relacion Paciente - Supervisor
+     */
+    @GetMapping(value = "/{id}/supervisor", produces = "application/json; charset=UTF-8")
+    public Supervisor findSupervisorByPacienteId(@AuthenticationPrincipal CustomPrincipal customPrincipal, @PathVariable("id") String id) {
+        Paciente paciente = repositorioPaciente.findById(id).get();
+        Preconditions.checkNotNull(paciente);
+        Preconditions.checkNotNull(paciente.getSupervisor());
+        return paciente.getSupervisor();
+    }
+
+    /*
+     * La funcion findSupervisorByPacienteId tiene el proposito de evitar la
+     * recursion en JSON que genera la relacion Paciente - Supervisor
+     */
+    @GetMapping(value = "/{id}/grupo", produces = "application/json; charset=UTF-8")
+    public Grupo findGrupoByPacienteId(@AuthenticationPrincipal CustomPrincipal customPrincipal, @PathVariable("id") String id) {
+        Paciente paciente = repositorioPaciente.findById(id).get();
+        Preconditions.checkNotNull(paciente);
+        Preconditions.checkNotNull(paciente.getGrupo());
+        return paciente.getGrupo();
+    }
+    
     /*
      * La funcion findAcudientesByPacienteId tiene el proposito de evitar la
      * recursion en JSON que genera la relacion Paciente - Acudiente
      */
-    @GetMapping(value = "/{id}/acudientes", produces = "application/json")
+    @GetMapping(value = "/{id}/acudientes", produces = "application/json; charset=UTF-8")
     public List<Acudiente> findAcudientesByPacienteId(@AuthenticationPrincipal CustomPrincipal customPrincipal, @PathVariable("id") String id) {
         Paciente paciente = repositorioPaciente.findById(id).get();
         Preconditions.checkNotNull(paciente);
@@ -75,7 +132,7 @@ public class ServicioPaciente {
      * La funcion findAcudientesByPacienteId tiene el proposito de evitar la
      * recursion en JSON que genera la relacion Paciente - Documentos
      */
-    @GetMapping(value = "/{id}/documentos", produces = "application/json")
+    @GetMapping(value = "/{id}/documentos", produces = "application/json; charset=UTF-8")
     public List<DocumentoPaciente> findDocumentosByPacienteId(@AuthenticationPrincipal CustomPrincipal customPrincipal, @PathVariable("id") String id) {
         Paciente paciente = repositorioPaciente.findById(id).get();
         Preconditions.checkNotNull(paciente);
@@ -86,11 +143,20 @@ public class ServicioPaciente {
      * La funcion findFormularioByPacienteId tiene el proposito de evitar la
      * recursion en JSON que genera la relacion Paciente - Formulario
      */
-    @GetMapping(value = "/{id}/formulario", produces = "application/json")
+    @GetMapping(value = "/{id}/formulario", produces = "application/json; charset=UTF-8")
     public Formulario findFormularioByPacienteId(@AuthenticationPrincipal CustomPrincipal customPrincipal, @PathVariable("id") String id) {
         Paciente paciente = repositorioPaciente.findById(id).get();
         Preconditions.checkNotNull(paciente);
+        Preconditions.checkNotNull(paciente.getFormulario());
         return paciente.getFormulario();
+    }
+
+    @GetMapping(value = "/{id}/formulario-extra", produces = "application/json; charset=UTF-8")
+    public FormularioExtra findFormularioExtraByPacienteId(@AuthenticationPrincipal CustomPrincipal customPrincipal, @PathVariable("id") String id) {
+        Paciente paciente = repositorioPaciente.findById(id).get();
+        Preconditions.checkNotNull(paciente);
+        Preconditions.checkNotNull(paciente.getFormularioExtra());
+        return paciente.getFormularioExtra();
     }
 
     /*
@@ -99,7 +165,7 @@ public class ServicioPaciente {
      * valor de retorno una lista en el caso de que sea posible la doble atencion de
      * un Paciente.
      */
-    @GetMapping(value = "/{id}/practicantes", produces = "application/json")
+    @GetMapping(value = "/{id}/practicantes", produces = "application/json; charset=UTF-8")
     public List<Practicante> findPracticantesByPacienteId(@AuthenticationPrincipal CustomPrincipal customPrincipal, @PathVariable("id") String id) {
         Paciente paciente = repositorioPaciente.findById(id).get();
         Preconditions.checkNotNull(paciente);
@@ -113,6 +179,25 @@ public class ServicioPaciente {
         return practicantes;
     }
 
+    /*
+     * La funcion findPracticanteActivoByPacienteId tiene el proposito de encontrar al
+     * Practicante que actualmente se encuentre atendiendo al Paciente.
+     */
+    @GetMapping(value = "/practicante/{id}", produces = "application/json; charset=UTF-8")
+    public Practicante findPracticanteActivoByPacienteId(@AuthenticationPrincipal CustomPrincipal customPrincipal, @PathVariable("id") String id) {
+        Paciente paciente = repositorioPaciente.findById(id).get();
+        Preconditions.checkNotNull(paciente);
+        List<PracticantePaciente> practicantePacientes = paciente.getPracticantesPaciente();
+        Practicante practicante = null;
+        for (PracticantePaciente practicantePaciente : practicantePacientes) {
+            if (practicantePaciente.isActivo()) {
+                practicante = practicantePaciente.getPracticante();
+            }
+        }
+        return practicante;
+    }
+
+
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public Paciente create(@RequestBody Paciente paciente) {
@@ -122,11 +207,11 @@ public class ServicioPaciente {
 
     @PutMapping(value = "/{id}")
     @ResponseStatus(HttpStatus.OK)
-    public void update(@AuthenticationPrincipal CustomPrincipal customPrincipal, @PathVariable("id") Long id, @RequestBody Paciente paciente) {
+    public void update(@AuthenticationPrincipal CustomPrincipal customPrincipal, @PathVariable("id") String id, @RequestBody Paciente paciente) {
         Preconditions.checkNotNull(paciente);
-
-        Paciente pActualizar = repositorioPaciente.findById(paciente.getId()).orElse(null);
-
+        //System.out.println("PACIENTE RECIBIDOL:" + paciente.toString());
+        Paciente pActualizar = repositorioPaciente.findById(id).orElse(null);
+        //System.out.println("PACIENTE ACTUAL:" + pActualizar.toString());
         Preconditions.checkNotNull(pActualizar);
 
         pActualizar.setApellido(paciente.getApellido());
@@ -140,7 +225,7 @@ public class ServicioPaciente {
         pActualizar.setEstrato(paciente.getEstrato());
         pActualizar.setEstadoAprobado(paciente.getEstadoAprobado());
         pActualizar.setRemitido(paciente.isRemitido());
-
+        pActualizar.setSupervisor(paciente.getSupervisor());
         repositorioPaciente.save(pActualizar);
     }
 
@@ -155,6 +240,9 @@ public class ServicioPaciente {
         for (Acudiente acudiente : acudientes) {
             servicioAcudiente.delete(customPrincipal,acudiente.getId());
         }
+
+        servicioFormulario.delete(customPrincipal, paciente.getFormulario().getId());
+        servicioFormularioExtra.delete(customPrincipal, paciente.getFormularioExtra().getId());
 
         List<DocumentoPaciente> documentosPaciente = paciente.getDocumentosPaciente();
         for (DocumentoPaciente documentoPaciente : documentosPaciente) {

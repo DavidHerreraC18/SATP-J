@@ -23,7 +23,9 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.satpj.project.modelo.acudiente.Acudiente;
 import com.satpj.project.modelo.documento_paciente.DocumentoPaciente;
 import com.satpj.project.modelo.formulario.Formulario;
+import com.satpj.project.modelo.formulario.FormularioExtra;
 import com.satpj.project.modelo.grupo.Grupo;
+import com.satpj.project.modelo.paquete_sesion.PaqueteSesion;
 import com.satpj.project.modelo.practicante.PracticantePaciente;
 import com.satpj.project.modelo.supervisor.Supervisor;
 import com.satpj.project.modelo.usuario.Usuario;
@@ -57,14 +59,23 @@ public class Paciente extends Usuario {
 
     @OneToMany(mappedBy = "paciente")
     @JsonIgnore
+    private List<PaqueteSesion> paquetesSesion;
+
+    @OneToMany(mappedBy = "paciente")
+    @JsonIgnore
     private List<Acudiente> acudientes;
 
     @OneToOne(mappedBy = "paciente")
     @JsonIgnore
     private Formulario formulario;
 
+    @OneToOne(mappedBy = "paciente")
+    @JsonIgnore
+    private FormularioExtra formularioExtra;
+
+    /*Posibles Estados:  PendienteAprobacion, PreAprobado, Aprobado, NoAprobado */
     @NotNull(message = "El estado de Aprobacion es obligatorio")
-    @Column(name = "estado-aprobado")
+    @Column(name = "estado_aprobado")
     private String estadoAprobado;
 
     /* Con el estrato se realiza el cobro de las Sesiones de Terapia */

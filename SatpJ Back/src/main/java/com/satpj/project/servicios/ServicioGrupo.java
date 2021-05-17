@@ -32,7 +32,7 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
  */
 @Getter
 @Setter
-@EnableAutoConfiguration(exclude= SecurityAutoConfiguration.class)
+@EnableAutoConfiguration(exclude = SecurityAutoConfiguration.class)
 @RestController
 @RequestMapping("grupos")
 public class ServicioGrupo {
@@ -40,12 +40,12 @@ public class ServicioGrupo {
     @Autowired
     private RepositorioGrupo repositorioGrupo;
 
-    @GetMapping(produces = "application/json")
+    @GetMapping(produces = "application/json; charset=UTF-8")
     public List<Grupo> findAll(@AuthenticationPrincipal CustomPrincipal customPrincipal) {
         return repositorioGrupo.findAll();
     }
 
-    @GetMapping(value = "/{id}", produces = "application/json")
+    @GetMapping(value = "/{id}", produces = "application/json; charset=UTF-8")
     public Grupo findById(@AuthenticationPrincipal CustomPrincipal customPrincipal, @PathVariable("id") Long id) {
         return repositorioGrupo.findById(id).get();
     }
@@ -54,7 +54,7 @@ public class ServicioGrupo {
      * La funcion findIntegrantesById tiene el proposito de evitar la recursion en
      * JSON que genera la relacion Paciente - Grupo
      */
-    @GetMapping(value = "/{id}/integrantes", produces = "application/json")
+    @GetMapping(value = "/{id}/integrantes", produces = "application/json; charset=UTF-8")
     public List<Paciente> findIntegrantesById(@AuthenticationPrincipal CustomPrincipal customPrincipal, @PathVariable("id") Long id) {
         Grupo grupo = repositorioGrupo.findById(id).get();
         Preconditions.checkNotNull(grupo);
@@ -70,7 +70,8 @@ public class ServicioGrupo {
 
     @PutMapping(value = "/{id}")
     @ResponseStatus(HttpStatus.OK)
-    public void update(@AuthenticationPrincipal CustomPrincipal customPrincipal, @PathVariable("id") Long id, @RequestBody Grupo grupo) {
+    public void update(@AuthenticationPrincipal CustomPrincipal customPrincipal, @PathVariable("id") Long id,
+            @RequestBody Grupo grupo) {
         Preconditions.checkNotNull(grupo);
 
         Grupo gActualizar = repositorioGrupo.findById(grupo.getId()).orElse(null);
@@ -85,5 +86,7 @@ public class ServicioGrupo {
     public void delete(@AuthenticationPrincipal CustomPrincipal customPrincipal, @PathVariable("id") Long id) {
         repositorioGrupo.deleteById(id);
     }
+    
+    
 
 }

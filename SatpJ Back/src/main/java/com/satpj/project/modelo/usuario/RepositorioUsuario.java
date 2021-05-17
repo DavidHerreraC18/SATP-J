@@ -7,5 +7,4 @@ import org.springframework.data.jpa.repository.JpaRepository;
  * Entidad usuario
  */
 public interface RepositorioUsuario extends JpaRepository<Usuario, String> {
-
 }
