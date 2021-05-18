@@ -2,21 +2,16 @@ import 'package:flutter/material.dart';
 
 import 'package:provider/provider.dart';
 import 'package:satpj_front_end_web/src/model/Notificadores/paciente-practicante_notifier.dart';
-import 'package:satpj_front_end_web/src/model/Notificadores/practicantes_notifier.dart';
 import 'package:satpj_front_end_web/src/model/practicante/practicante.dart';
 import 'package:satpj_front_end_web/src/model/practicante/practicante_paciente.dart';
-import 'package:satpj_front_end_web/src/providers/provider_administracion_practicantes.dart';
 import 'package:satpj_front_end_web/src/providers/provider_agregar_pacientes-practicantes.dart';
 import 'package:satpj_front_end_web/src/utils/widgets/Barras/toolbar_auxiliar_administrativo.dart';
 import 'package:satpj_front_end_web/src/utils/widgets/Dialogos/dialog_delete.dart';
 import 'package:satpj_front_end_web/src/utils/widgets/FuentesDatos/datatablesource_pacientes-practicantes.dart';
-import 'package:satpj_front_end_web/src/utils/widgets/FuentesDatos/datatablesource_practicantes.dart';
+import 'package:satpj_front_end_web/src/utils/widgets/LoadingWidgets/LoadingWanderingCube.dart';
 import 'package:satpj_front_end_web/src/utils/widgets/custom_paginated_datatable.dart';
 import 'package:satpj_front_end_web/src/views/gestionar_pacientes/dialogo_visualizar_paciente.dart';
 import 'package:satpj_front_end_web/src/views/gestionar_practicantes/dialogo_agregar_paciente-practicante.dart';
-import 'package:satpj_front_end_web/src/views/gestionar_practicantes/dialogo_crear_practicante.dart';
-import 'package:satpj_front_end_web/src/views/gestionar_practicantes/dialogo_editar_practicante.dart';
-import 'package:satpj_front_end_web/src/views/gestionar_practicantes/dialogo_visualizar_practicante.dart';
 import 'package:satpj_front_end_web/src/views/gestionar_practicantes/vista_administrar_practicantes.dart';
 
 class VistaAgregarPacientesPracticantes extends StatelessWidget {
@@ -54,6 +49,7 @@ class VistaAgregarPacientesPracticantes extends StatelessWidget {
   }
 }
 
+// ignore: must_be_immutable
 class _InternalWidget extends StatelessWidget {
   Practicante practicante;
   _InternalWidget(this.practicante, {Key key}) : super(key: key);
@@ -64,7 +60,7 @@ class _InternalWidget extends StatelessWidget {
     final _model = _provider.practicantepaciente;
 
     if (_model.isEmpty) {
-      return const SizedBox.shrink();
+      return LoadingWanderingCube();
     }
     final _dtSource = PacientesPracticantesDataTableSource(
       onRowSelectDetail: (index) => _details(context, _model[index]),
@@ -93,7 +89,12 @@ class _InternalWidget extends StatelessWidget {
         ),
       ],
       dataColumns: _colGen(_dtSource, _provider, context),
-      header: const Text("Lista de pacientes asignados al practicante"),
+      header: const Text(
+        "Lista de pacientes asignados al practicante",
+        style: TextStyle(
+          fontWeight: FontWeight.bold,
+        ),
+      ),
       onRowChanged: (index) => _provider.rowsPerPage = index,
       rowsPerPage: 10,
       showActions: true,
@@ -172,10 +173,10 @@ class _InternalWidget extends StatelessWidget {
         ),
         DataColumn(
           label: Text(
-            "Telefono",
+            "Teléfono",
             style: Theme.of(context).textTheme.subtitle1,
           ),
-          tooltip: "Telefono del paciente",
+          tooltip: "Teléfono del paciente",
           onSort: (colIndex, asc) {
             _sort<String>(
                 (pacientepracticante) => pacientepracticante.paciente.telefono,

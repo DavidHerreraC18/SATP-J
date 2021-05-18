@@ -5,7 +5,6 @@ import 'package:flutter/scheduler.dart';
 import 'package:flutter/foundation.dart';
 import 'package:intl/intl.dart';
 import 'package:flutter/widgets.dart';
-import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:satpj_front_end_web/src/model/horario/horario.dart';
 import 'package:satpj_front_end_web/src/model/paciente/paciente.dart';
 import 'package:satpj_front_end_web/src/model/practicante/practicante.dart';
@@ -13,7 +12,6 @@ import 'package:satpj_front_end_web/src/model/sesion_terapia/sesion_terapia.dart
 import 'package:satpj_front_end_web/src/model/sesion_terapia/sesion_usuario.dart';
 import 'package:satpj_front_end_web/src/providers/provider_administracion_usuarios.dart';
 import 'package:satpj_front_end_web/src/providers/provider_sesiones_terapia.dart';
-import 'package:satpj_front_end_web/src/providers/providers_usuarios/provider_usuarios.dart';
 import 'package:satpj_front_end_web/src/utils/tema.dart';
 import 'package:satpj_front_end_web/src/utils/widgets/LoadingWidgets/LoadingWanderingCube.dart';
 import 'package:satpj_front_end_web/src/utils/widgets/formularios/tema_formularios.dart';

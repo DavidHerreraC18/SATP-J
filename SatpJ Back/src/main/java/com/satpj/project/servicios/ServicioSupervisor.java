@@ -1,9 +1,11 @@
 package com.satpj.project.servicios;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import com.google.api.client.util.Preconditions;
 import com.satpj.project.modelo.paciente.Paciente;
+import com.satpj.project.modelo.practicante.Practicante;
 import com.satpj.project.modelo.supervisor.*;
 import com.satpj.project.seguridad.CustomPrincipal;
 
@@ -39,6 +41,9 @@ public class ServicioSupervisor {
     @Autowired
     private RepositorioSupervisor repositorioSupervisor;
 
+    @Autowired
+    private ServicioPaciente servicioPaciente;
+
     @GetMapping(produces = "application/json; charset=UTF-8")
     public List<Supervisor> findAll(@AuthenticationPrincipal CustomPrincipal customPrincipal) {
         return repositorioSupervisor.findAll();
@@ -54,6 +59,19 @@ public class ServicioSupervisor {
         Supervisor supervisor = repositorioSupervisor.findById(id).get();
         Preconditions.checkNotNull(supervisor);
         return supervisor.getPacientes();
+    }
+
+    @GetMapping(value = "/practicantes/{id}", produces = "application/json; charset=UTF-8")
+    public List<Practicante> findPracticantesBySupervisorId(@AuthenticationPrincipal CustomPrincipal customPrincipal, @PathVariable("id") String id) {
+        List<Paciente> pacientes = this.findPacientesBySupervisorId(customPrincipal, id);
+        List<Practicante> practicantes = new  ArrayList<Practicante>(); 
+        for(Paciente paciente: pacientes){
+            Practicante practicante = this.servicioPaciente.findPracticanteActivoByPacienteId(customPrincipal, paciente.getId());
+            if(practicante != null){
+                practicantes.add(practicante);
+            }
+        }
+        return practicantes;
     }
 
     @PostMapping

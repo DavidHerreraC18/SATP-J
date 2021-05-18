@@ -59,12 +59,12 @@ public class ServicioUsuario {
         return repositorioUsuario.findById(id).get();
     }
 
-    @GetMapping(value = "/{documento}", produces = "application/json; charset=UTF-8")
+    @GetMapping(value = "documento/{documento}", produces = "application/json; charset=UTF-8")
     public Usuario findByDocumento(@PathVariable("documento") String documento) {
         return repositorioUsuario.findByDocumento(documento).get();
     }
 
-    @GetMapping(value = "/{email}", produces = "application/json; charset=UTF-8")
+    @GetMapping(value = "email/{email}", produces = "application/json; charset=UTF-8")
     public Usuario findByEmail(@PathVariable("email") String email) {
         return repositorioUsuario.findByEmail(email).get();
     }

@@ -6,7 +6,6 @@ import 'package:satpj_front_end_web/src/model/documento_paciente/documento_pacie
 import 'package:satpj_front_end_web/src/model/formulario/formulario_extra.dart';
 import 'package:satpj_front_end_web/src/model/grupo/grupo.dart';
 import 'package:satpj_front_end_web/src/model/paciente/paciente.dart';
-import 'package:satpj_front_end_web/src/model/practicante/practicante_paciente.dart';
 import 'package:satpj_front_end_web/src/model/practicante/practicante.dart';
 import 'package:satpj_front_end_web/src/model/supervisor/supervisor.dart';
 import 'package:satpj_front_end_web/src/providers/provider_autenticacion.dart';
@@ -91,7 +90,7 @@ class ProviderAdministracionPacientes {
           await http.delete(Uri.http(_url, "/pacientes/"), headers: headers);
       print("JSON RECIBIDO" + resp.body);
       if (resp.statusCode == 200) {
-        final _data = singlePacienteFromJson(resp.body);
+        //final _data = singlePacienteFromJson(resp.body);
         _completer.complete(resp.body);
       }
     } catch (exc) {

@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
-import 'package:satpj_front_end_web/src/model/formulario/formulario.dart';
 import 'package:satpj_front_end_web/src/model/formulario/formulario_extra.dart';
 import 'package:satpj_front_end_web/src/providers/provider_aprobacion_pacientes.dart';
 import 'package:satpj_front_end_web/src/utils/widgets/Dialogos/header_dialog.dart';

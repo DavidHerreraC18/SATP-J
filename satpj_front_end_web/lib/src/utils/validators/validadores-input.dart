@@ -1,9 +1,6 @@
-
-import 'package:satpj_front_end_web/src/model/usuario/usuario.dart';
 import 'package:satpj_front_end_web/src/providers/providers_usuarios/provider_usuarios.dart';
 
 class ValidadoresInput {
-
   /*static Future<String> currencyFormat(String value) async{
     String currency = '';
     if (value.length > 3) {
@@ -23,34 +20,30 @@ class ValidadoresInput {
     }
     return currency;
   }*/
-  
-  static String validateCheckbox(List<bool> selectedOptions, String message){
 
-    if(selectedOptions != null ){
-        if(selectedOptions.isNotEmpty){
-            for(bool option in selectedOptions){
-                if(option)
-                   return null;
-            }
-            return message;
+  static String validateCheckbox(List<bool> selectedOptions, String message) {
+    if (selectedOptions != null) {
+      if (selectedOptions.isNotEmpty) {
+        for (bool option in selectedOptions) {
+          if (option) return null;
         }
+        return message;
+      }
     }
 
     return null;
-
   }
 
-  static String validateEmpty(String value, String messageEmpty, String vacio){
-      value = value.trim();
-      if (value.isEmpty ) {
-        if (vacio.isNotEmpty) {
-          return '$messageEmpty no puede estar $vacio';
-        }
-        else{
-          return '$messageEmpty';
-        }
+  static String validateEmpty(String value, String messageEmpty, String vacio) {
+    value = value.trim();
+    if (value.isEmpty) {
+      if (vacio.isNotEmpty) {
+        return '$messageEmpty no puede estar $vacio';
+      } else {
+        return '$messageEmpty';
       }
-      return null;
+    }
+    return null;
   }
 
   static String validateCurrency(String value, String messageEmpty) {
@@ -71,13 +64,13 @@ class ValidadoresInput {
         return 'El correo no puede estar vacio';
       } else if (!value.contains(RegExp(
           r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+"))) {
-        return 'Ingrese un correo electronico valido';
-      }else {
+        return 'Ingrese un correo electrónico valido';
+      } else {
         bool registrado = false;
-        validateExistEmail(value).then((data) =>  registrado = data);
+        validateExistEmail(value).then((data) => registrado = data);
         print(registrado);
-        if(registrado)
-           return 'El correo electronico ya se encuentra registrado';
+        if (registrado)
+          return 'El correo electrónico ya se encuentra registrado';
       }
     }
 
@@ -85,18 +78,17 @@ class ValidadoresInput {
   }
 
   static validateExistEmail(String email) async {
-    
     final usuario = await ProviderUsuarios.obtenerUsuarioPorEmail(email);
     bool validate = false;
-    if(usuario.first != null){
-       if(usuario.first.email == email){
-         return validate = true;
-       }
+    if (usuario.first != null) {
+      if (usuario.first.email == email) {
+        return validate = true;
+      }
     }
 
     return validate;
   }
-
+  /*
   String _validatePassword(String value) {
     value = value.trim();
 
@@ -108,5 +100,5 @@ class ValidadoresInput {
       }
     }
     return null;
-  }
+  }*/
 }

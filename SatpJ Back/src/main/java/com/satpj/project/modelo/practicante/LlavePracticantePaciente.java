@@ -21,22 +21,6 @@ public class LlavePracticantePaciente implements Serializable {
     @Column(name = "paciente_id")
     private String paciente_id;
 
-    public String getPPracticanteId() {
-        return pPracticanteId;
-    }
-
-    public void setPPracticanteId(String pPracticanteId) {
-        this.pPracticanteId = pPracticanteId;
-    }
-
-    public String getPPacienteId() {
-        return pPacienteId;
-    }
-
-    public void setPPacienteId(String pPacienteId) {
-        this.pPacienteId = pPacienteId;
-    }
-
     @Override
     public int hashCode() {
         final int prime = 31;
@@ -68,8 +52,4 @@ public class LlavePracticantePaciente implements Serializable {
         return true;
     }
 
-    @Override
-    public int hashCode() {
-        return Objects.hash(pPracticanteId, pPacienteId);
-    }
 }

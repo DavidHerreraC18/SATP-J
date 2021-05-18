@@ -6,7 +6,6 @@ import 'package:satpj_front_end_web/src/model/acudiente/acudiente.dart';
 import 'package:satpj_front_end_web/src/model/formulario/formulario.dart';
 import 'package:satpj_front_end_web/src/model/grupo/grupo.dart';
 import 'package:satpj_front_end_web/src/model/paciente/paciente.dart';
-import 'package:satpj_front_end_web/src/model/usuario/usuario.dart';
 import 'package:satpj_front_end_web/src/providers/provider_autenticacion.dart';
 import 'package:satpj_front_end_web/src/providers/api_definition.dart';
 
@@ -16,12 +15,11 @@ class ProviderPreRegistro {
   static Future<String> crearFormularioGrupo(
       Formulario formularioNuevo, Grupo grupoNuevo) async {
     final _completer = Completer<String>();
-    
+
     try {
       for (Paciente paciente in grupoNuevo.integrantes) {
-        (paciente as Usuario).id =
-            await ProviderAuntenticacion.registerWithEmailPassword(
-                paciente.email, paciente.documento);
+        paciente.id = await ProviderAuntenticacion.registerWithEmailPassword(
+            paciente.email, paciente.documento);
       }
 
       String formulario = jsonEncode(formularioNuevo.toJson());
@@ -30,8 +28,10 @@ class ProviderPreRegistro {
       String grupo = jsonEncode(grupoNuevo.toJson());
       print("RESPUESTA PREVIA" + grupo.toString());
 
-      final resp = await http.post(Uri.http(ApiDefinition.url, _path+"/grupal"),
-          headers: ApiDefinition.headerWithoutAuthorization, body: grupo);
+      final resp = await http.post(
+          Uri.http(ApiDefinition.url, _path + "/grupal"),
+          headers: ApiDefinition.headerWithoutAuthorization,
+          body: grupo);
 
       print("RESPUESTA" + resp.body);
       _completer.complete("Exito");
@@ -47,18 +47,16 @@ class ProviderPreRegistro {
     final _completer = Completer<String>();
 
     try {
-      (paciente as Usuario).id =
-          await ProviderAuntenticacion.registerWithEmailPassword(
-              paciente.email, paciente.documento);
+      paciente.id = await ProviderAuntenticacion.registerWithEmailPassword(
+          paciente.email, paciente.documento);
       paciente.tipoUsuario = "Paciente";
 
       if (paciente != null) {
         if (paciente.acudientes != null) {
           if (paciente.acudientes.length > 0) {
             for (Acudiente a in paciente.acudientes) {
-              (a as Usuario).id =
-                  await ProviderAuntenticacion.registerWithEmailPassword(
-                      a.email, a.documento);
+              a.id = await ProviderAuntenticacion.registerWithEmailPassword(
+                  a.email, a.documento);
               a.tipoUsuario = "Acudiente";
             }
           }

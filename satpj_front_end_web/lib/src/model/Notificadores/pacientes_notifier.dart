@@ -2,10 +2,13 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart' show PaginatedDataTable;
 import 'package:satpj_front_end_web/src/model/paciente/paciente.dart';
 import 'package:satpj_front_end_web/src/providers/provider_administracion_pacientes.dart';
+import 'package:satpj_front_end_web/src/providers/provider_administracion_practicantes.dart';
+import 'package:satpj_front_end_web/src/providers/provider_administracion_supervisores.dart';
 
 class PacienteNotifier with ChangeNotifier {
-  PacienteNotifier() {
-    fetchData();
+  final String uid;
+  PacienteNotifier(int total, {this.uid}) {
+    fetchData(total);
   }
 
   List<Paciente> get paciente => _paciente;
@@ -43,8 +46,19 @@ class PacienteNotifier with ChangeNotifier {
   bool _sortAscending = true;
   int _rowsPerPage = PaginatedDataTable.defaultRowsPerPage;
 
-  Future<void> fetchData() async {
-    _paciente = await ProviderAdministracionPacientes.traerPacientes();
+  Future<void> fetchData(int total) async {
+    if (total == 1) {
+      _paciente = await ProviderAdministracionPacientes.traerPacientes();
+    } else if (total == 2) {
+      //Supervisor
+      _paciente =
+          await ProviderAdministracionSupervisores.traerPacientesSupervisor(
+              this.uid);
+    } else if (total == 3) {
+      //Practicante
+      _paciente = await ProviderAdministracionPracticantes
+          .traerPacientesActivosPracticante(this.uid);
+    }
     notifyListeners();
   }
 }

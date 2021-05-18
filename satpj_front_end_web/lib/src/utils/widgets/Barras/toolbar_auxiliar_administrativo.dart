@@ -2,8 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:satpj_front_end_web/src/providers/provider_autenticacion.dart';
 import 'package:satpj_front_end_web/src/views/gestionar_pacientes/vista_aprobacion_formularios.dart';
 import 'package:satpj_front_end_web/src/views/gestionar_pacientes/vista_administrar_pacientes.dart';
+import 'package:satpj_front_end_web/src/views/gestionar_perfil/vista_perfil_auxiliar.dart';
 import 'package:satpj_front_end_web/src/views/gestionar_practicantes/vista_administrar_practicantes.dart';
 import 'package:satpj_front_end_web/src/views/gestionar_supervisores/vista_administracion_supervisores.dart';
+import 'package:satpj_front_end_web/src/views/vista_home.dart';
 
 AppBar toolbarAuxiliarAdministrativo(BuildContext context) {
   return AppBar(
@@ -180,12 +182,15 @@ AppBar toolbarAuxiliarAdministrativo(BuildContext context) {
                     // Replace with a Row for horizontal icon + text
                     children: <Widget>[
                       Icon(
-                        Icons.assignment_rounded, //QUEJESA JOA
-                        color: Color(0xFF2E5EAA),
+                        Icons.assignment_rounded,
+                        color: Colors.grey,
                       ),
                       SizedBox(width: 2.0),
                       Text("Tareas",
-                          style: Theme.of(context).textTheme.bodyText1)
+                          style: TextStyle(
+                              color: Colors.grey,
+                              fontSize: 12.0,
+                              fontFamily: 'Dubai'))
                     ],
                   ),
                 ),
@@ -224,13 +229,13 @@ AppBar toolbarAuxiliarAdministrativo(BuildContext context) {
                 switch (value) {
                   case 1:
                     {
-                      // statements;
+                      Navigator.pushNamed(context, HomePage.route);
                     }
                     break;
 
                   case 2:
                     {
-                      //statements;
+                      Navigator.pushNamed(context, VistaPerfilAuxiliar.route);
                     }
                     break;
 

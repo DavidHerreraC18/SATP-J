@@ -4,13 +4,15 @@ import 'package:satpj_front_end_web/src/model/paciente/paciente.dart';
 typedef OnRowSelectDetail = void Function(int index);
 typedef OnRowSelectEdit = void Function(int index);
 typedef OnRowSelectDelete = void Function(int index);
+typedef OnRowSelectDate = void Function(int index);
 
 class PacientesDataTableSource extends DataTableSource {
   PacientesDataTableSource(
       {@required List<Paciente> pacientes,
       @required this.onRowSelectDetail,
       @required this.onRowSelectEdit,
-      @required this.onRowSelectDelete})
+      @required this.onRowSelectDelete,
+      @required this.onRowSelectDate})
       : _pacientes = pacientes,
         assert(pacientes != null);
 
@@ -18,6 +20,7 @@ class PacientesDataTableSource extends DataTableSource {
   final OnRowSelectDetail onRowSelectDetail;
   final OnRowSelectEdit onRowSelectEdit;
   final OnRowSelectDelete onRowSelectDelete;
+  final OnRowSelectDate onRowSelectDate;
 
   @override
   DataRow getRow(int index) {
@@ -39,16 +42,12 @@ class PacientesDataTableSource extends DataTableSource {
         DataCell(Text('${_paciente.edad}')),
         DataCell(
           ButtonBar(
+            alignment: MainAxisAlignment.start,
             children: <Widget>[
               IconButton(
                 color: Color(0xFF2E5EAA),
-                icon: const Icon(Icons.person_add),
-                onPressed: () {},
-              ),
-              IconButton(
-                color: Color(0xFF2E5EAA),
                 icon: const Icon(Icons.insert_invitation),
-                onPressed: () {},
+                onPressed: () => onRowSelectDate(index),
               ),
               IconButton(
                 color: Color(0xFF2E5EAA),

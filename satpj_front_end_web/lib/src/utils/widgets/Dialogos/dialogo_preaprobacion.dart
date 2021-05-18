@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
-import 'package:satpj_front_end_web/src/model/Notificadores/formulario_notifier.dart';
 import 'package:satpj_front_end_web/src/model/formulario/formulario.dart';
 import 'package:satpj_front_end_web/src/providers/provider_aprobacion_formularios.dart';
 import 'package:satpj_front_end_web/src/utils/widgets/Dialogos/header_dialog.dart';
@@ -44,7 +42,8 @@ class _PreAprobDialogState extends State<PreAprobDialog> {
                     isAlwaysShown: true,
                     thumbColor: Theme.of(context).colorScheme.primary,
                     child: SingleChildScrollView(
-                        padding: const EdgeInsets.all(20.0),
+                        padding: const EdgeInsets.symmetric(
+                            horizontal: 40.0, vertical: 20.0),
                         child: Container(
                           child: _contenido(widget.formularioSeleccionado),
                         )),
@@ -161,9 +160,9 @@ class _PreAprobDialogState extends State<PreAprobDialog> {
       children: [
         Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
           Text(
-            'Nombre Completo',
+            'Nombre Completo:',
             textAlign: TextAlign.left,
-            style: Theme.of(context).textTheme.subtitle1,
+            style: TextStyle(fontSize: 18.0),
           ),
           SizedBox(
             height: 2.0,
@@ -196,9 +195,9 @@ class _PreAprobDialogState extends State<PreAprobDialog> {
               height: 15.0,
             ),
             Text(
-              'Motivo de Consulta',
+              'Motivo de Consulta:',
               textAlign: TextAlign.left,
-              style: Theme.of(context).textTheme.subtitle1,
+              style: TextStyle(fontSize: 18.0),
             ),
             SizedBox(
               height: 2.0,
@@ -232,7 +231,7 @@ class _PreAprobDialogState extends State<PreAprobDialog> {
             Text(
               '¿Fue Atendido Anteriormente?',
               textAlign: TextAlign.left,
-              style: Theme.of(context).textTheme.subtitle1,
+              style: TextStyle(fontSize: 18.0),
             ),
             SizedBox(
               height: 2.0,
@@ -309,9 +308,9 @@ class _PreAprobDialogState extends State<PreAprobDialog> {
             height: 15.0,
           ),
           Text(
-            'Remitente',
+            'Remitente:',
             textAlign: TextAlign.left,
-            style: Theme.of(context).textTheme.subtitle1,
+            style: TextStyle(fontSize: 18.0),
           ),
           SizedBox(
             height: 2.0,

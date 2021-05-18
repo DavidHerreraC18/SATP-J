@@ -6,6 +6,7 @@ import 'package:satpj_front_end_web/src/utils/widgets/inputs/dropdown.dart';
 import 'package:satpj_front_end_web/src/utils/widgets/formularios/formulario_usuario.dart';
 import 'package:satpj_front_end_web/src/utils/widgets/formularios/tema_formularios.dart';
 
+// ignore: must_be_immutable
 class FormSupervisorInformation extends StatefulWidget {
   Supervisor supervisor = new Supervisor();
   String prefix;

@@ -7,6 +7,7 @@ import 'package:satpj_front_end_web/src/model/supervisor/supervisor.dart';
 import 'package:satpj_front_end_web/src/utils/widgets/Barras/toolbar_auxiliar_administrativo.dart';
 import 'package:satpj_front_end_web/src/utils/widgets/FuentesDatos/datatablesource_comprobantes_pagos.dart';
 import 'package:provider/provider.dart';
+import 'package:satpj_front_end_web/src/utils/widgets/LoadingWidgets/LoadingWanderingCube.dart';
 import 'package:satpj_front_end_web/src/utils/widgets/custom_paginated_datatable.dart';
 import 'package:satpj_front_end_web/src/views/gestionar_pacientes/dialogo_visualizar_paciente.dart';
 
@@ -16,16 +17,13 @@ class VistaVisualizarPagos extends StatefulWidget {
   VistaVisualizarPagos();
 
   @override
-  _VistaVisualizarPagosState createState() =>
-      _VistaVisualizarPagosState();
+  _VistaVisualizarPagosState createState() => _VistaVisualizarPagosState();
 }
 
 Paciente paciente = new Paciente();
 List<ComprobantePago> comprobantes = [];
 
-class _VistaVisualizarPagosState
-    extends State<VistaVisualizarPagos> {
-  
+class _VistaVisualizarPagosState extends State<VistaVisualizarPagos> {
   crearPacienteTemporal() {
     paciente.nombre = 'Pepito';
     paciente.apellido = 'Gómez';
@@ -41,7 +39,7 @@ class _VistaVisualizarPagosState
     paciente.supervisor.apellido = 'Rodriguez';
   }
 
-  crearComprobanteTemporal() {   
+  crearComprobanteTemporal() {
     ComprobantePago comprobantePago = new ComprobantePago();
     comprobantePago.fecha = DateTime.now();
     comprobantePago.referenciaPago = "2020202";
@@ -82,7 +80,7 @@ class _InternalWidget extends StatelessWidget {
     //final _model = comprobantes;
 
     if (_model.isEmpty) {
-      return const SizedBox.shrink();
+      return LoadingWanderingCube();
     }
     final _dtSource = ComprobantesPagosDataTableSource(
       onRowSelectView: (index) => _showViewDialog(context, _model[index]),
@@ -142,8 +140,13 @@ class _InternalWidget extends StatelessWidget {
           ),
           tooltip: "Paciente",
           onSort: (colIndex, asc) {
-            _sort<String>((comprobante) => comprobante.paqueteSesion.paciente.nombre.toString(), colIndex, asc,
-                _src, _provider);
+            _sort<String>(
+                (comprobante) =>
+                    comprobante.paqueteSesion.paciente.nombre.toString(),
+                colIndex,
+                asc,
+                _src,
+                _provider);
           },
         ),
         DataColumn(
@@ -153,8 +156,12 @@ class _InternalWidget extends StatelessWidget {
           ),
           tooltip: "Documento del paciente",
           onSort: (colIndex, asc) {
-            _sort<String>((comprobante) => comprobante.paqueteSesion.paciente.documento , colIndex, asc,
-                _src, _provider);
+            _sort<String>(
+                (comprobante) => comprobante.paqueteSesion.paciente.documento,
+                colIndex,
+                asc,
+                _src,
+                _provider);
           },
         ),
         DataColumn(
@@ -165,7 +172,12 @@ class _InternalWidget extends StatelessWidget {
           tooltip: "Estrato del paciente",
           onSort: (colIndex, asc) {
             _sort<String>(
-                (comprobante) => comprobante.paqueteSesion.paciente.estrato.toString(), colIndex, asc, _src, _provider);
+                (comprobante) =>
+                    comprobante.paqueteSesion.paciente.estrato.toString(),
+                colIndex,
+                asc,
+                _src,
+                _provider);
           },
         ),
         DataColumn(
@@ -175,8 +187,8 @@ class _InternalWidget extends StatelessWidget {
           ),
           tooltip: "Referencia de pago",
           onSort: (colIndex, asc) {
-            _sort<String>(
-                (comprobante) => comprobante.referenciaPago, colIndex, asc, _src, _provider);
+            _sort<String>((comprobante) => comprobante.referenciaPago, colIndex,
+                asc, _src, _provider);
           },
         ),
         DataColumn(
@@ -187,7 +199,12 @@ class _InternalWidget extends StatelessWidget {
           tooltip: "Cantidad Sesiones de terapia",
           onSort: (colIndex, asc) {
             _sort<String>(
-                (comprobante) => comprobante.paqueteSesion.cantidadSesiones.toString(), colIndex, asc, _src, _provider);
+                (comprobante) =>
+                    comprobante.paqueteSesion.cantidadSesiones.toString(),
+                colIndex,
+                asc,
+                _src,
+                _provider);
           },
         ),
         DataColumn(
@@ -197,8 +214,8 @@ class _InternalWidget extends StatelessWidget {
           ),
           tooltip: "Valor total del pago",
           onSort: (colIndex, asc) {
-            _sort<String>(
-                (comprobante) => comprobante.valorTotal.toString(), colIndex, asc, _src, _provider);
+            _sort<String>((comprobante) => comprobante.valorTotal.toString(),
+                colIndex, asc, _src, _provider);
           },
         ),
         DataColumn(
@@ -225,8 +242,5 @@ class _InternalWidget extends StatelessWidget {
   void _showViewDialog(BuildContext c, ComprobantePago data) async =>
       await showDialog<bool>(
           context: c,
-          builder: (_) => DialogoVisualizarPaciente(
-                paciente: paciente
-        ));
-
+          builder: (_) => DialogoVisualizarPaciente(paciente: paciente));
 }

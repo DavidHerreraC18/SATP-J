@@ -36,12 +36,17 @@ class PacientesPracticantesDataTableSource extends DataTableSource {
         DataCell(Text('${_practicantepaciente.paciente.telefono}')),
         DataCell(Text('${_practicantepaciente.paciente.edad}')),
         DataCell(
-          ButtonBar(
-            children: <Widget>[
-              IconButton(
-                color: Color(0xFF2E5EAA),
-                icon: const Icon(Icons.delete),
-                onPressed: () => onRowSelectDelete(index),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.start,
+            children: [
+              ButtonBar(
+                children: <Widget>[
+                  IconButton(
+                    color: Color(0xFF2E5EAA),
+                    icon: const Icon(Icons.delete),
+                    onPressed: () => onRowSelectDelete(index),
+                  ),
+                ],
               ),
             ],
           ),

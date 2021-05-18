@@ -37,6 +37,7 @@ class SesionesTerapiaDataTableSource extends DataTableSource {
         DataCell(Text('${_sesion.consultorio}')),
         DataCell(
           Row(
+            mainAxisAlignment: MainAxisAlignment.start,
             children: [
               IconButton(
                 icon: Icon(

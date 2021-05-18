@@ -12,6 +12,7 @@ import 'package:satpj_front_end_web/src/utils/widgets/Calendarios/CalendarioPrin
 import 'package:satpj_front_end_web/src/utils/widgets/LoadingWidgets/LoadingWanderingCube.dart';
 
 class HomePage extends StatefulWidget {
+  static const route = '/home-usuarios';
   @override
   createState() => _HomePageState();
 }

@@ -1,8 +1,6 @@
 import 'dart:async';
-import 'dart:convert';
 
 import 'package:http/http.dart' as http;
-import 'package:satpj_front_end_web/src/model/documento_paciente/documento_paciente.dart';
 import 'package:satpj_front_end_web/src/model/paciente/paciente.dart';
 import 'package:satpj_front_end_web/src/model/practicante/practicante_paciente.dart';
 import 'package:satpj_front_end_web/src/providers/provider_autenticacion.dart';
@@ -97,7 +95,7 @@ class ProviderAgregarPracticantesPacientes {
           headers: headers);
       print("JSON RECIBIDO" + resp.body);
       if (resp.statusCode == 200) {
-        final _data = practicantePacienteFromJson(resp.body);
+        //final _data = practicantePacienteFromJson(resp.body);
         _completer.complete(resp.body);
       }
     } catch (exc) {

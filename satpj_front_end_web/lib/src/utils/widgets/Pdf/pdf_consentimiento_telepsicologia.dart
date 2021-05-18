@@ -3,13 +3,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:intl/intl.dart';
 import 'dart:typed_data';
-import 'dart:typed_data';
 
 ///Pdf import
 import 'package:syncfusion_flutter_pdf/pdf.dart';
 import 'helper/info_paciente_telepsicologia_pdf.dart';
-import 'helper/save_file_mobile.dart'
-    if (dart.library.html) 'helper/save_file_web.dart';
 
 /// Render pdf with annotations
 class PdfConsentimientoTelepsicologia {

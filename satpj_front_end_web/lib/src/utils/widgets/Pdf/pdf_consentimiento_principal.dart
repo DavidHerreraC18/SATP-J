@@ -5,13 +5,9 @@ import 'package:intl/intl.dart';
 import 'package:satpj_front_end_web/src/utils/widgets/Pdf/helper/info_acudiente_principal_pdf.dart';
 import 'package:satpj_front_end_web/src/utils/widgets/Pdf/helper/info_paciente_principal_pdf.dart';
 import 'dart:typed_data';
-import 'dart:ui' as ui;
-import 'dart:typed_data';
 
 ///Pdf import
 import 'package:syncfusion_flutter_pdf/pdf.dart';
-import 'helper/save_file_mobile.dart'
-    if (dart.library.html) 'helper/save_file_web.dart';
 
 /// Render pdf with annotations
 class PdfConsentimientoPrincipal {

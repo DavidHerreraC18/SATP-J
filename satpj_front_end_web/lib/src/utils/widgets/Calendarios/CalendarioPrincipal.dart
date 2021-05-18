@@ -8,13 +8,8 @@ import 'package:intl/intl.dart';
 import 'package:satpj_front_end_web/src/model/sesion_terapia/sesion_terapia.dart';
 import 'package:satpj_front_end_web/src/model/sesion_terapia/sesion_usuario.dart';
 import 'package:satpj_front_end_web/src/model/usuario/usuario.dart';
-import 'package:satpj_front_end_web/src/utils/widgets/Barras/toolbar_auxiliar_administrativo.dart';
-import 'package:satpj_front_end_web/src/utils/widgets/Barras/toolbar_paciente.dart';
-import 'package:satpj_front_end_web/src/utils/widgets/Barras/toolbar_practicante.dart';
-import 'package:satpj_front_end_web/src/utils/widgets/Barras/toolbar_supervisor.dart';
-import 'package:satpj_front_end_web/src/utils/widgets/formularios/tema_formularios.dart';
+import 'package:satpj_front_end_web/src/utils/widgets/Barras/toolbar_inicio.dart';
 import 'package:syncfusion_flutter_calendar/calendar.dart';
-import 'package:syncfusion_localizations/syncfusion_localizations.dart';
 import 'package:flutter/foundation.dart' show kIsWeb;
 
 import '../../tema.dart';
@@ -74,8 +69,11 @@ class _CalendarioPrincipalState extends State<CalendarioPrincipal> {
                     ],
                   ),
                   Expanded(
-                      child: MonthlyCalendar(
-                          sesionesUsuario: this.sesionesUsuario)),
+                      child: Container(
+                    height: 3000,
+                    child:
+                        MonthlyCalendar(sesionesUsuario: this.sesionesUsuario),
+                  )),
                 ],
               )
             : Column(
@@ -194,7 +192,8 @@ class _MonthlyCalendarState extends State<MonthlyCalendar> {
                     children: <Widget>[
                       Container(
                         color: Colors.white,
-                        height: 600,
+                        height: (MediaQuery.of(context).size.height -
+                            toolbarInicio(context).preferredSize.height),
                         child: calendar,
                       )
                     ],

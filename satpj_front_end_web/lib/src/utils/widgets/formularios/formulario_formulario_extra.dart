@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'dart:typed_data';
 
 import 'package:flutter/material.dart';
+import 'package:satpj_front_end_web/src/constants.dart';
 import 'package:satpj_front_end_web/src/model/documento_paciente/documento_paciente.dart';
 import 'package:satpj_front_end_web/src/model/formulario/formulario_extra.dart';
 import 'package:satpj_front_end_web/src/model/supervisor/supervisor.dart';
@@ -71,6 +72,8 @@ class _FormState extends State<FormFormularioExtraInformation> {
         }
       });
     }
+    supervisores = [];
+    supervisoresNombres = [];
     supervisores = await ProviderAdministracionSupervisores.traerSupervisores();
     if (supervisores.isNotEmpty) {
       for (int i = 0; i < supervisores.length; i++) {
@@ -344,13 +347,24 @@ class _FormState extends State<FormFormularioExtraInformation> {
                           SizedBox(
                             height: 8.0,
                           ),
-                          DropdownButton(
+                          DropdownButtonFormField(
+                            decoration: inputDecoration(),
                             value: _supervisorNombreActual,
                             items: _dropDownMenuItems,
                             onChanged: changedDropDownItem,
                           ),
-                          Text('Enfoque: ' + _supervisorActual.enfoque),
-                          Text('Correo: ' + _supervisorActual.email),
+                          (_supervisorActual != null)
+                              ? Text('Enfoque: ' + _supervisorActual.enfoque,
+                                  style: TextStyle(fontSize: 18.0))
+                              : SizedBox(
+                                  height: 1,
+                                ),
+                          (_supervisorActual != null)
+                              ? Text('Correo: ' + _supervisorActual.email,
+                                  style: TextStyle(fontSize: 18.0))
+                              : SizedBox(
+                                  height: 1,
+                                ),
                           SizedBox(
                             height: 8.0,
                           ),

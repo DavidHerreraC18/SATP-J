@@ -3,11 +3,11 @@ import 'package:satpj_front_end_web/src/model/paciente/paciente.dart';
 import 'package:satpj_front_end_web/src/providers/provider_administracion_pacientes.dart';
 import 'package:satpj_front_end_web/src/utils/tema.dart';
 import 'package:satpj_front_end_web/src/utils/widgets/Dialogos/fotter_dialog.dart';
-import 'package:satpj_front_end_web/src/utils/widgets/botones/button_forms.dart';
 import 'package:satpj_front_end_web/src/utils/widgets/formularios/tema_formularios.dart';
 import 'package:satpj_front_end_web/src/utils/widgets/formularios/formulario_paciente.dart';
 import 'package:satpj_front_end_web/src/views/gestionar_pacientes/vista_administrar_pacientes.dart';
 
+// ignore: must_be_immutable
 class DialogoEditarPaciente extends StatefulWidget {
   Paciente paciente = new Paciente();
 

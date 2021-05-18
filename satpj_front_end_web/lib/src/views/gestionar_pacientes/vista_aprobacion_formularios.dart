@@ -11,6 +11,7 @@ import 'package:satpj_front_end_web/src/utils/widgets/Dialogos/dialogo_aprobacio
 import 'package:satpj_front_end_web/src/utils/widgets/Dialogos/dialogo_preaprobacion.dart';
 import 'package:satpj_front_end_web/src/utils/widgets/FuentesDatos/datatablesource_formulario.dart';
 import 'package:satpj_front_end_web/src/utils/widgets/FuentesDatos/datatablesource_formulario_extra.dart';
+import 'package:satpj_front_end_web/src/utils/widgets/LoadingWidgets/LoadingWanderingCube.dart';
 import 'package:satpj_front_end_web/src/utils/widgets/botones/switch_button.dart';
 import 'package:satpj_front_end_web/src/utils/widgets/custom_paginated_datatable.dart';
 
@@ -25,37 +26,59 @@ class VistaAprobacionFormularios extends StatefulWidget {
 class VistaAprobacionFormulariosState
     extends State<VistaAprobacionFormularios> {
   bool estado = true;
-  cambioDeAprobado(bool state) {
-    setState(() {
-      estado = state;
-    });
-  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: toolbarAuxiliarAdministrativo(context),
       body: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
+        crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          CustomSwitch(
-            activeColor: kPrimaryColor,
-            value: estado,
-            onChanged: (value) {
-              setState(() {
-                estado = value;
-              });
-            },
+          SizedBox(
+            height: 15.0,
           ),
-          estado
-              ? Text(
-                  'Nuevos',
-                  style: TextStyle(color: Colors.black, fontSize: 20.0),
-                )
-              : Text(
-                  'PreAprobados',
-                  style: TextStyle(color: Colors.black, fontSize: 20.0),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Container(
+                width: 120.0,
+                child: ElevatedButton(
+                  onPressed: () {
+                    setState(() {
+                      estado = true;
+                    });
+                  },
+                  child: Text("Nuevos",
+                      style: TextStyle(
+                          fontSize: 18.0, fontWeight: FontWeight.normal)),
+                  style: ButtonStyle(
+                    backgroundColor:
+                        MaterialStateProperty.all<Color>(kPrimaryColor),
+                  ),
                 ),
+              ),
+              SizedBox(
+                width: 8,
+              ),
+              ElevatedButton(
+                onPressed: () {
+                  setState(() {
+                    estado = false;
+                  });
+                },
+                child: Text(" PreAprobados ",
+                    style: TextStyle(
+                        fontSize: 18.0, fontWeight: FontWeight.normal)),
+                style: ButtonStyle(
+                  backgroundColor:
+                      MaterialStateProperty.all<Color>(kPrimaryColor),
+                ),
+              ),
+            ],
+          ),
+          SizedBox(
+            height: 10.0,
+          ),
           estado
               ? Expanded(
                   child: Container(
@@ -89,7 +112,7 @@ class _InternalWidgetPreAprob extends StatelessWidget {
     final _model = _provider.formulario;
 
     if (_model.isEmpty) {
-      return const SizedBox.shrink();
+      return LoadingWanderingCube();
     }
     final _dtSource = FormularioDataTableSource(
       onRowSelect: (index) => _showDetails(context, _model[index]),
@@ -110,7 +133,12 @@ class _InternalWidgetPreAprob extends StatelessWidget {
         ),
       ],
       dataColumns: _colGen(_dtSource, _provider, context),
-      header: const Text("Lista de usuarios pendientes de aprobacion"),
+      header: const Text(
+        "Lista de usuarios pendientes de aprobación",
+        style: TextStyle(
+          fontWeight: FontWeight.bold,
+        ),
+      ),
       onRowChanged: (index) => _provider.rowsPerPage = index,
       rowsPerPage: 10,
       showActions: true,
@@ -227,7 +255,7 @@ class _InternalWidgetAprob extends StatelessWidget {
     final _model = _provider.formulario;
 
     if (_model.isEmpty) {
-      return const SizedBox.shrink();
+      return LoadingWanderingCube();
     }
     final _dtSource = FormularioExtraDataTableSource(
       onRowSelect: (index) => _showDetails(context, _model[index]),
@@ -248,7 +276,12 @@ class _InternalWidgetAprob extends StatelessWidget {
         ),
       ],
       dataColumns: _colGen(_dtSource, _provider, context),
-      header: const Text("Lista de usuarios pendientes de aprobacion"),
+      header: const Text(
+        "Lista de usuarios pendientes de aprobacion",
+        style: TextStyle(
+          fontWeight: FontWeight.bold,
+        ),
+      ),
       onRowChanged: (index) => _provider.rowsPerPage = index,
       rowsPerPage: 10,
       showActions: true,

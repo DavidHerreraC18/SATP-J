@@ -1,14 +1,7 @@
 import 'dart:async';
-import 'dart:convert';
 
 import 'package:http/http.dart' as http;
 import 'package:satpj_front_end_web/src/model/auxiliar_administrativo/auxiliar_administrativo.dart';
-import 'package:satpj_front_end_web/src/model/documento_paciente/documento_paciente.dart';
-import 'package:satpj_front_end_web/src/model/formulario/formulario_extra.dart';
-import 'package:satpj_front_end_web/src/model/grupo/grupo.dart';
-import 'package:satpj_front_end_web/src/model/paciente/paciente.dart';
-import 'package:satpj_front_end_web/src/model/practicante/practicante.dart';
-import 'package:satpj_front_end_web/src/model/supervisor/supervisor.dart';
 import 'package:satpj_front_end_web/src/providers/provider_autenticacion.dart';
 
 const _url = "localhost:8082";

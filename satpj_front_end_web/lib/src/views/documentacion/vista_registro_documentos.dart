@@ -8,7 +8,6 @@ import 'package:satpj_front_end_web/src/providers/provider_administracion_pacien
 import 'package:satpj_front_end_web/src/providers/provider_autenticacion.dart';
 import 'package:satpj_front_end_web/src/providers/provider_documentos_paciente.dart';
 import 'package:satpj_front_end_web/src/utils/tema.dart';
-import 'package:satpj_front_end_web/src/utils/widgets/Barras/toolbar_inicio.dart';
 import 'package:satpj_front_end_web/src/utils/widgets/Barras/toolbar_paciente_preaprobado.dart';
 import 'package:satpj_front_end_web/src/utils/widgets/LoadingWidgets/LoadingWanderingCube.dart';
 import 'package:satpj_front_end_web/src/utils/widgets/formularios/tema_formularios.dart';
@@ -67,7 +66,7 @@ class _VistaRegistroDocumentosState extends State<VistaRegistroDocumentos> {
                             Column(
                               children: [
                                 Container(
-                                  width: 1300,
+                                  width: 1100,
                                   child: Card(
                                       margin: EdgeInsets.only(
                                           right: 80.0,
@@ -756,7 +755,7 @@ class DocumentosPacienteState extends State<DocumentosPaciente> {
                     _isCompleted
                         ? SizedBox(height: 10)
                         : Container(
-                            height: 50,
+                            height: 35,
                             width: 235,
                             decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(15),
@@ -764,7 +763,12 @@ class DocumentosPacienteState extends State<DocumentosPaciente> {
                             child: Material(
                               borderRadius: BorderRadius.circular(15),
                               color: kPrimaryColor,
-                              child: MaterialButton(
+                              child: ElevatedButton(
+                                style: ButtonStyle(
+                                  backgroundColor:
+                                      MaterialStateProperty.all<Color>(
+                                          kPrimaryColor),
+                                ),
                                 onPressed: () {
                                   if (_isConsentimientoEntered &&
                                       _isConsentimientoTPEntered &&
@@ -794,7 +798,7 @@ class DocumentosPacienteState extends State<DocumentosPaciente> {
                                       "Completar Registro",
                                       textAlign: TextAlign.center,
                                       style: TextStyle(
-                                        fontSize: 20,
+                                        fontSize: 18,
                                         color: Colors.white,
                                         fontWeight: FontWeight.bold,
                                       ),

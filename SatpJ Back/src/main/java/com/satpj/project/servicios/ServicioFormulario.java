@@ -2,7 +2,6 @@ package com.satpj.project.servicios;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 import com.google.api.client.util.Preconditions;
 import com.google.gson.Gson;
@@ -15,7 +14,6 @@ import com.satpj.project.modelo.grupo.RepositorioGrupo;
 import com.satpj.project.modelo.paciente.Paciente;
 import com.satpj.project.modelo.paciente.RepositorioPaciente;
 import com.satpj.project.modelo.usuario.RepositorioUsuario;
-import com.satpj.project.modelo.usuario.Usuario;
 import com.satpj.project.seguridad.CustomPrincipal;
 
 import org.springframework.beans.factory.annotation.Autowired;

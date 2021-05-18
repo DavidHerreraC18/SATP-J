@@ -10,6 +10,8 @@ import 'package:satpj_front_end_web/src/utils/tema.dart';
 import 'package:satpj_front_end_web/src/utils/widgets/Barras/toolbar_auxiliar_administrativo.dart';
 import 'package:satpj_front_end_web/src/utils/widgets/Calendarios/CalendarioAgendar.dart';
 import 'package:satpj_front_end_web/src/utils/widgets/Dialogos/dialog_delete.dart';
+import 'package:satpj_front_end_web/src/utils/widgets/Dialogos/fotter_dialog.dart';
+import 'package:satpj_front_end_web/src/utils/widgets/Dialogos/header_dialog.dart';
 import 'package:satpj_front_end_web/src/utils/widgets/FuentesDatos/datatablesource_sesiones_terapia.dart';
 import 'package:satpj_front_end_web/src/utils/widgets/LoadingWidgets/LoadingWanderingCube.dart';
 import 'package:satpj_front_end_web/src/views/agendar_citas/dialogo_sesion_terapia.dart';
@@ -28,17 +30,16 @@ class VistaGestionarAgendamiento extends StatefulWidget {
 
 class _VistaGestionarAgendamientoState
     extends State<VistaGestionarAgendamiento> {
-  Paciente paciente;
+  Paciente paciente = new Paciente();
   Practicante practicante;
 
   @override
   void initState() {
+    paciente = new Paciente();
     super.initState();
   }
 
   Future<String> obtenerInfoPacientePracticante() async {
-    String uid = ProviderAuntenticacion.uid;
-    paciente = await ProviderAdministracionPacientes.buscarPaciente(uid);
     practicante =
         await ProviderAdministracionPacientes.traerPracticanteActivoPaciente(
             paciente);
@@ -49,6 +50,27 @@ class _VistaGestionarAgendamientoState
 
   @override
   Widget build(BuildContext context) {
+    final Map arguments = ModalRoute.of(context).settings.arguments as Map;
+    if (arguments != null) {
+      if (arguments['arguments'] is Paciente) {
+        print(arguments['arguments']);
+        paciente = arguments['arguments'] as Paciente;
+      }
+    }
+    Dialog dialogoError = new Dialog(
+        child: Column(
+      children: [
+        HeaderDialog(
+          label: 'Error',
+        ),
+        Text("Para agendar una cita debe asignar un practicante al paciente"),
+        FotterDialog(
+          labelConfirmBtn: 'Aceptar',
+          colorConfirmBtn: kPrimaryColor,
+          width: 120.0,
+        )
+      ],
+    ));
     return FutureBuilder<String>(
       future:
           obtenerInfoPacientePracticante(), // function where you call your api
@@ -57,9 +79,10 @@ class _VistaGestionarAgendamientoState
         if (snapshot.connectionState == ConnectionState.waiting) {
           return LoadingWanderingCube();
         } else {
-          if (snapshot.hasError)
-            return Center(child: Text('Error: ${snapshot.error}'));
-          else {
+          if (snapshot.hasError) {
+            showDialog(context: context, builder: (context) => dialogoError);
+            return SizedBox.shrink();
+          } else {
             final Map arguments =
                 ModalRoute.of(context).settings.arguments as Map;
 
@@ -71,7 +94,7 @@ class _VistaGestionarAgendamientoState
             return Scaffold(
               appBar: toolbarAuxiliarAdministrativo(context),
               body: ChangeNotifierProvider<SesionNotifier>(
-                create: (_) => SesionNotifier(),
+                create: (_) => SesionNotifier(paciente: this.paciente),
                 child: _InternalWidget(
                   paciente: this.paciente,
                   practicante: this.practicante,
@@ -99,7 +122,7 @@ class _InternalWidget extends StatelessWidget {
     final _model = _provider.sesion;
 
     if (_model.isEmpty) {
-      return const SizedBox.shrink();
+      return LoadingWanderingCube();
     }
     final _dtSource = SesionesTerapiaDataTableSource(
       onRowSelectEdit: (index) => _showEditDialog(context, _model[index]),

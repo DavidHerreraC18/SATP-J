@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:satpj_front_end_web/src/utils/tema.dart';
 
+// ignore: must_be_immutable
 class CellSchedule extends StatefulWidget {
   Color colorDay = Color(0xffF2F2F2);
   Color colorSelected;
@@ -49,7 +50,7 @@ class _CellScheduleState extends State<CellSchedule> {
         });
       },
       child: Container(
-          height: widget.combined ? (39.8/3) - 2 : 39.8,
+          height: widget.combined ? (39.8 / 3) - 2 : 39.8,
           margin: EdgeInsets.only(right: 3.0, bottom: 3.0),
           color: !widget.selected ? widget.colorDay : widget.colorSelected,
           child: Center(

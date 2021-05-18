@@ -17,9 +17,7 @@ import 'package:satpj_front_end_web/src/utils/widgets/Calendarios/CustomAppointm
 import 'package:satpj_front_end_web/src/utils/widgets/Dialogos/fotter_dialog.dart';
 import 'package:satpj_front_end_web/src/utils/widgets/Dialogos/header_dialog.dart';
 import 'package:satpj_front_end_web/src/utils/widgets/formularios/tema_formularios.dart';
-import 'package:satpj_front_end_web/src/utils/widgets/inputs/dropdown.dart';
 import 'package:satpj_front_end_web/src/utils/widgets/inputs/rounded_text_field.dart';
-import 'package:satpj_front_end_web/src/views/agendar_citas/gestionar_agendamiento.dart';
 import 'package:syncfusion_flutter_calendar/calendar.dart';
 
 class DialogoAgendarSesionTerapia extends StatefulWidget {
@@ -173,7 +171,7 @@ class _DialogoAgendarSesionTerapiaState
                               //decoration: datePickerDecoration,
                               firstDate: DateTime(DateTime.now().year),
                               lastDate: DateTime.now(),
-                              
+
                               icon: Icon(Icons.event, color: kPrimaryColor),
                               onChanged: (val) {},
                               validator: (val) {
@@ -437,7 +435,7 @@ class _DialogoAgendarSesionTerapiaState
                                       .crearSesionTerapia(sesionTerapia);
                               LlaveSesionUsuario nuevaLlave =
                                   new LlaveSesionUsuario(
-                                      sesionTerapiaId: sesionTerapiaNueva.id,
+                                      sesion_terapia_id: sesionTerapiaNueva.id,
                                       usuarioId: pacienteSesion.id);
                               SesionUsuario nuevaSesionUsuario =
                                   new SesionUsuario(id: nuevaLlave);

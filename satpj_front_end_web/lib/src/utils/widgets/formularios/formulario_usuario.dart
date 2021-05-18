@@ -2,7 +2,6 @@ import 'package:date_time_picker/date_time_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:satpj_front_end_web/src/constants.dart';
-import 'package:satpj_front_end_web/src/model/paciente/fecha_nacimiento.dart';
 import 'package:satpj_front_end_web/src/model/paciente/paciente.dart';
 import 'package:satpj_front_end_web/src/model/usuario/usuario.dart';
 import 'package:satpj_front_end_web/src/utils/validators/validadores-input.dart';
@@ -10,6 +9,7 @@ import 'package:satpj_front_end_web/src/utils/widgets/inputs/dropdown.dart';
 import 'package:satpj_front_end_web/src/utils/widgets/inputs/rounded_text_field.dart';
 import 'package:satpj_front_end_web/src/utils/widgets/formularios/tema_formularios.dart';
 
+// ignore: must_be_immutable
 class FormUserPersonalInformation extends StatefulWidget {
   Usuario usuario = new Usuario();
   final String prefix;
@@ -252,8 +252,8 @@ class _FormState extends State<FormUserPersonalInformation> {
               dateLabelText: 'Fecha Nacimiento',
               onChanged: (val) {
                 if (widget.usuario is Paciente) {
-                (widget.usuario as Paciente).definirEdad(
-                      fechaNacimiento: textControllerFechaNacimiento.text,
+                  (widget.usuario as Paciente).definirEdad(
+                    fechaNacimiento: textControllerFechaNacimiento.text,
                   );
                 }
               },

@@ -7,7 +7,9 @@ import 'package:satpj_front_end_web/src/providers/provider_administracion_pacien
 import 'package:satpj_front_end_web/src/utils/widgets/Barras/toolbar_auxiliar_administrativo.dart';
 import 'package:satpj_front_end_web/src/utils/widgets/Dialogos/dialog_delete.dart';
 import 'package:satpj_front_end_web/src/utils/widgets/FuentesDatos/datatablesource_pacientes.dart';
+import 'package:satpj_front_end_web/src/utils/widgets/LoadingWidgets/LoadingWanderingCube.dart';
 import 'package:satpj_front_end_web/src/utils/widgets/custom_paginated_datatable.dart';
+import 'package:satpj_front_end_web/src/views/agendar_citas/gestionar_agendamiento.dart';
 import 'package:satpj_front_end_web/src/views/gestionar_pacientes/dialogo_crear_paciente.dart';
 import 'package:satpj_front_end_web/src/views/gestionar_pacientes/dialogo_editar_paciente.dart';
 import 'package:satpj_front_end_web/src/views/gestionar_pacientes/dialogo_visualizar_paciente.dart';
@@ -25,7 +27,7 @@ class VistaAdministrarPacientes extends StatelessWidget {
         children: [
           Expanded(
             child: ChangeNotifierProvider<PacienteNotifier>(
-              create: (_) => PacienteNotifier(),
+              create: (_) => PacienteNotifier(1),
               child: _InternalWidget(),
             ),
           ),
@@ -45,12 +47,13 @@ class _InternalWidget extends StatelessWidget {
     final _model = _provider.paciente;
 
     if (_model.isEmpty) {
-      return const SizedBox.shrink();
+      return LoadingWanderingCube();
     }
     final _dtSource = PacientesDataTableSource(
       onRowSelectDetail: (index) => _details(context, _model[index]),
       onRowSelectEdit: (index) => _edit(context, _model[index]),
       onRowSelectDelete: (index) => _delete(context, _model[index]),
+      onRowSelectDate: (index) => _date(context, _model[index]),
       pacientes: _model,
     );
 
@@ -69,13 +72,18 @@ class _InternalWidget extends StatelessWidget {
           //splashColor: Colors.transparent,
           icon: const Icon(Icons.refresh),
           onPressed: () {
-            _provider.fetchData();
+            _provider.fetchData(1);
             //_showSBar(context, DataTableConstants.refresh);
           },
         ),
       ],
       dataColumns: _colGen(_dtSource, _provider, context),
-      header: const Text("Lista de pacientes del sistema"),
+      header: const Text(
+        "Lista de Pacientes del Sistema",
+        style: TextStyle(
+          fontWeight: FontWeight.bold,
+        ),
+      ),
       onRowChanged: (index) => _provider.rowsPerPage = index,
       rowsPerPage: 10,
       showActions: true,
@@ -138,10 +146,10 @@ class _InternalWidget extends StatelessWidget {
         ),
         DataColumn(
           label: Text(
-            "Telefono",
+            "Teléfono",
             style: Theme.of(context).textTheme.subtitle1,
           ),
-          tooltip: "Telefono del paciente",
+          tooltip: "Teléfono del paciente",
           onSort: (colIndex, asc) {
             _sort<String>((paciente) => paciente.telefono, colIndex, asc, _src,
                 _provider);
@@ -192,11 +200,15 @@ class _InternalWidget extends StatelessWidget {
             label: '¿Esta seguro de que desea eliminar el paciente?',
             labelCancelBtn: 'Cancelar',
             labelConfirmBtn: 'Confirmar',
-            colorConfirmBtn: Theme.of(c).colorScheme.primary,
+            colorConfirmBtn: Theme.of(c).colorScheme.error,
             functionDelete: () {
               ProviderAdministracionPacientes.borrarPaciente(data);
             },
           ));
+
+  void _date(BuildContext c, Paciente data) =>
+      Navigator.pushNamed(c, VistaGestionarAgendamiento.route,
+          arguments: {'arguments': data});
 
   void _create(BuildContext c) async => await showDialog<bool>(
       context: c, builder: (_) => DialogoCrearPaciente());

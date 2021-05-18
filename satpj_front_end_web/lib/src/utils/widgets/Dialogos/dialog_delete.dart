@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:satpj_front_end_web/src/utils/widgets/Dialogos/fotter_dialog.dart';
 import 'package:satpj_front_end_web/src/utils/widgets/Dialogos/header_dialog.dart';
 
+// ignore: must_be_immutable
 class DialogDelete extends StatefulWidget {
   String labelHeader;
   String label;

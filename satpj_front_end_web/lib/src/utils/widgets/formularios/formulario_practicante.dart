@@ -9,6 +9,7 @@ import 'package:satpj_front_end_web/src/utils/widgets/formularios/formulario_usu
 import 'package:satpj_front_end_web/src/utils/widgets/inputs/rounded_text_field.dart';
 import 'package:satpj_front_end_web/src/utils/widgets/formularios/tema_formularios.dart';
 
+// ignore: must_be_immutable
 class FormInternInformation extends StatefulWidget {
   Practicante practicante = new Practicante();
   String prefix;
@@ -29,7 +30,6 @@ class FormInternInformation extends StatefulWidget {
 class _FormState extends State<FormInternInformation> {
   TextEditingController textControllerPregrado;
   FocusNode textFocusNodePregrado;
-  bool _isEditingPregrado = false;
 
   TextEditingController textControllerSemestre;
   FocusNode textFocusNodeSemestre;

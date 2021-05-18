@@ -8,6 +8,7 @@ import 'package:satpj_front_end_web/src/utils/widgets/formularios/formulario_pra
 import 'package:satpj_front_end_web/src/utils/widgets/formularios/tema_formularios.dart';
 import 'package:satpj_front_end_web/src/views/gestionar_practicantes/vista_administrar_practicantes.dart';
 
+// ignore: must_be_immutable
 class DialogoEditarPracticante extends StatefulWidget {
   Practicante practicante = new Practicante();
 
@@ -19,8 +20,6 @@ class DialogoEditarPracticante extends StatefulWidget {
 }
 
 class _DialogoEditarPracticanteState extends State<DialogoEditarPracticante> {
-  GlobalKey<FormState> _formKey = new GlobalKey<FormState>();
-
   @override
   Widget build(BuildContext context) {
     return Theme(

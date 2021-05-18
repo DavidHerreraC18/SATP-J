@@ -8,6 +8,13 @@ import 'package:satpj_front_end_web/src/views/gestionar_horario_practicante/vist
 import 'package:satpj_front_end_web/src/views/gestionar_pacientes/vista_aprobacion_formularios.dart';
 import 'package:satpj_front_end_web/src/views/gestionar_pacientes/vista_administrar_pacientes.dart';
 import 'package:satpj_front_end_web/src/views/gestionar_perfil/vista_editar_auxiliar.dart';
+import 'package:satpj_front_end_web/src/views/gestionar_perfil/vista_editar_paciente.dart';
+import 'package:satpj_front_end_web/src/views/gestionar_perfil/vista_editar_practicante.dart';
+import 'package:satpj_front_end_web/src/views/gestionar_perfil/vista_editar_supervisor.dart';
+import 'package:satpj_front_end_web/src/views/gestionar_perfil/vista_perfil_auxiliar.dart';
+import 'package:satpj_front_end_web/src/views/gestionar_perfil/vista_perfil_paciente.dart';
+import 'package:satpj_front_end_web/src/views/gestionar_perfil/vista_perfil_practicante.dart';
+import 'package:satpj_front_end_web/src/views/gestionar_perfil/vista_perfil_supervisor.dart';
 import 'package:satpj_front_end_web/src/views/gestionar_practicantes/vista_administrar_practicantes.dart';
 import 'package:satpj_front_end_web/src/views/gestionar_practicantes/vista_agregar_pacientes-practicantes.dart';
 import 'package:satpj_front_end_web/src/views/gestionar_supervisores/vista_administracion_supervisores.dart';
@@ -20,19 +27,23 @@ import 'package:satpj_front_end_web/src/views/registro/vista_pre_registro_2.dart
 import 'package:satpj_front_end_web/src/views/registro/vista_pre_registro_3.dart';
 import 'package:satpj_front_end_web/src/views/registro/vista_pre_registro_4.dart';
 import 'package:satpj_front_end_web/src/views/registro/vista_registro.dart';
+import 'package:satpj_front_end_web/src/views/vista_home.dart';
 import 'package:satpj_front_end_web/src/views/vista_inicio.dart';
 
 Map<String, WidgetBuilder> getAppRoutes() {
   return <String, WidgetBuilder>{
     '/': (BuildContext context) => VistaInicio(),
+    HomePage.route: (BuildContext context) => HomePage(),
     PreRegisterHomePage.route: (BuildContext context) => PreRegisterHomePage(),
     PreRegisterPage1.route: (BuildContext context) => PreRegisterPage1(),
     PreRegisterPage2.route: (BuildContext context) => PreRegisterPage2(),
     PreRegisterPage3.route: (BuildContext context) => PreRegisterPage3(),
-    PreRegisterPage4.route              :  (BuildContext context) => PreRegisterPage4(),
-    VistaRegistroPaquetesSesiones.route : (BuildContext context) => VistaRegistroPaquetesSesiones(),
-    VistaRegistroPago.route             : (BuildContext context) => VistaRegistroPago(),
-    VistaVisualizarPagos.route          : (BuildContext context) => VistaVisualizarPagos(),
+    PreRegisterPage4.route: (BuildContext context) => PreRegisterPage4(),
+    VistaRegistroPaquetesSesiones.route: (BuildContext context) =>
+        VistaRegistroPaquetesSesiones(),
+    VistaRegistroPago.route: (BuildContext context) => VistaRegistroPago(),
+    VistaVisualizarPagos.route: (BuildContext context) =>
+        VistaVisualizarPagos(),
     VistaAdministrarPacientes.route: (BuildContext context) =>
         VistaAdministrarPacientes(),
     VistaAdministrarPracticantes.route: (BuildContext context) =>
@@ -56,6 +67,17 @@ Map<String, WidgetBuilder> getAppRoutes() {
     RegisterHomePage.route: (BuildContext context) => RegisterHomePage(),
     VistaRegistroDocumentos.route: (BuildContext contex) =>
         VistaRegistroDocumentos(),
+    VistaPerfilSupervisor.route: (BuildContext contex) =>
+        VistaPerfilSupervisor(),
+    VistaPerfilPracticante.route: (BuildContext contex) =>
+        VistaPerfilPracticante(),
+    VistaPerfilPaciente.route: (BuildContext contex) => VistaPerfilPaciente(),
+    VistaPerfilAuxiliar.route: (BuildContext contex) => VistaPerfilAuxiliar(),
     VistaEditarAuxiliar.route: (BuildContext contex) => VistaEditarAuxiliar(),
+    VistaEditarPaciente.route: (BuildContext contex) => VistaEditarPaciente(),
+    VistaEditarPracticante.route: (BuildContext contex) =>
+        VistaEditarPracticante(),
+    VistaEditarSupervisor.route: (BuildContext contex) =>
+        VistaEditarSupervisor(),
   };
 }

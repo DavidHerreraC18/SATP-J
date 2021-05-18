@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:satpj_front_end_web/src/model/formulario/formulario_extra.dart';
+import 'package:satpj_front_end_web/src/utils/tema.dart';
 
 typedef OnRowSelect = void Function(int index);
 
@@ -32,12 +33,17 @@ class FormularioExtraDataTableSource extends DataTableSource {
         DataCell(Text('${_formulario.paciente.telefono}')),
         DataCell(Text('${_formulario.paciente.email}')),
         DataCell(
-          IconButton(
-            //hoverColor: Colors.black,
-            splashColor: Colors.blue,
-            color: Colors.black,
-            icon: const Icon(Icons.assignment),
-            onPressed: () => onRowSelect(index),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              IconButton(
+                //hoverColor: Colors.black,
+                splashColor: Colors.blue,
+                color: kPrimaryColor,
+                icon: const Icon(Icons.assignment),
+                onPressed: () => onRowSelect(index),
+              ),
+            ],
           ),
         ),
       ],

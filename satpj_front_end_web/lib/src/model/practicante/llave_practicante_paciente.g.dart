@@ -9,14 +9,14 @@ part of 'llave_practicante_paciente.dart';
 LlavePracticantePaciente _$LlavePracticantePacienteFromJson(
     Map<String, dynamic> json) {
   return LlavePracticantePaciente(
-    pPracticanteId: json['pPracticanteId'] as String,
-    pPacienteId: json['pPacienteId'] as String,
+    practicante_id: json['practicante_id'] as String,
+    paciente_id: json['paciente_id'] as String,
   );
 }
 
 Map<String, dynamic> _$LlavePracticantePacienteToJson(
         LlavePracticantePaciente instance) =>
     <String, dynamic>{
-      'pPracticanteId': instance.pPracticanteId,
-      'pPacienteId': instance.pPacienteId,
+      'practicante_id': instance.practicante_id,
+      'paciente_id': instance.paciente_id,
     };

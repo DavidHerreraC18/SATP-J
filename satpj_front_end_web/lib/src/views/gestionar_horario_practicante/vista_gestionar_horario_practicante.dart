@@ -4,7 +4,6 @@ import 'package:satpj_front_end_web/src/model/horario/horario.dart';
 import 'package:satpj_front_end_web/src/model/practicante/practicante.dart';
 import 'package:satpj_front_end_web/src/utils/tema.dart';
 import 'package:satpj_front_end_web/src/utils/widgets/Barras/toolbar_practicante.dart';
-import 'package:satpj_front_end_web/src/utils/widgets/schedule/cell_schedule.dart';
 import 'package:satpj_front_end_web/src/utils/widgets/schedule/schedule_intern%20combined.dart';
 import 'package:satpj_front_end_web/src/views/gestionar_horario_practicante/vista_horario_practicante_opcion_1.dart';
 import 'package:satpj_front_end_web/src/views/gestionar_horario_practicante/vista_horario_practicante_opcion_2.dart';
@@ -44,23 +43,22 @@ class _VistaGestionarHorarioPracticanteState
 
   @override
   void initState() {
-    
     if (practicante.horarios == null) {
       practicante.horarios = [];
     }
-      practicante.horarios = [];
-      Horario h = new Horario();
-      h.lunes = '8;9;13';
-      h.opcion='1';
-      Horario h1 = new Horario();
-      h.lunes = '8;9;13';
-      h.opcion='2';
-      Horario h2 = new Horario();
-      h.lunes = '8;9;13';
-      h.opcion='3';
-      practicante.horarios.add(h);
-      practicante.horarios.add(h1);
-      practicante.horarios.add(h2);
+    practicante.horarios = [];
+    Horario h = new Horario();
+    h.lunes = '8;9;13';
+    h.opcion = '1';
+    Horario h1 = new Horario();
+    h.lunes = '8;9;13';
+    h.opcion = '2';
+    Horario h2 = new Horario();
+    h.lunes = '8;9;13';
+    h.opcion = '3';
+    practicante.horarios.add(h);
+    practicante.horarios.add(h1);
+    practicante.horarios.add(h2);
 
     horarios = practicante.horarios.length;
 
@@ -150,17 +148,13 @@ class _VistaGestionarHorarioPracticanteState
     return items;
   }
 
-  void redirect(String opcion){
-     
-     if(opcion == '1')
-         Navigator.pushNamed(context, VistaHorarioPracticanteOpcion1.route);
-     
-     else if(opcion == '2')
-         Navigator.pushNamed(context, VistaHorarioPracticanteOpcion2.route);
-         
-     else 
-         Navigator.pushNamed(context, VistaHorarioPracticanteOpcion3.route);
-    
+  void redirect(String opcion) {
+    if (opcion == '1')
+      Navigator.pushNamed(context, VistaHorarioPracticanteOpcion1.route);
+    else if (opcion == '2')
+      Navigator.pushNamed(context, VistaHorarioPracticanteOpcion2.route);
+    else
+      Navigator.pushNamed(context, VistaHorarioPracticanteOpcion3.route);
   }
 
   @override

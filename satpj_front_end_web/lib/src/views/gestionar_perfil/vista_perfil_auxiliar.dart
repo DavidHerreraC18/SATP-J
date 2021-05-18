@@ -1,25 +1,15 @@
 import 'dart:async';
-
-import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:satpj_front_end_web/src/model/auxiliar_administrativo/auxiliar_administrativo.dart';
-import 'package:satpj_front_end_web/src/model/documento_paciente/documento_paciente.dart';
-import 'package:satpj_front_end_web/src/model/paciente/paciente.dart';
-import 'package:satpj_front_end_web/src/model/practicante/practicante.dart';
 import 'package:satpj_front_end_web/src/providers/provider_administracion_auxiliares.dart';
-import 'package:satpj_front_end_web/src/providers/provider_administracion_pacientes.dart';
 import 'package:satpj_front_end_web/src/providers/provider_autenticacion.dart';
-import 'package:satpj_front_end_web/src/providers/provider_documentos_paciente.dart';
 import 'package:satpj_front_end_web/src/utils/tema.dart';
+import 'package:satpj_front_end_web/src/utils/widgets/Barras/toolbar_auxiliar_administrativo.dart';
 import 'package:satpj_front_end_web/src/utils/widgets/Barras/toolbar_inicio.dart';
 import 'package:satpj_front_end_web/src/utils/widgets/LoadingWidgets/LoadingWanderingCube.dart';
 import 'package:satpj_front_end_web/src/utils/widgets/formularios/tema_formularios.dart';
 import 'package:flutter_icons/flutter_icons.dart';
-import 'package:satpj_front_end_web/src/views/documentacion/dialogo_consentimiento_telepsicologia.dart';
-import 'dart:convert';
-import 'dart:typed_data';
-import 'package:satpj_front_end_web/src/utils/widgets/Pdf/helper/save_file_mobile.dart'
-    if (dart.library.html) 'package:satpj_front_end_web/src/utils/widgets/Pdf/helper/save_file_web.dart';
+import 'package:satpj_front_end_web/src/views/gestionar_perfil/vista_editar_auxiliar.dart';
 
 class VistaPerfilAuxiliar extends StatefulWidget {
   static const route = '/perfil-auxiliar';
@@ -56,7 +46,7 @@ class _VistaPerfilAuxiliarState extends State<VistaPerfilAuxiliar> {
           else
             return Scaffold(
                 backgroundColor: Colors.white,
-                appBar: toolbarInicio(context),
+                appBar: toolbarAuxiliarAdministrativo(context),
                 body: Theme(
                     data: temaFormularios(),
                     child: DefaultTabController(
@@ -65,44 +55,47 @@ class _VistaPerfilAuxiliarState extends State<VistaPerfilAuxiliar> {
                           children: [
                             Column(
                               children: [
-                                Card(
-                                    margin: EdgeInsets.only(
-                                        right: 80.0,
-                                        left: 80.0,
-                                        top: 20.0,
-                                        bottom: 25.0),
-                                    elevation: 25.0,
-                                    child: Column(children: [
-                                      Padding(
-                                        padding: EdgeInsets.only(
-                                            right: 20.0,
-                                            left: 20.0,
-                                            top: 20.0,
-                                            bottom: 0.0),
-                                        child: Container(
-                                            child: NombreAuxiliar(
-                                                auxiliarActual:
-                                                    this.auxiliarActual)),
-                                      ),
-                                      Divider(),
-                                      Container(
-                                        child: TabBar(
-                                          isScrollable: true,
-                                          tabs: [
-                                            Container(
-                                              height: 30,
-                                              alignment: Alignment.center,
-                                              child: Text(
-                                                "Información",
-                                                style: TextStyle(
-                                                    fontSize: 18,
-                                                    color: Colors.black),
-                                              ),
-                                            ),
-                                          ],
+                                Container(
+                                  width: 1100,
+                                  child: Card(
+                                      margin: EdgeInsets.only(
+                                          right: 80.0,
+                                          left: 80.0,
+                                          top: 20.0,
+                                          bottom: 25.0),
+                                      elevation: 25.0,
+                                      child: Column(children: [
+                                        Padding(
+                                          padding: EdgeInsets.only(
+                                              right: 20.0,
+                                              left: 20.0,
+                                              top: 20.0,
+                                              bottom: 0.0),
+                                          child: Container(
+                                              child: NombreAuxiliar(
+                                                  auxiliarActual:
+                                                      this.auxiliarActual)),
                                         ),
-                                      )
-                                    ])),
+                                        Divider(),
+                                        Container(
+                                          child: TabBar(
+                                            isScrollable: true,
+                                            tabs: [
+                                              Container(
+                                                height: 30,
+                                                alignment: Alignment.center,
+                                                child: Text(
+                                                  "Información",
+                                                  style: TextStyle(
+                                                      fontSize: 18,
+                                                      color: Colors.black),
+                                                ),
+                                              ),
+                                            ],
+                                          ),
+                                        )
+                                      ])),
+                                ),
                                 Card(
                                     margin: EdgeInsets.only(
                                         right: 50.0,
@@ -195,6 +188,12 @@ class DatosAuxiliarState extends State<DatosAuxiliar> {
                               auxiliarActual.documento,
                               Icon(FontAwesome.address_card,
                                   size: 20.0, color: kPrimaryColor))),
+                      Flexible(
+                          child: _containerDatos(
+                              auxiliarActual.email,
+                              "",
+                              Icon(Icons.email,
+                                  size: 20.0, color: kPrimaryColor))),
                     ],
                   )),
             ),
@@ -213,12 +212,6 @@ class DatosAuxiliarState extends State<DatosAuxiliar> {
                               auxiliarActual.telefono,
                               "",
                               Icon(Icons.phone,
-                                  size: 20.0, color: kPrimaryColor))),
-                      Flexible(
-                          child: _containerDatos(
-                              auxiliarActual.email,
-                              "",
-                              Icon(Icons.email,
                                   size: 20.0, color: kPrimaryColor))),
                     ],
                   )),
@@ -259,6 +252,21 @@ class DatosAuxiliarState extends State<DatosAuxiliar> {
                               size: 15.0, color: kPrimaryColor))
                     ],
                   )),
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Container(
+                  padding: const EdgeInsets.all(0.0),
+                  width: 30.0, // you can adjust the width as you need
+                  child: IconButton(
+                      icon: Icon(Icons.edit),
+                      color: kPrimaryColor,
+                      onPressed: () {
+                        Navigator.pushNamed(context, VistaEditarAuxiliar.route);
+                      }),
+                ),
+              ],
             ),
           ],
         ));

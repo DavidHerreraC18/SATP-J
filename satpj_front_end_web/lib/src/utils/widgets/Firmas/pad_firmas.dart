@@ -130,6 +130,7 @@ class _PadFirmasState extends State<PadFirmas> {
               actionsPadding: EdgeInsets.all(8.0),
               buttonPadding: EdgeInsets.zero,
               actions: [
+                // ignore: deprecated_member_use
                 FlatButton(
                     onPressed: _handleClearButtonPressed,
                     child: const Text(
@@ -140,6 +141,7 @@ class _PadFirmasState extends State<PadFirmas> {
                     ),
                     textColor: Colors.black),
                 SizedBox(width: 8.0),
+                // ignore: deprecated_member_use
                 FlatButton(
                     onPressed: () {
                       _handleSaveButtonPressed();

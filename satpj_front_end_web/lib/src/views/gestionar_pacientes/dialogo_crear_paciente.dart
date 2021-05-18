@@ -31,6 +31,7 @@ void changeContainer(int container) {
   );
 }
 
+// ignore: must_be_immutable
 class DialogoCrearPaciente extends StatefulWidget {
   Paciente paciente = new Paciente();
 
@@ -759,10 +760,9 @@ class InfoPacientePrincipal {
   String fecha;
   String cedula;
   List<String> respuestas = [];
-  Uint8List _signatureData;
 
-  InfoPacientePrincipal(this.nombre, this.edad, this.fecha, this.cedula,
-      this.respuestas, this._signatureData);
+  InfoPacientePrincipal(
+      this.nombre, this.edad, this.fecha, this.cedula, this.respuestas);
 }
 
 Future<void> _crearPaciente(Paciente paciente) async {

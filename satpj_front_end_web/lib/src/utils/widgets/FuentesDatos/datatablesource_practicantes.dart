@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:satpj_front_end_web/src/model/paciente/paciente.dart';
 import 'package:satpj_front_end_web/src/model/practicante/practicante.dart';
 
 typedef OnRowSelectDetail = void Function(int index);
@@ -43,6 +42,7 @@ class PracticantesDataTableSource extends DataTableSource {
         DataCell(Text('${_practicante.enfoque}')),
         DataCell(
           ButtonBar(
+            alignment: MainAxisAlignment.start,
             children: <Widget>[
               IconButton(
                 color: Color(0xFF2E5EAA),

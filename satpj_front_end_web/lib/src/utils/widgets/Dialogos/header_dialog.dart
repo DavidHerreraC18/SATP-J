@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import '../../tema.dart';
 
+// ignore: must_be_immutable
 class HeaderDialog extends StatefulWidget {
   String label;
   double height;

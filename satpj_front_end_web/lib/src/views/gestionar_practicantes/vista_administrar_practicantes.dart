@@ -7,6 +7,7 @@ import 'package:satpj_front_end_web/src/providers/provider_administracion_practi
 import 'package:satpj_front_end_web/src/utils/widgets/Barras/toolbar_auxiliar_administrativo.dart';
 import 'package:satpj_front_end_web/src/utils/widgets/Dialogos/dialog_delete.dart';
 import 'package:satpj_front_end_web/src/utils/widgets/FuentesDatos/datatablesource_practicantes.dart';
+import 'package:satpj_front_end_web/src/utils/widgets/LoadingWidgets/LoadingWanderingCube.dart';
 import 'package:satpj_front_end_web/src/utils/widgets/custom_paginated_datatable.dart';
 import 'package:satpj_front_end_web/src/views/gestionar_practicantes/dialogo_crear_practicante.dart';
 import 'package:satpj_front_end_web/src/views/gestionar_practicantes/dialogo_editar_practicante.dart';
@@ -26,7 +27,7 @@ class VistaAdministrarPracticantes extends StatelessWidget {
         children: [
           Expanded(
             child: ChangeNotifierProvider<PracticanteNotifier>(
-              create: (_) => PracticanteNotifier(),
+              create: (_) => PracticanteNotifier(1),
               child: _InternalWidget(),
             ),
           ),
@@ -46,7 +47,7 @@ class _InternalWidget extends StatelessWidget {
     final _model = _provider.practicante;
 
     if (_model.isEmpty) {
-      return const SizedBox.shrink();
+      return LoadingWanderingCube();
     }
     final _dtSource = PracticantesDataTableSource(
       onRowSelectDetail: (index) => _details(context, _model[index]),
@@ -71,13 +72,18 @@ class _InternalWidget extends StatelessWidget {
           //splashColor: Colors.transparent,
           icon: const Icon(Icons.refresh),
           onPressed: () {
-            _provider.fetchData();
+            _provider.fetchData(1);
             //_showSBar(context, DataTableConstants.refresh);
           },
         ),
       ],
       dataColumns: _colGen(_dtSource, _provider, context),
-      header: const Text("Lista de practicantes del sistema"),
+      header: const Text(
+        "Lista de practicantes del sistema",
+        style: TextStyle(
+          fontWeight: FontWeight.bold,
+        ),
+      ),
       onRowChanged: (index) => _provider.rowsPerPage = index,
       rowsPerPage: 10,
       showActions: true,
@@ -140,10 +146,10 @@ class _InternalWidget extends StatelessWidget {
         ),
         DataColumn(
           label: Text(
-            "Telefono",
+            "Teléfono",
             style: Theme.of(context).textTheme.subtitle1,
           ),
-          tooltip: "Telefono del practicante",
+          tooltip: "Teléfono del practicante",
           onSort: (colIndex, asc) {
             _sort<String>((practicante) => practicante.telefono, colIndex, asc,
                 _src, _provider);
@@ -192,6 +198,7 @@ class _InternalWidget extends StatelessWidget {
           child: DialogoEditarPracticante(practicante: data),
           onWillPop: () {
             Navigator.pushNamed(c, VistaAdministrarPracticantes.route);
+            return;
           }));
 
   void _delete(BuildContext c, Practicante data) async =>

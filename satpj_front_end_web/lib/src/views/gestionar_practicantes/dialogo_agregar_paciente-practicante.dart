@@ -1,17 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:satpj_front_end_web/src/model/paciente/paciente.dart';
-import 'package:satpj_front_end_web/src/model/practicante/llave_practicante_paciente.dart';
 import 'package:satpj_front_end_web/src/model/practicante/practicante.dart';
-import 'package:satpj_front_end_web/src/model/practicante/practicante_paciente.dart';
-import 'package:satpj_front_end_web/src/providers/provider_administracion_practicantes.dart';
 import 'package:satpj_front_end_web/src/providers/provider_agregar_pacientes-practicantes.dart';
-import 'package:satpj_front_end_web/src/providers/provider_autenticacion.dart';
 import 'package:satpj_front_end_web/src/providers/providers_usuarios/provider_pacientes.dart';
 import 'package:satpj_front_end_web/src/utils/tema.dart';
 import 'package:satpj_front_end_web/src/utils/validators/validadores-input.dart';
 import 'package:satpj_front_end_web/src/utils/widgets/Dialogos/fotter_dialog.dart';
 import 'package:satpj_front_end_web/src/utils/widgets/Dialogos/header_dialog.dart';
-import 'package:satpj_front_end_web/src/utils/widgets/formularios/formulario_practicante.dart';
 import 'package:satpj_front_end_web/src/utils/widgets/formularios/tema_formularios.dart';
 import 'package:satpj_front_end_web/src/utils/widgets/inputs/rounded_text_field.dart';
 import 'package:satpj_front_end_web/src/views/gestionar_practicantes/vista_administrar_practicantes.dart';
@@ -55,7 +50,8 @@ class _DialogoAgregarPacientePracticanteState
           borderRadius: BorderRadius.circular(6.0),
         ),
         child: Container(
-          width: 800.0,
+          width: 600.0,
+          height: 260.0,
           child: Form(
             key: _formKey,
             child: ListView(children: [
@@ -70,6 +66,7 @@ class _DialogoAgregarPacientePracticanteState
                   Container(
                       margin: EdgeInsets.symmetric(horizontal: 40.0),
                       child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
                             'Ingrese el Correo Electrónico del Paciente',
@@ -86,53 +83,52 @@ class _DialogoAgregarPacientePracticanteState
                               isEditing: _isEditingEmail,
                               enabled: true,
                               hintText:
-                                  'Ingrese el correo electronico del paciente a asociar',
+                                  'Ingrese el correo electrónico del paciente a asociar',
                               validate: () {
                                 print('EMAIL');
                                 return ValidadoresInput.validateEmail(
                                     textControllerEmail.text);
                               }),
+                          Row(
+                            children: [
+                              RoundedTextFieldValidators(
+                                  textFocusNode: textFocusNodeEmail,
+                                  textController: textControllerEmail,
+                                  textInputType: TextInputType.emailAddress,
+                                  isEditing: _isEditingEmail,
+                                  enabled: true,
+                                  hintText:
+                                      'Ingrese el correo electrónico del paciente a asociar',
+                                  validate: () {
+                                    print('EMAIL');
+                                    return ValidadoresInput.validateEmail(
+                                        textControllerEmail.text);
+                                  }),
+                              ElevatedButton(
+                                style: ButtonStyle(
+                                  backgroundColor:
+                                      MaterialStateProperty.all<Color>(
+                                          kPrimaryColor),
+                                ),
+                                onPressed: () async {
+                                  String respuesta =
+                                      await _crearPracticantePaciente(
+                                          widget.practicante,
+                                          textControllerEmail.text);
+
+                                  setState(() {
+                                    estadoPaciente = respuesta;
+                                  });
+                                },
+                                child: Text('Asociar Practicante',
+                                    style: TextStyle(
+                                        fontSize: 18.0,
+                                        fontWeight: FontWeight.normal)),
+                              ),
+                            ],
+                          ),
                           SizedBox(
                             height: 20.0,
-                          ),
-                          TextButton(
-                            style: ButtonStyle(
-                              padding: MaterialStateProperty.all(
-                                  EdgeInsets.all(5.0)),
-                              backgroundColor: MaterialStateProperty.all(
-                                  Theme.of(context).colorScheme.primary),
-                              overlayColor: MaterialStateProperty.all(
-                                  Theme.of(context).colorScheme.primaryVariant),
-                              alignment: Alignment.center,
-                              shape: MaterialStateProperty.all(
-                                RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(15),
-                                ),
-                              ),
-                            ),
-                            onPressed: () async {
-                              String respuesta =
-                                  await _crearPracticantePaciente(
-                                      widget.practicante,
-                                      textControllerEmail.text);
-
-                              setState(() {
-                                estadoPaciente = respuesta;
-                              });
-                            },
-                            child: Padding(
-                              padding: EdgeInsets.symmetric(
-                                horizontal: 20.0,
-                              ),
-                              child: Text(
-                                'Asociar Paciente',
-                                style: TextStyle(
-                                  fontSize: 18,
-                                  fontWeight: FontWeight.normal,
-                                  color: Colors.white,
-                                ),
-                              ),
-                            ),
                           ),
                         ],
                       )),
@@ -154,11 +150,18 @@ class _DialogoAgregarPacientePracticanteState
                         )
                       : Container(),
                   FotterDialog(
-                    labelConfirmBtn: 'Terminar',
+                    labelConfirmBtn: 'Asociar Paciente',
                     colorConfirmBtn: kPrimaryColor,
                     paginator: false,
-                    width: 120.0,
-                    functionConfirmBtn: () {
+                    width: 200.0,
+                    functionConfirmBtn: () async {
+                      String respuesta = await _crearPracticantePaciente(
+                          widget.practicante, textControllerEmail.text);
+
+                      setState(() {
+                        estadoPaciente = respuesta;
+                      });
+
                       Navigator.of(context).pushNamed(
                           VistaAdministrarPracticantes.route,
                           arguments: widget.practicante);
@@ -198,3 +201,43 @@ class _DialogoAgregarPacientePracticanteState
     }
   }
 }
+
+/*TextButton(
+                            style: ButtonStyle(
+                              padding: MaterialStateProperty.all(
+                                  EdgeInsets.all(5.0)),
+                              backgroundColor: MaterialStateProperty.all(
+                                  Theme.of(context).colorScheme.primary),
+                              overlayColor: MaterialStateProperty.all(
+                                  Theme.of(context).colorScheme.primaryVariant),
+                              alignment: Alignment.center,
+                              shape: MaterialStateProperty.all(
+                                RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(15),
+                                ),
+                              ),
+                            ),
+                            onPressed: () async {
+                              String respuesta =
+                                  await _crearPracticantePaciente(
+                                      widget.practicante,
+                                      textControllerEmail.text);
+
+                              setState(() {
+                                estadoPaciente = respuesta;
+                              });
+                            },
+                            child: Padding(
+                              padding: EdgeInsets.symmetric(
+                                horizontal: 20.0,
+                              ),
+                              child: Text(
+                                'Asociar Paciente',
+                                style: TextStyle(
+                                  fontSize: 18,
+                                  fontWeight: FontWeight.normal,
+                                  color: Colors.white,
+                                ),
+                              ),
+                            ),
+                          ),*/

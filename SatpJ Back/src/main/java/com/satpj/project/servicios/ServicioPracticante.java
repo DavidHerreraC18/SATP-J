@@ -115,6 +115,8 @@ public class ServicioPracticante {
 
         return practicante.getPracticantesPaciente();
     }
+
+    
     
     @PostMapping(value = "/pacientes")
     @ResponseStatus(HttpStatus.CREATED)

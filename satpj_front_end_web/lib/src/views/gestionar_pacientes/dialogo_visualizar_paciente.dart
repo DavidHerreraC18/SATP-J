@@ -4,6 +4,7 @@ import 'package:satpj_front_end_web/src/utils/tema.dart';
 import 'package:satpj_front_end_web/src/utils/widgets/formularios/tema_formularios.dart';
 import 'package:satpj_front_end_web/src/utils/widgets/formularios/formulario_paciente.dart';
 
+// ignore: must_be_immutable
 class DialogoVisualizarPaciente extends StatefulWidget {
   Paciente paciente = new Paciente();
 

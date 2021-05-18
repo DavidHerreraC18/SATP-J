@@ -9,6 +9,7 @@ import 'package:satpj_front_end_web/src/utils/widgets/formularios/formulario_sup
 import 'package:satpj_front_end_web/src/utils/widgets/formularios/tema_formularios.dart';
 import 'package:satpj_front_end_web/src/views/gestionar_supervisores/vista_administracion_supervisores.dart';
 
+// ignore: must_be_immutable
 class DialogoCrearSupervisor extends StatefulWidget {
   Supervisor supervisor = new Supervisor();
 

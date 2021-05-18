@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/scheduler.dart';
 import 'package:satpj_front_end_web/src/model/formulario/formulario_extra.dart';
 import 'package:satpj_front_end_web/src/model/paciente/paciente.dart';
 import 'package:satpj_front_end_web/src/model/usuario/usuario.dart';
@@ -26,7 +25,6 @@ class _AuthDialogState extends State<AuthDialog> {
   FocusNode textFocusNodePassword;
   bool _isEditingPassword = false;
 
-  bool _isRegistering = false;
   bool _isLoggingIn = false;
 
   String loginStatus;
@@ -384,12 +382,10 @@ class _AuthDialogState extends State<AuthDialog> {
           Navigator.pushNamed(context, VistaRegistroDocumentos.route);
         }
       } else {
-        Navigator.of(context).pushReplacement(MaterialPageRoute(
-            fullscreenDialog: true, builder: (context) => HomePage()));
+        Navigator.pushNamed(context, HomePage.route);
       }
     } else {
-      Navigator.of(context).pushReplacement(MaterialPageRoute(
-          fullscreenDialog: true, builder: (context) => HomePage()));
+      Navigator.pushNamed(context, HomePage.route);
     }
   }
 }

@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:satpj_front_end_web/src/model/grupo/grupo.dart';
 import 'package:satpj_front_end_web/src/model/paciente/paciente.dart';
 import 'package:satpj_front_end_web/src/utils/tema.dart';
 import 'package:satpj_front_end_web/src/utils/validators/validadores-input.dart';
@@ -89,27 +88,26 @@ class RegisterFormState extends State<RegisterForm> {
                 : null;
   }
 
-  DateTime definirFechaMax(){
-      DateTime hoy = DateTime.now();
-      return DateTime(hoy.year - 18,hoy.month,hoy.day);
+  DateTime definirFechaMax() {
+    DateTime hoy = DateTime.now();
+    return DateTime(hoy.year - 18, hoy.month, hoy.day);
   }
 
   @override
   void initState() {
     _formKey = GlobalKey<FormState>();
-    
+
     paciente = new Paciente();
     paciente.edad = 0;
     paciente.estadoAprobado = 'PendienteAprobacion';
     paciente.remitido = false;
     paciente.tipoUsuario = "Paciente";
-    
+
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
-    
     return Theme(
       data: temaFormularios(),
       child: Form(
@@ -177,7 +175,9 @@ class RegisterFormState extends State<RegisterForm> {
                     ],
                   ),
                   data: ThemeData(
-                    unselectedWidgetColor: state.hasError ? Theme.of(context).colorScheme.error : null, 
+                    unselectedWidgetColor: state.hasError
+                        ? Theme.of(context).colorScheme.error
+                        : null,
                   ),
                 );
               },

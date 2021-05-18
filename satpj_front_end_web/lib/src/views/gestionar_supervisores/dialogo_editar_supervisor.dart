@@ -8,6 +8,7 @@ import 'package:satpj_front_end_web/src/utils/widgets/formularios/formulario_sup
 import 'package:satpj_front_end_web/src/utils/widgets/formularios/tema_formularios.dart';
 import 'package:satpj_front_end_web/src/views/gestionar_supervisores/vista_administracion_supervisores.dart';
 
+// ignore: must_be_immutable
 class DialogoEditarSupervisor extends StatefulWidget {
   Supervisor supervisor = new Supervisor();
 
@@ -19,8 +20,6 @@ class DialogoEditarSupervisor extends StatefulWidget {
 }
 
 class _DialogoEditarSupervisorState extends State<DialogoEditarSupervisor> {
-  GlobalKey<FormState> _formKey = new GlobalKey<FormState>();
-
   @override
   Widget build(BuildContext context) {
     return Theme(
