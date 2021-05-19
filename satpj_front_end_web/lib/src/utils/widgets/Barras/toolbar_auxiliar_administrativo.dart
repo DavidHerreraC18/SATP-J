@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:satpj_front_end_web/src/providers/provider_autenticacion.dart';
+import 'package:satpj_front_end_web/src/views/certificado_horas/vista_administrar_certificados.dart';
 import 'package:satpj_front_end_web/src/views/gestionar_pacientes/vista_aprobacion_formularios.dart';
 import 'package:satpj_front_end_web/src/views/gestionar_pacientes/vista_administrar_pacientes.dart';
 import 'package:satpj_front_end_web/src/views/gestionar_perfil/vista_perfil_auxiliar.dart';
@@ -27,35 +28,7 @@ AppBar toolbarAuxiliarAdministrativo(BuildContext context) {
               icon: Icon(Icons.home),
               color: Colors.white,
               onPressed: () {
-                // To do
-              },
-            ),
-          ),
-          SizedBox(width: 5.0),
-          Ink(
-            decoration: ShapeDecoration(
-              color: Theme.of(context).colorScheme.primary,
-              shape: CircleBorder(),
-            ),
-            child: IconButton(
-              icon: Icon(Icons.mail),
-              color: Colors.white,
-              onPressed: () {
-                // To do
-              },
-            ),
-          ),
-          SizedBox(width: 5.0),
-          Ink(
-            decoration: ShapeDecoration(
-              color: Theme.of(context).colorScheme.primary,
-              shape: CircleBorder(),
-            ),
-            child: IconButton(
-              icon: Icon(Icons.notifications),
-              color: Colors.white,
-              onPressed: () {
-                // To do
+                Navigator.pushNamed(context, HomePage.route);
               },
             ),
           ),
@@ -82,7 +55,7 @@ AppBar toolbarAuxiliarAdministrativo(BuildContext context) {
                       ),
                       SizedBox(width: 2.0),
                       Text("Inicio",
-                          style: Theme.of(context).textTheme.bodyText1)
+                          style: Theme.of(context).textTheme.bodyText1),
                     ],
                   ),
                 ),
@@ -278,8 +251,13 @@ AppBar toolbarAuxiliarAdministrativo(BuildContext context) {
                       //statements;
                     }
                     break;
-
                   case 9:
+                    {
+                      Navigator.pushNamed(
+                          context, VistaAdministrarCertificados.route);
+                    }
+                    break;
+                  case 10:
                     {
                       ProviderAuntenticacion.signOut();
                       Navigator.pushNamed(context, "/");

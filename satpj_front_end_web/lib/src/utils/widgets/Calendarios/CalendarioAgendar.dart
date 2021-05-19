@@ -484,6 +484,17 @@ class _CalendarAppointmentEditorState extends State<CalendarAppointmentEditor> {
         allowedViews: _allowedViews,
         showDatePickerButton: true,
         dataSource: _calendarDataSource,
+        appointmentTextStyle:
+            TextStyle(color: Colors.black87, fontFamily: "Dubai"),
+        headerStyle: new CalendarHeaderStyle(
+            backgroundColor: kPrimaryColor,
+            textStyle:
+                TextStyle(color: Colors.white, fontFamily: "Dubai-Bold")),
+        viewHeaderStyle: new ViewHeaderStyle(
+            backgroundColor: kPrimaryColor,
+            dayTextStyle:
+                TextStyle(color: Colors.white, fontFamily: "Dubai-Bold")),
+        todayHighlightColor: kAccentColor,
         onTap: calendarTapCallback,
         onViewChanged: viewChangedCallback,
         initialDisplayDate: DateTime(DateTime.now().year, DateTime.now().month,

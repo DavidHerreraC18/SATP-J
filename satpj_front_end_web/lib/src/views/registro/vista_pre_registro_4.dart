@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:satpj_front_end_web/src/utils/tema.dart';
 import 'package:satpj_front_end_web/src/utils/widgets/Barras/toolbar_inicio.dart';
+import 'package:satpj_front_end_web/src/utils/widgets/Barras/toolbar_inicio_registro.dart';
 import 'package:satpj_front_end_web/src/utils/widgets/formularios/tema_formularios.dart';
 
 class PreRegisterPage4 extends StatelessWidget {
@@ -11,7 +12,7 @@ class PreRegisterPage4 extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
         backgroundColor: kAccentColor,
-        appBar: toolbarInicio(context),
+        appBar: toolbarInicioRegistro(context),
         body: ListView(
           children: [
             Column(
@@ -32,23 +33,35 @@ class PreRegisterPage4 extends StatelessWidget {
                                 style: TextStyle(
                                     fontSize: 40.0, color: kPrimaryColor),
                               ),
-                              SizedBox(height: 5.0,),
-                              Text(
-                                'En los proximos días el Consultorio se estará comunicando via telefónica o por correo electrónico.' 
-                                ,
-                                style: TextStyle(fontSize: 20.0, fontWeight: FontWeight.w300, height: 1.3),
-                                textAlign: TextAlign.center,
-                                
+                              SizedBox(
+                                height: 5.0,
                               ),
-                              SizedBox(height: 5.0,),
+                              Text(
+                                'En los proximos días el Consultorio se estará comunicando via telefónica o por correo electrónico.',
+                                style: TextStyle(
+                                    fontSize: 20.0,
+                                    fontWeight: FontWeight.w300,
+                                    height: 1.3),
+                                textAlign: TextAlign.center,
+                              ),
+                              SizedBox(
+                                height: 5.0,
+                              ),
                               Text(
                                 'Si tienes alguna inquietud puedes comunicarte al',
-                                style: TextStyle(fontSize: 20.0, fontWeight: FontWeight.w300, height: 1.3),
+                                style: TextStyle(
+                                    fontSize: 20.0,
+                                    fontWeight: FontWeight.w300,
+                                    height: 1.3),
                                 textAlign: TextAlign.center,
                               ),
                               Text(
                                 '3208320, Extensiones: 5405 ó 5407',
-                                style: TextStyle(fontSize: 20.0, fontWeight: FontWeight.w500, height: 1.3, color: kPrimaryColor),
+                                style: TextStyle(
+                                    fontSize: 20.0,
+                                    fontWeight: FontWeight.w500,
+                                    height: 1.3,
+                                    color: kPrimaryColor),
                                 textAlign: TextAlign.center,
                               )
                             ],

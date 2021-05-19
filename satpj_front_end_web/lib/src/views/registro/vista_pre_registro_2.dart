@@ -3,6 +3,7 @@ import 'package:satpj_front_end_web/src/model/paciente/paciente.dart';
 import 'package:satpj_front_end_web/src/model/acudiente/acudiente.dart';
 import 'package:satpj_front_end_web/src/utils/tema.dart';
 import 'package:satpj_front_end_web/src/utils/widgets/Barras/toolbar_inicio.dart';
+import 'package:satpj_front_end_web/src/utils/widgets/Barras/toolbar_inicio_registro.dart';
 import 'package:satpj_front_end_web/src/utils/widgets/botones/button_forms.dart';
 import 'package:satpj_front_end_web/src/utils/widgets/formularios/container_stack.dart';
 import 'package:satpj_front_end_web/src/utils/widgets/formularios/formulario_usuario.dart';
@@ -22,22 +23,20 @@ class PreRegisterPage2 extends StatefulWidget {
 Paciente paciente = new Paciente();
 
 class _PreRegisterPage2State extends State<PreRegisterPage2> {
-
   @override
   Widget build(BuildContext context) {
-    
     final Map arguments = ModalRoute.of(context).settings.arguments as Map;
 
     if (arguments != null) {
       paciente = arguments['arguments'] as Paciente;
-      if(paciente != null){
+      if (paciente != null) {
         paciente.acudientes = [];
       }
     }
 
     return Scaffold(
         backgroundColor: kAccentColor,
-        appBar: toolbarInicio(context),
+        appBar: toolbarInicioRegistro(context),
         body: ListView(
           children: [
             Column(
@@ -73,7 +72,7 @@ class RegisterFormState extends State<RegisterForm> {
 
   //--------------Madre o Responsable--------------
   Acudiente madre;
-  
+
   //--------------Padre o Responsable--------------
   Acudiente padre;
 
@@ -116,10 +115,8 @@ class RegisterFormState extends State<RegisterForm> {
     }
   }
 
-
   @override
   Widget build(BuildContext context) {
-
     var stackMadre = Stack(
       children: [
         Container(
@@ -196,7 +193,7 @@ class RegisterFormState extends State<RegisterForm> {
                   label: 'Siguiente',
                   color: kPrimaryColor,
                   route: PreRegisterPage3.route,
-                  providerFunction: (){
+                  providerFunction: () {
                     insertarAcudientes();
                   },
                   arguments: paciente,
@@ -207,4 +204,3 @@ class RegisterFormState extends State<RegisterForm> {
         ]));
   }
 }
-

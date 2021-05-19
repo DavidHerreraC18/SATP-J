@@ -1,4 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:satpj_front_end_web/src/providers/provider_autenticacion.dart';
+import 'package:satpj_front_end_web/src/views/gestionar_pacientes/vista_visualizar_pacientes_grupo.dart';
+import 'package:satpj_front_end_web/src/views/gestionar_perfil/vista_perfil_acudiente.dart';
+import 'package:satpj_front_end_web/src/views/vista_home.dart';
 
 AppBar toolbarAcudiente(BuildContext context) {
   return AppBar(
@@ -20,35 +24,7 @@ AppBar toolbarAcudiente(BuildContext context) {
               icon: Icon(Icons.home),
               color: Colors.white,
               onPressed: () {
-                // To do
-              },
-            ),
-          ),
-          SizedBox(width: 5.0),
-          Ink(
-            decoration: const ShapeDecoration(
-              color: Color(0xFF2E5EAA),
-              shape: CircleBorder(),
-            ),
-            child: IconButton(
-              icon: Icon(Icons.mail),
-              color: Colors.white,
-              onPressed: () {
-                // To do
-              },
-            ),
-          ),
-          SizedBox(width: 5.0),
-          Ink(
-            decoration: const ShapeDecoration(
-              color: Color(0xFF2E5EAA),
-              shape: CircleBorder(),
-            ),
-            child: IconButton(
-              icon: Icon(Icons.notifications),
-              color: Colors.white,
-              onPressed: () {
-                // To do
+                Navigator.pushNamed(context, HomePage.route);
               },
             ),
           ),
@@ -100,41 +76,11 @@ AppBar toolbarAcudiente(BuildContext context) {
                     // Replace with a Row for horizontal icon + text
                     children: <Widget>[
                       Icon(
-                        Icons.weekend,
-                        color: Color(0xFF2E5EAA),
-                      ),
-                      SizedBox(width: 2.0),
-                      Text("Sesiones Terapia",
-                          style: Theme.of(context).textTheme.bodyText1)
-                    ],
-                  ),
-                ),
-                PopupMenuItem(
-                  value: 4,
-                  child: Row(
-                    // Replace with a Row for horizontal icon + text
-                    children: <Widget>[
-                      Icon(
                         Icons.payments,
                         color: Color(0xFF2E5EAA),
                       ),
                       SizedBox(width: 2.0),
                       Text("Pagos",
-                          style: Theme.of(context).textTheme.bodyText1)
-                    ],
-                  ),
-                ),
-                PopupMenuItem(
-                  value: 4,
-                  child: Row(
-                    // Replace with a Row for horizontal icon + text
-                    children: <Widget>[
-                      Icon(
-                        Icons.group,
-                        color: Color(0xFF2E5EAA),
-                      ),
-                      SizedBox(width: 2.0),
-                      Text("Grupos",
                           style: Theme.of(context).textTheme.bodyText1)
                     ],
                   ),
@@ -155,6 +101,32 @@ AppBar toolbarAcudiente(BuildContext context) {
                   ),
                 ),
               ],
+              onSelected: (value) {
+                switch (value) {
+                  case 1:
+                    {
+                      Navigator.pushNamed(context, HomePage.route);
+                    }
+                    break;
+
+                  case 2:
+                    {
+                      Navigator.pushNamed(context, VistaPerfilAcudiente.route);
+                    }
+                    break;
+
+                  case 3:
+                    {}
+                    break;
+
+                  case 4:
+                    {
+                      ProviderAuntenticacion.signOut();
+                      Navigator.pushNamed(context, "/");
+                    }
+                    break;
+                }
+              },
             ),
           ),
           SizedBox(width: 5.0),

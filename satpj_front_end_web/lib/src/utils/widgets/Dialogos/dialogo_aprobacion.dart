@@ -184,7 +184,7 @@ class _AprobDialogState extends State<AprobDialog> {
 
   Future<void> _aprobarPaciente(FormularioExtra formulario) async {
     Grupo grupo = await ProviderAdministracionPacientes.traerGrupoPaciente(
-        formulario.paciente);
+        formulario.paciente.id);
     if (grupo != null) {
       bool posible = false;
       int po = 0;
@@ -241,7 +241,7 @@ class _AprobDialogState extends State<AprobDialog> {
 
   Future<void> _rechazarPaciente(FormularioExtra formulario) async {
     Grupo grupo = await ProviderAdministracionPacientes.traerGrupoPaciente(
-        formulario.paciente);
+        formulario.paciente.id);
     if (grupo != null) {
       for (int i = 0; i < grupo.integrantes.length; i++) {
         Paciente paciente = grupo.integrantes[i];

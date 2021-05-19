@@ -15,15 +15,15 @@ import 'helper/save_file_web.dart';
 
 /// Render pdf with annotations
 class PdfCertificadoHoras {
-  PracticanteHoras practicanteHoras;
-  PdfCertificadoHoras({PracticanteHoras practicanteHoras});
+  PdfCertificadoHoras();
 
-  Future<void> createCertificate() async {
+  Future<void> createCertificate(PracticanteHoras practicanteHoras) async {
     String fecha = DateFormat('d/M/y').format(DateTime.now());
     //Create a PDF document.
     final PdfDocument document = PdfDocument();
     document.pageSettings.orientation = PdfPageOrientation.landscape;
     document.pageSettings.margins.all = 0;
+    print(practicanteHoras.practicante.nombre);
     //Add page to the PDF
     final PdfPage page = document.pages.add();
     //Get the page size
@@ -50,7 +50,8 @@ class PdfCertificadoHoras {
         brush: PdfSolidBrush(PdfColor(20, 58, 86)));
     x = _calculateXPosition(
         practicanteHoras.horas.toString(), controlFont, pageSize.width);
-    page.graphics.drawString(practicanteHoras.horas.toString(), controlFont,
+    page.graphics.drawString(
+        practicanteHoras.horas.toString() + " horas", controlFont,
         bounds: Rect.fromLTWH(x, 340, 0, 0),
         brush: PdfSolidBrush(PdfColor(20, 58, 86)));
     final String dateText = 'el ' + fecha;

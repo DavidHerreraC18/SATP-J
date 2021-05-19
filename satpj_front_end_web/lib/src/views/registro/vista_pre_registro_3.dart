@@ -6,6 +6,7 @@ import 'package:satpj_front_end_web/src/providers/provider_pre_registro.dart';
 import 'package:satpj_front_end_web/src/utils/tema.dart';
 import 'package:satpj_front_end_web/src/utils/validators/validadores-input.dart';
 import 'package:satpj_front_end_web/src/utils/widgets/Barras/toolbar_inicio.dart';
+import 'package:satpj_front_end_web/src/utils/widgets/Barras/toolbar_inicio_registro.dart';
 import 'package:satpj_front_end_web/src/utils/widgets/botones/button_forms.dart';
 import 'package:satpj_front_end_web/src/utils/widgets/inputs/rounded_text_field.dart';
 import 'package:satpj_front_end_web/src/utils/widgets/formularios/tema_formularios.dart';
@@ -29,7 +30,7 @@ class _PreRegisterPage3State extends State<PreRegisterPage3> {
   Widget build(BuildContext context) {
     return Scaffold(
         backgroundColor: kAccentColor,
-        appBar: toolbarInicio(context),
+        appBar: toolbarInicioRegistro(context),
         body: ListView(
           children: [
             Column(
@@ -84,9 +85,9 @@ class RegisterFormState extends State<RegisterForm> {
   bool atendidoNo = false;
   bool individual = false;
 
-  String sufFue='';
-  String sufRemision='';
-  String sufAtencion='';
+  String sufFue = '';
+  String sufRemision = '';
+  String sufAtencion = '';
   String sufDonde = 'recibió';
 
   final _formKey = GlobalKey<FormState>();
@@ -128,8 +129,8 @@ class RegisterFormState extends State<RegisterForm> {
     }
   }
 
-  void asignarFormulario(){
-   if (grupo != null) {
+  void asignarFormulario() {
+    if (grupo != null) {
       if (grupo.integrantes != null) {
         if (grupo.integrantes.length > 0) {
           for (Paciente paciente in grupo.integrantes) {
@@ -137,7 +138,7 @@ class RegisterFormState extends State<RegisterForm> {
           }
         }
       }
-    } 
+    }
   }
 
   @override
@@ -254,7 +255,9 @@ class RegisterFormState extends State<RegisterForm> {
                   onChanged: (bool value) {
                     setState(() {
                       remitido = false;
-                      individual ? paciente.remitido = remitido :  modificarRemisionGrupo(remitido);
+                      individual
+                          ? paciente.remitido = remitido
+                          : modificarRemisionGrupo(remitido);
                       decisionPropia = value;
                       cualRemision = false;
                     });
@@ -276,7 +279,9 @@ class RegisterFormState extends State<RegisterForm> {
                   onChanged: (bool value) {
                     setState(() {
                       remitido = value;
-                      individual ? paciente.remitido = remitido :  modificarRemisionGrupo(remitido);
+                      individual
+                          ? paciente.remitido = remitido
+                          : modificarRemisionGrupo(remitido);
                       decisionPropia = false;
                       cualRemision = false;
                     });
@@ -290,7 +295,7 @@ class RegisterFormState extends State<RegisterForm> {
           Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: remitido
-                ? [ 
+                ? [
                     SizedBox(
                       height: 8.0,
                     ),
@@ -347,7 +352,7 @@ class RegisterFormState extends State<RegisterForm> {
           Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: cualRemision
-                ? [ 
+                ? [
                     SizedBox(
                       height: 20.0,
                     ),
@@ -356,7 +361,8 @@ class RegisterFormState extends State<RegisterForm> {
                           'fue' +
                           sufFue +
                           ' remitido' +
-                          sufRemision +':',
+                          sufRemision +
+                          ':',
                       textAlign: TextAlign.left,
                       style: TextStyle(fontSize: 18.0),
                     ),

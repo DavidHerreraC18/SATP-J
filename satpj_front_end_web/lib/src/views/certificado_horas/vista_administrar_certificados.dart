@@ -183,7 +183,7 @@ class _InternalWidget extends StatelessWidget {
   }
 
   void _certificate(BuildContext c, PracticanteHoras data) async {
-    PdfCertificadoHoras pdf = new PdfCertificadoHoras(practicanteHoras: data);
-    pdf.createCertificate();
+    PdfCertificadoHoras pdf = new PdfCertificadoHoras();
+    pdf.createCertificate(data);
   }
 }

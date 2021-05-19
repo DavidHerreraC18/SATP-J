@@ -217,37 +217,38 @@ class PrimeraPaginaConsentimientoPrincipalState
                     textAlign: TextAlign.justify,
                     style: TextStyle(fontSize: 15)),
                 SizedBox(height: 50),
-                Container(
-                  height: 50,
-                  width: 235,
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(15),
-                  ),
-                  child: Material(
-                    borderRadius: BorderRadius.circular(15),
-                    color: kPrimaryColor,
-                    child: MaterialButton(
-                      onPressed: () {
-                        changeContainer(1);
-                      },
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Expanded(
-                              child: Text(
-                            "Continuar",
-                            textAlign: TextAlign.center,
-                            style: TextStyle(
-                              fontSize: 20,
-                              color: Colors.white,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ))
-                        ],
+                TextButton(
+                  style: ButtonStyle(
+                    minimumSize: MaterialStateProperty.all(Size(
+                      120.0,
+                      35.0,
+                    )),
+                    padding: MaterialStateProperty.all(EdgeInsets.all(10.0)),
+                    backgroundColor: MaterialStateProperty.all(kPrimaryColor),
+                    alignment: Alignment.center,
+                    shape: MaterialStateProperty.all(
+                      RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(4.1),
                       ),
                     ),
                   ),
-                )
+                  onPressed: () {
+                    changeContainer(1);
+                  },
+                  child: Padding(
+                    padding: EdgeInsets.symmetric(
+                      horizontal: 20.0,
+                    ),
+                    child: Text(
+                      'Continuar',
+                      style: TextStyle(
+                        fontSize: 18,
+                        fontWeight: FontWeight.normal,
+                        color: Colors.white,
+                      ),
+                    ),
+                  ),
+                ),
               ],
             ),
           ),
@@ -346,37 +347,38 @@ class SegundaPaginaConsentimientoPrincipalState
                     textAlign: TextAlign.justify,
                     style: TextStyle(fontSize: 15)),
                 SizedBox(height: 50),
-                Container(
-                  height: 50,
-                  width: 235,
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(15),
-                  ),
-                  child: Material(
-                    borderRadius: BorderRadius.circular(15),
-                    color: kPrimaryColor,
-                    child: MaterialButton(
-                      onPressed: () {
-                        changeContainer(1);
-                      },
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Expanded(
-                              child: Text(
-                            "Entiendo",
-                            textAlign: TextAlign.center,
-                            style: TextStyle(
-                              fontSize: 20,
-                              color: Colors.white,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ))
-                        ],
+                TextButton(
+                  style: ButtonStyle(
+                    minimumSize: MaterialStateProperty.all(Size(
+                      120.0,
+                      35.0,
+                    )),
+                    padding: MaterialStateProperty.all(EdgeInsets.all(10.0)),
+                    backgroundColor: MaterialStateProperty.all(kPrimaryColor),
+                    alignment: Alignment.center,
+                    shape: MaterialStateProperty.all(
+                      RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(4.1),
                       ),
                     ),
                   ),
-                )
+                  onPressed: () {
+                    changeContainer(1);
+                  },
+                  child: Padding(
+                    padding: EdgeInsets.symmetric(
+                      horizontal: 20.0,
+                    ),
+                    child: Text(
+                      'Entiendo',
+                      style: TextStyle(
+                        fontSize: 18,
+                        fontWeight: FontWeight.normal,
+                        color: Colors.white,
+                      ),
+                    ),
+                  ),
+                ),
               ],
             ),
           ),
@@ -430,37 +432,38 @@ class TerceraPaginaConsentimientoPrincipalState
                     textAlign: TextAlign.justify,
                     style: TextStyle(fontSize: 15)),
                 SizedBox(height: 50),
-                Container(
-                  height: 50,
-                  width: 235,
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(15),
-                  ),
-                  child: Material(
-                    borderRadius: BorderRadius.circular(15),
-                    color: kPrimaryColor,
-                    child: MaterialButton(
-                      onPressed: () {
-                        changeContainer(1);
-                      },
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Expanded(
-                              child: Text(
-                            "Entiendo",
-                            textAlign: TextAlign.center,
-                            style: TextStyle(
-                              fontSize: 20,
-                              color: Colors.white,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ))
-                        ],
+                TextButton(
+                  style: ButtonStyle(
+                    minimumSize: MaterialStateProperty.all(Size(
+                      120.0,
+                      35.0,
+                    )),
+                    padding: MaterialStateProperty.all(EdgeInsets.all(10.0)),
+                    backgroundColor: MaterialStateProperty.all(kPrimaryColor),
+                    alignment: Alignment.center,
+                    shape: MaterialStateProperty.all(
+                      RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(4.1),
                       ),
                     ),
                   ),
-                )
+                  onPressed: () {
+                    changeContainer(1);
+                  },
+                  child: Padding(
+                    padding: EdgeInsets.symmetric(
+                      horizontal: 20.0,
+                    ),
+                    child: Text(
+                      'Entiendo',
+                      style: TextStyle(
+                        fontSize: 18,
+                        fontWeight: FontWeight.normal,
+                        color: Colors.white,
+                      ),
+                    ),
+                  ),
+                ),
               ],
             ),
           ),
@@ -626,47 +629,48 @@ class CuartaPaginaConsentimientoPrincipalState
                   height: 1,
                 ),
                 SizedBox(height: 50),
-                Container(
-                  height: 50,
-                  width: 235,
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(15),
-                  ),
-                  child: Material(
-                    borderRadius: BorderRadius.circular(15),
-                    color: kPrimaryColor,
-                    child: MaterialButton(
-                      onPressed: () {
-                        if (validarInput()) {
-                          changeContainer(1);
-                        } else {
-                          ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                            content: Text(
-                              'Faltan Datos Por Ingresar',
-                              style: TextStyle(color: Colors.white),
-                            ),
-                            backgroundColor: kAccentColor,
-                          ));
-                        }
-                      },
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Expanded(
-                              child: Text(
-                            "Confirmar",
-                            textAlign: TextAlign.center,
-                            style: TextStyle(
-                              fontSize: 20,
-                              color: Colors.white,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ))
-                        ],
+                TextButton(
+                  style: ButtonStyle(
+                    minimumSize: MaterialStateProperty.all(Size(
+                      120.0,
+                      35.0,
+                    )),
+                    padding: MaterialStateProperty.all(EdgeInsets.all(10.0)),
+                    backgroundColor: MaterialStateProperty.all(kPrimaryColor),
+                    alignment: Alignment.center,
+                    shape: MaterialStateProperty.all(
+                      RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(4.1),
                       ),
                     ),
                   ),
-                )
+                  onPressed: () {
+                    if (validarInput()) {
+                      changeContainer(1);
+                    } else {
+                      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                        content: Text(
+                          'Faltan Datos Por Ingresar',
+                          style: TextStyle(color: Colors.white),
+                        ),
+                        backgroundColor: kAccentColor,
+                      ));
+                    }
+                  },
+                  child: Padding(
+                    padding: EdgeInsets.symmetric(
+                      horizontal: 20.0,
+                    ),
+                    child: Text(
+                      'Confirmar',
+                      style: TextStyle(
+                        fontSize: 18,
+                        fontWeight: FontWeight.normal,
+                        color: Colors.white,
+                      ),
+                    ),
+                  ),
+                ),
               ],
             ),
           ),
@@ -862,45 +866,46 @@ class QuintaPaginaConsentimientoPrincipalState
                   ),
                 ),
                 SizedBox(height: 50),
-                Container(
-                  height: 50,
-                  width: 235,
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(15),
-                  ),
-                  child: Material(
-                    borderRadius: BorderRadius.circular(15),
-                    color: kPrimaryColor,
-                    child: MaterialButton(
-                      onPressed: () {
-                        currentContainer = 0;
-                        if (_isSigned) {
-                          if (this.tieneAcudiente) {
-                            changeContainer(1);
-                          } else {
-                            completarConsentimientoPrincipal();
-                            Navigator.pop(context);
-                          }
-                        }
-                      },
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Expanded(
-                              child: Text(
-                            "Completar",
-                            textAlign: TextAlign.center,
-                            style: TextStyle(
-                              fontSize: 20,
-                              color: Colors.white,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ))
-                        ],
+                TextButton(
+                  style: ButtonStyle(
+                    minimumSize: MaterialStateProperty.all(Size(
+                      120.0,
+                      35.0,
+                    )),
+                    padding: MaterialStateProperty.all(EdgeInsets.all(10.0)),
+                    backgroundColor: MaterialStateProperty.all(kPrimaryColor),
+                    alignment: Alignment.center,
+                    shape: MaterialStateProperty.all(
+                      RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(4.1),
                       ),
                     ),
                   ),
-                )
+                  onPressed: () {
+                    currentContainer = 0;
+                    if (_isSigned) {
+                      if (this.tieneAcudiente) {
+                        changeContainer(1);
+                      } else {
+                        completarConsentimientoPrincipal();
+                        Navigator.pop(context);
+                      }
+                    }
+                  },
+                  child: Padding(
+                    padding: EdgeInsets.symmetric(
+                      horizontal: 20.0,
+                    ),
+                    child: Text(
+                      'Completar',
+                      style: TextStyle(
+                        fontSize: 18,
+                        fontWeight: FontWeight.normal,
+                        color: Colors.white,
+                      ),
+                    ),
+                  ),
+                ),
               ],
             ),
           ),

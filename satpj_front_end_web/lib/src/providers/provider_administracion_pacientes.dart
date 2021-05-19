@@ -145,6 +145,7 @@ class ProviderAdministracionPacientes {
         "Accept": "*/*",
         "Accept-Encoding": "gzip, deflate, br",
         "Connection": "keep-alive",
+        'Content-Type': 'application/json; charset=UTF-8',
       };
       final resp = await http.delete(Uri.http(_url, "/pacientes/" + pacienteID),
           headers: headers);
@@ -173,7 +174,8 @@ class ProviderAdministracionPacientes {
         "Cache-Control": "no-cache",
         "Accept": "*/*",
         "Accept-Encoding": "gzip, deflate, br",
-        "Connection": "keep-alive"
+        "Connection": "keep-alive",
+        'Content-Type': 'application/json; charset=UTF-8'
       };
       final resp = await http.get(
           Uri.http(_url, "/pacientes/" + pacienteActual.id + "/documentos"),
@@ -203,6 +205,7 @@ class ProviderAdministracionPacientes {
             "Bearer " + await ProviderAuntenticacion.extractToken(),
         "Cache-Control": "no-cache",
         "Accept": "*/*",
+        'Content-Type': 'application/json; charset=UTF-8'
       };
       final resp = await http.get(
           Uri.http(
@@ -236,6 +239,7 @@ class ProviderAdministracionPacientes {
             "Bearer " + await ProviderAuntenticacion.extractToken(),
         "Cache-Control": "no-cache",
         "Accept": "*/*",
+        'Content-Type': 'application/json; charset=UTF-8'
       };
       final resp = await http.get(
           Uri.http(_url, "/pacientes/" + pacienteActual.id + "/supervisor"),
@@ -265,6 +269,7 @@ class ProviderAdministracionPacientes {
             "Bearer " + await ProviderAuntenticacion.extractToken(),
         "Cache-Control": "no-cache",
         "Accept": "*/*",
+        'Content-Type': 'application/json; charset=UTF-8'
       };
       final resp = await http.get(
           Uri.http(_url, "/pacientes/practicante/" + pacienteActual.id),
@@ -282,7 +287,7 @@ class ProviderAdministracionPacientes {
     return _completer.future;
   }
 
-  static Future<Grupo> traerGrupoPaciente(Paciente pacienteActual) async {
+  static Future<Grupo> traerGrupoPaciente(String pacienteActual) async {
     //
     final _completer = Completer<Grupo>();
 
@@ -293,9 +298,10 @@ class ProviderAdministracionPacientes {
             "Bearer " + await ProviderAuntenticacion.extractToken(),
         "Cache-Control": "no-cache",
         "Accept": "*/*",
+        'Content-Type': 'application/json; charset=UTF-8'
       };
       final resp = await http.get(
-          Uri.http(_url, "/" + pacienteActual.id + "/grupo"),
+          Uri.http(_url, "/" + pacienteActual + "/grupo"),
           headers: headers);
       //print("JSON RECIBIDO" + resp.body);
       if (resp.statusCode == 200) {

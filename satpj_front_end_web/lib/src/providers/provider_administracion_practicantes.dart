@@ -43,7 +43,8 @@ class ProviderAdministracionPracticantes {
   static Future<List<PracticanteHoras>> traerPracticantesHoras() async {
     //
     final _completer = Completer<List<PracticanteHoras>>();
-
+    String aaa = await ProviderAuntenticacion.extractToken();
+    print(aaa);
     try {
       //ProviderAuntenticacion.extractToken();
       Map<String, String> headers = {

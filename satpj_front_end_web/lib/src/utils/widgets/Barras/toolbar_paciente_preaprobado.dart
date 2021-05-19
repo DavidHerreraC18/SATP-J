@@ -25,7 +25,7 @@ AppBar toolbarPacientePreaprobado(BuildContext context) {
               ),
               itemBuilder: (BuildContext context) => <PopupMenuEntry>[
                 PopupMenuItem(
-                  value: 4,
+                  value: 1,
                   child: Row(
                     // Replace with a Row for horizontal icon + text
                     children: <Widget>[

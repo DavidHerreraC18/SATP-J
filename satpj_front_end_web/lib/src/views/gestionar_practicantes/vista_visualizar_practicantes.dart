@@ -13,9 +13,9 @@ import 'package:satpj_front_end_web/src/utils/widgets/custom_paginated_datatable
 import 'package:satpj_front_end_web/src/views/gestionar_practicantes/dialogo_crear_practicante.dart';
 import 'package:satpj_front_end_web/src/views/gestionar_practicantes/dialogo_visualizar_practicante.dart';
 
-class VistaAdministrarPracticantes extends StatelessWidget {
+class VistaVisualizarPracticantes extends StatelessWidget {
   static const route = '/visualizar-practicantes';
-  const VistaAdministrarPracticantes({Key key}) : super(key: key);
+  const VistaVisualizarPracticantes({Key key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

@@ -123,7 +123,41 @@ class _InternalWidget extends StatelessWidget {
     final _model = _provider.sesion;
 
     if (_model.isEmpty) {
-      _model.add(new SesionTerapia());
+      return Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Column(
+            children: [
+              SizedBox(
+                height: 10,
+              ),
+              Text(
+                "El Paciente no tiene Sesiones actualmente haga clic para crear una",
+                style: TextStyle(fontSize: 25.0),
+              ),
+              SizedBox(
+                height: 10,
+              ),
+              Ink(
+                decoration: const ShapeDecoration(
+                  color: Color(0xFF2E5EAA),
+                  shape: CircleBorder(),
+                ),
+                child: IconButton(
+                  icon: Icon(Icons.home),
+                  color: Colors.white,
+                  onPressed: () {
+                    showDialog(
+                        context: context,
+                        builder: (context) => CalendarioAgendar(
+                            paciente: paciente, practicante: practicante));
+                  },
+                ),
+              ),
+            ],
+          ),
+        ],
+      );
     }
     final _dtSource = SesionesTerapiaDataTableSource(
       onRowSelectEdit: (index) => _showEditDialog(context, _model[index]),
