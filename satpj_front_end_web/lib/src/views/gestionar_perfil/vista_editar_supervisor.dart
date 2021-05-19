@@ -4,18 +4,22 @@ import 'package:flutter/material.dart';
 import 'package:satpj_front_end_web/src/model/auxiliar_administrativo/auxiliar_administrativo.dart';
 import 'package:satpj_front_end_web/src/model/practicante/practicante.dart';
 import 'package:satpj_front_end_web/src/model/supervisor/supervisor.dart';
+import 'package:satpj_front_end_web/src/model/usuario/usuario.dart';
 import 'package:satpj_front_end_web/src/providers/provider_administracion_auxiliares.dart';
 import 'package:satpj_front_end_web/src/providers/provider_administracion_practicantes.dart';
 import 'package:satpj_front_end_web/src/providers/provider_administracion_supervisores.dart';
+import 'package:satpj_front_end_web/src/providers/provider_administracion_usuarios.dart';
 import 'package:satpj_front_end_web/src/providers/provider_autenticacion.dart';
 import 'package:satpj_front_end_web/src/utils/tema.dart';
 import 'package:satpj_front_end_web/src/utils/validators/validadores-input.dart';
 import 'package:satpj_front_end_web/src/utils/widgets/Barras/toolbar_auxiliar_administrativo.dart';
 import 'package:satpj_front_end_web/src/utils/widgets/Barras/toolbar_inicio.dart';
+import 'package:satpj_front_end_web/src/utils/widgets/Barras/toolbar_supervisor.dart';
 import 'package:satpj_front_end_web/src/utils/widgets/LoadingWidgets/LoadingWanderingCube.dart';
 import 'package:satpj_front_end_web/src/utils/widgets/formularios/tema_formularios.dart';
 import 'package:flutter_icons/flutter_icons.dart';
 import 'package:satpj_front_end_web/src/utils/widgets/inputs/rounded_text_field.dart';
+import 'package:satpj_front_end_web/src/views/gestionar_perfil/vista_perfil_supervisor.dart';
 
 class VistaEditarSupervisor extends StatefulWidget {
   static const route = '/perfil-editar-supervisor';
@@ -53,7 +57,7 @@ class _VistaEditarSupervisorState extends State<VistaEditarSupervisor> {
           else
             return Scaffold(
                 backgroundColor: Colors.white,
-                appBar: toolbarAuxiliarAdministrativo(context),
+                appBar: toolbarSupervisor(context),
                 body: Theme(
                     data: temaFormularios(),
                     child: DefaultTabController(
@@ -296,7 +300,39 @@ class DatosSupervisorState extends State<DatosSupervisor> {
                   child: IconButton(
                       icon: Icon(Icons.save),
                       color: kPrimaryColor,
-                      onPressed: () {}),
+                      onPressed: () async {
+                        if (textControllerDir.text.isNotEmpty &&
+                            textControllerTel.text.isNotEmpty &&
+                            textControllerEmail.text.isNotEmpty) {
+                          String respuesta = ValidadoresInput.validateEmail(
+                              textControllerEmail.text);
+                          if (respuesta == null) {
+                            Usuario editar =
+                                await ProviderAdministracionUsuarios
+                                    .buscarUsuario(supervisorActual.id);
+                            editar.direccion = textControllerDir.text;
+                            editar.telefono = textControllerTel.text;
+                            editar.email = textControllerEmail.text;
+                            await ProviderAuntenticacion.updateEmail(
+                                editar.email);
+                            await ProviderAdministracionUsuarios.editarUsuario(
+                                editar);
+                          } else if (respuesta ==
+                                  'El correo electrónico ya se encuentra registrado' &&
+                              textControllerEmail.text ==
+                                  supervisorActual.email) {
+                            Usuario editar =
+                                await ProviderAdministracionUsuarios
+                                    .buscarUsuario(supervisorActual.id);
+                            editar.direccion = textControllerDir.text;
+                            editar.telefono = textControllerTel.text;
+                            await ProviderAdministracionUsuarios.editarUsuario(
+                                editar);
+                          }
+                          Navigator.pushNamed(
+                              context, VistaPerfilSupervisor.route);
+                        }
+                      }),
                 ),
               ],
             ),
@@ -395,7 +431,7 @@ class NombreSupervisorState extends State<NombreSupervisor> {
                             " " +
                             supervisorActual.apellido,
                         style: TextStyle(fontSize: 18, color: Colors.black)),
-                    Text("Auxiliar Administrativo",
+                    Text("Supervisor",
                         textAlign: TextAlign.left,
                         style: TextStyle(fontSize: 16, color: Colors.black)),
                     //Text(" "),

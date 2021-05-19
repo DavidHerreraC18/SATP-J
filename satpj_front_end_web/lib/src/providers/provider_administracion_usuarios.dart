@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:convert';
 
 import 'package:http/http.dart' as http;
 import 'package:satpj_front_end_web/src/model/documento_paciente/documento_paciente.dart';
@@ -33,6 +34,36 @@ class ProviderAdministracionUsuarios {
     } catch (exc) {
       print("Error en provider" + exc);
       _completer.completeError(<DocumentoPaciente>[]);
+    }
+
+    return _completer.future;
+  }
+
+  static Future<String> editarUsuario(Usuario usuario) async {
+    //
+    final _completer = Completer<String>();
+
+    String id = usuario.id;
+
+    String jsonUsuario = jsonEncode(usuario.toJson());
+
+    print("JSON GENERADO" + jsonUsuario);
+    try {
+      Map<String, String> headers = {
+        "Authorization":
+            "Bearer " + await ProviderAuntenticacion.extractToken(),
+        "Cache-Control": "no-cache",
+        "Accept": "*/*",
+        "Accept-Encoding": "gzip, deflate, br",
+        "Connection": "keep-alive",
+        'Content-Type': 'application/json; charset=UTF-8',
+      };
+      final resp = await http.put(Uri.http(_url, "/usuarios/" + id),
+          headers: headers, body: jsonUsuario);
+      _completer.complete(resp.body);
+    } catch (e) {
+      print("Error en provider" + e);
+      _completer.completeError("Error");
     }
 
     return _completer.future;

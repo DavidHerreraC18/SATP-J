@@ -1,19 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:satpj_front_end_web/src/model/practicante/practicante.dart';
+import 'package:satpj_front_end_web/src/model/practicante/practicante_horas.dart';
 
 typedef OnRowSelectCertificate = void Function(int index);
 
 class PracticantesHorasDataTableSource extends DataTableSource {
-  PracticantesHorasDataTableSource(
-      {@required List<Practicante> practicantes,
-      @required this.onRowSelectCertificate,
-      @required List<int> horas})
-      : _practicantes = practicantes,
-        _horas = horas,
-        assert(practicantes != null && horas != null);
+  PracticantesHorasDataTableSource({
+    @required List<PracticanteHoras> practicantes,
+    @required this.onRowSelectCertificate,
+  })  : _practicantes = practicantes,
+        assert(practicantes != null);
 
-  final List<Practicante> _practicantes;
-  final List<int> _horas;
+  final List<PracticanteHoras> _practicantes;
   final OnRowSelectCertificate onRowSelectCertificate;
 
   @override
@@ -24,18 +22,17 @@ class PracticantesHorasDataTableSource extends DataTableSource {
       return null;
     }
     final _practicante = _practicantes[index];
-    final _hora = _horas[index];
 
     return DataRow.byIndex(
       index: index, // DONT MISS THIS
       cells: <DataCell>[
-        DataCell(Text('${_practicante.nombre}')),
-        DataCell(Text('${_practicante.apellido}')),
-        DataCell(Text('${_practicante.documento}')),
-        DataCell(Text('${_practicante.email}')),
-        DataCell(Text('${_practicante.telefono}')),
-        DataCell(Text('${_practicante.enfoque}')),
-        DataCell(Text(_hora.toString())),
+        DataCell(Text('${_practicante.practicante.nombre}')),
+        DataCell(Text('${_practicante.practicante.apellido}')),
+        DataCell(Text('${_practicante.practicante.documento}')),
+        DataCell(Text('${_practicante.practicante.email}')),
+        DataCell(Text('${_practicante.practicante.telefono}')),
+        DataCell(Text('${_practicante.practicante.enfoque}')),
+        DataCell(Text('${_practicante.horas}')),
         DataCell(
           ButtonBar(
             alignment: MainAxisAlignment.center,
@@ -77,7 +74,8 @@ class PracticantesHorasDataTableSource extends DataTableSource {
     nums.sort();
     print(nums);  // [-11, 2, 13] 
    */
-  void sort<T>(Comparable<T> Function(Practicante p) getField, bool ascending) {
+  void sort<T>(
+      Comparable<T> Function(PracticanteHoras p) getField, bool ascending) {
     _practicantes.sort((a, b) {
       final aValue = getField(a);
       final bValue = getField(b);

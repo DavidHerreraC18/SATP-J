@@ -15,6 +15,7 @@ import 'dart:convert';
 import 'dart:typed_data';
 import 'package:satpj_front_end_web/src/utils/widgets/Pdf/helper/save_file_mobile.dart'
     if (dart.library.html) 'package:satpj_front_end_web/src/utils/widgets/Pdf/helper/save_file_web.dart';
+import 'package:satpj_front_end_web/src/views/gestionar_perfil/vista_editar_paciente.dart';
 
 class VistaPerfilPaciente extends StatefulWidget {
   static const route = '/perfil-paciente';
@@ -330,7 +331,21 @@ class DatosPacienteState extends State<DatosPaciente> {
                           child: IconButton(
                               icon: Icon(Icons.edit),
                               color: kPrimaryColor,
-                              onPressed: () {}),
+                              onPressed: () {
+                                Navigator.pushNamed(
+                                    context, VistaEditarPaciente.route);
+                              }),
+                        ),
+                        Container(
+                          padding: const EdgeInsets.all(0.0),
+                          width: 30.0, // you can adjust the width as you need
+                          child: IconButton(
+                              icon: Icon(Icons.vpn_key),
+                              color: kPrimaryColor,
+                              onPressed: () {
+                                ProviderAuntenticacion.sendChangePasswordEmail(
+                                    widget.pacienteActual.email);
+                              }),
                         ),
                       ],
                     ),

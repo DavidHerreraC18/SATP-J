@@ -1,11 +1,15 @@
 package com.satpj.project.servicios;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
 import com.google.api.client.util.Preconditions;
+import com.satpj.project.modelo.grupo.Grupo;
 import com.satpj.project.modelo.paciente.Paciente;
 import com.satpj.project.modelo.practicante.*;
+import com.satpj.project.modelo.sesion_terapia.SesionTerapia;
+import com.satpj.project.modelo.sesion_terapia.SesionUsuario;
 import com.satpj.project.seguridad.CustomPrincipal;
 
 import lombok.Getter;
@@ -44,6 +48,9 @@ public class ServicioPracticante {
     private ServicioPaciente servicioPaciente;
 
     @Autowired
+    private ServicioSesionTerapia servicioSesionTerapia;
+
+    @Autowired
     private RepositorioPracticantePaciente RepositorioPracticantePaciente;
 
     @GetMapping(produces = "application/json; charset=UTF-8")
@@ -55,6 +62,25 @@ public class ServicioPracticante {
     public Practicante findPracticanteById(@AuthenticationPrincipal CustomPrincipal customPrincipal, @PathVariable("id") String id) {
         return repositorioPracticante.findById(id).get();
     }
+
+    @GetMapping(value = "/horas", produces = "application/json; charset=UTF-8")
+    public List<PracticanteHoras> findHorasPracticantes(@AuthenticationPrincipal CustomPrincipal customPrincipal) {
+        List<Practicante> practicantes = this.findAllPracticantes(customPrincipal);
+        List<PracticanteHoras> practicantesHoras = new ArrayList<PracticanteHoras>();
+        for(Practicante practicante: practicantes){
+            int contadorHoras = 0;
+            List<SesionUsuario> sesiones = this.servicioSesionTerapia.findSesionUsuarioByUsuarioId(customPrincipal, practicante.getId());
+            for(SesionUsuario sesionUsuario: sesiones){
+                SesionTerapia sesionTerapia = sesionUsuario.getSesionTerapia();
+                if(sesionTerapia.getFecha().isBefore(LocalDateTime.now())){
+                    contadorHoras++;
+                }
+            }
+            practicantesHoras.add(new PracticanteHoras(practicante, contadorHoras));
+        }
+        return practicantesHoras;
+    }
+
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
@@ -139,6 +165,30 @@ public class ServicioPracticante {
             practicantePaciente.setId(llave);
             practicantePaciente.setPaciente(paciente);
             practicantePaciente.setPracticante(practicante);
+            practicantePaciente.setActivo(true);
+            List<PracticantePaciente> practicantesPaciente = paciente.getPracticantesPaciente();
+            for(PracticantePaciente ppDesactivar: practicantesPaciente){
+                ppDesactivar.setActivo(false);
+                RepositorioPracticantePaciente.save(ppDesactivar);
+            }
+            Grupo grupo = paciente.getGrupo();
+            for(Paciente pacienteGrupo: grupo.getIntegrantes())
+            {
+                LlavePracticantePaciente llaveGrupo = new LlavePracticantePaciente();
+                llaveGrupo.setPaciente_id(pacienteGrupo.getId());
+                llaveGrupo.setPracticante_id(practicante.getId());
+                PracticantePaciente practicantePacienteGrupo = new PracticantePaciente();
+                practicantePacienteGrupo.setId(llaveGrupo);
+                practicantePacienteGrupo.setPaciente(pacienteGrupo);
+                practicantePacienteGrupo.setPracticante(practicante);
+                practicantePacienteGrupo.setActivo(true);
+                List<PracticantePaciente> practicantesPacienteGrupo = pacienteGrupo.getPracticantesPaciente();
+                for(PracticantePaciente ppDesactivar: practicantesPacienteGrupo){
+                    ppDesactivar.setActivo(false);
+                    RepositorioPracticantePaciente.save(ppDesactivar);
+                }
+                RepositorioPracticantePaciente.save(practicantePacienteGrupo);
+            }
             return RepositorioPracticantePaciente.save(practicantePaciente);
         }
         return null;

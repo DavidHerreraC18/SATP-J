@@ -7,10 +7,12 @@ import 'package:satpj_front_end_web/src/views/gestionar_horario_practicante/vist
 import 'package:satpj_front_end_web/src/views/gestionar_horario_practicante/vista_horario_practicante_opcion_3.dart';
 import 'package:satpj_front_end_web/src/views/gestionar_pacientes/vista_aprobacion_formularios.dart';
 import 'package:satpj_front_end_web/src/views/gestionar_pacientes/vista_administrar_pacientes.dart';
+import 'package:satpj_front_end_web/src/views/gestionar_perfil/vista_editar_acudiente.dart';
 import 'package:satpj_front_end_web/src/views/gestionar_perfil/vista_editar_auxiliar.dart';
 import 'package:satpj_front_end_web/src/views/gestionar_perfil/vista_editar_paciente.dart';
 import 'package:satpj_front_end_web/src/views/gestionar_perfil/vista_editar_practicante.dart';
 import 'package:satpj_front_end_web/src/views/gestionar_perfil/vista_editar_supervisor.dart';
+import 'package:satpj_front_end_web/src/views/gestionar_perfil/vista_perfil_acudiente.dart';
 import 'package:satpj_front_end_web/src/views/gestionar_perfil/vista_perfil_auxiliar.dart';
 import 'package:satpj_front_end_web/src/views/gestionar_perfil/vista_perfil_paciente.dart';
 import 'package:satpj_front_end_web/src/views/gestionar_perfil/vista_perfil_practicante.dart';
@@ -72,9 +74,11 @@ Map<String, WidgetBuilder> getAppRoutes() {
     VistaPerfilPracticante.route: (BuildContext contex) =>
         VistaPerfilPracticante(),
     VistaPerfilPaciente.route: (BuildContext contex) => VistaPerfilPaciente(),
+    VistaPerfilAcudiente.route: (BuildContext contex) => VistaPerfilAcudiente(),
     VistaPerfilAuxiliar.route: (BuildContext contex) => VistaPerfilAuxiliar(),
     VistaEditarAuxiliar.route: (BuildContext contex) => VistaEditarAuxiliar(),
     VistaEditarPaciente.route: (BuildContext contex) => VistaEditarPaciente(),
+    VistaEditarAcudiente.route: (BuildContext contex) => VistaEditarAcudiente(),
     VistaEditarPracticante.route: (BuildContext contex) =>
         VistaEditarPracticante(),
     VistaEditarSupervisor.route: (BuildContext contex) =>

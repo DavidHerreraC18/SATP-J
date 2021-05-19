@@ -6,6 +6,7 @@ import 'package:satpj_front_end_web/src/model/practicante/practicante.dart';
 import 'package:satpj_front_end_web/src/providers/provider_administracion_supervisores.dart';
 import 'package:satpj_front_end_web/src/providers/provider_autenticacion.dart';
 import 'package:satpj_front_end_web/src/utils/widgets/Barras/toolbar_auxiliar_administrativo.dart';
+import 'package:satpj_front_end_web/src/utils/widgets/Barras/toolbar_supervisor.dart';
 import 'package:satpj_front_end_web/src/utils/widgets/FuentesDatos/datatablesource_practicantes_visualizar.dart';
 import 'package:satpj_front_end_web/src/utils/widgets/LoadingWidgets/LoadingWanderingCube.dart';
 import 'package:satpj_front_end_web/src/utils/widgets/custom_paginated_datatable.dart';
@@ -20,7 +21,7 @@ class VistaAdministrarPracticantes extends StatelessWidget {
   Widget build(BuildContext context) {
     String uid = ProviderAuntenticacion.uid;
     return Scaffold(
-      appBar: toolbarAuxiliarAdministrativo(context),
+      appBar: toolbarSupervisor(context),
       body: Column(
         children: [
           Expanded(

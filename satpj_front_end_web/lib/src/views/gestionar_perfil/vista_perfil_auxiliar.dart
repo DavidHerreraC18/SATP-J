@@ -266,6 +266,17 @@ class DatosAuxiliarState extends State<DatosAuxiliar> {
                         Navigator.pushNamed(context, VistaEditarAuxiliar.route);
                       }),
                 ),
+                Container(
+                  padding: const EdgeInsets.all(0.0),
+                  width: 30.0, // you can adjust the width as you need
+                  child: IconButton(
+                      icon: Icon(Icons.vpn_key),
+                      color: kPrimaryColor,
+                      onPressed: () {
+                        ProviderAuntenticacion.sendChangePasswordEmail(
+                            widget.auxiliarActual.email);
+                      }),
+                ),
               ],
             ),
           ],

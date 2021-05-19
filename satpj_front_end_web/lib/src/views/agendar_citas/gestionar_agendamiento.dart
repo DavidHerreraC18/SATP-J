@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:satpj_front_end_web/src/model/Notificadores/sesion_notifier.dart';
+import 'package:satpj_front_end_web/src/model/consultorio/consultorio.dart';
 import 'package:satpj_front_end_web/src/model/paciente/paciente.dart';
 import 'package:satpj_front_end_web/src/model/practicante/practicante.dart';
 import 'package:satpj_front_end_web/src/model/sesion_terapia/sesion_terapia.dart';
@@ -122,7 +123,7 @@ class _InternalWidget extends StatelessWidget {
     final _model = _provider.sesion;
 
     if (_model.isEmpty) {
-      return LoadingWanderingCube();
+      _model.add(new SesionTerapia());
     }
     final _dtSource = SesionesTerapiaDataTableSource(
       onRowSelectEdit: (index) => _showEditDialog(context, _model[index]),

@@ -10,6 +10,7 @@ import 'package:satpj_front_end_web/src/utils/widgets/Barras/toolbar_supervisor.
 import 'package:satpj_front_end_web/src/utils/widgets/LoadingWidgets/LoadingWanderingCube.dart';
 import 'package:satpj_front_end_web/src/utils/widgets/formularios/tema_formularios.dart';
 import 'package:flutter_icons/flutter_icons.dart';
+import 'package:satpj_front_end_web/src/views/gestionar_perfil/vista_editar_supervisor.dart';
 
 class VistaPerfilSupervisor extends StatefulWidget {
   static const route = '/perfil-supervisor';
@@ -259,7 +260,21 @@ class DatosSupervisorState extends State<DatosSupervisor> {
                   child: IconButton(
                       icon: Icon(Icons.edit),
                       color: kPrimaryColor,
-                      onPressed: () {}),
+                      onPressed: () {
+                        Navigator.pushNamed(
+                            context, VistaEditarSupervisor.route);
+                      }),
+                ),
+                Container(
+                  padding: const EdgeInsets.all(0.0),
+                  width: 30.0, // you can adjust the width as you need
+                  child: IconButton(
+                      icon: Icon(Icons.vpn_key),
+                      color: kPrimaryColor,
+                      onPressed: () {
+                        ProviderAuntenticacion.sendChangePasswordEmail(
+                            widget.supervisorActual.email);
+                      }),
                 ),
               ],
             ),

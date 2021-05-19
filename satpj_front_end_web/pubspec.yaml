@@ -76,6 +76,7 @@ flutter:
     - lib/src/utils/images/
     - lib/src/utils/pdf/consentimiento.pdf
     - lib/src/utils/pdf/consentimiento_tp.pdf
+    - lib/src/utils/pdf/Certificado.png
     - images/
 
   # An image asset can refer to one or more resolution-specific "variants", see

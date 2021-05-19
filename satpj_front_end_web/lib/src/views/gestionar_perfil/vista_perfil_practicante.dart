@@ -10,6 +10,7 @@ import 'package:satpj_front_end_web/src/utils/widgets/Barras/toolbar_practicante
 import 'package:satpj_front_end_web/src/utils/widgets/LoadingWidgets/LoadingWanderingCube.dart';
 import 'package:satpj_front_end_web/src/utils/widgets/formularios/tema_formularios.dart';
 import 'package:flutter_icons/flutter_icons.dart';
+import 'package:satpj_front_end_web/src/views/gestionar_perfil/vista_editar_practicante.dart';
 
 class VistaPerfilPracticante extends StatefulWidget {
   static const route = '/perfil-practicante';
@@ -259,7 +260,21 @@ class DatosPracticanteState extends State<DatosPracticante> {
                   child: IconButton(
                       icon: Icon(Icons.edit),
                       color: kPrimaryColor,
-                      onPressed: () {}),
+                      onPressed: () {
+                        Navigator.pushNamed(
+                            context, VistaEditarPracticante.route);
+                      }),
+                ),
+                Container(
+                  padding: const EdgeInsets.all(0.0),
+                  width: 30.0, // you can adjust the width as you need
+                  child: IconButton(
+                      icon: Icon(Icons.vpn_key),
+                      color: kPrimaryColor,
+                      onPressed: () {
+                        ProviderAuntenticacion.sendChangePasswordEmail(
+                            widget.practicanteActual.email);
+                      }),
                 ),
               ],
             ),
