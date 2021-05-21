@@ -1,18 +1,18 @@
 import 'package:flutter/material.dart';
 
 import 'package:provider/provider.dart';
-import 'package:satpj_front_end_web/src/model/Notificadores/pacientes_notifier.dart';
+import 'package:satpj_front_end_web/src/model/formulario/formulario.dart';
+import 'package:satpj_front_end_web/src/model/notificadores/pacientes_notifier.dart';
 import 'package:satpj_front_end_web/src/model/paciente/paciente.dart';
 import 'package:satpj_front_end_web/src/providers/provider_administracion_pacientes.dart';
+import 'package:satpj_front_end_web/src/providers/provider_aprobacion_formularios.dart';
 import 'package:satpj_front_end_web/src/utils/widgets/Barras/toolbar_auxiliar_administrativo.dart';
 import 'package:satpj_front_end_web/src/utils/widgets/Dialogos/dialog_delete.dart';
-import 'package:satpj_front_end_web/src/utils/widgets/FuentesDatos/datatablesource_pacientes.dart';
-import 'package:satpj_front_end_web/src/utils/widgets/LoadingWidgets/LoadingWanderingCube.dart';
+import 'package:satpj_front_end_web/src/utils/widgets/fuentes_datos/datatablesource_pacientes.dart';
+import 'package:satpj_front_end_web/src/utils/widgets/loading/LoadingWanderingCube.dart';
 import 'package:satpj_front_end_web/src/utils/widgets/custom_paginated_datatable.dart';
 import 'package:satpj_front_end_web/src/views/agendar_citas/gestionar_agendamiento.dart';
-import 'package:satpj_front_end_web/src/views/gestionar_pacientes/dialogo_crear_paciente.dart';
-import 'package:satpj_front_end_web/src/views/gestionar_pacientes/dialogo_editar_paciente.dart';
-import 'package:satpj_front_end_web/src/views/gestionar_pacientes/dialogo_visualizar_paciente.dart';
+import 'package:satpj_front_end_web/src/views/gestionar_pacientes/dialogo_paciente.dart';
 
 class VistaAdministrarPacientes extends StatelessWidget {
   static const route = '/administrar-pacientes';
@@ -58,15 +58,8 @@ class _InternalWidget extends StatelessWidget {
     );
 
     return CustomPaginatedTable(
-      actions: <IconButton>[
-        IconButton(
-          color: Theme.of(context).colorScheme.primary,
-          //splashColor: Colors.transparent,
-          icon: const Icon(Icons.add),
-          onPressed: () {
-            _create(context);
-          },
-        ),
+      actions: [
+        _create(context),
         IconButton(
           color: Theme.of(context).colorScheme.primary,
           //splashColor: Colors.transparent,
@@ -79,7 +72,7 @@ class _InternalWidget extends StatelessWidget {
       ],
       dataColumns: _colGen(_dtSource, _provider, context),
       header: const Text(
-        "Lista de Pacientes del Sistema",
+        "Lista de Pacientes",
         style: TextStyle(
           fontWeight: FontWeight.bold,
         ),
@@ -187,11 +180,25 @@ class _InternalWidget extends StatelessWidget {
     _provider.sortColumnIndex = colIndex;
   }
 
-  void _details(BuildContext c, Paciente data) async => await showDialog<bool>(
-      context: c, builder: (_) => DialogoVisualizarPaciente(paciente: data));
+  Widget _details(BuildContext c, Paciente data) {
+    return DialogoPaciente(
+      paciente: data,
+      icon: Icons.remove_red_eye,
+      enabled: false,
+      fechaNacimiento: false,
+      labelHeader: 'Visualizar',
+    );
+  }
 
-  void _edit(BuildContext c, Paciente data) async => await showDialog<bool>(
-      context: c, builder: (_) => DialogoEditarPaciente(paciente: data));
+  Widget _edit(BuildContext c, Paciente data) {
+    return DialogoPaciente(
+      paciente: data,
+      labelButton: 'Editar',
+      icon: Icons.edit,
+      fechaNacimiento: false,
+      labelHeader: 'Editar',
+    );
+  }
 
   void _delete(BuildContext c, Paciente data) async => await showDialog<bool>(
       context: c,
@@ -210,6 +217,12 @@ class _InternalWidget extends StatelessWidget {
       Navigator.pushNamed(c, VistaGestionarAgendamiento.route,
           arguments: {'arguments': data});
 
-  void _create(BuildContext c) async => await showDialog<bool>(
-      context: c, builder: (_) => DialogoCrearPaciente());
+  Widget _create(BuildContext c) {
+    return DialogoPaciente(
+      labelButton: 'Crear',
+      icon: Icons.add,
+      fechaNacimiento: true,
+      labelHeader: 'Crear',
+    );
+  }
 }

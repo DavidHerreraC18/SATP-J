@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
 
 import 'package:provider/provider.dart';
-import 'package:satpj_front_end_web/src/model/Notificadores/paciente-practicante_notifier.dart';
+import 'package:satpj_front_end_web/src/model/notificadores/paciente-practicante_notifier.dart';
 import 'package:satpj_front_end_web/src/model/practicante/practicante.dart';
 import 'package:satpj_front_end_web/src/model/practicante/practicante_paciente.dart';
 import 'package:satpj_front_end_web/src/providers/provider_agregar_pacientes-practicantes.dart';
 import 'package:satpj_front_end_web/src/utils/widgets/Barras/toolbar_auxiliar_administrativo.dart';
 import 'package:satpj_front_end_web/src/utils/widgets/Dialogos/dialog_delete.dart';
-import 'package:satpj_front_end_web/src/utils/widgets/FuentesDatos/datatablesource_pacientes-practicantes.dart';
-import 'package:satpj_front_end_web/src/utils/widgets/LoadingWidgets/LoadingWanderingCube.dart';
+import 'package:satpj_front_end_web/src/utils/widgets/fuentes_datos/datatablesource_pacientes-practicantes.dart';
+import 'package:satpj_front_end_web/src/utils/widgets/loading/LoadingWanderingCube.dart';
 import 'package:satpj_front_end_web/src/utils/widgets/custom_paginated_datatable.dart';
 import 'package:satpj_front_end_web/src/views/gestionar_pacientes/dialogo_visualizar_paciente.dart';
 import 'package:satpj_front_end_web/src/views/gestionar_practicantes/dialogo_agregar_paciente-practicante.dart';
@@ -90,7 +90,7 @@ class _InternalWidget extends StatelessWidget {
       ],
       dataColumns: _colGen(_dtSource, _provider, context),
       header: const Text(
-        "Lista de pacientes asignados al practicante",
+        "Lista de Pacientes Asignados al Practicante",
         style: TextStyle(
           fontWeight: FontWeight.bold,
         ),

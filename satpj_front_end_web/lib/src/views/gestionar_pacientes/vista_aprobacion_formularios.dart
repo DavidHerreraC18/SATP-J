@@ -1,18 +1,17 @@
 import 'package:flutter/material.dart';
 
 import 'package:provider/provider.dart';
-import 'package:satpj_front_end_web/src/model/Notificadores/formulario_extra_notifier.dart';
-import 'package:satpj_front_end_web/src/model/Notificadores/formulario_notifier.dart';
+import 'package:satpj_front_end_web/src/model/notificadores/formulario_extra_notifier.dart';
+import 'package:satpj_front_end_web/src/model/notificadores/formulario_notifier.dart';
 import 'package:satpj_front_end_web/src/model/formulario/formulario.dart';
 import 'package:satpj_front_end_web/src/model/formulario/formulario_extra.dart';
 import 'package:satpj_front_end_web/src/utils/tema.dart';
 import 'package:satpj_front_end_web/src/utils/widgets/Barras/toolbar_auxiliar_administrativo.dart';
 import 'package:satpj_front_end_web/src/utils/widgets/Dialogos/dialogo_aprobacion.dart';
 import 'package:satpj_front_end_web/src/utils/widgets/Dialogos/dialogo_preaprobacion.dart';
-import 'package:satpj_front_end_web/src/utils/widgets/FuentesDatos/datatablesource_formulario.dart';
-import 'package:satpj_front_end_web/src/utils/widgets/FuentesDatos/datatablesource_formulario_extra.dart';
-import 'package:satpj_front_end_web/src/utils/widgets/LoadingWidgets/LoadingWanderingCube.dart';
-import 'package:satpj_front_end_web/src/utils/widgets/botones/switch_button.dart';
+import 'package:satpj_front_end_web/src/utils/widgets/fuentes_datos/datatablesource_formulario.dart';
+import 'package:satpj_front_end_web/src/utils/widgets/fuentes_datos/datatablesource_formulario_extra.dart';
+import 'package:satpj_front_end_web/src/utils/widgets/loading/LoadingWanderingCube.dart';
 import 'package:satpj_front_end_web/src/utils/widgets/custom_paginated_datatable.dart';
 
 class VistaAprobacionFormularios extends StatefulWidget {
@@ -134,7 +133,7 @@ class _InternalWidgetPreAprob extends StatelessWidget {
       ],
       dataColumns: _colGen(_dtSource, _provider, context),
       header: const Text(
-        "Lista de usuarios pendientes de aprobación",
+        "Lista de Usuarios Pendientes de Aprobación",
         style: TextStyle(
           fontWeight: FontWeight.bold,
         ),
@@ -277,7 +276,7 @@ class _InternalWidgetAprob extends StatelessWidget {
       ],
       dataColumns: _colGen(_dtSource, _provider, context),
       header: const Text(
-        "Lista de usuarios pendientes de aprobacion",
+        "Lista de Usuarios Pendientes de Aprobación",
         style: TextStyle(
           fontWeight: FontWeight.bold,
         ),

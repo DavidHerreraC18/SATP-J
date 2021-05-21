@@ -79,4 +79,50 @@ class ProviderPreRegistro {
     }
     return _completer.future;
   }
+
+  static Future<List<Formulario>> obtenerFormularioIndividual(
+      String idFormulario) async {
+    final _completer = Completer<List<Formulario>>();
+
+    try {
+      final resp = await http.get(
+          Uri.http(ApiDefinition.url, _path + '/' + idFormulario),
+          headers: ApiDefinition.headerWithoutAuthorization);
+
+      print("RESPUESTA" + resp.body);
+
+      if (resp.statusCode == 200) {
+        final _data = formularioFromJson(resp.body);
+        _completer.complete(_data);
+      }
+    } catch (e) {
+      print(e);
+      _completer.completeError(<Formulario>[]);
+    }
+    return _completer.future;
+  }
+
+  static Future<String> editarFormularioIndividual(
+      Formulario formularioU, Paciente paciente) async {
+    final _completer = Completer<String>();
+
+    try {
+      formularioU.paciente = paciente;
+
+      String formulario = jsonEncode(formularioU.toJson());
+      print("RESPUESTA PREVIA" + formulario.toString());
+
+      final resp = await http.put(
+          Uri.http(ApiDefinition.url, _path + '/' + formularioU.id.toString()),
+          headers: ApiDefinition.headerWithoutAuthorization,
+          body: formulario);
+
+      print("RESPUESTA" + resp.body);
+      _completer.complete("Exito");
+    } catch (e) {
+      print(e);
+      _completer.completeError("Error");
+    }
+    return _completer.future;
+  }
 }

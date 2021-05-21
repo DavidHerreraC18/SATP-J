@@ -1,20 +1,20 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import 'package:satpj_front_end_web/src/model/Notificadores/sesion_notifier.dart';
 import 'package:satpj_front_end_web/src/model/consultorio/consultorio.dart';
+import 'package:satpj_front_end_web/src/model/notificadores/sesion_notifier.dart';
 import 'package:satpj_front_end_web/src/model/paciente/paciente.dart';
 import 'package:satpj_front_end_web/src/model/practicante/practicante.dart';
 import 'package:satpj_front_end_web/src/model/sesion_terapia/sesion_terapia.dart';
+import 'package:satpj_front_end_web/src/providers/provider_administracion_consultorios.dart';
 import 'package:satpj_front_end_web/src/providers/provider_administracion_pacientes.dart';
-import 'package:satpj_front_end_web/src/providers/provider_autenticacion.dart';
 import 'package:satpj_front_end_web/src/utils/tema.dart';
 import 'package:satpj_front_end_web/src/utils/widgets/Barras/toolbar_auxiliar_administrativo.dart';
 import 'package:satpj_front_end_web/src/utils/widgets/Calendarios/CalendarioAgendar.dart';
 import 'package:satpj_front_end_web/src/utils/widgets/Dialogos/dialog_delete.dart';
 import 'package:satpj_front_end_web/src/utils/widgets/Dialogos/fotter_dialog.dart';
 import 'package:satpj_front_end_web/src/utils/widgets/Dialogos/header_dialog.dart';
-import 'package:satpj_front_end_web/src/utils/widgets/FuentesDatos/datatablesource_sesiones_terapia.dart';
-import 'package:satpj_front_end_web/src/utils/widgets/LoadingWidgets/LoadingWanderingCube.dart';
+import 'package:satpj_front_end_web/src/utils/widgets/fuentes_datos/datatablesource_sesiones_terapia.dart';
+import 'package:satpj_front_end_web/src/utils/widgets/loading/LoadingWanderingCube.dart';
 import 'package:satpj_front_end_web/src/views/agendar_citas/dialogo_sesion_terapia.dart';
 import 'package:provider/provider.dart';
 import 'package:satpj_front_end_web/src/utils/widgets/custom_paginated_datatable.dart';
@@ -33,6 +33,7 @@ class _VistaGestionarAgendamientoState
     extends State<VistaGestionarAgendamiento> {
   Paciente paciente = new Paciente();
   Practicante practicante;
+  List<Consultorio> consultorios;
 
   @override
   void initState() {
@@ -44,6 +45,7 @@ class _VistaGestionarAgendamientoState
     practicante =
         await ProviderAdministracionPacientes.traerPracticanteActivoPaciente(
             paciente);
+    consultorios = await ProviderAdministracionConsultorios.traerConsultorios();
     return Future.value("Data download successfully");
     //crearPacienteTemporal();
     //crearSesionTemporal();
@@ -97,9 +99,9 @@ class _VistaGestionarAgendamientoState
               body: ChangeNotifierProvider<SesionNotifier>(
                 create: (_) => SesionNotifier(paciente: this.paciente),
                 child: _InternalWidget(
-                  paciente: this.paciente,
-                  practicante: this.practicante,
-                ),
+                    paciente: this.paciente,
+                    practicante: this.practicante,
+                    consultorios: this.consultorios),
               ),
             );
           }
@@ -110,11 +112,13 @@ class _VistaGestionarAgendamientoState
 }
 
 class _InternalWidget extends StatelessWidget {
-  const _InternalWidget({this.paciente, this.practicante, Key key})
+  const _InternalWidget(
+      {this.paciente, this.practicante, this.consultorios, Key key})
       : super(key: key);
 
   final Paciente paciente;
   final Practicante practicante;
+  final List<Consultorio> consultorios;
 
   @override
   Widget build(BuildContext context) {
@@ -132,7 +136,11 @@ class _InternalWidget extends StatelessWidget {
                 height: 10,
               ),
               Text(
-                "El Paciente no tiene Sesiones actualmente haga clic para crear una",
+                "El Paciente no tiene sesiones de terapia actualmente haga clic para crear una",
+                style: TextStyle(fontSize: 25.0),
+              ),
+              Text(
+                "Haga clic para crear una",
                 style: TextStyle(fontSize: 25.0),
               ),
               SizedBox(
@@ -144,7 +152,7 @@ class _InternalWidget extends StatelessWidget {
                   shape: CircleBorder(),
                 ),
                 child: IconButton(
-                  icon: Icon(Icons.home),
+                  icon: Icon(Icons.add),
                   color: Colors.white,
                   onPressed: () {
                     showDialog(
@@ -288,14 +296,17 @@ class _InternalWidget extends StatelessWidget {
     );
   }*/
 
-  void _showEditDialog(BuildContext c, SesionTerapia data) async =>
-      await showDialog<bool>(
-          context: c,
-          builder: (_) => DialogoAgendarSesionTerapia(
-                paciente: paciente,
-                sesion: data,
-                labelConfirmBtn: 'Editar',
-              ));
+  void _showEditDialog(BuildContext c, SesionTerapia data) async {
+    await showDialog<bool>(
+        context: c,
+        builder: (_) => DialogoAgendarSesionTerapia(
+              pacienteSesion: paciente,
+              practicanteAsignado: practicante,
+              sesionTerapia: data,
+              consultorios: consultorios,
+              labelConfirmBtn: 'Editar',
+            ));
+  }
 
   void _showDeleteDialog(BuildContext c, SesionTerapia data) async =>
       await showDialog<bool>(

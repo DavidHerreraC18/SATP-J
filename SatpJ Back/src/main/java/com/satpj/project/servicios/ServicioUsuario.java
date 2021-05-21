@@ -6,6 +6,8 @@ import java.util.List;
 import com.google.api.client.util.Preconditions;
 import com.satpj.project.modelo.alerta.AlertaUsuario;
 import com.satpj.project.modelo.horario.Horario;
+import com.satpj.project.modelo.sesion_terapia.SesionTerapia;
+import com.satpj.project.modelo.sesion_terapia.SesionTerapiaActual;
 import com.satpj.project.modelo.sesion_terapia.SesionUsuario;
 import com.satpj.project.modelo.usuario.RepositorioUsuario;
 import com.satpj.project.modelo.usuario.Usuario;
@@ -78,6 +80,22 @@ public class ServicioUsuario {
         Usuario usuario = repositorioUsuario.findById(id).get();
         Preconditions.checkNotNull(usuario);
         return usuario.getSesiones();
+    }
+
+    /*
+     * La funcion findSesionePosible tiene el proposito de encontrar si actualmente 
+     * hay un sesión de terapia 
+     */
+    @GetMapping(value = "/sesiones-posible/{id}", produces = "application/json; charset=UTF-8")
+    public SesionTerapiaActual findSesionePosibles(@AuthenticationPrincipal CustomPrincipal customPrincipal, @PathVariable("id") String id,@RequestBody SesionTerapiaActual sesion) {
+        List<SesionUsuario> sesionesUsuario = this.findSesionesByUsuarioId(customPrincipal,id);
+        for(SesionUsuario sU: sesionesUsuario){
+            SesionTerapia sT = sU.getSesionTerapia();
+            if(sT.getFecha().isEqual(sesion.getFecha())){
+                sesion.setPosible(true);
+            }
+        }
+        return sesion;
     }
 
     /*

@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 
 import 'package:provider/provider.dart';
-import 'package:satpj_front_end_web/src/model/Notificadores/pacientes_notifier.dart';
+import 'package:satpj_front_end_web/src/model/notificadores/pacientes_notifier.dart';
 import 'package:satpj_front_end_web/src/model/paciente/paciente.dart';
 import 'package:satpj_front_end_web/src/providers/provider_autenticacion.dart';
 import 'package:satpj_front_end_web/src/utils/widgets/Barras/toolbar_supervisor.dart';
-import 'package:satpj_front_end_web/src/utils/widgets/FuentesDatos/datatablesource_pacientes_visualizar.dart';
-import 'package:satpj_front_end_web/src/utils/widgets/LoadingWidgets/LoadingWanderingCube.dart';
+import 'package:satpj_front_end_web/src/utils/widgets/fuentes_datos/datatablesource_pacientes_visualizar.dart';
+import 'package:satpj_front_end_web/src/utils/widgets/loading/LoadingWanderingCube.dart';
 import 'package:satpj_front_end_web/src/utils/widgets/custom_paginated_datatable.dart';
 import 'package:satpj_front_end_web/src/views/gestionar_pacientes/dialogo_visualizar_paciente.dart';
 
@@ -65,7 +65,7 @@ class _InternalWidget extends StatelessWidget {
       ],
       dataColumns: _colGen(_dtSource, _provider, context),
       header: const Text(
-        "Lista de Pacientes del Sistema",
+        "Lista de Pacientes",
         style: TextStyle(
           fontWeight: FontWeight.bold,
         ),

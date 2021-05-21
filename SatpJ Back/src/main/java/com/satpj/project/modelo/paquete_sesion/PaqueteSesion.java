@@ -37,7 +37,7 @@ public class PaqueteSesion {
     @Column(name = "paquete_sesion_id")
     private Long id;
 
-    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @ManyToOne(cascade = CascadeType.MERGE, fetch = FetchType.EAGER)
     @JoinColumn(name = "paciente_id", nullable = false)
     private Paciente paciente;
 

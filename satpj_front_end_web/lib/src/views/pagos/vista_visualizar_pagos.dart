@@ -5,9 +5,8 @@ import 'package:satpj_front_end_web/src/model/paciente/paciente.dart';
 import 'package:satpj_front_end_web/src/model/paquete_sesion/paquete_sesion.dart';
 import 'package:satpj_front_end_web/src/model/supervisor/supervisor.dart';
 import 'package:satpj_front_end_web/src/utils/widgets/Barras/toolbar_auxiliar_administrativo.dart';
-import 'package:satpj_front_end_web/src/utils/widgets/FuentesDatos/datatablesource_comprobantes_pagos.dart';
+import 'package:satpj_front_end_web/src/utils/widgets/fuentes_datos/datatablesource_comprobantes_pagos.dart';
 import 'package:provider/provider.dart';
-import 'package:satpj_front_end_web/src/utils/widgets/LoadingWidgets/LoadingWanderingCube.dart';
 import 'package:satpj_front_end_web/src/utils/widgets/custom_paginated_datatable.dart';
 import 'package:satpj_front_end_web/src/views/gestionar_pacientes/dialogo_visualizar_paciente.dart';
 
@@ -80,7 +79,7 @@ class _InternalWidget extends StatelessWidget {
     //final _model = comprobantes;
 
     if (_model.isEmpty) {
-      return LoadingWanderingCube();
+      return const SizedBox.shrink();
     }
     final _dtSource = ComprobantesPagosDataTableSource(
       onRowSelectView: (index) => _showViewDialog(context, _model[index]),

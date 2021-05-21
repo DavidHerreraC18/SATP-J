@@ -44,14 +44,14 @@ class ProviderGestionPagos{
     
     try {
       
-      String paquete = jsonEncode(paqueteNuevo.toJson());
-      print("RESPUESTA PREVIA" + paquete.toString());
+      String paqueteSesion = jsonEncode(paqueteNuevo.toJson());
+      print("RESPUESTA PREVIA" + paqueteSesion.toString());
 
       ApiDefinition.header["Authorization"] =
           "Bearer " + await ProviderAuntenticacion.extractToken();
-
-      final resp = await http.post(Uri.http(ApiDefinition.url, _pathComprobantes),
-          headers: ApiDefinition.header, body: paquete);
+      print(ApiDefinition.url+_pathPaquetes);
+      final resp = await http.post(Uri.http(ApiDefinition.url, _pathPaquetes),
+          headers: ApiDefinition.header, body: paqueteSesion);
 
       print("RESPUESTA" + resp.body);
       _completer.complete("Exito");

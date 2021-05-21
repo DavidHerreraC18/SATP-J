@@ -44,6 +44,13 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 @RequestMapping("sesionterapias")
 public class ServicioSesionTerapia {
 
+
+    @Autowired
+    private ServicioPaciente servicioPaciente;
+
+    @Autowired
+    private ServicioAuxiliarAdministrativo servicioAuxiliarAdministrativo;
+
     @Autowired
     private RepositorioSesionTerapia repositorioSesionTerapia;
 
@@ -52,12 +59,6 @@ public class ServicioSesionTerapia {
 
     @Autowired
     private ServicioUsuario servicioUsuario;
-
-    @Autowired
-    private ServicioPaciente servicioPaciente;
-
-    @Autowired
-    private ServicioAuxiliarAdministrativo servicioAuxiliarAdministrativo;
 
     @GetMapping(produces = "application/json; charset=UTF-8")
     public List<SesionTerapia> findAllSesionesTerapia(@AuthenticationPrincipal CustomPrincipal customPrincipal) {
@@ -78,12 +79,7 @@ public class ServicioSesionTerapia {
     @GetMapping(value = "/{id}", produces = "application/json; charset=UTF-8")
     public SesionTerapia findSesionTerapiaById(@AuthenticationPrincipal CustomPrincipal customPrincipal, @PathVariable("id") Long id) {
         return repositorioSesionTerapia.findById(id).get();
-    }
-
-    @GetMapping(value = "/fechas", produces = "application/json; charset=UTF-8")
-    public List<SesionTerapia> findSesionTerapiaByFecha(@AuthenticationPrincipal CustomPrincipal customPrincipal, @RequestBody LocalDateTime dateTime) {
-        return repositorioSesionTerapia.findByFecha(dateTime);
-    }
+    };
 
     @GetMapping(value = "/{idSesion}/{idUsuario}", produces = "application/json; charset=UTF-8")
     public SesionUsuario findSesionUsuarioById(@AuthenticationPrincipal CustomPrincipal customPrincipal, @PathVariable("idSesion") Long idSesion,
@@ -94,10 +90,16 @@ public class ServicioSesionTerapia {
         return repositorioSesionUsuario.findById(llaveSesionUsuario).get();
     }
 
-    @GetMapping(value = "/usuario/{idUsuario}", produces = "application/json; charset=UTF-8")
-    public List<SesionUsuario> findSesionUsuarioByUsuarioId(@AuthenticationPrincipal CustomPrincipal customPrincipal,@PathVariable("idUsuario") String idUsuario) {
-        List<SesionUsuario> sesionesUsuario = repositorioSesionUsuario.findByIdUsuarioId(idUsuario);
-        return sesionesUsuario;
+    @GetMapping(value = "/sesiones-posibles/{id}", produces = "application/json; charset=UTF-8")
+    public SesionTerapiaActual findSesionTerapiaActualById(@AuthenticationPrincipal CustomPrincipal customPrincipal, @PathVariable("id") String id, @RequestBody SesionTerapiaActual sesionTerapiaActual) {
+        List<SesionUsuario> sesionesUsuario = servicioUsuario.findSesionesByUsuarioId(customPrincipal, id);
+        for(SesionUsuario sUsuario: sesionesUsuario){
+            SesionTerapia sT = sUsuario.getSesionTerapia();
+            if(sT.getFecha().isEqual(sesionTerapiaActual.getFecha())){
+                sesionTerapiaActual.setPosible(true);
+            }
+        }
+        return sesionTerapiaActual;
     }
 
     @PostMapping
@@ -105,6 +107,58 @@ public class ServicioSesionTerapia {
     public SesionTerapia createSesionTerapia(@AuthenticationPrincipal CustomPrincipal customPrincipal, @RequestBody SesionTerapia sesionTerapia) {
         Preconditions.checkNotNull(sesionTerapia);
         return repositorioSesionTerapia.save(sesionTerapia);
+    }
+
+    @PutMapping(value = "/{id}")
+    @ResponseStatus(HttpStatus.OK)
+    public void updateSesionTerapia(@AuthenticationPrincipal CustomPrincipal customPrincipal, @PathVariable("id") Long id, @RequestBody SesionTerapia sesionTerapia) {
+        Preconditions.checkNotNull(sesionTerapia);
+
+        SesionTerapia stActualizar = repositorioSesionTerapia.findById(sesionTerapia.getId()).get();
+
+        Preconditions.checkNotNull(stActualizar);
+        stActualizar.setConsultorio(sesionTerapia.getConsultorio());
+        stActualizar.setFecha(sesionTerapia.getFecha());
+        stActualizar.setPaqueteSesion(sesionTerapia.getPaqueteSesion());
+        stActualizar.setVirtual(sesionTerapia.isVirtual());
+
+        repositorioSesionTerapia.save(stActualizar);
+    }
+
+    @DeleteMapping(value = "/{id}")
+    @ResponseStatus(HttpStatus.OK)
+    public void deleteSesionTerapia(@AuthenticationPrincipal CustomPrincipal customPrincipal, @PathVariable("id") Long id) {
+        SesionTerapia sesionTerapia = repositorioSesionTerapia.findById(id).get();
+        Preconditions.checkNotNull(sesionTerapia);
+
+        List<SesionUsuario> sesionesUsuario = sesionTerapia.getSesiones();
+        for (SesionUsuario sesionUsuario : sesionesUsuario) {
+            deleteSesionUsuario(customPrincipal, sesionUsuario.getId().getSesion_terapia_id(), sesionUsuario.getId().getUsuarioId());
+        }
+
+        repositorioSesionTerapia.deleteById(id);
+    }
+
+    @DeleteMapping(value = "{idSesion}/{idUsuario}")
+    @ResponseStatus(HttpStatus.OK)
+    public void deleteSesionUsuario(@AuthenticationPrincipal CustomPrincipal customPrincipal, @PathVariable("idSesion") Long idSesion,
+            @PathVariable("idUsuario") String idUsuario) {
+        SesionUsuario sesionUsuario = this.findSesionUsuarioById(customPrincipal, idSesion, idUsuario);
+        Preconditions.checkNotNull(sesionUsuario);
+
+        repositorioSesionUsuario.deleteById(sesionUsuario.getId());
+    }
+
+
+    @GetMapping(value = "/fechas", produces = "application/json; charset=UTF-8")
+    public List<SesionTerapia> findSesionTerapiaByFecha(@AuthenticationPrincipal CustomPrincipal customPrincipal, @RequestBody LocalDateTime dateTime) {
+        return repositorioSesionTerapia.findByFecha(dateTime);
+    }
+
+    @GetMapping(value = "/usuario/{idUsuario}", produces = "application/json; charset=UTF-8")
+    public List<SesionUsuario> findSesionUsuarioByUsuarioId(@AuthenticationPrincipal CustomPrincipal customPrincipal,@PathVariable("idUsuario") String idUsuario) {
+        List<SesionUsuario> sesionesUsuario = repositorioSesionUsuario.findByIdUsuarioId(idUsuario);
+        return sesionesUsuario;
     }
 
     @PostMapping(value = "/usuarios")
@@ -188,46 +242,6 @@ public class ServicioSesionTerapia {
         }
         return null;
         
-    }
-
-    @PutMapping(value = "/{id}")
-    @ResponseStatus(HttpStatus.OK)
-    public void updateSesionTerapia(@AuthenticationPrincipal CustomPrincipal customPrincipal, @PathVariable("id") Long id, @RequestBody SesionTerapia sesionTerapia) {
-        Preconditions.checkNotNull(sesionTerapia);
-
-        SesionTerapia stActualizar = repositorioSesionTerapia.findById(sesionTerapia.getId()).get();
-
-        Preconditions.checkNotNull(stActualizar);
-        stActualizar.setConsultorio(sesionTerapia.getConsultorio());
-        stActualizar.setFecha(sesionTerapia.getFecha());
-        stActualizar.setPaqueteSesion(sesionTerapia.getPaqueteSesion());
-        stActualizar.setVirtual(sesionTerapia.isVirtual());
-
-        repositorioSesionTerapia.save(stActualizar);
-    }
-
-    @DeleteMapping(value = "/{id}")
-    @ResponseStatus(HttpStatus.OK)
-    public void deleteSesionTerapia(@AuthenticationPrincipal CustomPrincipal customPrincipal, @PathVariable("id") Long id) {
-        SesionTerapia sesionTerapia = repositorioSesionTerapia.findById(id).get();
-        Preconditions.checkNotNull(sesionTerapia);
-
-        List<SesionUsuario> sesionesUsuario = sesionTerapia.getSesiones();
-        for (SesionUsuario sesionUsuario : sesionesUsuario) {
-            deleteSesionUsuario(customPrincipal, sesionUsuario.getId().getSesion_terapia_id(), sesionUsuario.getId().getUsuarioId());
-        }
-
-        repositorioSesionTerapia.deleteById(id);
-    }
-
-    @DeleteMapping(value = "/{idSesion}/{idUsuario}")
-    @ResponseStatus(HttpStatus.OK)
-    public void deleteSesionUsuario(@AuthenticationPrincipal CustomPrincipal customPrincipal, @PathVariable("idSesion") Long idSesion,
-            @PathVariable("idUsuario") String idUsuario) {
-        SesionUsuario sesionUsuario = this.findSesionUsuarioById(customPrincipal, idSesion, idUsuario);
-        Preconditions.checkNotNull(sesionUsuario);
-
-        repositorioSesionUsuario.deleteById(sesionUsuario.getId());
     }
 
 }

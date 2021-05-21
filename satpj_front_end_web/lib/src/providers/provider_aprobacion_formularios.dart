@@ -40,6 +40,37 @@ class ProviderAprobacionFormularios {
     return _completer.future;
   }
 
+  static Future<Formulario> traerFormularioPacienteId(String pacienteId) async {
+    //
+    final _completer = Completer<Formulario>();
+
+    try {
+      //ProviderAuntenticacion.extractToken();
+      Map<String, String> headers = {
+        "Authorization":
+            "Bearer " + await ProviderAuntenticacion.extractToken(),
+        "Cache-Control": "no-cache",
+        "Accept": "*/*",
+        "Accept-Encoding": "gzip, deflate, br",
+        "Connection": "keep-alive",
+        'Content-Type': 'application/json; charset=UTF-8',
+      };
+      final resp = await http.get(
+          Uri.http(_url, "/pacientes/" + pacienteId + "/formulario"),
+          headers: headers);
+      print("JSON RECIBIDO" + resp.body);
+      if (resp.statusCode == 200) {
+        final _data = singleFormularioFromJson(resp.body);
+        _completer.complete(_data);
+      }
+    } catch (exc) {
+      print("Error en provider" + exc);
+      _completer.completeError(<Formulario>[]);
+    }
+
+    return _completer.future;
+  }
+
   static Future<String> preAprobarPaciente(Formulario formulario) async {
     final _completer = Completer<String>();
     Paciente paciente = formulario.paciente;

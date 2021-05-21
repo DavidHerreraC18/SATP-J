@@ -10,6 +10,7 @@ import 'package:satpj_front_end_web/src/utils/widgets/Barras/toolbar_paciente.da
 import 'package:satpj_front_end_web/src/utils/widgets/botones/button_forms.dart';
 import 'package:satpj_front_end_web/src/utils/widgets/formularios/tema_formularios.dart';
 import 'package:satpj_front_end_web/src/utils/widgets/inputs/rounded_text_field.dart';
+import 'package:satpj_front_end_web/src/utils/widgets/loading/LoadingWanderingCube.dart';
 
 final registroPago = ComprobantePago();
 
@@ -114,7 +115,7 @@ class _FormularioRegistroPagoState extends State<FormularioRegistroPago> {
       future: inicializarPaqueteSesiones(),
       builder: (BuildContext context, AsyncSnapshot<String> snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
-          return Text('Time to Die');
+          return LoadingWanderingCube();
         } else {
           if (snapshot.hasError)
             return Center(child: Text('Error: ${snapshot.error}'));
@@ -241,8 +242,9 @@ class _FormularioRegistroPagoState extends State<FormularioRegistroPago> {
                               color: kPrimaryColor,
                               route: VistaRegistroPago.route,
                               providerFunction: () {
-                                comprobantePago.valorTotal =
-                                    double.parse(textControllerTotal.text.substring(0, textControllerTotal.text.length - 4));
+                                comprobantePago.valorTotal = double.parse(
+                                    textControllerTotal.text.substring(0,
+                                        textControllerTotal.text.length - 4));
                                 ProviderGestionPagos
                                     .crearComprobantePagoPaciente(
                                         comprobantePago);

@@ -3,6 +3,7 @@ import 'dart:ui';
 import 'package:date_time_picker/date_time_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
+import 'package:satpj_front_end_web/src/constants.dart';
 import 'package:satpj_front_end_web/src/model/consultorio/consultorio.dart';
 import 'package:satpj_front_end_web/src/model/horario/horario.dart';
 import 'package:satpj_front_end_web/src/model/paciente/paciente.dart';
@@ -13,7 +14,7 @@ import 'package:satpj_front_end_web/src/model/sesion_terapia/sesion_usuario.dart
 import 'package:satpj_front_end_web/src/providers/provider_sesiones_terapia.dart';
 import 'package:satpj_front_end_web/src/utils/tema.dart';
 import 'package:satpj_front_end_web/src/utils/validators/validadores-input.dart';
-import 'package:satpj_front_end_web/src/utils/widgets/Calendarios/CustomAppointment.dart';
+import 'package:satpj_front_end_web/src/utils/widgets/calendarios/CustomAppointment.dart';
 import 'package:satpj_front_end_web/src/utils/widgets/Dialogos/fotter_dialog.dart';
 import 'package:satpj_front_end_web/src/utils/widgets/Dialogos/header_dialog.dart';
 import 'package:satpj_front_end_web/src/utils/widgets/formularios/tema_formularios.dart';
@@ -22,21 +23,19 @@ import 'package:syncfusion_flutter_calendar/calendar.dart';
 
 class DialogoAgendarSesionTerapia extends StatefulWidget {
   DialogoAgendarSesionTerapia(
-      {@required Paciente paciente,
-      SesionTerapia sesion,
-      Practicante practicante,
+      {@required this.pacienteSesion,
+      @required this.sesionTerapia,
+      @required this.practicanteAsignado,
+      @required this.consultorios,
       this.horario,
       this.selectedAppointment,
       this.sesionesTerapia,
       this.events,
       this.funcionActualizar,
-      String labelConfirmBtn = 'Crear'}) {
-    pacienteSesion = paciente;
-    practicanteAsignado = practicante;
-    sesionTerapia = sesion;
-    labelConfirmB = labelConfirmBtn;
-  }
+      String labelConfirmBtn = 'Crear'});
   final List<SesionTerapia> sesionesTerapia;
+
+  final List<Consultorio> consultorios;
 
   final CustomAppointment selectedAppointment;
 
@@ -46,20 +45,26 @@ class DialogoAgendarSesionTerapia extends StatefulWidget {
 
   final Horario horario;
 
+  final Paciente pacienteSesion;
+
+  final Practicante practicanteAsignado;
+
+  final SesionTerapia sesionTerapia;
+
   @override
   _DialogoAgendarSesionTerapiaState createState() =>
       _DialogoAgendarSesionTerapiaState();
 }
 
-Paciente pacienteSesion = new Paciente();
-Practicante practicanteAsignado = new Practicante();
-SesionTerapia sesionTerapia;
-String labelConfirmB;
-
 class _DialogoAgendarSesionTerapiaState
     extends State<DialogoAgendarSesionTerapia> {
   bool virtual = false;
   bool presencial = false;
+
+  List<String> consultoriosNombres;
+  List<DropdownMenuItem<String>> _dropDownMenuItems;
+  String _consultorioNombreActual;
+  Consultorio _consultorioActual;
 
   GlobalKey<FormState> _formKey = new GlobalKey<FormState>();
 
@@ -91,20 +96,30 @@ class _DialogoAgendarSesionTerapiaState
     virtual = false;
     presencial = false;
     selectedTime = TimeOfDay(hour: 00, minute: 0);
+    consultoriosNombres = [];
+    if (widget.consultorios.isNotEmpty) {
+      for (int i = 0; i < widget.consultorios.length; i++) {
+        consultoriosNombres.add(widget.consultorios[i].consultorio + "");
+      }
+      _consultorioNombreActual = consultoriosNombres[0];
+      _consultorioActual = widget.consultorios[0];
+      _dropDownMenuItems = getDropDownMenuItems();
+    }
 
     textControllerConsultorio = TextEditingController();
 
-    if (sesionTerapia != null) {
+    if (widget.sesionTerapia != null) {
       textControllerFechaSesion = TextEditingController(
           text: widget.selectedAppointment.startTime.toString());
-      virtual = sesionTerapia.virtual;
-      presencial = !sesionTerapia.virtual;
+      virtual = widget.sesionTerapia.virtual;
+      presencial = !widget.sesionTerapia.virtual;
 
       if (virtual)
-        textControllerConsultorioVirtual =
-            TextEditingController(text: sesionTerapia.consultorio.consultorio);
+        textControllerConsultorioVirtual = TextEditingController(
+            text: widget.sesionTerapia.consultorio.consultorio);
       else
-        textControllerConsultorio.text = sesionTerapia.consultorio.consultorio;
+        textControllerConsultorio.text =
+            widget.sesionTerapia.consultorio.consultorio;
     } else {
       textControllerFechaSesion = TextEditingController(
           text: widget.selectedAppointment.startTime.toString());
@@ -112,13 +127,21 @@ class _DialogoAgendarSesionTerapiaState
     }
 
     textControllerPaciente = TextEditingController(
-        text: pacienteSesion.nombre + ' ' + pacienteSesion.apellido);
-    textControllerPracticante = TextEditingController(
-        text: practicanteAsignado.nombre + ' ' + practicanteAsignado.apellido);
-    textControllerSupervisor = TextEditingController(
-        text: pacienteSesion.supervisor.nombre +
+        text: widget.pacienteSesion.nombre +
             ' ' +
-            pacienteSesion.supervisor.apellido);
+            widget.pacienteSesion.apellido);
+    textControllerPracticante = TextEditingController(
+        text: widget.practicanteAsignado.nombre +
+            ' ' +
+            widget.practicanteAsignado.apellido);
+    if (widget.pacienteSesion.supervisor != null) {
+      textControllerSupervisor = TextEditingController(
+          text: widget.pacienteSesion.supervisor.nombre +
+              ' ' +
+              widget.pacienteSesion.supervisor.apellido);
+    } else {
+      textControllerSupervisor = TextEditingController(text: 'No asignado');
+    }
 
     textFocusNodeFechaSesion = FocusNode();
     textFocusNodeHoraSesion = FocusNode();
@@ -129,6 +152,26 @@ class _DialogoAgendarSesionTerapiaState
     textFocusNodeConsultorioVirtual = FocusNode();
 
     super.initState();
+  }
+
+  List<DropdownMenuItem<String>> getDropDownMenuItems() {
+    List<DropdownMenuItem<String>> items = [];
+    for (String consult in consultoriosNombres) {
+      items.add(new DropdownMenuItem(value: consult, child: new Text(consult)));
+    }
+    return items;
+  }
+
+  void changedDropDownItem(String selectedSup) {
+    setState(() {
+      _consultorioNombreActual = selectedSup;
+      for (int i = 0; i < consultoriosNombres.length; i++) {
+        if (consultoriosNombres[i] == _consultorioNombreActual) {
+          _consultorioActual = widget.consultorios[i];
+          i = consultoriosNombres.length;
+        }
+      }
+    });
   }
 
   @override
@@ -303,13 +346,11 @@ class _DialogoAgendarSesionTerapiaState
                               enabled: false,
                             ),
                           if (presencial)
-                            RoundedTextFieldValidators(
-                              textFocusNode: textFocusNodeConsultorio,
-                              textController: textControllerConsultorio,
-                              textInputType: TextInputType.text,
-                              isEditing: false,
-                              validate: () {},
-                              enabled: true,
+                            DropdownButtonFormField(
+                              decoration: inputDecoration(),
+                              value: _consultorioNombreActual,
+                              items: _dropDownMenuItems,
+                              onChanged: changedDropDownItem,
                             ),
                           SizedBox(
                             height: 20.0,
@@ -317,7 +358,7 @@ class _DialogoAgendarSesionTerapiaState
                         ],
                       ),
                     ),
-                    (sesionTerapia != null)
+                    (widget.sesionTerapia != null)
                         ? FotterDialog(
                             labelCancelBtn: 'Regresar',
                             labelConfirmBtn: "Cancelar Cita",
@@ -336,14 +377,14 @@ class _DialogoAgendarSesionTerapiaState
                               }
                               if (widget.sesionesTerapia.isNotEmpty &&
                                   widget.sesionesTerapia
-                                      .contains(sesionTerapia)) {
+                                      .contains(widget.sesionTerapia)) {
                                 int indexActualizar = widget.sesionesTerapia
-                                    .indexOf(sesionTerapia);
+                                    .indexOf(widget.sesionTerapia);
                                 widget.sesionesTerapia.removeAt(widget
                                     .sesionesTerapia
-                                    .indexOf(sesionTerapia));
+                                    .indexOf(widget.sesionTerapia));
                                 ProviderSesionesTerapia.eliminarSesionTerapia(
-                                    sesionTerapia.id);
+                                    widget.sesionTerapia.id);
                                 for (int i = 0;
                                     i < widget.events.appointments.length;
                                     i++) {
@@ -356,11 +397,11 @@ class _DialogoAgendarSesionTerapiaState
                                 }
                               }
                               DateTime newStartTime = new DateTime(
-                                  sesionTerapia.fecha.year,
-                                  sesionTerapia.fecha.month,
-                                  sesionTerapia.fecha.day,
-                                  sesionTerapia.fecha.hour,
-                                  sesionTerapia.fecha.minute);
+                                  widget.sesionTerapia.fecha.year,
+                                  widget.sesionTerapia.fecha.month,
+                                  widget.sesionTerapia.fecha.day,
+                                  widget.sesionTerapia.fecha.hour,
+                                  widget.sesionTerapia.fecha.minute);
                               DateTime newEndTime =
                                   newStartTime.add(new Duration(hours: 1));
                               print(widget.events.appointments.length);
@@ -410,10 +451,10 @@ class _DialogoAgendarSesionTerapiaState
                               }
                               if (widget.sesionesTerapia.isNotEmpty &&
                                   widget.sesionesTerapia
-                                      .contains(sesionTerapia)) {
+                                      .contains(widget.sesionTerapia)) {
                                 widget.sesionesTerapia.removeAt(widget
                                     .sesionesTerapia
-                                    .indexOf(sesionTerapia));
+                                    .indexOf(widget.sesionTerapia));
                               }
 
                               DateTime fecha = new DateTime(
@@ -426,17 +467,17 @@ class _DialogoAgendarSesionTerapiaState
                                 fecha: fecha,
                                 virtual: virtual,
                                 consultorio: (virtual)
-                                    ? new Consultorio(consultorio: "")
+                                    ? _consultorioActual
                                     : textControllerConsultorio.text,
                               );
                               widget.sesionesTerapia.add(nueva);
                               SesionTerapia sesionTerapiaNueva =
                                   await ProviderSesionesTerapia
-                                      .crearSesionTerapia(sesionTerapia);
+                                      .crearSesionTerapia(widget.sesionTerapia);
                               LlaveSesionUsuario nuevaLlave =
                                   new LlaveSesionUsuario(
                                       sesion_terapia_id: sesionTerapiaNueva.id,
-                                      usuarioId: pacienteSesion.id);
+                                      usuarioId: widget.pacienteSesion.id);
                               SesionUsuario nuevaSesionUsuario =
                                   new SesionUsuario(id: nuevaLlave);
                               ProviderSesionesTerapia.crearSesionUsuario(

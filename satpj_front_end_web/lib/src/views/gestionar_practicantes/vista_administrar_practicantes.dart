@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 
 import 'package:provider/provider.dart';
-import 'package:satpj_front_end_web/src/model/Notificadores/practicantes_notifier.dart';
+import 'package:satpj_front_end_web/src/model/notificadores/practicantes_notifier.dart';
 import 'package:satpj_front_end_web/src/model/practicante/practicante.dart';
 import 'package:satpj_front_end_web/src/providers/provider_administracion_practicantes.dart';
 import 'package:satpj_front_end_web/src/utils/widgets/Barras/toolbar_auxiliar_administrativo.dart';
 import 'package:satpj_front_end_web/src/utils/widgets/Dialogos/dialog_delete.dart';
-import 'package:satpj_front_end_web/src/utils/widgets/FuentesDatos/datatablesource_practicantes.dart';
-import 'package:satpj_front_end_web/src/utils/widgets/LoadingWidgets/LoadingWanderingCube.dart';
+import 'package:satpj_front_end_web/src/utils/widgets/fuentes_datos/datatablesource_practicantes.dart';
+import 'package:satpj_front_end_web/src/utils/widgets/loading/LoadingWanderingCube.dart';
 import 'package:satpj_front_end_web/src/utils/widgets/custom_paginated_datatable.dart';
 import 'package:satpj_front_end_web/src/views/gestionar_practicantes/dialogo_crear_practicante.dart';
 import 'package:satpj_front_end_web/src/views/gestionar_practicantes/dialogo_editar_practicante.dart';
@@ -79,7 +79,7 @@ class _InternalWidget extends StatelessWidget {
       ],
       dataColumns: _colGen(_dtSource, _provider, context),
       header: const Text(
-        "Lista de practicantes del sistema",
+        "Lista de Practicantes",
         style: TextStyle(
           fontWeight: FontWeight.bold,
         ),

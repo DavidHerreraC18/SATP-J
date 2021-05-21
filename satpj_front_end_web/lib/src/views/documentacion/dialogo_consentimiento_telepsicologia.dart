@@ -275,15 +275,20 @@ class SegundaPaginaConsentimientoTelepsicologiaState
                         " expedida en: ",
                     textAlign: TextAlign.justify,
                     style: TextStyle(fontSize: 15)),
-                TextField(
-                  controller: myController,
-                  decoration: InputDecoration(
-                    border: OutlineInputBorder(),
-                    labelText: 'Ingrese Lugar de Expedición de su Documento',
-                    hintText: '',
+                SizedBox(width: 20),
+                Container(
+                  height: 100,
+                  child: TextField(
+                    controller: myController,
+                    decoration: InputDecoration(
+                      border: OutlineInputBorder(),
+                      labelText: 'Ingrese Lugar de Expedición de su Documento',
+                      hintText: '',
+                    ),
+                    autofocus: false,
                   ),
-                  autofocus: false,
                 ),
+                SizedBox(width: 20),
                 Text(
                     "Acepto  participar  en  el  proceso  de  atención  desde  la  telepsicologia",
                     textAlign: TextAlign.justify,
@@ -440,7 +445,7 @@ class TerceraPaginaConsentimientoTelepsicologiaState
                             onPressed: () async {
                               var picked = await FilePicker.platform.pickFiles(
                                 type: FileType.custom,
-                                allowedExtensions: ['jpg', 'png', 'jpeg'],
+                                allowedExtensions: ['png'],
                               );
                               if (picked != null) {
                                 print(picked.files.first.name);

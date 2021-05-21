@@ -18,7 +18,10 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.satpj.project.modelo.paciente.Paciente;
+
+import org.springframework.format.annotation.DateTimeFormat;
 
 /**
  * Entidad documento_paciente Son los documentos que el Consultorio le solicita
@@ -54,10 +57,14 @@ public class DocumentoPaciente {
 
 	@NotNull(message = "La Fecha de Radicacion del Documento es obligatorio")
 	@Column(name = "radicacion", nullable = false)
+	@DateTimeFormat(iso = DateTimeFormat.ISO.TIME)
+	@JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss.SSS")	
 	private LocalDateTime radicacion;
 
 	@NotNull(message = "La Fecha de Vencimiento del Documento es obligatorio")
 	@Column(name = "vencimiento", nullable = true)
+	@DateTimeFormat(iso = DateTimeFormat.ISO.TIME)
+	@JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss.SSS")	
 	private LocalDateTime vencimiento;
 
 }

@@ -2,7 +2,6 @@ package com.satpj.project;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.auth.oauth2.GoogleCredentials;
 import com.google.firebase.FirebaseApp;
 import com.google.firebase.FirebaseOptions;
@@ -13,7 +12,6 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Primary;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.Resource;
-import org.springframework.http.converter.json.Jackson2ObjectMapperBuilder;
 
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -44,13 +42,6 @@ public class SatpJBackApplication{
 		if (FirebaseApp.getApps().isEmpty()) {
 			FirebaseApp.initializeApp(options);
 		}
-	}
-
-	@Bean
-	@Primary
-	public ObjectMapper jacksonObjectMapper(Jackson2ObjectMapperBuilder builder) {
-		ObjectMapper objectMapper = builder.build();
-		return objectMapper;
 	}
 
 }

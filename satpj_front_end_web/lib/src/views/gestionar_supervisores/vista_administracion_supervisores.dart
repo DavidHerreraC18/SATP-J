@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 
 import 'package:provider/provider.dart';
-import 'package:satpj_front_end_web/src/model/Notificadores/supervisores_notifier.dart';
+import 'package:satpj_front_end_web/src/model/notificadores/supervisores_notifier.dart';
 import 'package:satpj_front_end_web/src/model/supervisor/supervisor.dart';
 import 'package:satpj_front_end_web/src/providers/provider_administracion_supervisores.dart';
 import 'package:satpj_front_end_web/src/utils/widgets/Barras/toolbar_auxiliar_administrativo.dart';
 import 'package:satpj_front_end_web/src/utils/widgets/Dialogos/dialog_delete.dart';
-import 'package:satpj_front_end_web/src/utils/widgets/FuentesDatos/datatablesource_supervisores.dart';
-import 'package:satpj_front_end_web/src/utils/widgets/LoadingWidgets/LoadingWanderingCube.dart';
+import 'package:satpj_front_end_web/src/utils/widgets/fuentes_datos/datatablesource_supervisores.dart';
+import 'package:satpj_front_end_web/src/utils/widgets/loading/LoadingWanderingCube.dart';
 import 'package:satpj_front_end_web/src/utils/widgets/custom_paginated_datatable.dart';
 import 'package:satpj_front_end_web/src/views/gestionar_supervisores/dialogo_crear_supervisor.dart';
 import 'package:satpj_front_end_web/src/views/gestionar_supervisores/dialogo_editar_supervisor.dart';
@@ -77,7 +77,7 @@ class _InternalWidget extends StatelessWidget {
       ],
       dataColumns: _colGen(_dtSource, _provider, context),
       header: const Text(
-        "Lista de Supervisores del Sistema",
+        "Lista de Supervisores",
         style: TextStyle(
           fontWeight: FontWeight.bold,
         ),

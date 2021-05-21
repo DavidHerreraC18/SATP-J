@@ -4,6 +4,7 @@ import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:satpj_front_end_web/src/model/documento_paciente/documento_paciente.dart';
 import 'package:satpj_front_end_web/src/model/horario/horario.dart';
+import 'package:satpj_front_end_web/src/model/sesion_terapia/sesion_terapia_actual.dart';
 import 'package:satpj_front_end_web/src/model/usuario/usuario.dart';
 import 'package:satpj_front_end_web/src/providers/provider_autenticacion.dart';
 
@@ -34,6 +35,36 @@ class ProviderAdministracionUsuarios {
     } catch (exc) {
       print("Error en provider" + exc);
       _completer.completeError(<DocumentoPaciente>[]);
+    }
+
+    return _completer.future;
+  }
+
+  static Future<SesionTerapiaActual> obtenerSesionTerapiaActual(
+      String usuarioId) async {
+    final _completer = Completer<SesionTerapiaActual>();
+
+    try {
+      //ProviderAuntenticacion.extractToken();
+      Map<String, String> headers = {
+        "Authorization":
+            "Bearer " + await ProviderAuntenticacion.extractToken(),
+        "Cache-Control": "no-cache",
+        "Accept": "*/*",
+        "Accept-Encoding": "gzip, deflate, br",
+        "Connection": "keep-alive"
+      };
+      final resp = await http.get(
+          Uri.http(_url, "/sesiones-posibles/" + usuarioId),
+          headers: headers);
+      //print("JSON RECIBIDO" + resp.body);
+      if (resp.statusCode == 200) {
+        final _data = singleSesionTerapiaActualFromJson(resp.body);
+        _completer.complete(_data);
+      }
+    } catch (exc) {
+      print("Error en provider" + exc);
+      _completer.completeError(<SesionTerapiaActual>[]);
     }
 
     return _completer.future;

@@ -2,10 +2,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:intl/intl.dart';
-import 'package:satpj_front_end_web/src/model/paciente/paciente.dart';
 import 'package:satpj_front_end_web/src/model/practicante/practicante_horas.dart';
-import 'package:satpj_front_end_web/src/utils/widgets/Pdf/helper/info_acudiente_principal_pdf.dart';
-import 'package:satpj_front_end_web/src/utils/widgets/Pdf/helper/info_paciente_principal_pdf.dart';
 import 'dart:typed_data';
 
 ///Pdf import

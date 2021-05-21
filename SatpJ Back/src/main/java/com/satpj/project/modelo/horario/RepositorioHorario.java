@@ -1,5 +1,9 @@
 package com.satpj.project.modelo.horario;
 
+import java.util.List;
+
+import com.satpj.project.modelo.usuario.Usuario;
+
 import org.springframework.data.jpa.repository.JpaRepository;
 
 /**
@@ -7,5 +11,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
  * Entidad horario
  */
 public interface RepositorioHorario extends JpaRepository<Horario, Long> {
+    
+    List<Horario> findByUsuario(Usuario usuario);
 
 }

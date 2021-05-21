@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:satpj_front_end_web/src/providers/provider_autenticacion.dart';
-import 'package:satpj_front_end_web/src/views/gestionar_pacientes/vista_visualizar_pacientes_grupo.dart';
 import 'package:satpj_front_end_web/src/views/gestionar_perfil/vista_perfil_acudiente.dart';
+import 'package:satpj_front_end_web/src/views/pagos/vista_registro_pago.dart';
+import 'package:satpj_front_end_web/src/views/pagos/vista_registro_paquete_sesion.dart';
 import 'package:satpj_front_end_web/src/views/vista_home.dart';
 
 AppBar toolbarAcudiente(BuildContext context) {
@@ -91,6 +92,21 @@ AppBar toolbarAcudiente(BuildContext context) {
                     // Replace with a Row for horizontal icon + text
                     children: <Widget>[
                       Icon(
+                        Icons.request_page_rounded,
+                        color: Color(0xFF2E5EAA),
+                      ),
+                      SizedBox(width: 2.0),
+                      Text("Registrar Pagos",
+                          style: Theme.of(context).textTheme.bodyText1)
+                    ],
+                  ),
+                ),
+                PopupMenuItem(
+                  value: 5,
+                  child: Row(
+                    // Replace with a Row for horizontal icon + text
+                    children: <Widget>[
+                      Icon(
                         Icons.logout,
                         color: Color(0xFF2E5EAA),
                       ),
@@ -116,10 +132,19 @@ AppBar toolbarAcudiente(BuildContext context) {
                     break;
 
                   case 3:
-                    {}
+                    {
+                      Navigator.pushNamed(
+                          context, VistaRegistroPaquetesSesiones.route);
+                    }
                     break;
 
                   case 4:
+                    {
+                      Navigator.pushNamed(context, VistaRegistroPago.route);
+                    }
+                    break;
+
+                  case 5:
                     {
                       ProviderAuntenticacion.signOut();
                       Navigator.pushNamed(context, "/");

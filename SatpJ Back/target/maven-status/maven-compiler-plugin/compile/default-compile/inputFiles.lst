@@ -8,7 +8,7 @@ C:\Proyecto\SATP-J\SatpJ Back\src\main\java\com\satpj\project\servicios\Servicio
 C:\Proyecto\SATP-J\SatpJ Back\src\main\java\com\satpj\project\servicios\ServicioRegistroPractica.java
 C:\Proyecto\SATP-J\SatpJ Back\src\main\java\com\satpj\project\modelo\informe_pago\RepositorioInformePago.java
 C:\Proyecto\SATP-J\SatpJ Back\src\main\java\com\satpj\project\servicios\ServicioConsultorio.java
-C:\Proyecto\SATP-J\SatpJ Back\src\main\java\com\satpj\project\email\EmailServiceImpl.java
+C:\Proyecto\SATP-J\SatpJ Back\src\main\java\com\satpj\project\email\ServicioEmailImpl.java
 C:\Proyecto\SATP-J\SatpJ Back\src\main\java\com\satpj\project\servicios\ServicioAcudiente.java
 C:\Proyecto\SATP-J\SatpJ Back\src\main\java\com\satpj\project\modelo\horario\RepositorioHorario.java
 C:\Proyecto\SATP-J\SatpJ Back\src\main\java\com\satpj\project\modelo\usuario\Usuario.java
@@ -47,6 +47,7 @@ C:\Proyecto\SATP-J\SatpJ Back\src\main\java\com\satpj\project\modelo\sesion_tera
 C:\Proyecto\SATP-J\SatpJ Back\src\main\java\com\satpj\project\modelo\sesion_terapia\RepositorioSesionUsuario.java
 C:\Proyecto\SATP-J\SatpJ Back\src\main\java\com\satpj\project\seguridad\SecurityConfig.java
 C:\Proyecto\SATP-J\SatpJ Back\src\main\java\com\satpj\project\modelo\grupo\Grupo.java
+C:\Proyecto\SATP-J\SatpJ Back\src\main\java\com\satpj\project\modelo\sesion_terapia\SesionTerapiaActual.java
 C:\Proyecto\SATP-J\SatpJ Back\src\main\java\com\satpj\project\modelo\supervisor\Supervisor.java
 C:\Proyecto\SATP-J\SatpJ Back\src\main\java\com\satpj\project\modelo\comprobante_pago\ComprobantePago.java
 C:\Proyecto\SATP-J\SatpJ Back\src\main\java\com\satpj\project\servicios\ServicioDocumentoPaciente.java

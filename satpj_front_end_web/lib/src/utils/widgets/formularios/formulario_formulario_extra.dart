@@ -9,10 +9,10 @@ import 'package:satpj_front_end_web/src/model/supervisor/supervisor.dart';
 import 'package:satpj_front_end_web/src/providers/provider_administracion_pacientes.dart';
 import 'package:satpj_front_end_web/src/providers/provider_administracion_supervisores.dart';
 import 'package:satpj_front_end_web/src/utils/tema.dart';
-import 'package:satpj_front_end_web/src/utils/widgets/LoadingWidgets/LoadingWanderingCube.dart';
 import 'package:satpj_front_end_web/src/utils/widgets/Pdf/helper/save_file_web.dart';
 import 'package:satpj_front_end_web/src/utils/widgets/formularios/tema_formularios.dart';
 import 'package:satpj_front_end_web/src/utils/widgets/inputs/rounded_text_field.dart';
+import 'package:satpj_front_end_web/src/utils/widgets/loading/LoadingWanderingCube.dart';
 
 class FormFormularioExtraInformation extends StatefulWidget {
   final FormularioExtra formularioExtra;
@@ -372,109 +372,54 @@ class _FormState extends State<FormFormularioExtraInformation> {
                             height: 1,
                           ),
                           Column(
+                            crossAxisAlignment: CrossAxisAlignment.center,
                             children: [
-                              Row(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  Container(
-                                      height: 40.0,
-                                      child: ElevatedButton(
-                                        style: ButtonStyle(
-                                          backgroundColor:
-                                              MaterialStateProperty.all<Color>(
-                                                  kPrimaryColor),
-                                        ),
-                                        onPressed: this._isCompleted
-                                            ? descargarDocumento()
-                                            : null,
-                                        child: Padding(
-                                          padding: EdgeInsets.symmetric(
-                                              horizontal: 20.0),
-                                          child: Text("Ver Documento",
-                                              style: TextStyle(
-                                                  color: Colors.white,
-                                                  fontSize: 18.0,
-                                                  fontWeight:
-                                                      FontWeight.normal)),
-                                        ),
-                                      )),
-                                  Container(
-                                      height: 40.0,
-                                      child: ElevatedButton(
-                                        style: ButtonStyle(
-                                          backgroundColor:
-                                              MaterialStateProperty.all<Color>(
-                                                  kPrimaryColor),
-                                        ),
-                                        onPressed: this._isCompleted
-                                            ? descargarConsentimientoP()
-                                            : null,
-                                        child: Padding(
-                                          padding: EdgeInsets.symmetric(
-                                              horizontal: 20.0),
-                                          child: Text(
-                                              "Ver Consentimiento Principal",
-                                              style: TextStyle(
-                                                  color: Colors.white,
-                                                  fontSize: 18.0,
-                                                  fontWeight:
-                                                      FontWeight.normal)),
-                                        ),
-                                      )),
-                                ],
-                              ),
-                              Row(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  Container(
-                                      height: 40.0,
-                                      child: ElevatedButton(
-                                        style: ButtonStyle(
-                                          backgroundColor:
-                                              MaterialStateProperty.all<Color>(
-                                                  kPrimaryColor),
-                                        ),
-                                        onPressed: this._isCompleted
-                                            ? descargarConsentimientoTP()
-                                            : null,
-                                        child: Padding(
-                                          padding: EdgeInsets.symmetric(
-                                              horizontal: 20.0),
-                                          child: Text(
-                                              "Ver Consentimiento Telepsicología",
-                                              style: TextStyle(
-                                                  color: Colors.white,
-                                                  fontSize: 18.0,
-                                                  fontWeight:
-                                                      FontWeight.normal)),
-                                        ),
-                                      )),
-                                  Container(
-                                      height: 40.0,
-                                      child: ElevatedButton(
-                                        style: ButtonStyle(
-                                          backgroundColor:
-                                              MaterialStateProperty.all<Color>(
-                                                  kPrimaryColor),
-                                        ),
-                                        onPressed: this._isCompleted
-                                            ? descargarRecibo()
-                                            : null,
-                                        child: Padding(
-                                          padding: EdgeInsets.symmetric(
-                                              horizontal: 20.0),
-                                          child: Text("Ver Recibo de Pago",
-                                              style: TextStyle(
-                                                  color: Colors.white,
-                                                  fontSize: 18.0,
-                                                  fontWeight:
-                                                      FontWeight.normal)),
-                                        ),
-                                      )),
-                                ],
-                              ),
+                              Center(
+                                  child: new InkWell(
+                                child: new Text(
+                                  'Ver Documento',
+                                  style: TextStyle(
+                                      color: kPrimaryColor, fontSize: 18.0),
+                                ),
+                                onTap: this._isCompleted
+                                    ? descargarDocumento()
+                                    : null,
+                              )),
+                              Center(
+                                  child: new InkWell(
+                                child: new Text(
+                                  'Ver Consentimiento Principal',
+                                  style: TextStyle(
+                                      color: kPrimaryColor, fontSize: 18.0),
+                                ),
+                                onTap: this._isCompleted
+                                    ? descargarConsentimientoP()
+                                    : null,
+                              )),
+                              Center(
+                                  child: new InkWell(
+                                child: new Text(
+                                  'Ver Consentimiento Telepsicología',
+                                  style: TextStyle(
+                                      color: kPrimaryColor, fontSize: 18.0),
+                                ),
+                                onTap: this._isCompleted
+                                    ? descargarConsentimientoTP()
+                                    : null,
+                              )),
+                              Center(
+                                  child: new InkWell(
+                                child: new Text(
+                                  'Ver Recibo de Pago',
+                                  style: TextStyle(
+                                      color: kPrimaryColor, fontSize: 18.0),
+                                ),
+                                onTap: this._isCompleted
+                                    ? descargarRecibo()
+                                    : null,
+                              )),
                             ],
-                          )
+                          ),
                         ]),
                   ),
                 ),

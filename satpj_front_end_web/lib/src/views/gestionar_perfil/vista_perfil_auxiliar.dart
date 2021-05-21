@@ -5,8 +5,7 @@ import 'package:satpj_front_end_web/src/providers/provider_administracion_auxili
 import 'package:satpj_front_end_web/src/providers/provider_autenticacion.dart';
 import 'package:satpj_front_end_web/src/utils/tema.dart';
 import 'package:satpj_front_end_web/src/utils/widgets/Barras/toolbar_auxiliar_administrativo.dart';
-import 'package:satpj_front_end_web/src/utils/widgets/Barras/toolbar_inicio.dart';
-import 'package:satpj_front_end_web/src/utils/widgets/LoadingWidgets/LoadingWanderingCube.dart';
+import 'package:satpj_front_end_web/src/utils/widgets/loading/LoadingWanderingCube.dart';
 import 'package:satpj_front_end_web/src/utils/widgets/formularios/tema_formularios.dart';
 import 'package:flutter_icons/flutter_icons.dart';
 import 'package:satpj_front_end_web/src/views/gestionar_perfil/vista_editar_auxiliar.dart';

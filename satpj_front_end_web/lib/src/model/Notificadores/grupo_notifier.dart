@@ -3,8 +3,6 @@ import 'package:flutter/material.dart' show PaginatedDataTable;
 import 'package:satpj_front_end_web/src/model/grupo/grupo.dart';
 import 'package:satpj_front_end_web/src/model/paciente/paciente.dart';
 import 'package:satpj_front_end_web/src/providers/provider_administracion_pacientes.dart';
-import 'package:satpj_front_end_web/src/providers/provider_administracion_practicantes.dart';
-import 'package:satpj_front_end_web/src/providers/provider_administracion_supervisores.dart';
 
 class GrupoNotifier with ChangeNotifier {
   String uid;

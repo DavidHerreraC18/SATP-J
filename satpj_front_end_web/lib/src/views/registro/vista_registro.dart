@@ -4,7 +4,7 @@ import 'package:satpj_front_end_web/src/providers/provider_administracion_pacien
 import 'package:satpj_front_end_web/src/providers/provider_autenticacion.dart';
 import 'package:satpj_front_end_web/src/utils/tema.dart';
 import 'package:satpj_front_end_web/src/utils/widgets/Barras/toolbar_paciente_preaprobado.dart';
-import 'package:satpj_front_end_web/src/utils/widgets/LoadingWidgets/LoadingWanderingCube.dart';
+import 'package:satpj_front_end_web/src/utils/widgets/loading/LoadingWanderingCube.dart';
 import 'package:satpj_front_end_web/src/utils/widgets/formularios/formulario_paciente_extra.dart';
 import 'package:satpj_front_end_web/src/utils/widgets/formularios/tema_formularios.dart';
 import 'package:satpj_front_end_web/src/views/documentacion/vista_registro_documentos.dart';

@@ -58,7 +58,7 @@ public class ComprobantePago {
     @Column(name = "fecha", nullable = false)
     private LocalDate fecha;
 
-    @Column(name = "observacion")
+    @Column(name = "observacion", nullable = true)
     private String observacion;
 
 }

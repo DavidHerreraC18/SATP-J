@@ -5,21 +5,22 @@ import 'package:flutter/scheduler.dart';
 import 'package:flutter/foundation.dart';
 import 'package:intl/intl.dart';
 import 'package:flutter/widgets.dart';
+import 'package:satpj_front_end_web/src/model/consultorio/consultorio.dart';
 import 'package:satpj_front_end_web/src/model/horario/horario.dart';
 import 'package:satpj_front_end_web/src/model/paciente/paciente.dart';
 import 'package:satpj_front_end_web/src/model/practicante/practicante.dart';
 import 'package:satpj_front_end_web/src/model/sesion_terapia/sesion_terapia.dart';
 import 'package:satpj_front_end_web/src/model/sesion_terapia/sesion_usuario.dart';
+import 'package:satpj_front_end_web/src/providers/provider_administracion_consultorios.dart';
 import 'package:satpj_front_end_web/src/providers/provider_administracion_usuarios.dart';
 import 'package:satpj_front_end_web/src/providers/provider_sesiones_terapia.dart';
 import 'package:satpj_front_end_web/src/utils/tema.dart';
-import 'package:satpj_front_end_web/src/utils/widgets/LoadingWidgets/LoadingWanderingCube.dart';
+import 'package:satpj_front_end_web/src/utils/widgets/calendarios/CustomAppointment.dart';
+import 'package:satpj_front_end_web/src/utils/widgets/loading/LoadingWanderingCube.dart';
 import 'package:satpj_front_end_web/src/utils/widgets/formularios/tema_formularios.dart';
 import 'package:satpj_front_end_web/src/views/agendar_citas/dialogo_sesion_terapia.dart';
 import 'package:syncfusion_flutter_calendar/calendar.dart';
 import 'package:flutter/foundation.dart' show kIsWeb;
-
-import 'CustomAppointment.dart';
 
 class CalendarioAgendar extends StatelessWidget {
   //static const route = "/calendario";
@@ -64,6 +65,7 @@ class _CalendarAppointmentEditorState extends State<CalendarAppointmentEditor> {
 
   List<Appointment> _appointments;
   List<SesionTerapia> _sesionesTerapia;
+  List<Consultorio> _consultorios;
   Horario _horarioPracticante;
   bool _isMobile;
 
@@ -101,6 +103,7 @@ class _CalendarAppointmentEditorState extends State<CalendarAppointmentEditor> {
     _horarioPracticante = await _getHorario();
     _appointments =
         _getAppointmentDetails(_horarioPracticante, _sesionesTerapia);
+    _consultorios = await _getConsultorios();
     _events = _DataSource(_appointments);
     return Future.value("Data download successfully"); // return your response
   }
@@ -214,10 +217,11 @@ class _CalendarAppointmentEditorState extends State<CalendarAppointmentEditor> {
             builder: (context) => DialogoAgendarSesionTerapia(
                   events: _events,
                   selectedAppointment: _selectedAppointment,
-                  paciente: widget.paciente,
-                  practicante: widget.practicante,
+                  pacienteSesion: widget.paciente,
+                  practicanteAsignado: widget.practicante,
                   sesionesTerapia: _sesionesTerapia,
-                  sesion: _sesionTerapiaSeleccionada,
+                  sesionTerapia: _sesionTerapiaSeleccionada,
+                  consultorios: _consultorios,
                   horario: _horarioPracticante,
                   funcionActualizar: actualizarInfo,
                 ));
@@ -302,18 +306,23 @@ class _CalendarAppointmentEditorState extends State<CalendarAppointmentEditor> {
   }
 
   Future<Horario> _getHorario() async {
-    /*
     Horario horario = new Horario(
         lunes: "9;11;12;14;15",
         martes: "",
         miercoles: "",
         jueves: "17;18",
         viernes: "",
-        sabado: "9;11");*/
-    Horario horario =
-        await ProviderAdministracionUsuarios.traerHorarioSeleccionado(
-            widget.practicante.id);
+        sabado: "9;11");
+    //Horario horario =
+    //await ProviderAdministracionUsuarios.traerHorarioSeleccionado(
+    // widget.practicante.id);
     return horario;
+  }
+
+  Future<List<Consultorio>> _getConsultorios() async {
+    List<Consultorio> consultorios =
+        await ProviderAdministracionConsultorios.traerConsultorios();
+    return consultorios;
   }
 
   Future<List<SesionTerapia>> _getSesionesTerapia() async {

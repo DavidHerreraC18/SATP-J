@@ -7,7 +7,7 @@ import 'package:satpj_front_end_web/src/model/paciente/paciente.dart';
 import 'package:satpj_front_end_web/src/providers/provider_administracion_acudientes.dart';
 import 'package:satpj_front_end_web/src/utils/tema.dart';
 import 'package:satpj_front_end_web/src/utils/widgets/Firmas/pad_firmas.dart';
-import 'package:satpj_front_end_web/src/utils/widgets/LoadingWidgets/LoadingWanderingCube.dart';
+import 'package:satpj_front_end_web/src/utils/widgets/loading/LoadingWanderingCube.dart';
 import 'package:satpj_front_end_web/src/utils/widgets/Pdf/helper/info_acudiente_principal_pdf.dart';
 import 'package:satpj_front_end_web/src/utils/widgets/Pdf/helper/info_paciente_principal_pdf.dart';
 import 'package:satpj_front_end_web/src/utils/widgets/Pdf/pdf_consentimiento_principal.dart';
@@ -554,15 +554,20 @@ class CuartaPaginaConsentimientoPrincipalState
                         " expedida en: ",
                     textAlign: TextAlign.justify,
                     style: TextStyle(fontSize: 15)),
-                TextField(
-                  controller: myController,
-                  decoration: InputDecoration(
-                    border: OutlineInputBorder(),
-                    labelText: 'Ingrese Lugar de Expedición de su Documento',
-                    hintText: '',
+                SizedBox(width: 20),
+                Container(
+                  height: 100,
+                  child: TextField(
+                    controller: myController,
+                    decoration: InputDecoration(
+                      border: OutlineInputBorder(),
+                      labelText: 'Ingrese Lugar de Expedición de su Documento',
+                      hintText: '',
+                    ),
+                    autofocus: false,
                   ),
-                  autofocus: false,
                 ),
+                SizedBox(width: 20),
                 Text(
                     "He comprendido la naturaleza y propósitos de la intervención a la que libre, consciente y voluntariamente me someto y en consecuencia hago las siguientes declaraciones:",
                     textAlign: TextAlign.justify,
@@ -845,7 +850,7 @@ class QuintaPaginaConsentimientoPrincipalState
                             onPressed: () async {
                               var picked = await FilePicker.platform.pickFiles(
                                 type: FileType.custom,
-                                allowedExtensions: ['jpg', 'png', 'jpeg'],
+                                allowedExtensions: ['png'],
                               );
                               if (picked != null) {
                                 print(picked.files.first.name);

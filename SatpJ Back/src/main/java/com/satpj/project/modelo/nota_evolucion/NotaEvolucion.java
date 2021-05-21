@@ -17,9 +17,12 @@ import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.satpj.project.modelo.practicante.Practicante;
 import com.satpj.project.modelo.sesion_terapia.SesionTerapia;
 import com.satpj.project.modelo.supervisor.Supervisor;
+
+import org.springframework.format.annotation.DateTimeFormat;
 
 /**
  * Entidad nota_evolucion La Nota de Evolución contiene una breve descripción de
@@ -56,6 +59,8 @@ public class NotaEvolucion {
 
     @NotNull(message = "La Fecha y Hora de la Nota de Evolución es obligatoria")
     @Column(name = "fecha_hora", nullable = false)
+    @DateTimeFormat(iso = DateTimeFormat.ISO.TIME)
+	@JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss.SSS")	
     private LocalDateTime fechaHora;
 
     @NotNull(message = "La definicion de envio de la Nota de Evolución es obligatoria")

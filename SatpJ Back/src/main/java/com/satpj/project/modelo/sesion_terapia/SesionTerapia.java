@@ -19,9 +19,12 @@ import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.satpj.project.modelo.consultorio.Consultorio;
 import com.satpj.project.modelo.paquete_sesion.PaqueteSesion;
+
+import org.springframework.format.annotation.DateTimeFormat;
 
 /**
  * Entidad sesion_terapia Son las Sesiones de Terapia que toma el Paciente y
@@ -47,6 +50,8 @@ public class SesionTerapia {
 
 	@NotNull(message = "La Fecha de la Sesión de Terapia es obligatoria")
 	@Column(name = "fecha", nullable = false)
+	@DateTimeFormat(iso = DateTimeFormat.ISO.TIME)
+	@JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss.SSS")	
 	private LocalDateTime fecha;
 
 	/* Indica si la Sesión de Terapia se realizará presencial o virtual */
@@ -60,5 +65,10 @@ public class SesionTerapia {
 	 */
 	@OneToOne(fetch = FetchType.EAGER)
 	private Consultorio consultorio;
+
+	@Column(name = "enlace_streaming", nullable = true)
+	private String enlaceStreaming;
+
+
 
 }

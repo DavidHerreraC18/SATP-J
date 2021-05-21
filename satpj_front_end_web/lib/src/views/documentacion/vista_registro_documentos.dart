@@ -9,7 +9,7 @@ import 'package:satpj_front_end_web/src/providers/provider_autenticacion.dart';
 import 'package:satpj_front_end_web/src/providers/provider_documentos_paciente.dart';
 import 'package:satpj_front_end_web/src/utils/tema.dart';
 import 'package:satpj_front_end_web/src/utils/widgets/Barras/toolbar_paciente_preaprobado.dart';
-import 'package:satpj_front_end_web/src/utils/widgets/LoadingWidgets/LoadingWanderingCube.dart';
+import 'package:satpj_front_end_web/src/utils/widgets/loading/LoadingWanderingCube.dart';
 import 'package:satpj_front_end_web/src/utils/widgets/formularios/tema_formularios.dart';
 import 'package:flutter_icons/flutter_icons.dart';
 import 'package:satpj_front_end_web/src/views/documentacion/dialogo_consentimiento_telepsicologia.dart';

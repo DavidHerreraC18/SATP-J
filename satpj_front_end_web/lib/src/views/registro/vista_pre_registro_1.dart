@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:satpj_front_end_web/src/model/grupo/grupo.dart';
 import 'package:satpj_front_end_web/src/model/paciente/paciente.dart';
 import 'package:satpj_front_end_web/src/utils/tema.dart';
-import 'package:satpj_front_end_web/src/utils/widgets/Barras/toolbar_inicio.dart';
 import 'package:satpj_front_end_web/src/utils/widgets/Barras/toolbar_inicio_registro.dart';
 import 'package:satpj_front_end_web/src/utils/widgets/botones/button_forms.dart';
 import 'package:satpj_front_end_web/src/utils/widgets/formularios/tema_formularios.dart';

@@ -9,7 +9,7 @@ import 'package:satpj_front_end_web/src/utils/widgets/Barras/toolbar_paciente.da
 import 'package:satpj_front_end_web/src/utils/widgets/Barras/toolbar_practicante.dart';
 import 'package:satpj_front_end_web/src/utils/widgets/Barras/toolbar_supervisor.dart';
 import 'package:satpj_front_end_web/src/utils/widgets/Calendarios/CalendarioPrincipal.dart';
-import 'package:satpj_front_end_web/src/utils/widgets/LoadingWidgets/LoadingWanderingCube.dart';
+import 'package:satpj_front_end_web/src/utils/widgets/loading/LoadingWanderingCube.dart';
 
 class HomePage extends StatefulWidget {
   static const route = '/home-usuarios';
