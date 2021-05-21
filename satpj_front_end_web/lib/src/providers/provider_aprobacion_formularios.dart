@@ -91,6 +91,19 @@ class ProviderAprobacionFormularios {
       final resp = await http.put(Uri.http(_url, "/pacientes/" + paciente.id),
           headers: headers, body: json);
       _completer.complete(resp.body);
+      
+      if(paciente.esAdulto()){
+       http.get(Uri.http(_url, "/envios/" + paciente.id + "/registro_adulto"),
+          headers: headers);
+      }
+      else{
+        http.get(Uri.http(_url, "/envios/" + paciente.id + "/registro_menor"),
+          headers: headers);
+      }
+
+      
+      _completer.complete(resp.body);
+
     } catch (e) {
       print(e);
       _completer.completeError("Error");

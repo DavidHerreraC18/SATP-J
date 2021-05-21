@@ -1,11 +1,9 @@
 import 'package:flutter/material.dart';
 
 import 'package:provider/provider.dart';
-import 'package:satpj_front_end_web/src/model/formulario/formulario.dart';
 import 'package:satpj_front_end_web/src/model/notificadores/pacientes_notifier.dart';
 import 'package:satpj_front_end_web/src/model/paciente/paciente.dart';
 import 'package:satpj_front_end_web/src/providers/provider_administracion_pacientes.dart';
-import 'package:satpj_front_end_web/src/providers/provider_aprobacion_formularios.dart';
 import 'package:satpj_front_end_web/src/utils/widgets/Barras/toolbar_auxiliar_administrativo.dart';
 import 'package:satpj_front_end_web/src/utils/widgets/Dialogos/dialog_delete.dart';
 import 'package:satpj_front_end_web/src/utils/widgets/fuentes_datos/datatablesource_pacientes.dart';

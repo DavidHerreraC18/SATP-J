@@ -258,29 +258,35 @@ class ProviderAdministracionPacientes {
   }
 
   static Future<Practicante> traerPracticanteActivoPaciente(
-      Paciente pacienteActual) async {
+      String idPaciente) async {
     //
+
     final _completer = Completer<Practicante>();
 
     try {
       //ProviderAuntenticacion.extractToken();
+
       Map<String, String> headers = {
         "Authorization":
             "Bearer " + await ProviderAuntenticacion.extractToken(),
         "Cache-Control": "no-cache",
         "Accept": "*/*",
-        'Content-Type': 'application/json; charset=UTF-8'
       };
+
       final resp = await http.get(
-          Uri.http(_url, "/pacientes/practicante/" + pacienteActual.id),
+          Uri.http(_url, "/pacientes/practicante/" + idPaciente),
           headers: headers);
+
       //print("JSON RECIBIDO" + resp.body);
+
       if (resp.statusCode == 200) {
         final _data = singlePracticanteFromJson(resp.body);
+
         _completer.complete(_data);
       }
     } catch (exc) {
       print("Error en provider" + exc);
+
       _completer.completeError(<Practicante>[]);
     }
 

@@ -44,7 +44,7 @@ class _VistaGestionarAgendamientoState
   Future<String> obtenerInfoPacientePracticante() async {
     practicante =
         await ProviderAdministracionPacientes.traerPracticanteActivoPaciente(
-            paciente);
+            paciente.id);
     consultorios = await ProviderAdministracionConsultorios.traerConsultorios();
     return Future.value("Data download successfully");
     //crearPacienteTemporal();

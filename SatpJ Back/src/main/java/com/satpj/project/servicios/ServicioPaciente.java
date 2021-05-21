@@ -209,9 +209,9 @@ public class ServicioPaciente {
     @ResponseStatus(HttpStatus.OK)
     public void update(@AuthenticationPrincipal CustomPrincipal customPrincipal, @PathVariable("id") String id, @RequestBody Paciente paciente) {
         Preconditions.checkNotNull(paciente);
-        //System.out.println("PACIENTE RECIBIDOL:" + paciente.toString());
+        System.out.println("PACIENTE RECIBIDOL:" + paciente.toString());
         Paciente pActualizar = repositorioPaciente.findById(id).orElse(null);
-        //System.out.println("PACIENTE ACTUAL:" + pActualizar.toString());
+        System.out.println("PACIENTE ACTUAL:" + pActualizar.toString());
         Preconditions.checkNotNull(pActualizar);
 
         pActualizar.setApellido(paciente.getApellido());
@@ -223,6 +223,7 @@ public class ServicioPaciente {
         pActualizar.setGrupo(paciente.getGrupo());
         pActualizar.setEdad(paciente.getEdad());
         pActualizar.setEstrato(paciente.getEstrato());
+        pActualizar.setDireccion(paciente.getDireccion());
         pActualizar.setEstadoAprobado(paciente.getEstadoAprobado());
         pActualizar.setRemitido(paciente.isRemitido());
         pActualizar.setSupervisor(paciente.getSupervisor());

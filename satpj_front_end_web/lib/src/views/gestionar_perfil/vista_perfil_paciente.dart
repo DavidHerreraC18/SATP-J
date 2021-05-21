@@ -172,7 +172,7 @@ class DatosPacienteState extends State<DatosPaciente> {
   Future<String> obtenerPracticanteActual() async {
     this.practicanteActual =
         await ProviderAdministracionPacientes.traerPracticanteActivoPaciente(
-            pacienteActual);
+            pacienteActual.id);
     return Future.value("Data download successfully");
   }
 

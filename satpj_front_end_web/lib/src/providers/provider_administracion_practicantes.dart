@@ -85,7 +85,7 @@ class ProviderAdministracionPracticantes {
         "Accept-Encoding": "gzip, deflate, br",
         "Connection": "keep-alive",
       };
-      final resp = await http.get(Uri.http(_url, "/pacientes/" + practicanteId),
+      final resp = await http.get(Uri.http(_url, "/practicantes/" + practicanteId),
           headers: headers);
       print("JSON RECIBIDO" + resp.body);
       if (resp.statusCode == 200) {

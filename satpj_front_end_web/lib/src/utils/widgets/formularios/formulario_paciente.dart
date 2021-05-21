@@ -75,6 +75,7 @@ class _FormState extends State<FormPatientInformation> {
                 prefix: widget.prefix,
                 label: widget.label,
                 fechaNacimiento: widget.fechaNacimiento,
+                enabled: widget.enabled,
               ),
               Text(
                 'Estrato sociecómico',

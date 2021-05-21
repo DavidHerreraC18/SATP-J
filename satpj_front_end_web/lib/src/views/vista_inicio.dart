@@ -17,14 +17,25 @@ class VistaInicio extends StatelessWidget {
                   child: Container(
                 padding: EdgeInsets.all(40.0),
                 child: Column(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Flexible(
-                        child: Text(
-                      "Bienvenido al sistema de atención por telepsicología de la Universidad Javeriana",
-                      style: Theme.of(context).textTheme.headline3,
-                      textAlign: TextAlign.center,
-                    ))
+                      child: Text(
+                        "Bienvenido ",
+                        style: TextStyle(
+                            fontSize: 60.0,
+                            fontWeight: FontWeight.w600,
+                            color: Color(0xFF2E5EAA)),
+                        textAlign: TextAlign.center,
+                      ),
+                    ),
+                    Flexible(
+                      child: Text(
+                        "Al sistema de atención por telepsicología de la Pontificia Universidad Javeriana",
+                        style: Theme.of(context).textTheme.headline3,
+                        textAlign: TextAlign.center,
+                      ),
+                    ),
                   ],
                 ),
               )),

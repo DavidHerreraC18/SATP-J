@@ -66,7 +66,7 @@ class DialogoPacienteState extends State<DialogoPaciente> {
   Widget build(BuildContext context) {
     return IconButton(
         icon: Icon(widget.icon, color: kPrimaryColor),
-        onPressed: () async {
+        onPressed: () {
           showGeneralDialog(
               barrierLabel: 'label',
               barrierDismissible: true,
@@ -214,6 +214,7 @@ class _PrimeraPaginaCrearPacienteState
                     functionConfirmBtn: () {
                       ProviderAdministracionPacientes.editarPaciente(
                           widget.paciente);
+                      Navigator.pop(context);
                     },
                     width: 120.0,
                   )
@@ -788,6 +789,7 @@ class _CuartaPaginaCrearPacienteState extends State<CuartaPaginaCrearPaciente> {
                             if (widget.labelHeader == 'Crear') {
                               ProviderPreRegistro.crearFormularioIndividual(
                                   formularioPreRegistro, widget.paciente);
+                              Navigator.pop(context);
                             }
                             if (widget.labelHeader == 'Editar') {
                               ProviderPreRegistro.editarFormularioIndividual(
