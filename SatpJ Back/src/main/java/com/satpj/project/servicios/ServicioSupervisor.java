@@ -7,6 +7,8 @@ import com.google.api.client.util.Preconditions;
 import com.satpj.project.modelo.paciente.Paciente;
 import com.satpj.project.modelo.practicante.Practicante;
 import com.satpj.project.modelo.supervisor.*;
+import com.satpj.project.modelo.usuario.RepositorioUsuario;
+import com.satpj.project.modelo.usuario.Usuario;
 import com.satpj.project.seguridad.CustomPrincipal;
 
 import lombok.Getter;
@@ -43,6 +45,9 @@ public class ServicioSupervisor {
 
     @Autowired
     private ServicioPaciente servicioPaciente;
+    
+    @Autowired
+    RepositorioUsuario repositorioUsuario;
 
     @GetMapping(produces = "application/json; charset=UTF-8")
     public List<Supervisor> findAll(@AuthenticationPrincipal CustomPrincipal customPrincipal) {
@@ -83,9 +88,8 @@ public class ServicioSupervisor {
 
     @PutMapping(value = "/{id}")
     @ResponseStatus(HttpStatus.OK)
-    public void update(@AuthenticationPrincipal CustomPrincipal customPrincipal, @PathVariable("id") Long id, @RequestBody Supervisor supervisor) {
+    public void update(@AuthenticationPrincipal CustomPrincipal customPrincipal, @PathVariable("id") String id, @RequestBody Supervisor supervisor) {
         Preconditions.checkNotNull(supervisor);
-
         Supervisor sActualizar = repositorioSupervisor.findById(supervisor.getId()).orElse(null);
 
         Preconditions.checkNotNull(sActualizar);
@@ -96,6 +100,7 @@ public class ServicioSupervisor {
         sActualizar.setTipoDocumento(supervisor.getTipoDocumento());
         sActualizar.setDocumento(supervisor.getDocumento());
         sActualizar.setEmail(supervisor.getEmail());
+        sActualizar.setDireccion(supervisor.getDireccion());
         sActualizar.setEnfoque(supervisor.getEnfoque());
 
         repositorioSupervisor.save(sActualizar);

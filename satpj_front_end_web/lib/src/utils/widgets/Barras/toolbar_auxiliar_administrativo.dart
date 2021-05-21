@@ -6,6 +6,7 @@ import 'package:satpj_front_end_web/src/views/gestionar_pacientes/vista_administ
 import 'package:satpj_front_end_web/src/views/gestionar_perfil/vista_perfil_auxiliar.dart';
 import 'package:satpj_front_end_web/src/views/gestionar_practicantes/vista_administrar_practicantes.dart';
 import 'package:satpj_front_end_web/src/views/gestionar_supervisores/vista_administracion_supervisores.dart';
+import 'package:satpj_front_end_web/src/views/pagos/vista_visualizar_pagos.dart';
 import 'package:satpj_front_end_web/src/views/vista_home.dart';
 
 AppBar toolbarAuxiliarAdministrativo(BuildContext context) {
@@ -242,7 +243,8 @@ AppBar toolbarAuxiliarAdministrativo(BuildContext context) {
 
                   case 7:
                     {
-                      //statements;
+                      Navigator.pushNamed(
+                          context, VistaVisualizarPagos.route);
                     }
                     break;
 

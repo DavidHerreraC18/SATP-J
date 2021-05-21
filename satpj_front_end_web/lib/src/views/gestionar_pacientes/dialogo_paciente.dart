@@ -4,7 +4,6 @@ import 'package:satpj_front_end_web/src/model/acudiente/acudiente.dart';
 import 'package:satpj_front_end_web/src/model/formulario/formulario.dart';
 import 'package:satpj_front_end_web/src/model/paciente/paciente.dart';
 import 'package:satpj_front_end_web/src/providers/provider_administracion_pacientes.dart';
-import 'package:satpj_front_end_web/src/providers/provider_aprobacion_formularios.dart';
 import 'package:satpj_front_end_web/src/providers/provider_pre_registro.dart';
 import 'package:satpj_front_end_web/src/utils/tema.dart';
 import 'package:satpj_front_end_web/src/utils/validators/validadores-input.dart';
@@ -14,6 +13,7 @@ import 'package:satpj_front_end_web/src/utils/widgets/formularios/formulario_pac
 import 'package:satpj_front_end_web/src/utils/widgets/formularios/formulario_usuario.dart';
 import 'package:satpj_front_end_web/src/utils/widgets/formularios/tema_formularios.dart';
 import 'package:satpj_front_end_web/src/utils/widgets/inputs/rounded_text_field.dart';
+import 'package:satpj_front_end_web/src/views/gestionar_pacientes/vista_administrar_pacientes.dart';
 
 final PageController pageCtrlr = new PageController();
 int currentContainer = 0;
@@ -214,7 +214,10 @@ class _PrimeraPaginaCrearPacienteState
                     functionConfirmBtn: () {
                       ProviderAdministracionPacientes.editarPaciente(
                           widget.paciente);
-                      Navigator.pop(context);
+                      Future.delayed(Duration(milliseconds: 1000), () {
+                        Navigator.of(context)
+                            .pushNamed(VistaAdministrarPacientes.route);
+                      });
                     },
                     width: 120.0,
                   )
@@ -347,11 +350,8 @@ class _TerceraPaginaCrearPacienteState
   void initState() {
     padre = new Acudiente();
 
-    if (widget.paciente.acudientes != null) {
-      if (widget.paciente.acudientes.isNotEmpty) {
-        padre = widget.paciente.acudientes.last;
-      }
-    } else {
+    if (widget.paciente.acudientes == null) {
+
       widget.paciente.acudientes = [];
     }
 
@@ -402,7 +402,8 @@ class _TerceraPaginaCrearPacienteState
                             changeContainer(-1);
                           },
                           functionConfirmBtn: () {
-                            widget.paciente.acudientes.add(padre);
+                            if(padre.documento != null && padre.email != null)
+                               widget.paciente.acudientes.add(padre);
                             changeContainer(1);
                           },
                           width: 120.0,
@@ -789,15 +790,16 @@ class _CuartaPaginaCrearPacienteState extends State<CuartaPaginaCrearPaciente> {
                             if (widget.labelHeader == 'Crear') {
                               ProviderPreRegistro.crearFormularioIndividual(
                                   formularioPreRegistro, widget.paciente);
-                              Navigator.pop(context);
+                              Future.delayed(Duration(milliseconds: 1000), () {
+                                Navigator.of(context)
+                                    .pushNamed(VistaAdministrarPacientes.route);
+                              });
                             }
                             if (widget.labelHeader == 'Editar') {
                               ProviderPreRegistro.editarFormularioIndividual(
                                   formularioPreRegistro, widget.paciente);
                             }
                             currentContainer = 0;
-                            ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                                content: Text('Guardando Información')));
                           },
                           width: 120.0,
                         )

@@ -62,6 +62,7 @@ public class Paciente extends Usuario {
     private List<PaqueteSesion> paquetesSesion;
 
     @OneToMany(mappedBy = "paciente")
+    @JsonIgnore
     private List<Acudiente> acudientes;
 
     @OneToOne(mappedBy = "paciente")

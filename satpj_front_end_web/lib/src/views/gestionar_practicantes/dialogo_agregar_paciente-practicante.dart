@@ -89,44 +89,6 @@ class _DialogoAgregarPacientePracticanteState
                                 return ValidadoresInput.validateEmail(
                                     textControllerEmail.text);
                               }),
-                          Row(
-                            children: [
-                              RoundedTextFieldValidators(
-                                  textFocusNode: textFocusNodeEmail,
-                                  textController: textControllerEmail,
-                                  textInputType: TextInputType.emailAddress,
-                                  isEditing: _isEditingEmail,
-                                  enabled: true,
-                                  hintText:
-                                      'Ingrese el correo electrónico del paciente a asociar',
-                                  validate: () {
-                                    print('EMAIL');
-                                    return ValidadoresInput.validateEmail(
-                                        textControllerEmail.text);
-                                  }),
-                              ElevatedButton(
-                                style: ButtonStyle(
-                                  backgroundColor:
-                                      MaterialStateProperty.all<Color>(
-                                          kPrimaryColor),
-                                ),
-                                onPressed: () async {
-                                  String respuesta =
-                                      await _crearPracticantePaciente(
-                                          widget.practicante,
-                                          textControllerEmail.text);
-
-                                  setState(() {
-                                    estadoPaciente = respuesta;
-                                  });
-                                },
-                                child: Text('Asociar Practicante',
-                                    style: TextStyle(
-                                        fontSize: 18.0,
-                                        fontWeight: FontWeight.normal)),
-                              ),
-                            ],
-                          ),
                           SizedBox(
                             height: 20.0,
                           ),
@@ -150,19 +112,21 @@ class _DialogoAgregarPacientePracticanteState
                         )
                       : Container(),
                   FotterDialog(
+                    labelCancelBtn: 'Terminar',
                     labelConfirmBtn: 'Asociar Paciente',
                     colorConfirmBtn: kPrimaryColor,
                     paginator: false,
                     width: 200.0,
                     functionConfirmBtn: () async {
+                      print(textControllerEmail.text);
                       String respuesta = await _crearPracticantePaciente(
                           widget.practicante, textControllerEmail.text);
-
                       setState(() {
                         estadoPaciente = respuesta;
                       });
-
-                      Navigator.of(context).pushNamed(
+                    },
+                    functionCancelBtn: (){
+                       Navigator.of(context).pushNamed(
                           VistaAdministrarPracticantes.route,
                           arguments: widget.practicante);
                       Navigator.pop(context, true);

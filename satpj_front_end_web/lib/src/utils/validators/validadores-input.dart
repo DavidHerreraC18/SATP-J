@@ -67,10 +67,10 @@ class ValidadoresInput {
         return 'Ingrese un correo electrónico valido';
       } else {
         bool registrado = false;
-        validateExistEmail(value).then((data) => registrado = data);
+        /*validateExistEmail(value).then((data) => registrado = data);
         print(registrado);
         if (registrado)
-          return 'El correo electrónico ya se encuentra registrado';
+          return 'El correo electrónico ya se encuentra registrado';*/
       }
     }
 

@@ -208,6 +208,9 @@ class _InternalWidget extends StatelessWidget {
             colorConfirmBtn: Theme.of(c).colorScheme.error,
             functionDelete: () {
               ProviderAdministracionPacientes.borrarPaciente(data);
+              Future.delayed(Duration(milliseconds: 1000), () {
+                Navigator.of(c).pushNamed(VistaAdministrarPacientes.route);
+              });
             },
           ));
 
