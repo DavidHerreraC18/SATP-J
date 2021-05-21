@@ -3,6 +3,8 @@ import 'package:satpj_front_end_web/src/constants.dart';
 import 'package:satpj_front_end_web/src/model/acudiente/acudiente.dart';
 import 'package:satpj_front_end_web/src/model/formulario/formulario.dart';
 import 'package:satpj_front_end_web/src/model/paciente/paciente.dart';
+import 'package:satpj_front_end_web/src/providers/provider_administracion_pacientes.dart';
+import 'package:satpj_front_end_web/src/providers/provider_pre_registro.dart';
 import 'package:satpj_front_end_web/src/utils/tema.dart';
 import 'package:satpj_front_end_web/src/utils/validators/validadores-input.dart';
 import 'package:satpj_front_end_web/src/utils/widgets/Dialogos/fotter_dialog.dart';
@@ -30,10 +32,14 @@ void changeContainer(int container) {
 class DialogoPaciente extends StatefulWidget {
   
   Paciente paciente;
+  Formulario formulario;
   IconData icon;
   bool enabled;
+  bool fechaNacimiento;
+  String labelButton;
+  String labelHeader;
 
-  DialogoPaciente({this.paciente, this.icon, this.enabled = true}){
+  DialogoPaciente({this.paciente, this.icon, this.enabled = true, this.fechaNacimiento = true, this.labelButton, this.labelHeader}){
     if(this.paciente == null) this.paciente = new Paciente();
   }
 
@@ -84,10 +90,10 @@ class DialogoPacienteState extends State<DialogoPaciente> {
                       physics:
                           NeverScrollableScrollPhysics(), // disables scrolling
                       children: [
-                        PrimeraPaginaCrearPaciente(paciente: widget.paciente,),
-                        SegundaPaginaCrearPaciente(paciente: widget.paciente,),
-                        TerceraPaginaCrearPaciente(paciente: widget.paciente,),
-                        CuartaPaginaCrearPaciente(paciente: widget.paciente,),
+                        PrimeraPaginaCrearPaciente(paciente: widget.paciente, enabled: widget.enabled, fechaNacimiento: widget.fechaNacimiento, labelHeader: widget.labelHeader,),
+                        SegundaPaginaCrearPaciente(paciente: widget.paciente, enabled: widget.enabled, fechaNacimiento: false,),
+                        TerceraPaginaCrearPaciente(paciente: widget.paciente, enabled: widget.enabled, fechaNacimiento: false,),
+                        CuartaPaginaCrearPaciente(paciente: widget.paciente, labelButton: widget.labelButton, enabled: widget.enabled, labelHeader: widget.labelHeader,),
                       ],
                       onPageChanged: (int index) =>
                           setState(() => currentContainer = index),
@@ -104,8 +110,10 @@ class PrimeraPaginaCrearPaciente extends StatefulWidget {
   
   Paciente paciente;
   bool enabled;
+  bool fechaNacimiento;
+  String labelHeader;
 
-  PrimeraPaginaCrearPaciente({this.paciente, this.enabled = true}){
+  PrimeraPaginaCrearPaciente({this.paciente, this.enabled = true, this.fechaNacimiento, this.labelHeader}){
     if(paciente == null) paciente = new Paciente();
   }
 
@@ -137,7 +145,7 @@ class _PrimeraPaginaCrearPacienteState
               mainAxisSize: MainAxisSize.min,
               children: [
                 HeaderDialog(
-                  label: 'Crear Paciente',
+                  label: widget.labelHeader + ' Paciente',
                   height: 55.0,
                 ),
                 RawScrollbar(
@@ -151,7 +159,7 @@ class _PrimeraPaginaCrearPacienteState
                         paciente: widget.paciente,
                         prefix: 'el',
                         label: 'del paciente',
-                        fechaNacimiento: true,
+                        fechaNacimiento: widget.fechaNacimiento,
                         stack: false,
                         enabled: widget.enabled
                       ),
@@ -159,6 +167,7 @@ class _PrimeraPaginaCrearPacienteState
                 )),
               ],
             ),
+            widget.labelHeader == 'Crear' || widget.labelHeader == 'Editar'?
             FotterDialog(
               labelConfirmBtn: 'Siguiente',
               colorConfirmBtn: kPrimaryColor,
@@ -168,7 +177,8 @@ class _PrimeraPaginaCrearPacienteState
                 changeContainer(widget.paciente.esAdulto() == true ? 3 : 1);
               },
               width: 120.0,
-            ),
+            ):
+            Text('')
           ]),
         ),
       ),
@@ -181,8 +191,10 @@ class SegundaPaginaCrearPaciente extends StatefulWidget {
   
   Paciente paciente;
   bool enabled;
+  bool fechaNacimiento;
+  
 
-  SegundaPaginaCrearPaciente({this.paciente, this.enabled = true}){
+  SegundaPaginaCrearPaciente({this.paciente, this.enabled = true, this.fechaNacimiento}){
     if(paciente == null) paciente = new Paciente();
   }
 
@@ -242,7 +254,7 @@ class _SegundaPaginaCrearPacienteState
                       usuario: madre,
                       prefix: 'el',
                       label: 'de la madre o responsable',
-                      fechaNacimiento: true,
+                      fechaNacimiento: widget.fechaNacimiento,
                       enabled: widget.enabled,
                     ),
                   ),
@@ -258,6 +270,7 @@ class _SegundaPaginaCrearPacienteState
                   changeContainer(-1);
                 },
                 functionConfirmBtn: () {
+                  widget.paciente.acudientes.add(madre);
                   changeContainer(1);
                 },
                 width: 120.0,
@@ -275,8 +288,9 @@ class TerceraPaginaCrearPaciente extends StatefulWidget {
   
   Paciente paciente;
   bool enabled;
+  bool fechaNacimiento;
   
-  TerceraPaginaCrearPaciente({this.paciente, this.enabled = true}){
+  TerceraPaginaCrearPaciente({this.paciente, this.enabled = true, this.fechaNacimiento}){
     if(paciente == null) paciente = new Paciente();
   }
 
@@ -338,7 +352,7 @@ class _TerceraPaginaCrearPacienteState
                             usuario: padre,
                             prefix: 'el',
                             label: 'del padre o responsable',
-                            fechaNacimiento: true,
+                            fechaNacimiento: widget.fechaNacimiento,
                             requerido: false,
                             enabled: widget.enabled,
                           ),
@@ -353,6 +367,7 @@ class _TerceraPaginaCrearPacienteState
                             changeContainer(-1);
                           },
                           functionConfirmBtn: () {
+                            widget.paciente.acudientes.add(padre);
                             changeContainer(1);
                           },
                           width: 120.0,
@@ -368,9 +383,12 @@ class _TerceraPaginaCrearPacienteState
 class CuartaPaginaCrearPaciente extends StatefulWidget {
   
   Paciente paciente;
+  Formulario formularioPreRegistro;
   bool enabled;
+  String labelButton;
+  String labelHeader;
   
-  CuartaPaginaCrearPaciente({this.paciente, this.enabled = true}){
+  CuartaPaginaCrearPaciente({this.paciente, this.enabled = true, this.labelButton, this.labelHeader, this.formularioPreRegistro}){
     if(paciente == null) paciente = new Paciente();
   }
 
@@ -435,7 +453,7 @@ class _CuartaPaginaCrearPacienteState extends State<CuartaPaginaCrearPaciente> {
                 width: 700.0,
                 child: ListView(children: [
                   HeaderDialog(
-                    label: 'Crear Paciente',
+                    label: widget.labelHeader + ' Paciente',
                     height: 55.0,
                   ),
                   Container(
@@ -715,9 +733,10 @@ class _CuartaPaginaCrearPacienteState extends State<CuartaPaginaCrearPaciente> {
                               ),
                             ])),
                   ),
+                  widget.enabled ?
                   FotterDialog(
                     labelCancelBtn: 'Atrás',
-                    labelConfirmBtn: 'Crear',
+                    labelConfirmBtn: widget.labelButton,
                     colorConfirmBtn: kPrimaryColor,
                     formKey: _formKey,
                     paginator: true,
@@ -725,12 +744,25 @@ class _CuartaPaginaCrearPacienteState extends State<CuartaPaginaCrearPaciente> {
                       changeContainer(-1);
                     },
                     functionConfirmBtn: () {
+                      if(widget.labelHeader == 'Crear'){
+                        ProviderPreRegistro.crearFormularioIndividual(formularioPreRegistro, widget.paciente);
+                      }
+                      if(widget.labelHeader == 'Editar'){
+                        ProviderPreRegistro.editarFormularioIndividual(formularioPreRegistro, widget.paciente);
+                      }
                       currentContainer = 0;
                       ScaffoldMessenger.of(context).showSnackBar(
                           SnackBar(content: Text('Guardando Información')));
                     },
                     width: 120.0,
+                  )
+                  :
+                  FotterDialog(
+                    labelCancelBtn: 'Atrás',
+                    paginator: true,
+                    width: 120.0,
                   ),
+
                 ]))));
   }
 }

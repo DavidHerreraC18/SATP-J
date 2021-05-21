@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:satpj_front_end_web/src/constants/constantes_data.dart';
 import 'package:satpj_front_end_web/src/model/horario/horario.dart';
 import 'package:satpj_front_end_web/src/model/practicante/practicante.dart';
+import 'package:satpj_front_end_web/src/providers/provider_administrar_horarios.dart';
+import 'package:satpj_front_end_web/src/providers/provider_autenticacion.dart';
 import 'package:satpj_front_end_web/src/utils/tema.dart';
 import 'package:satpj_front_end_web/src/utils/widgets/Barras/toolbar_practicante.dart';
 import 'package:satpj_front_end_web/src/utils/widgets/schedule/cell_schedule.dart';
@@ -26,7 +28,6 @@ class VistaGestionarHorarioPracticante extends StatefulWidget {
   VistaGestionarHorarioPracticante({Practicante practicanteH}) {
     if (practicanteH != null) {
       practicante = practicanteH;
-      practicante.horarios = [];
     }
     practicante.horarios = [];
   }
@@ -42,13 +43,20 @@ class _VistaGestionarHorarioPracticanteState
   int horarios;
   Map<String, List<int>> horarioVista;
 
+  
+  obtenerHorariosPracticante() async{
+    practicante.horarios = await ProviderAdministracionHorarios.obtenerHorariosPracticante(ProviderAuntenticacion.uid);
+  }
+  
+
   @override
   void initState() {
+    obtenerHorariosPracticante();
     
     if (practicante.horarios == null) {
       practicante.horarios = [];
     }
-      practicante.horarios = [];
+      /*practicante.horarios = [];
       Horario h = new Horario();
       h.lunes = '8;9;13';
       h.opcion='1';
@@ -60,10 +68,22 @@ class _VistaGestionarHorarioPracticanteState
       h.opcion='3';
       practicante.horarios.add(h);
       practicante.horarios.add(h1);
-      practicante.horarios.add(h2);
+      practicante.horarios.add(h2);*/
+
+    obtenerHorariosPracticante();
+    print('HORARIOS');  
+    
+    //opcion1.lunes = '8;9;13';
+    horas = 7;
+    horarioVista = {};
+    
+    super.initState();
+  }
+
+  generarHorariosParaVista(){
 
     horarios = practicante.horarios.length;
-
+    print(horarios.toString() + 'HORAIROS');
     if (practicante.horarios.isNotEmpty) {
       if (horarios == 1) {
         opcion1 = practicante.horarios[0];
@@ -85,12 +105,6 @@ class _VistaGestionarHorarioPracticanteState
         horario3 = opcion3.forView();
       }
     }
-
-    opcion1.lunes = '8;9;13';
-    horas = 7;
-    horarioVista = {};
-
-    super.initState();
   }
 
   bool esHora(String dia) {
@@ -165,6 +179,7 @@ class _VistaGestionarHorarioPracticanteState
 
   @override
   Widget build(BuildContext context) {
+    generarHorariosParaVista();
     return Scaffold(
       backgroundColor: Colors.white,
       resizeToAvoidBottomInset: false,

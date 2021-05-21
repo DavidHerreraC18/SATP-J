@@ -25,7 +25,7 @@ class _VistaGestionarPacientesState extends State<VistaGestionarPacientes> {
     paciente.apellido = 'Gómez';
     paciente.tipoDocumento = 'Tarjeta de Identidad';
     paciente.documento = '1234567';
-    paciente.edad = 15;
+    paciente.edad = 21;
     paciente.email = 'pepito@gmail.com';
     paciente.telefono = '32324214';
     paciente.direccion = 'Calle 23 # 44-20';
@@ -59,9 +59,9 @@ class _VistaGestionarPacientesState extends State<VistaGestionarPacientes> {
                 showDialog(context: context, builder: (context) => DialogoAgendarSesionTerapia(paciente: paciente,));
               },
             ),
-            DialogoPaciente(icon: Icons.add),
-            DialogoPaciente(paciente: paciente, icon: Icons.edit),
-            DialogoPaciente(paciente: paciente, icon: Icons.remove_red_eye, enabled: false,),
+            DialogoPaciente(icon: Icons.add, labelButton: 'Crear', fechaNacimiento: true, labelHeader: 'Crear',),
+            DialogoPaciente(paciente: paciente, icon: Icons.edit, labelButton: 'Editar', fechaNacimiento: false, labelHeader: 'Editar',),
+            DialogoPaciente(paciente: paciente, icon: Icons.remove_red_eye, enabled: false, fechaNacimiento: false, labelHeader: 'Visualizar',),
 
           /*
              Container(

@@ -18,9 +18,12 @@ import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.satpj.project.modelo.comprobante_pago.ComprobantePago;
 import com.satpj.project.modelo.paciente.Paciente;
+
+import org.springframework.format.annotation.DateTimeFormat;
 
 /**
  * Entidad paquete_sesion Esta entidad correspone a los paquetes de sesiones que
@@ -37,8 +40,8 @@ public class PaqueteSesion {
     @Column(name = "paquete_sesion_id")
     private Long id;
 
-    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    @JoinColumn(name = "paciente_id", nullable = false)
+    @ManyToOne(cascade = CascadeType.MERGE, fetch = FetchType.EAGER)
+    @JoinColumn(name = "paciente_id")
     private Paciente paciente;
 
     @OneToOne(cascade = CascadeType.MERGE, fetch = FetchType.EAGER, mappedBy = "paqueteSesion")

@@ -4,6 +4,8 @@ import java.util.List;
 
 import com.google.api.client.util.Preconditions;
 import com.satpj.project.modelo.horario.*;
+import com.satpj.project.modelo.usuario.RepositorioUsuario;
+import com.satpj.project.modelo.usuario.Usuario;
 import com.satpj.project.seguridad.CustomPrincipal;
 
 import lombok.Getter;
@@ -38,6 +40,9 @@ public class ServicioHorario {
     @Autowired
     private RepositorioHorario repositorioHorario;
 
+    @Autowired
+    private RepositorioUsuario repositorioUsario;
+
     @GetMapping(produces = "application/json; charset=UTF-8")
     public List<Horario> findAll(@AuthenticationPrincipal CustomPrincipal customPrincipal) {
         return repositorioHorario.findAll();
@@ -47,6 +52,15 @@ public class ServicioHorario {
     public Horario findById(@AuthenticationPrincipal CustomPrincipal customPrincipal, @PathVariable("id") Long id) {
         return repositorioHorario.findById(id).get();
     }
+
+    @GetMapping(value = "/{practicanteId}", produces = "application/json; charset=UTF-8")
+    public List<Horario> findByPracticanteId(@AuthenticationPrincipal CustomPrincipal customPrincipal, @PathVariable("practicanteId") String practicanteId) {
+        
+        Usuario usuario = repositorioUsario.findById(practicanteId).get();
+
+        return repositorioHorario.findByUsuario(usuario);
+    }
+
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)

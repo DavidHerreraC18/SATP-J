@@ -1,8 +1,11 @@
 package com.satpj.project.servicios;
 
+import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 
 import com.google.api.client.util.Preconditions;
+import com.google.gson.Gson;
 import com.satpj.project.modelo.comprobante_pago.ComprobantePago;
 import com.satpj.project.modelo.paciente.Paciente;
 import com.satpj.project.modelo.paciente.RepositorioPaciente;
@@ -33,7 +36,7 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
  */
 @Getter
 @Setter
-@EnableAutoConfiguration(exclude= SecurityAutoConfiguration.class)
+@EnableAutoConfiguration(exclude = SecurityAutoConfiguration.class)
 @RestController
 @RequestMapping("paquetesesiones")
 public class ServicioPaqueteSesion {
@@ -53,7 +56,8 @@ public class ServicioPaqueteSesion {
     }
 
     @GetMapping(value = "/{id}", produces = "application/json; charset=UTF-8")
-    public PaqueteSesion findById(@AuthenticationPrincipal CustomPrincipal customPrincipal, @PathVariable("id") Long id) {
+    public PaqueteSesion findById(@AuthenticationPrincipal CustomPrincipal customPrincipal,
+            @PathVariable("id") Long id) {
         return repositorioPaqueteSesion.findById(id).get();
     }
 
@@ -61,16 +65,17 @@ public class ServicioPaqueteSesion {
     public List<PaqueteSesion> findPaquetesByPacienteId(@PathVariable("pacienteId") String pacienteId) {
         List<PaqueteSesion> paqueteSesion = null;
         Paciente paciente = repositorioPaciente.findById(pacienteId).get();
-        
-        if(paciente != null){
-             paqueteSesion = repositorioPaqueteSesion.findByPaciente(paciente);
+
+        if (paciente != null) {
+            paqueteSesion = repositorioPaqueteSesion.findByPaciente(paciente);
         }
 
         return paqueteSesion;
     }
 
     @GetMapping(value = "/{id}/comprobante", produces = "application/json; charset=UTF-8")
-    public ComprobantePago findComprobanteByPaqueteId(@AuthenticationPrincipal CustomPrincipal customPrincipal, @PathVariable("id") Long id) {
+    public ComprobantePago findComprobanteByPaqueteId(@AuthenticationPrincipal CustomPrincipal customPrincipal,
+            @PathVariable("id") Long id) {
         PaqueteSesion paqueteSesion = repositorioPaqueteSesion.findById(id).get();
         Preconditions.checkNotNull(paqueteSesion);
         return paqueteSesion.getComprobantePago();
@@ -78,14 +83,21 @@ public class ServicioPaqueteSesion {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public PaqueteSesion create(@AuthenticationPrincipal CustomPrincipal customPrincipal, @RequestBody PaqueteSesion paqueteSesion) {
-        Preconditions.checkNotNull(paqueteSesion);
+    public PaqueteSesion create(@AuthenticationPrincipal CustomPrincipal customPrincipal,
+            @RequestBody String json) {
+        System.out.println(json);
+
+        PaqueteSesion  paqueteSesion = new Gson().fromJson(json, PaqueteSesion.class);
+        paqueteSesion.setFecha(LocalDate.now());
+
+
         return repositorioPaqueteSesion.save(paqueteSesion);
     }
 
     @PutMapping(value = "/{id}")
     @ResponseStatus(HttpStatus.OK)
-    public void update(@AuthenticationPrincipal CustomPrincipal customPrincipal, @PathVariable("id") Long id, @RequestBody PaqueteSesion paqueteSesion) {
+    public void update(@AuthenticationPrincipal CustomPrincipal customPrincipal, @PathVariable("id") Long id,
+            @RequestBody PaqueteSesion paqueteSesion) {
         Preconditions.checkNotNull(paqueteSesion);
 
         PaqueteSesion psActualizar = repositorioPaqueteSesion.findById(paqueteSesion.getId()).orElse(null);

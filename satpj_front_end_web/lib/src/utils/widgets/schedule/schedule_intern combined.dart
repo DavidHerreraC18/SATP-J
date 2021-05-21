@@ -28,7 +28,6 @@ class _ScheduleInternCombinedState extends State<ScheduleInternCombined> {
 
   @override
   void initState() {
-    widget.horarioPracticante.lunes='8;9;13';
     horas = 7;
     horarioVista = {};
     dividido = true;

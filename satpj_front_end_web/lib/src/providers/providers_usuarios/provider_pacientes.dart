@@ -38,15 +38,18 @@ class ProviderPacientes {
     Paciente paciente = new Paciente();
     
     try {
+      print('ID PACIENTE ' + idPaciente);
+      ApiDefinition.header["Authorization"] =
+          "Bearer " + await ProviderAuntenticacion.extractToken();
+  
       final resp = await http.get(
-          Uri.http(ApiDefinition.url, _path+'/$idPaciente'),
+          Uri.http(ApiDefinition.url, _path+'/'+idPaciente),
           headers: ApiDefinition.header);
-      
-      print("JSON RECIBIDO" + resp.body);
 
       if (resp.statusCode == 200) {
         final _data = pacienteFromJson(resp.body);
         _completer.complete(_data);
+        print("JSON RECIBIDO" + resp.body);
       }
     } catch (exc) {
        print("Error en provider" + exc);

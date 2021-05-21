@@ -87,7 +87,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers(HttpMethod.POST, "/auxiliares").permitAll()
                 .antMatchers(HttpMethod.POST, "/formularios").permitAll()
                 .antMatchers(HttpMethod.POST, "/formularios/grupal").permitAll()
-                .antMatchers(HttpMethod.GET, "/usuarios").permitAll()
+                .antMatchers(HttpMethod.GET, "/usuarios/email").permitAll()
+                .antMatchers(HttpMethod.GET, "/usuarios/documento").permitAll()
                 .anyRequest().authenticated();
         http.addFilterBefore(tokenAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class);
     }
