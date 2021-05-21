@@ -337,7 +337,7 @@ class DatosPracticanteState extends State<DatosPracticante> {
   Container _containerDatos(String texto, String datoUsuario, Icon icono) =>
       Container(
           alignment: Alignment.center,
-          height: 20.0,
+          height: 40.0,
           constraints: BoxConstraints(minWidth: 125, maxWidth: 350),
           width: 350,
           child: ListTile(
@@ -353,7 +353,7 @@ class DatosPracticanteState extends State<DatosPracticante> {
           bool email) =>
       Container(
           alignment: Alignment.center,
-          height: 20.0,
+          height: 40.0,
           constraints: BoxConstraints(minWidth: 125, maxWidth: 350),
           width: 350,
           child: ListTile(
@@ -363,6 +363,7 @@ class DatosPracticanteState extends State<DatosPracticante> {
                   textInputType: TextInputType.text,
                   isEditing: isEditing,
                   hintText: '',
+                  fontSize: 16.0,
                   validate: () {
                     if (!email) {
                       return ValidadoresInput.validateEmpty(

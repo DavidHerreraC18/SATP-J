@@ -359,6 +359,7 @@ class DatosAcudienteState extends State<DatosAcudiente> {
                   textController: textEditingController,
                   textInputType: TextInputType.text,
                   isEditing: isEditing,
+                  fontSize: 16.0,
                   hintText: '',
                   validate: () {
                     if (!email) {

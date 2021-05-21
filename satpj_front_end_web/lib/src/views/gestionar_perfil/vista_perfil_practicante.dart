@@ -157,16 +157,40 @@ class DatosPracticanteState extends State<DatosPracticante> {
           children: [
             Padding(
                 padding: EdgeInsets.only(
-                    right: 5.0, left: 5.0, top: 0.0, bottom: 10.0),
+                    right: 5.0, left: 5.0, top: 0.0, bottom: 0.0),
                 child: Container(
                   height: 20,
+                  margin: EdgeInsets.only(bottom: 20.0),
                   alignment: Alignment.centerLeft,
-                  child: Text(
-                    "Información",
-                    style: TextStyle(
-                        fontSize: 17,
-                        color: Colors.black,
-                        fontWeight: FontWeight.bold),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text(
+                        "Información",
+                        style: TextStyle(
+                            fontSize: 17,
+                            color: Colors.black,
+                            fontWeight: FontWeight.bold),
+                      ),
+                      Row(
+                        children: [
+                          IconButton(
+                              icon: Icon(Icons.vpn_key),
+                              color: kPrimaryColor,
+                              onPressed: () {
+                                ProviderAuntenticacion.sendChangePasswordEmail(
+                                    widget.practicanteActual.email);
+                              }),
+                          IconButton(
+                              icon: Icon(Icons.edit),
+                              color: kPrimaryColor,
+                              onPressed: () {
+                                Navigator.pushNamed(
+                                    context, VistaEditarPracticante.route);
+                              }),
+                        ],
+                      ),
+                    ],
                   ),
                 )),
             Divider(height: 1),
@@ -249,33 +273,6 @@ class DatosPracticanteState extends State<DatosPracticante> {
                               size: 15.0, color: kPrimaryColor))
                     ],
                   )),
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Container(
-                  padding: const EdgeInsets.all(0.0),
-                  width: 30.0, // you can adjust the width as you need
-                  child: IconButton(
-                      icon: Icon(Icons.edit),
-                      color: kPrimaryColor,
-                      onPressed: () {
-                        Navigator.pushNamed(
-                            context, VistaEditarPracticante.route);
-                      }),
-                ),
-                Container(
-                  padding: const EdgeInsets.all(0.0),
-                  width: 30.0, // you can adjust the width as you need
-                  child: IconButton(
-                      icon: Icon(Icons.vpn_key),
-                      color: kPrimaryColor,
-                      onPressed: () {
-                        ProviderAuntenticacion.sendChangePasswordEmail(
-                            widget.practicanteActual.email);
-                      }),
-                ),
-              ],
             ),
           ],
         ));

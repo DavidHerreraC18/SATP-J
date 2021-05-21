@@ -29,7 +29,7 @@ import com.satpj.project.modelo.usuario.Usuario;
 @Polymorphism(type = PolymorphismType.EXPLICIT)
 public class Acudiente extends Usuario{
     
-    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @ManyToOne(cascade = CascadeType.MERGE, fetch = FetchType.EAGER)
     @JoinColumn(name = "paciente_id", nullable = true,  insertable = false, updatable = false)
     private Paciente paciente;
 

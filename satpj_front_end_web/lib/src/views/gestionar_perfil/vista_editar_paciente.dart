@@ -362,6 +362,7 @@ class DatosPacienteState extends State<DatosPaciente> {
                   textInputType: TextInputType.text,
                   isEditing: isEditing,
                   hintText: '',
+                  fontSize: 16.0,
                   validate: () {
                     if (!email) {
                       return ValidadoresInput.validateEmpty(

@@ -200,13 +200,36 @@ class DatosPacienteState extends State<DatosPaciente> {
                         child: Container(
                           height: 20,
                           alignment: Alignment.centerLeft,
-                          child: Text(
-                            "Información",
-                            style: TextStyle(
-                                fontSize: 17,
-                                color: Colors.black,
-                                fontWeight: FontWeight.bold),
-                          ),
+                          child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Text(
+                                  "Información",
+                                  style: TextStyle(
+                                      fontSize: 17,
+                                      color: Colors.black,
+                                      fontWeight: FontWeight.bold),
+                                ),
+                                Row(
+                                  children: [
+                                    IconButton(
+                                        icon: Icon(Icons.vpn_key),
+                                        color: kPrimaryColor,
+                                        onPressed: () {
+                                          ProviderAuntenticacion
+                                              .sendChangePasswordEmail(
+                                                  widget.pacienteActual.email);
+                                        }),
+                                    IconButton(
+                                        icon: Icon(Icons.edit),
+                                        color: kPrimaryColor,
+                                        onPressed: () {
+                                          Navigator.pushNamed(context,
+                                              VistaEditarPaciente.route);
+                                        }),
+                                  ],
+                                )
+                              ]),
                         )),
                     Divider(height: 1),
                     Padding(
@@ -320,33 +343,6 @@ class DatosPacienteState extends State<DatosPaciente> {
                                       size: 15.0, color: kPrimaryColor))
                             ],
                           )),
-                    ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Container(
-                          padding: const EdgeInsets.all(0.0),
-                          width: 30.0, // you can adjust the width as you need
-                          child: IconButton(
-                              icon: Icon(Icons.edit),
-                              color: kPrimaryColor,
-                              onPressed: () {
-                                Navigator.pushNamed(
-                                    context, VistaEditarPaciente.route);
-                              }),
-                        ),
-                        Container(
-                          padding: const EdgeInsets.all(0.0),
-                          width: 30.0, // you can adjust the width as you need
-                          child: IconButton(
-                              icon: Icon(Icons.vpn_key),
-                              color: kPrimaryColor,
-                              onPressed: () {
-                                ProviderAuntenticacion.sendChangePasswordEmail(
-                                    widget.pacienteActual.email);
-                              }),
-                        ),
-                      ],
                     ),
                   ],
                 )); // snapshot.data  :- get your object which is pass from your downloadData() function

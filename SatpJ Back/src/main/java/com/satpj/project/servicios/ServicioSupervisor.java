@@ -8,7 +8,6 @@ import com.satpj.project.modelo.paciente.Paciente;
 import com.satpj.project.modelo.practicante.Practicante;
 import com.satpj.project.modelo.supervisor.*;
 import com.satpj.project.modelo.usuario.RepositorioUsuario;
-import com.satpj.project.modelo.usuario.Usuario;
 import com.satpj.project.seguridad.CustomPrincipal;
 
 import lombok.Getter;

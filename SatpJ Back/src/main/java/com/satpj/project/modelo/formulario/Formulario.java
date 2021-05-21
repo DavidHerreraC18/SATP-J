@@ -5,10 +5,12 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.satpj.project.modelo.paciente.Paciente;
 
 import lombok.Getter;
@@ -29,6 +31,8 @@ public class Formulario{
 	@Column(name = "formulario_id")
 	private Long id;
 
+    //@OneToMany(mappedBy = "formulario")
+    //@JsonIgnore
     @OneToOne
     private Paciente paciente;
 

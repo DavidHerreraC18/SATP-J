@@ -54,6 +54,7 @@ class RoundedTextFieldValidators extends StatefulWidget {
   List<TextInputFormatter> formatter;
   bool enabled;
   Function onChanged;
+  double fontSize;
   
   RoundedTextFieldValidators(
       {this.textFocusNode,
@@ -65,7 +66,8 @@ class RoundedTextFieldValidators extends StatefulWidget {
       this.numberFormat,
       this.formatter,
       this.enabled = true,
-      this.onChanged});
+      this.onChanged,
+      this.fontSize = 18.0});
 
   @override
   _RoundedTextFieldValidatorsState createState() =>
@@ -98,9 +100,9 @@ class _RoundedTextFieldValidatorsState
         }
         return null;
       },
-      style: TextStyle(color: Colors.black),
+      style: TextStyle(color: Colors.black, fontSize: widget.fontSize),
       decoration: InputDecoration(
-        labelStyle: TextStyle(fontWeight: FontWeight.normal, fontSize: 18.0),
+        labelStyle: TextStyle(fontWeight: FontWeight.normal, fontSize: widget.fontSize),
         contentPadding: EdgeInsets.symmetric(vertical: 10.0, horizontal: 20.0),
         border: borderField(),
         enabledBorder: enabledBorderField(),

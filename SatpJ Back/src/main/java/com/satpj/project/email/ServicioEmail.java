@@ -4,7 +4,6 @@ import java.util.HashMap;
 import java.util.Map;
 
 import com.satpj.project.modelo.sesion_terapia.RepositorioSesionTerapia;
-import com.satpj.project.modelo.sesion_terapia.RepositorioSesionUsuario;
 import com.satpj.project.modelo.sesion_terapia.SesionTerapia;
 import com.satpj.project.modelo.usuario.RepositorioUsuario;
 import com.satpj.project.modelo.usuario.Usuario;
@@ -67,8 +66,8 @@ public class ServicioEmail {
     Usuario usuario = repositorioUsuario.findById(id).orElse(null);
     if (usuario != null) {
       Map<String, Object> registro = new HashMap<String, Object>();
-      registro.put("correo", "geralidine.gomez@javeriana.edu.co");
-      registro.put("contrasena", "12345667");
+      registro.put("correo", usuario.getEmail());
+      registro.put("contrasena", usuario.getDocumento());
       emailSender.sendEmail(usuario.getEmail(), "Consultores en Psicología", registro, false, tipo);
     }
 

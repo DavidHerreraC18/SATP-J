@@ -146,6 +146,9 @@ class DatosAuxiliarState extends State<DatosAuxiliar> {
   }
   @override
   void initState() {
+    if(auxiliarActual == null)
+       auxiliarActual = new AuxiliarAdministrativo();
+      
     super.initState();
   }
 
@@ -163,13 +166,17 @@ class DatosAuxiliarState extends State<DatosAuxiliar> {
                 child: Container(
                   height: 20,
                   alignment: Alignment.centerLeft,
-                  child: Text(
-                    "Información",
-                    style: TextStyle(
-                        fontSize: 17,
-                        color: Colors.black,
-                        fontWeight: FontWeight.bold),
-                  ),
+                  child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text(
+                          "Información",
+                          style: TextStyle(
+                              fontSize: 17,
+                              color: Colors.black,
+                              fontWeight: FontWeight.bold),
+                        ),
+                      ]),
                 )),
             Divider(height: 1),
             Padding(
@@ -228,7 +235,7 @@ class DatosAuxiliarState extends State<DatosAuxiliar> {
                       Flexible(
                           child: _containerDatos(
                               "Dirección: ",
-                              auxiliarActual.direccion,
+                              auxiliarActual.direccion != null ? auxiliarActual.direccion : 'No tiene',
                               Icon(Icons.house,
                                   size: 20.0, color: kPrimaryColor))),
                     ],
@@ -252,32 +259,6 @@ class DatosAuxiliarState extends State<DatosAuxiliar> {
                     ],
                   )),
             ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Container(
-                  padding: const EdgeInsets.all(0.0),
-                  width: 30.0, // you can adjust the width as you need
-                  child: IconButton(
-                      icon: Icon(Icons.edit),
-                      color: kPrimaryColor,
-                      onPressed: () {
-                        Navigator.pushNamed(context, VistaEditarAuxiliar.route);
-                      }),
-                ),
-                Container(
-                  padding: const EdgeInsets.all(0.0),
-                  width: 30.0, // you can adjust the width as you need
-                  child: IconButton(
-                      icon: Icon(Icons.vpn_key),
-                      color: kPrimaryColor,
-                      onPressed: () {
-                        ProviderAuntenticacion.sendChangePasswordEmail(
-                            widget.auxiliarActual.email);
-                      }),
-                ),
-              ],
-            ),
           ],
         ));
   }
@@ -289,7 +270,7 @@ class DatosAuxiliarState extends State<DatosAuxiliar> {
           constraints: BoxConstraints(minWidth: 125, maxWidth: 350),
           width: 350,
           child: ListTile(
-              title: Text(texto + datoUsuario,
+              title: Text(texto + (datoUsuario != null ? datoUsuario : ''),
                   style: TextStyle(
                       height: 1.1, fontSize: 16, color: Colors.black)),
               leading: icono));

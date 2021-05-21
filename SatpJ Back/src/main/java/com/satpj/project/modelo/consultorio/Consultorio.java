@@ -21,5 +21,5 @@ import javax.persistence.Table;
 public class Consultorio {
     @Id
     @Column(name = "consultorio")
-    private Long consultorio;
+    private String consultorio;
 }

@@ -53,7 +53,7 @@ public class ServicioConsultorio {
     }
 
     @GetMapping(value = "/{id}", produces = "application/json")
-    public Consultorio findById(@AuthenticationPrincipal CustomPrincipal customPrincipal, @PathVariable("id") Long id) {
+    public Consultorio findById(@AuthenticationPrincipal CustomPrincipal customPrincipal, @PathVariable("id") String id) {
         return repositorioConsultorio.findById(id).get();
     }
 
@@ -85,7 +85,7 @@ public class ServicioConsultorio {
 
     @DeleteMapping(value = "/{id}")
     @ResponseStatus(HttpStatus.OK)
-    public void delete(@AuthenticationPrincipal CustomPrincipal customPrincipal, @PathVariable("id") Long id) {
+    public void delete(@AuthenticationPrincipal CustomPrincipal customPrincipal, @PathVariable("id") String id) {
         repositorioConsultorio.deleteById(id);
     }
 }
