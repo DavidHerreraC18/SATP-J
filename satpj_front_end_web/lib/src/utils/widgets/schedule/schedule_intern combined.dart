@@ -8,6 +8,7 @@ import 'package:satpj_front_end_web/src/utils/widgets/schedule/cell_schedule.dar
 class ScheduleInternCombined extends StatefulWidget {
   Horario horarioPracticante = new Horario();
   Color colorSelected;
+  List<Horario> horarios;
 
   ScheduleInternCombined(
       {this.colorSelected = kAccentColor, this.horarioPracticante});

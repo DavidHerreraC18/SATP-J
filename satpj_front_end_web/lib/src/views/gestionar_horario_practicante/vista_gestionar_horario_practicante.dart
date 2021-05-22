@@ -40,29 +40,15 @@ class _VistaGestionarHorarioPracticanteState
   int horas = 0;
   int horarios;
   Map<String, List<int>> horarioVista;
-
-  @override
-  void initState() {
-    if (practicante.horarios == null) {
+  
+  initDataHorarios(){
+      if (practicante.horarios == null) {
       practicante.horarios = [];
     }
-    practicante.horarios = [];
-    Horario h = new Horario();
-    h.lunes = '8;9;13';
-    h.opcion = '1';
-    Horario h1 = new Horario();
-    h.lunes = '8;9;13';
-    h.opcion = '2';
-    Horario h2 = new Horario();
-    h.lunes = '8;9;13';
-    h.opcion = '3';
-    practicante.horarios.add(h);
-    practicante.horarios.add(h1);
-    practicante.horarios.add(h2);
 
-    horarios = practicante.horarios.length;
+     horarios = practicante.horarios.length;
 
-    if (practicante.horarios.isNotEmpty) {
+     if (practicante.horarios.isNotEmpty) {
       if (horarios == 1) {
         opcion1 = practicante.horarios[0];
         horario1 = opcion1.forView();
@@ -83,11 +69,13 @@ class _VistaGestionarHorarioPracticanteState
         horario3 = opcion3.forView();
       }
     }
-
-    opcion1.lunes = '8;9;13';
     horas = 7;
     horarioVista = {};
+  }
 
+  @override
+  void initState() {
+    practicante.horarios = [];
     super.initState();
   }
 
@@ -159,6 +147,19 @@ class _VistaGestionarHorarioPracticanteState
 
   @override
   Widget build(BuildContext context) {
+     final Map arguments = ModalRoute.of(context).settings.arguments as Map;
+
+    if (arguments != null) {
+      if (arguments['arguments'] is List<Horario>) {
+        print(arguments['arguments']);
+        practicante.horarios = arguments['arguments'] as List<Horario>;
+      } 
+    }else{
+       practicante.horarios = [];
+    }
+
+    initDataHorarios();
+
     return Scaffold(
       backgroundColor: Colors.white,
       resizeToAvoidBottomInset: false,

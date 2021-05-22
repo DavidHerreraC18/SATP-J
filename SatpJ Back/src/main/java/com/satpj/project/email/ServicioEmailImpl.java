@@ -49,6 +49,10 @@ public class ServicioEmailImpl {
             helper.setSubject(subject);
             helper.setText(DefinirTemplateEmail(template, text), true);
 
+            if(template.contains("registro")){
+                helper.addInline("costos.png", resourceFile);
+            }
+
             emailSender.send(message);
         } catch (MessagingException e) {
             e.printStackTrace();

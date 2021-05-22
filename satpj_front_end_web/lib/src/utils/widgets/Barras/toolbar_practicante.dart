@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:satpj_front_end_web/src/model/horario/horario.dart';
+import 'package:satpj_front_end_web/src/providers/provider_administrar_horarios.dart';
 import 'package:satpj_front_end_web/src/providers/provider_autenticacion.dart';
+import 'package:satpj_front_end_web/src/views/gestionar_horario_practicante/vista_gestionar_horario_practicante.dart';
 import 'package:satpj_front_end_web/src/views/gestionar_pacientes/vista_visualizar_pacientes_practicante.dart';
 import 'package:satpj_front_end_web/src/views/gestionar_perfil/vista_perfil_practicante.dart';
 import 'package:satpj_front_end_web/src/views/vista_home.dart';
@@ -131,7 +134,7 @@ AppBar toolbarPracticante(BuildContext context) {
                   ),
                 ),
               ],
-              onSelected: (value) {
+              onSelected: (value) async {
                 switch (value) {
                   case 1:
                     {
@@ -154,7 +157,11 @@ AppBar toolbarPracticante(BuildContext context) {
                     break;
 
                   case 4:
-                    {}
+                    {
+                      List<Horario> horarios = await ProviderAdministracionHorarios.obtenerHorariosPracticante(ProviderAuntenticacion.uid);
+                      Navigator.pushNamed(
+                          context, VistaGestionarHorarioPracticante.route, arguments :{"argumets" : horarios});
+                    }
                     break;
 
                   case 5:
