@@ -57,14 +57,10 @@ public class DocumentoPaciente {
 
 	@NotNull(message = "La Fecha de Radicacion del Documento es obligatorio")
 	@Column(name = "radicacion", nullable = false)
-	@DateTimeFormat(iso = DateTimeFormat.ISO.TIME)
-	@JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss.SSS")	
 	private LocalDateTime radicacion;
 
 	@NotNull(message = "La Fecha de Vencimiento del Documento es obligatorio")
-	@Column(name = "vencimiento", nullable = true)
-	@DateTimeFormat(iso = DateTimeFormat.ISO.TIME)
-	@JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss.SSS")	
+	@Column(name = "vencimiento", nullable = true)	
 	private LocalDateTime vencimiento;
 
 }

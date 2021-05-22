@@ -26,12 +26,8 @@ class CalendarioPrincipal extends StatefulWidget {
 }
 
 class _CalendarioPrincipalState extends State<CalendarioPrincipal> {
-  List<SesionUsuario> sesionesUsuario;
-  Usuario usuario;
   @override
   initState() {
-    usuario = widget.usuario;
-    sesionesUsuario = widget.sesionesUsuario;
     super.initState();
   }
 
@@ -44,7 +40,7 @@ class _CalendarioPrincipalState extends State<CalendarioPrincipal> {
                 children: [
                   Column(
                     children: [
-                      (usuario.tipoUsuario != "Auxiliar Administrativo")
+                      (widget.usuario.tipoUsuario != "Auxiliar Administrativo")
                           ? Container(
                               width: 300,
                               height: 150,
@@ -63,7 +59,7 @@ class _CalendarioPrincipalState extends State<CalendarioPrincipal> {
                         child: Container(
                           width: 300,
                           child: ScheduleCalendar(
-                              sesionesUsuario: this.sesionesUsuario),
+                              sesionesUsuario: widget.sesionesUsuario),
                         ),
                       ),
                     ],
@@ -71,8 +67,8 @@ class _CalendarioPrincipalState extends State<CalendarioPrincipal> {
                   Expanded(
                       child: Container(
                     height: 3000,
-                    child:
-                        MonthlyCalendar(sesionesUsuario: this.sesionesUsuario),
+                    child: MonthlyCalendar(
+                        sesionesUsuario: widget.sesionesUsuario),
                   )),
                 ],
               )
@@ -80,12 +76,12 @@ class _CalendarioPrincipalState extends State<CalendarioPrincipal> {
                 children: [
                   Container(
                     height: 100,
-                    child:
-                        ScheduleCalendar(sesionesUsuario: this.sesionesUsuario),
+                    child: ScheduleCalendar(
+                        sesionesUsuario: widget.sesionesUsuario),
                   ),
                   Expanded(
                       child: MonthlyCalendar(
-                          sesionesUsuario: this.sesionesUsuario)),
+                          sesionesUsuario: widget.sesionesUsuario)),
                 ],
               ));
   }
@@ -142,30 +138,6 @@ class _MonthlyCalendarState extends State<MonthlyCalendar> {
     super.initState();
   }
 
-  void longPressed(CalendarTapDetails calendarLongPressDetails) {
-    print(calendarLongPressDetails.appointments.first.eventName);
-    showDialog(
-        context: context,
-        builder: (BuildContext context) {
-          return AlertDialog(
-            title: Container(child: new Text(" Long pressed")),
-            content: Container(
-                child: new Text("Date cell " +
-                    DateFormat('dd MMM')
-                        .format(calendarLongPressDetails.date)
-                        .toString() +
-                    " has been long pressed")),
-            actions: <Widget>[
-              new ElevatedButton(
-                  onPressed: () {
-                    Navigator.of(context).pop();
-                  },
-                  child: new Text('close'))
-            ],
-          );
-        });
-  }
-
   @override
   Widget build([BuildContext context]) {
     final Widget calendar = Theme(
@@ -209,7 +181,7 @@ class _MonthlyCalendarState extends State<MonthlyCalendar> {
   /// details new appointment collection added to the calendar
   void _onViewChanged(ViewChangedDetails visibleDatesChangedDetails) {
     final List<_Meeting> appointment = <_Meeting>[];
-    //_events.appointments.clear();
+    _events.appointments.clear();
     final Random random = Random();
 
     /// Creates new appointment collection based on
@@ -268,7 +240,6 @@ class _MonthlyCalendarState extends State<MonthlyCalendar> {
       dynamic scheduleViewBuilder]) {
     return SfCalendar(
         controller: _calendarController,
-        onTap: longPressed,
         dataSource: _calendarDataSource,
         allowedViews: _allowedViews,
         scheduleViewMonthHeaderBuilder: scheduleViewBuilder,
@@ -281,17 +252,14 @@ class _MonthlyCalendarState extends State<MonthlyCalendar> {
             color: Colors.red),
         minDate: _minDate,
         maxDate: _maxDate,
-        appointmentTextStyle:
-            TextStyle(color: Colors.black87, fontFamily: "Dubai"),
+        viewHeaderStyle: new ViewHeaderStyle(
+            backgroundColor: kPrimaryColor,
+            dayTextStyle:
+                TextStyle(color: Colors.black87, fontFamily: "Dubai-Bold")),
         headerStyle: new CalendarHeaderStyle(
             backgroundColor: kPrimaryColor,
             textStyle:
                 TextStyle(color: Colors.white, fontFamily: "Dubai-Bold")),
-        viewHeaderStyle: new ViewHeaderStyle(
-            backgroundColor: kPrimaryColor,
-            dayTextStyle:
-                TextStyle(color: Colors.white, fontFamily: "Dubai-Bold")),
-        todayHighlightColor: kAccentColor,
         monthViewSettings: MonthViewSettings(
             appointmentDisplayMode: MonthAppointmentDisplayMode.appointment,
             showTrailingAndLeadingDates: _showLeadingAndTrailingDates,
@@ -408,28 +376,7 @@ class _ScheduleCalendarState extends State<ScheduleCalendar> {
   /// details new appointment collection added to the calendar
   void _onViewChanged(ViewChangedDetails visibleDatesChangedDetails) {
     final List<_Meeting> appointment = <_Meeting>[];
-    //_events.appointments.clear();
     final Random random = Random();
-    /*
-    final List<DateTime> blockedDates = <DateTime>[];
-    if (_calendarController.view == CalendarView.month ||
-        _calendarController.view == CalendarView.timelineMonth) {
-      for (int i = 0; i < 5; i++) {
-        blockedDates.add(visibleDatesChangedDetails.visibleDates[
-            random.nextInt(visibleDatesChangedDetails.visibleDates.length)]);
-      }
-    }
-
-    SchedulerBinding.instance.addPostFrameCallback((timeStamp) {
-      setState(() {
-        if (_calendarController.view == CalendarView.month ||
-            _calendarController.view == CalendarView.timelineMonth) {
-          _blackoutDates = blockedDates;
-        } else {
-          _blackoutDates?.clear();
-        }
-      });
-    });*/
     _events.appointments.clear();
 
     /// Creates new appointment collection based on
@@ -449,7 +396,6 @@ class _ScheduleCalendarState extends State<ScheduleCalendar> {
           sesionTerapia.fecha.day,
           sesionTerapia.fecha.hour,
           sesionTerapia.fecha.minute);
-
       appointment.add(_Meeting(
         sesionString,
         startDate,
@@ -466,29 +412,6 @@ class _ScheduleCalendarState extends State<ScheduleCalendar> {
     /// Resets the newly created appointment collection to render
     /// the appointments on the visible dates.
     _events.notifyListeners(CalendarDataSourceAction.reset, appointment);
-  }
-
-  void longPressed(CalendarTapDetails calendarLongPressDetails) {
-    showDialog(
-        context: context,
-        builder: (BuildContext context) {
-          return AlertDialog(
-            title: Container(child: new Text(" Long pressed")),
-            content: Container(
-                child: new Text("Date cell " +
-                    DateFormat('dd MMM')
-                        .format(calendarLongPressDetails.date)
-                        .toString() +
-                    " has been long pressed")),
-            actions: <Widget>[
-              new ElevatedButton(
-                  onPressed: () {
-                    Navigator.of(context).pop();
-                  },
-                  child: new Text('close'))
-            ],
-          );
-        });
   }
 
   /// Creates the required appointment details as a list.
@@ -512,7 +435,6 @@ class _ScheduleCalendarState extends State<ScheduleCalendar> {
     return SfCalendar(
         controller: _calendarController,
         dataSource: _calendarDataSource,
-        onTap: longPressed,
         allowedViews: _allowedViewsSche,
         scheduleViewMonthHeaderBuilder: scheduleViewBuilder,
         showNavigationArrow: kIsWeb,

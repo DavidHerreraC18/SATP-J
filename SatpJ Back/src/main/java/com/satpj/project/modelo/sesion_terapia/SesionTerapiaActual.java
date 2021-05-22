@@ -26,9 +26,7 @@ public class SesionTerapiaActual {
 
 
 	@NotNull(message = "La Fecha de la Sesión de Terapia es obligatoria")
-	@Column(name = "fecha", nullable = false)
-	@DateTimeFormat(iso = DateTimeFormat.ISO.TIME)
-	@JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss.SSS")	
+	@Column(name = "fecha", nullable = false)	
 	private LocalDateTime fecha;
 
 	boolean posible;

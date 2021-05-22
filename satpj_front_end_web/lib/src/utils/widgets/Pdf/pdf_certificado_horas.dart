@@ -45,8 +45,8 @@ class PdfCertificadoHoras {
         nameFont,
         bounds: Rect.fromLTWH(x, 253, 0, 0),
         brush: PdfSolidBrush(PdfColor(20, 58, 86)));
-    x = _calculateXPosition(
-        practicanteHoras.horas.toString(), controlFont, pageSize.width);
+    x = _calculateXPosition(practicanteHoras.horas.toString() + " horas",
+        controlFont, pageSize.width);
     page.graphics.drawString(
         practicanteHoras.horas.toString() + " horas", controlFont,
         bounds: Rect.fromLTWH(x, 340, 0, 0),

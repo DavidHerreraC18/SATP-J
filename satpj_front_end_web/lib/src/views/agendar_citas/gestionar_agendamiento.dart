@@ -136,7 +136,14 @@ class _InternalWidget extends StatelessWidget {
                 height: 10,
               ),
               Text(
-                "El Paciente no tiene sesiones de terapia actualmente haga clic para crear una",
+                "El Paciente no tiene sesiones de terapia actualmente",
+                style: TextStyle(fontSize: 25.0),
+              ),
+              SizedBox(
+                height: 10,
+              ),
+              Text(
+                " Haga clic para crear una",
                 style: TextStyle(fontSize: 25.0),
               ),
               SizedBox(

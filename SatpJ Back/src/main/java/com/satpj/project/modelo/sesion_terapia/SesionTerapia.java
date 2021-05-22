@@ -50,8 +50,6 @@ public class SesionTerapia {
 
 	@NotNull(message = "La Fecha de la Sesión de Terapia es obligatoria")
 	@Column(name = "fecha", nullable = false)
-	@DateTimeFormat(iso = DateTimeFormat.ISO.TIME)
-	@JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss.SSS")	
 	private LocalDateTime fecha;
 
 	/* Indica si la Sesión de Terapia se realizará presencial o virtual */

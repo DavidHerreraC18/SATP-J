@@ -9,7 +9,7 @@ part of 'llave_sesion_usuario.dart';
 LlaveSesionUsuario _$LlaveSesionUsuarioFromJson(Map<String, dynamic> json) {
   return LlaveSesionUsuario(
     usuarioId: json['usuarioId'] as String,
-    sesion_terapia_id: json['sesion_terapia_id'],
+    sesion_terapia_id: json['sesion_terapia_id'] as int,
   );
 }
 
