@@ -473,7 +473,7 @@ class _DialogoAgendarSesionTerapiaState
                               widget.sesionesTerapia.add(nueva);
                               SesionTerapia sesionTerapiaNueva =
                                   await ProviderSesionesTerapia
-                                      .crearSesionTerapia(widget.sesionTerapia);
+                                      .crearSesionTerapia(nueva);
                               LlaveSesionUsuario nuevaLlave =
                                   new LlaveSesionUsuario(
                                       sesion_terapia_id: sesionTerapiaNueva.id,

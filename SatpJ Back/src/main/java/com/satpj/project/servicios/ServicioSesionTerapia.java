@@ -173,18 +173,20 @@ public class ServicioSesionTerapia {
             if(usuarioSesion.getTipoUsuario().equals("Paciente")){
                 Paciente paciente = servicioPaciente.findById(customPrincipal, usuarioSesion.getId());
                 Grupo grupo =paciente.getGrupo();
-                for(Paciente pacienteGrupo: grupo.getIntegrantes()){
-                    SesionUsuario nuevaSesionUsuario = new SesionUsuario();
-                    LlaveSesionUsuario llaveSesionUsuario = new LlaveSesionUsuario();
-                    llaveSesionUsuario.setSesion_terapia_id(sesionTerapia.getId());
-                    llaveSesionUsuario.setUsuarioId(pacienteGrupo.getId());
-                    nuevaSesionUsuario.setId(llaveSesionUsuario);
-                    Usuario usuarioSesionGrupo = servicioUsuario.findById(customPrincipal, pacienteGrupo.getId());
-                    nuevaSesionUsuario.setUsuario(usuarioSesionGrupo);
-                    nuevaSesionUsuario.setSesionTerapia(sesionTerapia);
-                    nuevaSesionUsuario.setObservador(false);
-                    repositorioSesionUsuario.save(nuevaSesionUsuario);
-                }
+                if(grupo != null){
+                    for(Paciente pacienteGrupo: grupo.getIntegrantes()){
+                        SesionUsuario nuevaSesionUsuario = new SesionUsuario();
+                        LlaveSesionUsuario llaveSesionUsuario = new LlaveSesionUsuario();
+                        llaveSesionUsuario.setSesion_terapia_id(sesionTerapia.getId());
+                        llaveSesionUsuario.setUsuarioId(pacienteGrupo.getId());
+                        nuevaSesionUsuario.setId(llaveSesionUsuario);
+                        Usuario usuarioSesionGrupo = servicioUsuario.findById(customPrincipal, pacienteGrupo.getId());
+                        nuevaSesionUsuario.setUsuario(usuarioSesionGrupo);
+                        nuevaSesionUsuario.setSesionTerapia(sesionTerapia);
+                        nuevaSesionUsuario.setObservador(false);
+                        repositorioSesionUsuario.save(nuevaSesionUsuario);
+                    }
+                }   
                 for(Acudiente acudiente: paciente.getAcudientes()){
                     SesionUsuario nuevaSesionUsuario = new SesionUsuario();
                     LlaveSesionUsuario llaveSesionUsuario = new LlaveSesionUsuario();
