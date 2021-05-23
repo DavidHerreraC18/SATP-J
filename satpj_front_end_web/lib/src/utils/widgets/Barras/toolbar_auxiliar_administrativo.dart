@@ -111,7 +111,7 @@ AppBar toolbarAuxiliarAdministrativo(BuildContext context) {
                     // Replace with a Row for horizontal icon + text
                     children: <Widget>[
                       Icon(
-                        Icons.group,
+                        Icons.supervised_user_circle,
                         color: Color(0xFF2E5EAA),
                       ),
                       SizedBox(width: 2.0),
@@ -243,8 +243,7 @@ AppBar toolbarAuxiliarAdministrativo(BuildContext context) {
 
                   case 7:
                     {
-                      Navigator.pushNamed(
-                          context, VistaVisualizarPagos.route);
+                      Navigator.pushNamed(context, VistaVisualizarPagos.route);
                     }
                     break;
 

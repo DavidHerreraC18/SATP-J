@@ -210,7 +210,7 @@ class DatosSupervisorState extends State<DatosSupervisor> {
                     children: [
                       Flexible(
                           child: _containerDatos(
-                              supervisorActual.tipoDocumento,
+                              supervisorActual.tipoDocumento + ": ",
                               supervisorActual.documento,
                               Icon(FontAwesome.address_card,
                                   size: 20.0, color: kPrimaryColor))),

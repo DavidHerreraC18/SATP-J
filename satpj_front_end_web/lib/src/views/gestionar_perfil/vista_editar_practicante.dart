@@ -210,7 +210,7 @@ class DatosPracticanteState extends State<DatosPracticante> {
                     children: [
                       Flexible(
                           child: _containerDatos(
-                              practicanteActual.tipoDocumento,
+                              practicanteActual.tipoDocumento + ": ",
                               practicanteActual.documento,
                               Icon(FontAwesome.address_card,
                                   size: 20.0, color: kPrimaryColor))),

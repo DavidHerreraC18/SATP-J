@@ -204,7 +204,7 @@ class DatosSupervisorState extends State<DatosSupervisor> {
                     children: [
                       Flexible(
                           child: _containerDatos(
-                              widget.supervisorActual.tipoDocumento,
+                              widget.supervisorActual.tipoDocumento + ": ",
                               widget.supervisorActual.documento,
                               Icon(FontAwesome.address_card,
                                   size: 20.0, color: kPrimaryColor))),
@@ -249,7 +249,9 @@ class DatosSupervisorState extends State<DatosSupervisor> {
                       Flexible(
                           child: _containerDatos(
                               "Dirección: ",
-                              widget.supervisorActual.direccion,
+                              widget.supervisorActual.direccion != null
+                                  ? widget.supervisorActual.direccion
+                                  : 'No tiene',
                               Icon(Icons.house,
                                   size: 20.0, color: kPrimaryColor))),
                     ],

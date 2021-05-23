@@ -205,7 +205,7 @@ class DatosPracticanteState extends State<DatosPracticante> {
                     children: [
                       Flexible(
                           child: _containerDatos(
-                              widget.practicanteActual.tipoDocumento,
+                              widget.practicanteActual.tipoDocumento + ": ",
                               widget.practicanteActual.documento,
                               Icon(FontAwesome.address_card,
                                   size: 20.0, color: kPrimaryColor))),
@@ -250,7 +250,9 @@ class DatosPracticanteState extends State<DatosPracticante> {
                       Flexible(
                           child: _containerDatos(
                               "Dirección: ",
-                              widget.practicanteActual.direccion,
+                              widget.practicanteActual.direccion != null
+                                  ? widget.practicanteActual.direccion
+                                  : 'No tiene',
                               Icon(Icons.house,
                                   size: 20.0, color: kPrimaryColor))),
                     ],

@@ -228,7 +228,7 @@ class ProviderAdministracionPacientes {
   }
 
   static Future<Supervisor> traerSupervisorPaciente(
-      Paciente pacienteActual) async {
+      String pacienteActual) async {
     //
     final _completer = Completer<Supervisor>();
 
@@ -242,7 +242,7 @@ class ProviderAdministracionPacientes {
         'Content-Type': 'application/json; charset=UTF-8'
       };
       final resp = await http.get(
-          Uri.http(_url, "/pacientes/" + pacienteActual.id + "/supervisor"),
+          Uri.http(_url, "/pacientes/" + pacienteActual + "/supervisor"),
           headers: headers);
       //print("JSON RECIBIDO" + resp.body);
       if (resp.statusCode == 200) {
