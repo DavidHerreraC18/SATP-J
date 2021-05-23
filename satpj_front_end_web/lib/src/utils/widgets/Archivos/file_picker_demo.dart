@@ -32,6 +32,7 @@ class _FilePickerDemoState extends State<FilePickerDemo> {
         type: _pickingType,
         allowMultiple: _multiPick,
         allowedExtensions: (_extension?.isNotEmpty ?? false)
+            // ignore: can_be_null_after_null_aware
             ? _extension?.replaceAll(' ', '').split(',')
             : null,
       ))

@@ -13,8 +13,10 @@ String llaveSesionUsuarioToJson(List<LlaveSesionUsuario> data) =>
 @JsonSerializable(explicitToJson: true)
 class LlaveSesionUsuario {
   String usuarioId;
+  // ignore: non_constant_identifier_names
   int sesion_terapia_id;
 
+  // ignore: non_constant_identifier_names
   LlaveSesionUsuario({this.usuarioId, this.sesion_terapia_id});
 
   factory LlaveSesionUsuario.fromJson(Map<String, dynamic> json) =>

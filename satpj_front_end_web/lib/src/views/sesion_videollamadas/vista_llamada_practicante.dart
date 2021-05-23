@@ -165,7 +165,7 @@ class _MeetingState extends State<VistaLlamadaPracticante> {
                 ),
                 ElevatedButton(
                   onPressed: () {
-                // TODO enviar link de youtube
+                // enviar link de youtube
                 },
                   child: Text(
                     "Enviar enlace a Observador",

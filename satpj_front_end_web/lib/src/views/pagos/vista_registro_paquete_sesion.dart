@@ -72,8 +72,10 @@ class _FormularioRegistroPaquetesSesionesState
   bool grupal = false;
   bool individual = false;
   bool primeraVez = false;
+  bool cantidad = true;
   String valor = '0.0';
   String total = '0.0';
+
 
   TextEditingController textControllerSesionesTerapias;
   FocusNode textFocusNodeSesionesTerapias;
@@ -98,6 +100,12 @@ class _FormularioRegistroPaquetesSesionesState
         ProviderAuntenticacion.uid));
     print('PACIENTE ID' + paciente.id);
     return Future.value("Data download successfully");
+  }
+
+  cleanControllers(){
+    textControllerSesionesTerapias.text = '';
+    textControllerTotal.text = '';
+    textControllerValorSesionTerapia.text = '';
   }
 
   _launchURL() async {
@@ -239,6 +247,9 @@ class _FormularioRegistroPaquetesSesionesState
                   individual = false;
                   setState(() {
                     obtenerValorTerapia(primeraVez, grupal);
+                    paquete.cantidadSesiones = 1;
+                    textControllerSesionesTerapias.text = '1';
+                    cantidad = false;
                   });
                 }),
             Text(
@@ -258,6 +269,7 @@ class _FormularioRegistroPaquetesSesionesState
                     primeraVez = false;
                     grupal = false;
                     obtenerValorTerapia(false, false);
+                    cantidad = true;
                   });
                 }),
             Text(
@@ -277,6 +289,7 @@ class _FormularioRegistroPaquetesSesionesState
                     primeraVez = false;
                     individual = false;
                     obtenerValorTerapia(primeraVez, grupal);
+                    cantidad = true;
                   });
                 }),
             Text(
@@ -301,6 +314,7 @@ class _FormularioRegistroPaquetesSesionesState
             textController: textControllerSesionesTerapias,
             textInputType: TextInputType.number,
             isEditing: _isEditingSesionesTerapias,
+            enabled: cantidad,
             formatter: <TextInputFormatter>[
               FilteringTextInputFormatter.digitsOnly
             ],
@@ -337,6 +351,7 @@ class _FormularioRegistroPaquetesSesionesState
           textInputType: TextInputType.number,
           isEditing: _isEditingValorSesionTerapia,
           hintText: 'Valor sesión de terapia',
+          enabled: false,
           formatter: [currencyformatPesosColombianos],
           validate: () {},
         ),
@@ -356,6 +371,7 @@ class _FormularioRegistroPaquetesSesionesState
             textController: textControllerTotal,
             textInputType: TextInputType.number,
             isEditing: _isEditingTotal,
+            enabled: false,
             hintText: 'Total',
             formatter: [currencyformatPesosColombianos],
             validate: () {
@@ -376,6 +392,7 @@ class _FormularioRegistroPaquetesSesionesState
                   color: kPrimaryColor,
                   route: VistaRegistroPaquetesSesiones.route,
                   providerFunction: () {
+                    cleanControllers();
                     _launchURL();
                     paquete.paciente = paciente;
                     ProviderGestionPagos.crearPaqueteSesion(paquete);

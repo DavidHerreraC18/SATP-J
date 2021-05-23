@@ -8,7 +8,6 @@ import 'package:satpj_front_end_web/src/utils/widgets/Barras/toolbar_auxiliar_ad
 import 'package:satpj_front_end_web/src/utils/widgets/loading/LoadingWanderingCube.dart';
 import 'package:satpj_front_end_web/src/utils/widgets/formularios/tema_formularios.dart';
 import 'package:flutter_icons/flutter_icons.dart';
-import 'package:satpj_front_end_web/src/views/gestionar_perfil/vista_editar_auxiliar.dart';
 
 class VistaPerfilAuxiliar extends StatefulWidget {
   static const route = '/perfil-auxiliar';

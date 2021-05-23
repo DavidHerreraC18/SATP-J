@@ -129,13 +129,19 @@ public class ServicioFormulario {
         
         Grupo grupo = new Gson().fromJson(json, Grupo.class);
         if (grupo != null) {
-            for (Paciente p : grupo.getIntegrantes()) {
+            List<Paciente> integrantes = grupo.getIntegrantes();
+            grupo.setIntegrantes(null);
+            grupo = repositorioGrupo.save(grupo);
+            for (Paciente p : integrantes) {
                 if (p != null) {
                     
                     Formulario formulario = p.getFormulario();
                     p.setFormulario(null);
                     
                     repositorioUsuario.save(p);
+                    
+                    p = repositorioPaciente.save(p);
+                    p.setGrupo(grupo);
                     repositorioPaciente.save(p);
                     
                     formulario.setPaciente(p);
@@ -143,7 +149,7 @@ public class ServicioFormulario {
                 }
             }
         }
-        return repositorioGrupo.save(grupo);
+        return grupo;
     }
 
     @PutMapping(value = "/{id}")

@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:satpj_front_end_web/src/providers/provider_autenticacion.dart';
-import 'package:satpj_front_end_web/src/views/agendar_citas/gestionar_agendamiento.dart';
 import 'package:satpj_front_end_web/src/views/gestionar_pacientes/vista_visualizar_pacientes_grupo.dart';
 import 'package:satpj_front_end_web/src/views/gestionar_perfil/vista_perfil_paciente.dart';
 import 'package:satpj_front_end_web/src/views/pagos/vista_registro_pago.dart';
