@@ -56,10 +56,11 @@ class _VistaGestionarHorarioPracticanteState
 
     if (practicante.horarios.isNotEmpty) {
       for (Horario h in practicante.horarios) {
-        if (h.opcion == '1' || h.opcion == 'seleccionado') {
-          print('SELECIONADO');
+        if (h.opcion == '1') {
           opcion1 = h;
           horario1 = opcion1.forView();
+        }
+        if (h.opcion == 'seleccionado') {
           aprobado = true;
         } else if (h.opcion == '2') {
           opcion2 = h;
@@ -189,8 +190,10 @@ class _VistaGestionarHorarioPracticanteState
 
     if (arguments != null) {
       if (arguments['arguments'] is List<Horario>) {
-        practicante.horarios = arguments['arguments'] as List<Horario>;
-        practicante.id = practicante.horarios.first.usuario.id;
+        if ((arguments['arguments'] as List<Horario>).isNotEmpty) {
+          practicante.horarios = arguments['arguments'] as List<Horario>;
+          practicante.id = practicante.horarios.first.usuario.id;
+        }
       }
     } else {
       practicante.horarios = [];
@@ -227,9 +230,9 @@ class _VistaGestionarHorarioPracticanteState
                                 color: Colors.white,
                               ),
                               onPressed: () {
-                                if(auxiliar)
-                                    Navigator.pushNamed(context,
-                                        VistaAdministrarPracticantes.route);
+                                if (auxiliar)
+                                  Navigator.pushNamed(context,
+                                      VistaAdministrarPracticantes.route);
                                 else
                                   Navigator.pushNamed(context, HomePage.route);
                               },

@@ -49,7 +49,7 @@ public class ServicioEmailImpl {
             helper.setSubject(subject);
             helper.setText(DefinirTemplateEmail(template, text), true);
 
-            if(template.contains("registro")){
+            if (template.contains("registro")) {
                 helper.addInline("costos.png", resourceFile);
             }
 
@@ -74,11 +74,11 @@ public class ServicioEmailImpl {
             helper.setSubject(subject);
             helper.setText(DefinirTemplateEmail(template, text), true);
             helper.addInline("costos.png", resourceFile);
-        
+
             emailSender.send(message);
         } catch (MessagingException e) {
             e.printStackTrace();
-        } 
+        }
 
     }
 
@@ -103,6 +103,9 @@ public class ServicioEmailImpl {
                 break;
             case "cita_virtual":
                 html = templateEngine.process("/citas_pacientes/cita_virtual_email", context);
+                break;
+            case "compartir_sesion":
+                html = templateEngine.process("/supervisor/compartir_sesion_email", context);
                 break;
             default:
                 html = templateEngine.process("/registro_pacientes/registro_adulto_email", context);

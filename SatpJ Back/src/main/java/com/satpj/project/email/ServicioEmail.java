@@ -73,4 +73,23 @@ public class ServicioEmail {
 
   }
 
+  @GetMapping(value = "/{supervisorId}/{practicanteId}/{tipo}/{link}", produces = "application/json; charset=UTF-8")
+  public void sendEmailCompartirSesion(@AuthenticationPrincipal CustomPrincipal customPrincipal,
+      @PathVariable("supervisorId") String supervisorId, @PathVariable("practicanteId") String practicanteId,
+      @PathVariable("link") String link,
+      @PathVariable("tipo") String tipo) {
+
+    Usuario supervisor = repositorioUsuario.findById(supervisorId).get();
+    Usuario practicante = repositorioUsuario.findById(practicanteId).get();
+
+    if (supervisor != null && practicante != null) {
+      Map<String, Object> acceso = new HashMap<String, Object>();
+      acceso.put("nombre", supervisor.getNombre());
+      acceso.put("practicante", practicante.getNombre() + " " + practicante.getApellido());
+      acceso.put("link", link);
+      emailSender.sendEmail(supervisor.getEmail(), "Consultores en Psicología", acceso, false, tipo);
+    }
+
+  }
+
 }

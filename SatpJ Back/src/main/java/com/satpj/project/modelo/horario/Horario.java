@@ -33,8 +33,7 @@ public class Horario {
     private Long id;
 
     @ManyToOne(cascade = CascadeType.MERGE, fetch = FetchType.EAGER)
-    @MapsId("usuario_id")
-    @JoinColumn(name = "usuario_id", insertable = false)
+    @JoinColumn(name = "usuario_id")
     private Usuario usuario;
 
     @Column(name = "opcion")

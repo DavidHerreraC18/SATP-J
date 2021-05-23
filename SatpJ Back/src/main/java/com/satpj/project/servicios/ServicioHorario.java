@@ -67,7 +67,7 @@ public class ServicioHorario {
     public Horario create(@AuthenticationPrincipal CustomPrincipal customPrincipal, @PathVariable("practicanteId") String practicanteId, @RequestBody Horario horario) {
         Preconditions.checkNotNull(horario);
         Usuario usuario = repositorioUsario.findById(practicanteId).get();
-        horario.setUsuario(usuario); 
+        horario.setUsuario(usuario);
         return repositorioHorario.save(horario);
     }
 
