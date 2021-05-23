@@ -3,8 +3,10 @@ package com.satpj.project.modelo.horario;
 import lombok.Getter;
 import lombok.Setter;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -30,9 +32,9 @@ public class Horario {
     @Column(name = "horario_id")
     private Long id;
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.MERGE, fetch = FetchType.EAGER)
     @MapsId("usuario_id")
-    @JoinColumn(name = "usuario_id")
+    @JoinColumn(name = "usuario_id", insertable = false)
     private Usuario usuario;
 
     @Column(name = "opcion")

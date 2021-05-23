@@ -21,7 +21,7 @@ class ProviderAdministracionHorarios {
       ApiDefinition.header["Authorization"] =
           "Bearer " + await ProviderAuntenticacion.extractToken();
 
-      final resp = await http.get(Uri.http(ApiDefinition.url, _path + '/practicante/', {"practicanteId" : practicanteId}),
+      final resp = await http.get(Uri.http(ApiDefinition.url, _path + '/practicante/' + practicanteId),
           headers: ApiDefinition.header);
 
       print("RESPUESTA" + resp.body);
@@ -37,13 +37,10 @@ class ProviderAdministracionHorarios {
     return _completer.future;
   }
 
- static Future<String> crearHorarioPracticante(Horario horarioNuevo) async {
+ static Future<String> crearHorarioPracticante(Horario horarioNuevo, String practicanteId) async {
     final _completer = Completer<String>();
     
     try {
-      
-      horarioNuevo.usuario = new Usuario();
-      horarioNuevo.usuario.id = ProviderAuntenticacion.uid;
 
       String horario = jsonEncode(horarioNuevo.toJson());
       print("RESPUESTA PREVIA" + horario);
@@ -51,7 +48,7 @@ class ProviderAdministracionHorarios {
       ApiDefinition.header["Authorization"] =
           "Bearer " + await ProviderAuntenticacion.extractToken();
       
-      final resp = await http.post(Uri.http(ApiDefinition.url, _path),
+      final resp = await http.post(Uri.http(ApiDefinition.url, _path + '/' + practicanteId),
           headers: ApiDefinition.header, body: horario);
 
       print("RESPUESTA" + resp.body);
@@ -95,6 +92,28 @@ class ProviderAdministracionHorarios {
 
       final resp = await http.delete(Uri.http(ApiDefinition.url, _path + '/' + idHorario.toString()),
           headers: ApiDefinition.header);
+
+      print("RESPUESTA" + resp.body);
+      _completer.complete("Exito");
+    } catch (e) {
+      print(e);
+      _completer.completeError("Error");
+    }
+    return _completer.future;
+  }
+  
+  static Future<String> aprobarHorarioPracticante(Horario horarioM, String practicanteId) async {
+    final _completer = Completer<String>();
+    try {
+      
+      String horario = jsonEncode(horarioM.toJson());
+      print("RESPUESTA PREVIA" + horario);
+
+      ApiDefinition.header["Authorization"] =
+          "Bearer " + await ProviderAuntenticacion.extractToken();
+
+      final resp = await http.put(Uri.http(ApiDefinition.url, _path + '/' + horarioM.id.toString() + '/' + practicanteId),
+          headers: ApiDefinition.header, body: horario);
 
       print("RESPUESTA" + resp.body);
       _completer.complete("Exito");

@@ -2,15 +2,20 @@ import 'package:flutter/material.dart';
 import 'package:satpj_front_end_web/src/constants/constantes_data.dart';
 import 'package:satpj_front_end_web/src/model/horario/horario.dart';
 import 'package:satpj_front_end_web/src/model/practicante/practicante.dart';
+import 'package:satpj_front_end_web/src/model/usuario/usuario.dart';
+import 'package:satpj_front_end_web/src/providers/provider_administracion_usuarios.dart';
+import 'package:satpj_front_end_web/src/providers/provider_autenticacion.dart';
 import 'package:satpj_front_end_web/src/utils/tema.dart';
 import 'package:satpj_front_end_web/src/utils/widgets/Barras/toolbar_auxiliar_administrativo.dart';
 import 'package:satpj_front_end_web/src/utils/widgets/Barras/toolbar_practicante.dart';
+import 'package:satpj_front_end_web/src/utils/widgets/loading/LoadingWanderingCube.dart';
 import 'package:satpj_front_end_web/src/utils/widgets/schedule/schedule_intern%20combined.dart';
 import 'package:satpj_front_end_web/src/views/gestionar_horario_practicante/vista_horario_practicante_opcion_1.dart';
 import 'package:satpj_front_end_web/src/views/gestionar_horario_practicante/vista_horario_practicante_opcion_2.dart';
 import 'package:satpj_front_end_web/src/views/gestionar_horario_practicante/vista_horario_practicante_opcion_3.dart';
+import 'package:satpj_front_end_web/src/views/gestionar_practicantes/vista_administrar_practicantes.dart';
 
-Practicante practicante = new Practicante();
+import '../vista_home.dart';
 
 Horario opcion1;
 Horario opcion2;
@@ -33,24 +38,29 @@ class VistaGestionarHorarioPracticante extends StatefulWidget {
 class _VistaGestionarHorarioPracticanteState
     extends State<VistaGestionarHorarioPracticante> {
   int horas = 0;
-  int horarios;
+  int horarios = 0;
   Map<String, List<int>> horarioVista;
   bool auxiliar = false;
+  Practicante practicante = new Practicante();
+  AppBar appBar;
+  Usuario usuario = new Usuario();
+  bool aprobado = false;
 
   initDataHorarios() {
     if (practicante.horarios == null) {
       practicante.horarios = [];
+      horarioVista = {};
     }
 
-    print('HOLA');
-    print(practicante.horarios.length);
     horarios = practicante.horarios.length;
 
     if (practicante.horarios.isNotEmpty) {
       for (Horario h in practicante.horarios) {
-        if (h.opcion == '1') {
+        if (h.opcion == '1' || h.opcion == 'seleccionado') {
+          print('SELECIONADO');
           opcion1 = h;
           horario1 = opcion1.forView();
+          aprobado = true;
         } else if (h.opcion == '2') {
           opcion2 = h;
           horario2 = opcion2.forView();
@@ -62,6 +72,23 @@ class _VistaGestionarHorarioPracticanteState
     }
 
     horas = 7;
+  }
+
+  Future<String> obtenerInformacionPrincipal() async {
+    String uid = ProviderAuntenticacion.uid;
+    usuario = await ProviderAdministracionUsuarios.buscarUsuario(uid);
+    switch (usuario.tipoUsuario) {
+      case "Practicante":
+        appBar = toolbarPracticante(context);
+        break;
+      case "Auxiliar Administrativo":
+        appBar = toolbarAuxiliarAdministrativo(context);
+        auxiliar = true;
+        break;
+      default:
+      // code block
+    }
+    return Future.value("Data download successfully");
   }
 
   @override
@@ -85,6 +112,7 @@ class _VistaGestionarHorarioPracticanteState
 
   List<PopupMenuItem<String>> getPopupMenuItem(String estado) {
     List<PopupMenuItem<String>> items = [];
+
     if (estado == 'existentes' && horarios > 0) {
       for (Horario opcion in practicante.horarios) {
         items.add(new PopupMenuItem<String>(
@@ -116,19 +144,19 @@ class _VistaGestionarHorarioPracticanteState
 
     if (estado == 'nuevos' && horarios == 1) {
       Horario opcion = practicante.horarios.first;
-      
+
       String value = opcion.opcion == '1' ? '2' : '1';
-      
+
       items.add(new PopupMenuItem<String>(
-          value: value,
-          child: Text('Opción ' + value),
-        ));
-      
+        value: value,
+        child: Text('Opción ' + value),
+      ));
+
       value = opcion.opcion == '3' ? '2' : '3';
       items.add(new PopupMenuItem<String>(
-          value: value,
-          child: Text('Opción ' + value),
-        ));
+        value: value,
+        child: Text('Opción ' + value),
+      ));
       return items;
     }
 
@@ -145,11 +173,14 @@ class _VistaGestionarHorarioPracticanteState
 
   void redirect(String opcion) {
     if (opcion == '1')
-      Navigator.pushNamed(context, VistaHorarioPracticanteOpcion1.route, arguments: {"arguments" : opcion1});
+      Navigator.pushNamed(context, VistaHorarioPracticanteOpcion1.route,
+          arguments: {"arguments": opcion1, "practicante": practicante});
     else if (opcion == '2')
-      Navigator.pushNamed(context, VistaHorarioPracticanteOpcion2.route, arguments: {"arguments" : opcion2});
+      Navigator.pushNamed(context, VistaHorarioPracticanteOpcion2.route,
+          arguments: {"arguments": opcion2, "practicante": practicante});
     else
-      Navigator.pushNamed(context, VistaHorarioPracticanteOpcion3.route, arguments: {"arguments" : opcion3});
+      Navigator.pushNamed(context, VistaHorarioPracticanteOpcion3.route,
+          arguments: {"arguments": opcion3, "practicante": practicante});
   }
 
   @override
@@ -159,107 +190,136 @@ class _VistaGestionarHorarioPracticanteState
     if (arguments != null) {
       if (arguments['arguments'] is List<Horario>) {
         practicante.horarios = arguments['arguments'] as List<Horario>;
-      }
-      if(arguments['auxiliar'] is bool){
-          auxiliar = arguments['auxiliar'] as bool;
+        practicante.id = practicante.horarios.first.usuario.id;
       }
     } else {
       practicante.horarios = [];
     }
 
     initDataHorarios();
-
-    return Scaffold(
-      backgroundColor: Colors.white,
-      resizeToAvoidBottomInset: false,
-      appBar: !auxiliar ? toolbarPracticante(context) : toolbarAuxiliarAdministrativo(context),
-      body: Container(
-          color: Colors.white,
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Container(
-                color: kPrimaryColor,
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.end,
-                  children: [
-                    Expanded(
-                      child: Container(
+    return FutureBuilder<String>(
+      future: obtenerInformacionPrincipal(), // function where you call your api
+      builder: (BuildContext context, AsyncSnapshot<String> snapshot) {
+        // AsyncSnapshot<Your object type>
+        if (snapshot.connectionState == ConnectionState.waiting) {
+          return LoadingWanderingCube();
+        } else {
+          if (snapshot.hasError)
+            return Center(child: Text('Error: ${snapshot.error}'));
+          else
+            return Scaffold(
+              backgroundColor: Colors.white,
+              resizeToAvoidBottomInset: false,
+              appBar: appBar,
+              body: Container(
+                  color: Colors.white,
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Container(
                         color: kPrimaryColor,
-                        child: Center(
-                          child: Text('                    Horario',
-                              style: TextStyle(
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.end,
+                          children: [
+                            IconButton(
+                              icon: Icon(
+                                Icons.arrow_back,
                                 color: Colors.white,
-                                fontSize: 25.0,
-                              )),
+                              ),
+                              onPressed: () {
+                                if(auxiliar)
+                                    Navigator.pushNamed(context,
+                                        VistaAdministrarPracticantes.route);
+                                else
+                                  Navigator.pushNamed(context, HomePage.route);
+                              },
+                            ),
+                            Expanded(
+                              child: Container(
+                                margin: EdgeInsets.only(right: 20.0),
+                                color: kPrimaryColor,
+                                child: Center(
+                                  child: Text(
+                                      !aprobado && !auxiliar
+                                          ? '                    Horario'
+                                          : !aprobado && auxiliar
+                                              ? '      Horario'
+                                              : 'Horario',
+                                      style: TextStyle(
+                                        color: Colors.white,
+                                        fontSize: 25.0,
+                                      )),
+                                ),
+                              ),
+                            ),
+                            if (!aprobado && !auxiliar)
+                              PopupMenuButton<String>(
+                                  icon: Icon(
+                                    Icons.local_hospital,
+                                    color: Colors.white,
+                                  ),
+                                  onSelected: (String result) {
+                                    setState(() {
+                                      print(result);
+                                      redirect(result);
+                                    });
+                                  },
+                                  itemBuilder: (BuildContext context) =>
+                                      getPopupMenuItem('nuevos')),
+                            if (!aprobado && !auxiliar)
+                              PopupMenuButton<String>(
+                                  icon: Icon(
+                                    Icons.edit,
+                                    color: Colors.white,
+                                  ),
+                                  onSelected: (String result) {
+                                    setState(() {
+                                      print(result);
+                                      redirect(result);
+                                    });
+                                  },
+                                  itemBuilder: (BuildContext context) =>
+                                      getPopupMenuItem('existentes')),
+                            if (!aprobado && !auxiliar)
+                              PopupMenuButton<String>(
+                                  icon: Icon(
+                                    Icons.delete_rounded,
+                                    color: Colors.white,
+                                  ),
+                                  onSelected: (String result) {
+                                    setState(() {
+                                      print(result);
+                                      redirect(result);
+                                    });
+                                  },
+                                  itemBuilder: (BuildContext context) =>
+                                      getPopupMenuItem('existentes')),
+                            if (!aprobado && auxiliar)
+                              PopupMenuButton<String>(
+                                  icon: Icon(
+                                    Icons.remove_red_eye_rounded,
+                                    color: Colors.white,
+                                  ),
+                                  onSelected: (String result) {
+                                    setState(() {
+                                      print(result);
+                                      redirect(result);
+                                    });
+                                  },
+                                  itemBuilder: (BuildContext context) =>
+                                      getPopupMenuItem('existentes')),
+                          ],
                         ),
                       ),
-                    ),
-                    if(!auxiliar)
-                    PopupMenuButton<String>(
-                        icon: Icon(
-                          Icons.local_hospital,
-                          color: Colors.white,
-                        ),
-                        onSelected: (String result) {
-                          setState(() {
-                            print(result);
-                            redirect(result);
-                          });
-                        },
-                        itemBuilder: (BuildContext context) =>
-                            getPopupMenuItem('nuevos')),
-                    if(!auxiliar)
-                    PopupMenuButton<String>(
-                        icon: Icon(
-                          Icons.edit,
-                          color: Colors.white,
-                        ),
-                        onSelected: (String result) {
-                          setState(() {
-                            print(result);
-                            redirect(result);
-                          });
-                        },
-                        itemBuilder: (BuildContext context) =>
-                            getPopupMenuItem('existentes')),
-                    if(!auxiliar)
-                    PopupMenuButton<String>(
-                        icon: Icon(
-                          Icons.delete_rounded,
-                          color: Colors.white,
-                        ),
-                        onSelected: (String result) {
-                          setState(() {
-                            print(result);
-                            redirect(result);
-                          });
-                        },
-                        itemBuilder: (BuildContext context) =>
-                            getPopupMenuItem('existentes')),
-                    if(auxiliar)        
-                    PopupMenuButton<String>(
-                        icon: Icon(
-                          Icons.remove_red_eye_rounded,
-                          color: Colors.white,
-                        ),
-                        onSelected: (String result) {
-                          setState(() {
-                            print(result);
-                            redirect(result);
-                          });
-                        },
-                        itemBuilder: (BuildContext context) =>
-                            getPopupMenuItem('existentes')),
-                  ],
-                ),
-              ),
-              ScheduleInternCombined(
-                horarioPracticante: opcion1,
-                horarios: practicante.horarios,
-              ),
-            ],
-          )),
+                      ScheduleInternCombined(
+                        horarios: practicante.horarios,
+                        colorSelected: Theme.of(context).colorScheme.secondary,
+                      ),
+                    ],
+                  )),
+            );
+        }
+      },
     );
   }
 }

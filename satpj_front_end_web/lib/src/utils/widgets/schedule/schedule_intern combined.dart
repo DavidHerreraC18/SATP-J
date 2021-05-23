@@ -40,7 +40,7 @@ class _ScheduleInternCombinedState extends State<ScheduleInternCombined> {
     dividido = true;
     if (widget.horarios != null) {
       for (int i = 0; i < widget.horarios.length; i++) {
-        if (widget.horarios[i].opcion == '1') {
+        if (widget.horarios[i].opcion == '1' || widget.horarios[i].opcion == 'seleccionado') {
           horarioVista1 = widget.horarios[i].forView();
         } else if (widget.horarios[i].opcion == '2') {
           horarioVista2 = widget.horarios[i].forView();
@@ -107,12 +107,8 @@ class _ScheduleInternCombinedState extends State<ScheduleInternCombined> {
             if (index != 0) {
               if (esHoraOpcion1(kEncabezadoHorario[index].toLowerCase()))
                 contDia++;
-              if (esHoraOpcion2(kEncabezadoHorario[index].toLowerCase())){
+              if (esHoraOpcion2(kEncabezadoHorario[index].toLowerCase()))
                 contDia++;
-                if(indexC == 2 && index == 1){
-                    print(kEncabezadoHorario[index].toLowerCase());
-                }
-              }
               if (esHoraOpcion3(kEncabezadoHorario[index].toLowerCase()))
                 contDia++;
               if (widget.horarios.length > 1 && contDia > 1)
@@ -189,8 +185,7 @@ class _ScheduleInternCombinedState extends State<ScheduleInternCombined> {
                             kEncabezadoHorario[index].toLowerCase())
                         ? Color(0xffFCF88C)
                         : esHoraOpcion3(
-                                    kEncabezadoHorario[index].toLowerCase()) !=
-                                null
+                                    kEncabezadoHorario[index].toLowerCase())
                             ? Color(0xff85ADEB)
                             : widget.colorSelected,
                   ),

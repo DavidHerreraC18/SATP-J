@@ -62,13 +62,12 @@ public class ServicioHorario {
     }
 
 
-    @PostMapping
+    @PostMapping(value = "/{practicanteId}")
     @ResponseStatus(HttpStatus.CREATED)
-    public Horario create(@AuthenticationPrincipal CustomPrincipal customPrincipal, @RequestBody Horario horario) {
+    public Horario create(@AuthenticationPrincipal CustomPrincipal customPrincipal, @PathVariable("practicanteId") String practicanteId, @RequestBody Horario horario) {
         Preconditions.checkNotNull(horario);
-        System.out.println("hola");
-        horario.setUsuario(repositorioUsario.findById(horario.getUsuario().getId()).get()); 
-        System.out.println("holax2");
+        Usuario usuario = repositorioUsario.findById(practicanteId).get();
+        horario.setUsuario(usuario); 
         return repositorioHorario.save(horario);
     }
 
@@ -90,6 +89,38 @@ public class ServicioHorario {
 
         repositorioHorario.save(hActualizar);
     }
+
+    @PutMapping(value = "aprobar/{id}/{practicanteId}")
+    @ResponseStatus(HttpStatus.OK)
+    public void aprobarHorario(@AuthenticationPrincipal CustomPrincipal customPrincipal, @PathVariable("id") Long id, @PathVariable("practicanteId") String practicanteId, @RequestBody Horario horario) {
+        Preconditions.checkNotNull(horario);
+
+        Horario hActualizar = repositorioHorario.findById(id).orElse(null);
+      
+        Preconditions.checkNotNull(hActualizar);
+        hActualizar.setLunes(horario.getLunes());
+        hActualizar.setMartes(horario.getMartes());
+        hActualizar.setMiercoles(horario.getMiercoles());
+        hActualizar.setJueves(horario.getJueves());
+        hActualizar.setViernes(horario.getViernes());
+        hActualizar.setSabado(horario.getSabado());
+        hActualizar.setOpcion(horario.getOpcion());
+
+        repositorioHorario.save(hActualizar);
+
+        Usuario usuario = repositorioUsario.findById(practicanteId).get();
+
+        List<Horario> horarios = repositorioHorario.findByUsuario(usuario);
+        if(horarios != null){
+            for(Horario h: horarios){
+                if(!h.getOpcion().equals("seleccionado")){
+                   repositorioHorario.delete(h);
+                }
+            }
+        }
+
+    }
+    
 
     @DeleteMapping(value = "/{id}")
     @ResponseStatus(HttpStatus.OK)
