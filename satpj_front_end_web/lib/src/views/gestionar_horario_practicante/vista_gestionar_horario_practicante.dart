@@ -3,6 +3,7 @@ import 'package:satpj_front_end_web/src/constants/constantes_data.dart';
 import 'package:satpj_front_end_web/src/model/horario/horario.dart';
 import 'package:satpj_front_end_web/src/model/practicante/practicante.dart';
 import 'package:satpj_front_end_web/src/utils/tema.dart';
+import 'package:satpj_front_end_web/src/utils/widgets/Barras/toolbar_auxiliar_administrativo.dart';
 import 'package:satpj_front_end_web/src/utils/widgets/Barras/toolbar_practicante.dart';
 import 'package:satpj_front_end_web/src/utils/widgets/schedule/schedule_intern%20combined.dart';
 import 'package:satpj_front_end_web/src/views/gestionar_horario_practicante/vista_horario_practicante_opcion_1.dart';
@@ -11,9 +12,9 @@ import 'package:satpj_front_end_web/src/views/gestionar_horario_practicante/vist
 
 Practicante practicante = new Practicante();
 
-Horario opcion1 = new Horario();
-Horario opcion2 = new Horario();
-Horario opcion3 = new Horario();
+Horario opcion1;
+Horario opcion2;
+Horario opcion3;
 
 Map<String, List<int>> horario1 = {};
 Map<String, List<int>> horario2 = {};
@@ -22,13 +23,7 @@ Map<String, List<int>> horario3 = {};
 class VistaGestionarHorarioPracticante extends StatefulWidget {
   static const route = '/horario-practicante';
 
-  VistaGestionarHorarioPracticante({Practicante practicanteH}) {
-    if (practicanteH != null) {
-      practicante = practicanteH;
-      practicante.horarios = [];
-    }
-    practicante.horarios = [];
-  }
+  VistaGestionarHorarioPracticante();
 
   @override
   _VistaGestionarHorarioPracticanteState createState() =>
@@ -40,42 +35,42 @@ class _VistaGestionarHorarioPracticanteState
   int horas = 0;
   int horarios;
   Map<String, List<int>> horarioVista;
-  
-  initDataHorarios(){
-      if (practicante.horarios == null) {
+  bool auxiliar = false;
+
+  initDataHorarios() {
+    if (practicante.horarios == null) {
       practicante.horarios = [];
     }
 
-     horarios = practicante.horarios.length;
+    print('HOLA');
+    print(practicante.horarios.length);
+    horarios = practicante.horarios.length;
 
-     if (practicante.horarios.isNotEmpty) {
-      if (horarios == 1) {
-        opcion1 = practicante.horarios[0];
-        horario1 = opcion1.forView();
-      } else if (horarios == 2) {
-        opcion1 = practicante.horarios[0];
-        horario1 = opcion1.forView();
-
-        opcion2 = practicante.horarios[1];
-        horario2 = opcion2.forView();
-      } else if (horarios == 3) {
-        opcion1 = practicante.horarios[0];
-        horario1 = opcion1.forView();
-
-        opcion2 = practicante.horarios[1];
-        horario2 = opcion2.forView();
-
-        opcion3 = practicante.horarios[2];
-        horario3 = opcion3.forView();
+    if (practicante.horarios.isNotEmpty) {
+      for (Horario h in practicante.horarios) {
+        if (h.opcion == '1') {
+          opcion1 = h;
+          horario1 = opcion1.forView();
+        } else if (h.opcion == '2') {
+          opcion2 = h;
+          horario2 = opcion2.forView();
+        } else {
+          opcion3 = h;
+          horario3 = opcion3.forView();
+        }
       }
     }
+
     horas = 7;
-    horarioVista = {};
   }
 
   @override
   void initState() {
-    practicante.horarios = [];
+    if (practicante != null) {
+      if (practicante.horarios == null) {
+        practicante.horarios = [];
+      }
+    }
     super.initState();
   }
 
@@ -90,37 +85,50 @@ class _VistaGestionarHorarioPracticanteState
 
   List<PopupMenuItem<String>> getPopupMenuItem(String estado) {
     List<PopupMenuItem<String>> items = [];
-    print('hotario' + horarios.toString());
     if (estado == 'existentes' && horarios > 0) {
-      print('hotario');
-      return KOpciones.map((value) {
-        return PopupMenuItem<String>(
-          value: value,
-          child: Text('Opción ' + value),
-        );
-      }).toList();
+      for (Horario opcion in practicante.horarios) {
+        items.add(new PopupMenuItem<String>(
+          value: opcion.opcion,
+          child: Text('Opción ' + opcion.opcion),
+        ));
+      }
+      return items;
     }
 
     if (estado == 'nuevos' && horarios == 2) {
-      int value = int.parse(opcion1.opcion) + int.parse(opcion2.opcion) - 3;
+      int sumO = 0;
+      for (Horario opcion in practicante.horarios) {
+        sumO += int.parse(opcion.opcion);
+      }
+      String value = (sumO == 5
+          ? '1'
+          : sumO == 4
+              ? '2'
+              : sumO == 3
+                  ? '3'
+                  : '');
       items.add(new PopupMenuItem<String>(
-        value: value.toString(),
-        child: Text('Opción ' + value.toString()),
+        value: value,
+        child: Text('Opción ' + value),
       ));
       return items;
     }
 
     if (estado == 'nuevos' && horarios == 1) {
-      int value = (3 - int.parse(opcion1.opcion)) + 1;
-      int suma = value;
-      while (suma <= 3) {
-        items.add(new PopupMenuItem<String>(
-          value: value.toString(),
-          child: Text('Opción ' + value.toString()),
+      Horario opcion = practicante.horarios.first;
+      
+      String value = opcion.opcion == '1' ? '2' : '1';
+      
+      items.add(new PopupMenuItem<String>(
+          value: value,
+          child: Text('Opción ' + value),
         ));
-        suma += value;
-        value++;
-      }
+      
+      value = opcion.opcion == '3' ? '2' : '3';
+      items.add(new PopupMenuItem<String>(
+          value: value,
+          child: Text('Opción ' + value),
+        ));
       return items;
     }
 
@@ -132,30 +140,31 @@ class _VistaGestionarHorarioPracticanteState
         );
       }).toList();
     }
-
     return items;
   }
 
   void redirect(String opcion) {
     if (opcion == '1')
-      Navigator.pushNamed(context, VistaHorarioPracticanteOpcion1.route);
+      Navigator.pushNamed(context, VistaHorarioPracticanteOpcion1.route, arguments: {"arguments" : opcion1});
     else if (opcion == '2')
-      Navigator.pushNamed(context, VistaHorarioPracticanteOpcion2.route);
+      Navigator.pushNamed(context, VistaHorarioPracticanteOpcion2.route, arguments: {"arguments" : opcion2});
     else
-      Navigator.pushNamed(context, VistaHorarioPracticanteOpcion3.route);
+      Navigator.pushNamed(context, VistaHorarioPracticanteOpcion3.route, arguments: {"arguments" : opcion3});
   }
 
   @override
   Widget build(BuildContext context) {
-     final Map arguments = ModalRoute.of(context).settings.arguments as Map;
+    final Map arguments = ModalRoute.of(context).settings.arguments as Map;
 
     if (arguments != null) {
       if (arguments['arguments'] is List<Horario>) {
-        print(arguments['arguments']);
         practicante.horarios = arguments['arguments'] as List<Horario>;
-      } 
-    }else{
-       practicante.horarios = [];
+      }
+      if(arguments['auxiliar'] is bool){
+          auxiliar = arguments['auxiliar'] as bool;
+      }
+    } else {
+      practicante.horarios = [];
     }
 
     initDataHorarios();
@@ -163,7 +172,7 @@ class _VistaGestionarHorarioPracticanteState
     return Scaffold(
       backgroundColor: Colors.white,
       resizeToAvoidBottomInset: false,
-      appBar: toolbarPracticante(context),
+      appBar: !auxiliar ? toolbarPracticante(context) : toolbarAuxiliarAdministrativo(context),
       body: Container(
           color: Colors.white,
           child: Column(
@@ -186,6 +195,7 @@ class _VistaGestionarHorarioPracticanteState
                         ),
                       ),
                     ),
+                    if(!auxiliar)
                     PopupMenuButton<String>(
                         icon: Icon(
                           Icons.local_hospital,
@@ -199,6 +209,7 @@ class _VistaGestionarHorarioPracticanteState
                         },
                         itemBuilder: (BuildContext context) =>
                             getPopupMenuItem('nuevos')),
+                    if(!auxiliar)
                     PopupMenuButton<String>(
                         icon: Icon(
                           Icons.edit,
@@ -212,9 +223,24 @@ class _VistaGestionarHorarioPracticanteState
                         },
                         itemBuilder: (BuildContext context) =>
                             getPopupMenuItem('existentes')),
+                    if(!auxiliar)
                     PopupMenuButton<String>(
                         icon: Icon(
                           Icons.delete_rounded,
+                          color: Colors.white,
+                        ),
+                        onSelected: (String result) {
+                          setState(() {
+                            print(result);
+                            redirect(result);
+                          });
+                        },
+                        itemBuilder: (BuildContext context) =>
+                            getPopupMenuItem('existentes')),
+                    if(auxiliar)        
+                    PopupMenuButton<String>(
+                        icon: Icon(
+                          Icons.remove_red_eye_rounded,
                           color: Colors.white,
                         ),
                         onSelected: (String result) {
@@ -230,6 +256,7 @@ class _VistaGestionarHorarioPracticanteState
               ),
               ScheduleInternCombined(
                 horarioPracticante: opcion1,
+                horarios: practicante.horarios,
               ),
             ],
           )),

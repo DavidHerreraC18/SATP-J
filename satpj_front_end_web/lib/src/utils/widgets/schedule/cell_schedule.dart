@@ -7,9 +7,9 @@ class CellSchedule extends StatefulWidget {
   Color colorSelected;
   String label;
   Map<String, String> diaHora;
-  List<Map<String, String>> horario = [];
+  Map<String, List<int>> horario = {};
   bool selected;
-  bool combined;
+  int combined;
   //double height;
   CellSchedule(
       {this.label = '',
@@ -18,13 +18,19 @@ class CellSchedule extends StatefulWidget {
       this.diaHora,
       this.horario,
       this.selected = false,
-      this.combined = false});
+      this.combined = 1});
 
   @override
   _CellScheduleState createState() => _CellScheduleState();
 }
 
 class _CellScheduleState extends State<CellSchedule> {
+  
+  @override
+  void initState() {
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
@@ -33,24 +39,30 @@ class _CellScheduleState extends State<CellSchedule> {
           if (widget.label.isEmpty && !widget.selected) {
             widget.colorDay = widget.colorSelected;
             widget.selected = true;
-            widget.horario.add(widget.diaHora);
-            print(widget.diaHora);
-            print(widget.horario.length);
+            if (widget.horario[widget.diaHora['dia']] == null) {
+              List<int> horas = [];
+              widget.horario[widget.diaHora['dia']] = horas;
+            }
+            widget.horario[widget.diaHora['dia']]
+                .add(int.parse(widget.diaHora['hora']));
+            print(widget.horario);
             return;
           }
 
           if (widget.label.isEmpty && widget.selected) {
             widget.colorDay = Color(0xffF2F2F2);
             widget.selected = false;
-            widget.horario.remove(widget.diaHora);
+            if (widget.horario[widget.diaHora['dia']] != null) {
+              widget.horario[widget.diaHora['dia']]
+                  .remove(int.parse(widget.diaHora['hora']));
+            }
             print(widget.horario);
-            print(widget.horario.length);
             return;
           }
         });
       },
       child: Container(
-          height: widget.combined ? (39.8 / 3) - 2 : 39.8,
+          height: widget.combined > 1 ? (39.8 / widget.combined) - 2 : 39.8,
           margin: EdgeInsets.only(right: 3.0, bottom: 3.0),
           color: !widget.selected ? widget.colorDay : widget.colorSelected,
           child: Center(

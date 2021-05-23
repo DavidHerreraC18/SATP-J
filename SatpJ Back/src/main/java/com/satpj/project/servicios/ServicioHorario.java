@@ -53,7 +53,7 @@ public class ServicioHorario {
         return repositorioHorario.findById(id).get();
     }
 
-    @GetMapping(value = "/{practicanteId}", produces = "application/json; charset=UTF-8")
+    @GetMapping(value = "/practicante/{practicanteId}", produces = "application/json; charset=UTF-8")
     public List<Horario> findByPracticanteId(@AuthenticationPrincipal CustomPrincipal customPrincipal, @PathVariable("practicanteId") String practicanteId) {
         
         Usuario usuario = repositorioUsario.findById(practicanteId).get();
@@ -66,6 +66,9 @@ public class ServicioHorario {
     @ResponseStatus(HttpStatus.CREATED)
     public Horario create(@AuthenticationPrincipal CustomPrincipal customPrincipal, @RequestBody Horario horario) {
         Preconditions.checkNotNull(horario);
+        System.out.println("hola");
+        horario.setUsuario(repositorioUsario.findById(horario.getUsuario().getId()).get()); 
+        System.out.println("holax2");
         return repositorioHorario.save(horario);
     }
 

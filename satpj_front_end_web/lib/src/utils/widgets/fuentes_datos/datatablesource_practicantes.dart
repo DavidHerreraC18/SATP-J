@@ -5,6 +5,7 @@ typedef OnRowSelectDetail = void Function(int index);
 typedef OnRowSelectEdit = void Function(int index);
 typedef OnRowSelectDelete = void Function(int index);
 typedef OnRowSelectPacientes = void Function(int index);
+typedef OnRowSelectCalendar = void Function(int index);
 
 class PracticantesDataTableSource extends DataTableSource {
   PracticantesDataTableSource(
@@ -12,7 +13,8 @@ class PracticantesDataTableSource extends DataTableSource {
       @required this.onRowSelectDetail,
       @required this.onRowSelectEdit,
       @required this.onRowSelectDelete,
-      @required this.onRowSelectPacientes})
+      @required this.onRowSelectPacientes,
+      @required this.onRowSelectCalendar})
       : _practicantes = practicantes,
         assert(practicantes != null);
 
@@ -21,6 +23,7 @@ class PracticantesDataTableSource extends DataTableSource {
   final OnRowSelectEdit onRowSelectEdit;
   final OnRowSelectDelete onRowSelectDelete;
   final OnRowSelectPacientes onRowSelectPacientes;
+  final OnRowSelectCalendar onRowSelectCalendar;
 
   @override
   DataRow getRow(int index) {
@@ -52,7 +55,8 @@ class PracticantesDataTableSource extends DataTableSource {
               IconButton(
                 color: Color(0xFF2E5EAA),
                 icon: const Icon(Icons.insert_invitation),
-                onPressed: () {},
+                onPressed: () =>
+                   onRowSelectCalendar(index),
               ),
               IconButton(
                 color: Color(0xFF2E5EAA),

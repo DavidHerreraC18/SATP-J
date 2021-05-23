@@ -30,7 +30,7 @@ import com.satpj.project.modelo.usuario.Usuario;
 public class Acudiente extends Usuario{
     
     @ManyToOne(cascade = CascadeType.MERGE, fetch = FetchType.EAGER)
-    @JoinColumn(name = "paciente_id", nullable = true,  insertable = false, updatable = false)
+    @JoinColumn(name = "paciente_id", nullable = true,  insertable = false)
     private Paciente paciente;
 
 }

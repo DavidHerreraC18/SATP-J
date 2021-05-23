@@ -11,36 +11,77 @@ class ScheduleInternCombined extends StatefulWidget {
   List<Horario> horarios;
 
   ScheduleInternCombined(
-      {this.colorSelected = kAccentColor, this.horarioPracticante});
+      {this.colorSelected = kAccentColor,
+      this.horarioPracticante,
+      this.horarios});
 
   @override
   _ScheduleInternCombinedState createState() => _ScheduleInternCombinedState();
 }
 
-List<Map<String, String>> horario = [];
-
 class _ScheduleInternCombinedState extends State<ScheduleInternCombined> {
   int horas;
-  Map<String, List<int>> horarioVista;
+
+  Map<String, List<int>> horarioVista1;
+  Map<String, List<int>> horarioVista2;
+  Map<String, List<int>> horarioVista3;
+
   bool dividido;
+
+  List<Map<String, String>> horarioOpcion1 = [];
+  List<Map<String, String>> horarioOpcion2 = [];
+  List<Map<String, String>> horarioOpcion3 = [];
+
+  int contDia = 0;
 
   @override
   void initState() {
-    widget.horarioPracticante.lunes = '8;9;13';
     horas = 7;
-    horarioVista = {};
     dividido = true;
-    if (widget.horarioPracticante != null) {
-      horarioVista = widget.horarioPracticante.forView();
+    if (widget.horarios != null) {
+      for (int i = 0; i < widget.horarios.length; i++) {
+        if (widget.horarios[i].opcion == '1') {
+          horarioVista1 = widget.horarios[i].forView();
+        } else if (widget.horarios[i].opcion == '2') {
+          horarioVista2 = widget.horarios[i].forView();
+        } else if (widget.horarios[i].opcion == '3') {
+          horarioVista3 = widget.horarios[i].forView();
+        }
+      }
     }
     super.initState();
   }
 
-  bool esHora(String dia) {
-    if (horarioVista[dia] != null &&
-        horarioVista[dia].isNotEmpty &&
-        horarioVista[dia].indexOf(horas) > -1) {
-      return true;
+  bool esHoraOpcion1(String dia) {
+    if (horarioVista1 != null) {
+      if (horarioVista1[dia] != null &&
+          horarioVista1[dia].isNotEmpty &&
+          horarioVista1[dia].indexOf(horas) > -1) {
+        return true;
+      }
+    }
+    return false;
+  }
+
+  bool esHoraOpcion2(String dia) {
+    if (horarioVista2 != null) {
+      if (horarioVista2[dia] != null &&
+          horarioVista2[dia].isNotEmpty &&
+          horarioVista2[dia].indexOf(horas) > -1) {
+        return true;
+      }
+    }
+
+    return false;
+  }
+
+  bool esHoraOpcion3(String dia) {
+    if (horarioVista3 != null) {
+      if (horarioVista3[dia] != null &&
+          horarioVista3[dia].isNotEmpty &&
+          horarioVista3[dia].indexOf(horas) > -1) {
+        return true;
+      }
     }
     return false;
   }
@@ -50,8 +91,10 @@ class _ScheduleInternCombinedState extends State<ScheduleInternCombined> {
     return Expanded(
       child: Column(
         children: List.generate(13, (indexC) {
+          contDia = 0;
           return Row(
               children: List.generate(7, (index) {
+            contDia = 0;
             if (indexC == 0)
               return Expanded(
                 child: CellSchedule(
@@ -61,69 +104,99 @@ class _ScheduleInternCombinedState extends State<ScheduleInternCombined> {
                 ),
               );
 
-            if (index != 0) if (index == 1 && indexC == 1)
-              return Expanded(
-                child: Column(
-                  children: [
-                    Container(
-                      child: CellSchedule(
-                        colorDay: Color(0xffF2F2F2),
-                        diaHora: <String, String>{
-                          'dia': kEncabezadoHorario[index].toLowerCase(),
-                          'hora': horas.toString(),
-                        },
-                        horario: horario,
-                        selected:
-                            esHora(kEncabezadoHorario[index].toLowerCase()),
-                        colorSelected: widget.colorSelected,
-                        combined: true,
-                      ),
-                    ),
-                    Container(
-                      child: CellSchedule(
-                        colorDay: Color(0xffF2F2F2),
-                        diaHora: <String, String>{
-                          'dia': kEncabezadoHorario[index].toLowerCase(),
-                          'hora': horas.toString(),
-                        },
-                        horario: horario,
-                        selected:
-                            esHora(kEncabezadoHorario[index].toLowerCase()),
-                        colorSelected: Color(0xffFCF88C),
-                        combined: true,
-                      ),
-                    ),
-                    Container(
-                      child: CellSchedule(
-                        colorDay: Color(0xffF2F2F2),
-                        diaHora: <String, String>{
-                          'dia': kEncabezadoHorario[index].toLowerCase(),
-                          'hora': horas.toString(),
-                        },
-                        horario: horario,
-                        selected:
-                            esHora(kEncabezadoHorario[index].toLowerCase()),
-                        colorSelected: Color(0xff85ADEB),
-                        combined: true,
-                      ),
-                    ),
-                  ],
-                ),
-              );
-            else
-              return Expanded(
-                  child: Container(
-                child: CellSchedule(
-                  colorDay: Color(0xffF2F2F2),
-                  diaHora: <String, String>{
-                    'dia': kEncabezadoHorario[index].toLowerCase(),
-                    'hora': horas.toString(),
-                  },
-                  horario: horario,
-                  selected: esHora(kEncabezadoHorario[index].toLowerCase()),
-                  colorSelected: widget.colorSelected,
-                ),
-              ));
+            if (index != 0) {
+              if (esHoraOpcion1(kEncabezadoHorario[index].toLowerCase()))
+                contDia++;
+              if (esHoraOpcion2(kEncabezadoHorario[index].toLowerCase())){
+                contDia++;
+                if(indexC == 2 && index == 1){
+                    print(kEncabezadoHorario[index].toLowerCase());
+                }
+              }
+              if (esHoraOpcion3(kEncabezadoHorario[index].toLowerCase()))
+                contDia++;
+              if (widget.horarios.length > 1 && contDia > 1)
+                return Expanded(
+                  child: Column(
+                    children: [
+                      if (horarioVista1 != null && contDia > 1 && esHoraOpcion1(
+                                kEncabezadoHorario[index].toLowerCase()))
+                        Container(
+                          child: CellSchedule(
+                            colorDay: Color(0xffF2F2F2),
+                            diaHora: <String, String>{
+                              'dia': kEncabezadoHorario[index].toLowerCase(),
+                              'hora': horas.toString(),
+                            },
+                            selected: esHoraOpcion1(
+                                kEncabezadoHorario[index].toLowerCase()),
+                            colorSelected: widget.colorSelected,
+                            combined: contDia,
+                          ),
+                        ),
+                      if (horarioVista2 != null && contDia > 1 && esHoraOpcion2(
+                                kEncabezadoHorario[index].toLowerCase()))
+                        Container(
+                          child: CellSchedule(
+                            colorDay: Color(0xffF2F2F2),
+                            diaHora: <String, String>{
+                              'dia': kEncabezadoHorario[index].toLowerCase(),
+                              'hora': horas.toString(),
+                            },
+                            selected: esHoraOpcion2(
+                                kEncabezadoHorario[index].toLowerCase()),
+                            colorSelected: Color(0xffFCF88C),
+                            combined: contDia,
+                          ),
+                        ),
+                      if (horarioVista3 != null && contDia > 1 && esHoraOpcion3(
+                                kEncabezadoHorario[index].toLowerCase()))
+                        Container(
+                          child: CellSchedule(
+                            colorDay: Color(0xffF2F2F2),
+                            diaHora: <String, String>{
+                              'dia': kEncabezadoHorario[index].toLowerCase(),
+                              'hora': horas.toString(),
+                            },
+                            selected: esHoraOpcion3(
+                                kEncabezadoHorario[index].toLowerCase()),
+                            colorSelected: Color(0xff85ADEB),
+                            combined: contDia,
+                          ),
+                        ),
+                    ],
+                  ),
+                );
+              else {
+                if(indexC == 2 && index == 1)
+                    print(kEncabezadoHorario[index].toLowerCase());
+                return Expanded(
+                    child: Container(
+                  child: CellSchedule(
+                    colorDay: Color(0xffF2F2F2),
+                    diaHora: <String, String>{
+                      'dia': kEncabezadoHorario[index].toLowerCase(),
+                      'hora': horas.toString(),
+                    },
+                    selected: esHoraOpcion1(kEncabezadoHorario[index].toLowerCase())
+                        ? true
+                        : esHoraOpcion2(
+                                kEncabezadoHorario[index].toLowerCase())
+                            ? true
+                            : esHoraOpcion3(
+                                kEncabezadoHorario[index].toLowerCase()),
+                    colorSelected: esHoraOpcion2(
+                            kEncabezadoHorario[index].toLowerCase())
+                        ? Color(0xffFCF88C)
+                        : esHoraOpcion3(
+                                    kEncabezadoHorario[index].toLowerCase()) !=
+                                null
+                            ? Color(0xff85ADEB)
+                            : widget.colorSelected,
+                  ),
+                ));
+              }
+            }
 
             horas++;
             return Expanded(

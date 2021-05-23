@@ -111,4 +111,134 @@ class Horario {
     }
     return horario;
   }
+
+  List<Map<String, String>>forViewOption() {
+    List<Map<String, String>> horarioV = [];
+  
+    if (lunes != null && lunes.isNotEmpty) {
+      lunes.split(';').forEach((element) {
+        Map<String, String> horario = { };
+        horario = {'lunes': element};
+        horarioV.add(horario);
+      });
+    }
+
+    if (martes != null && martes.isNotEmpty) {
+      martes.split(';').forEach((element) {
+        Map<String, String> horario = { };
+        horario = {'martes': element};
+        horarioV.add(horario);
+      });
+    }
+
+    if (miercoles != null && miercoles.isNotEmpty) {
+      miercoles.split(';').forEach((element) {
+        Map<String, String> horario = { };
+        horario = {'miercoles': element};
+        horarioV.add(horario);
+      });
+    }
+
+    if (jueves != null && jueves.isNotEmpty) {
+      jueves.split(';').forEach((element) {
+        Map<String, String> horario = { };
+        horario = {'jueves': element};
+        horarioV.add(horario);
+      });
+    }
+
+    if (viernes != null && viernes.isNotEmpty) {
+      viernes.split(';').forEach((element) {
+       Map<String, String> horario = { };
+        horario = {'viernes': element};
+        horarioV.add(horario);
+      });
+    }
+
+    if (sabado != null && sabado.isNotEmpty) {
+      sabado.split(';').forEach((element) {
+        Map<String, String> horario = { };
+        horario = {'sabado': element};
+        horarioV.add(horario);
+      });
+    }
+    return horarioV;
+  }
+
+ forReques(Map<String, List<int>> horario) {
+    
+    if (horario['lunes'] != null) {
+      lunes = '';
+      int i = 0;
+      horario['lunes'].forEach((element) {
+       if(i != horario['lunes'].length - 1 && element != null)
+          lunes += element.toString() + ';';
+       else
+          lunes += element.toString();
+       i++;
+      });
+    }
+
+    if (horario['martes'] != null) {
+      martes = '';
+      int i = 0;
+      horario['martes'].forEach((element) {
+       if(i != horario['martes'].length - 1 && element != null)
+          martes += element.toString() + ';';
+       else
+          martes += element.toString();
+       i++;
+      });
+    }
+
+    if (horario['miercoles'] != null) {
+      miercoles = '';
+      int i = 0;
+      horario['miercoles'].forEach((element) {
+       if(i != horario['miercoles'].length - 1 && element != null)
+          miercoles += element.toString() + ';';
+       else
+          miercoles += element.toString();
+       i++;
+      });
+    }
+
+    if (horario['jueves'] != null ) {
+      jueves = '';
+      int i = 0;
+      horario['jueves'].forEach((element) {
+       if(i != horario['jueves'].length - 1 && element != null)
+          jueves += element.toString() + ';';
+       else
+          jueves += element.toString();
+       i++;
+      });
+    }
+
+    if (horario['viernes'] != null) {
+      viernes = '';
+      int i = 0;
+      horario['viernes'].forEach((element) {
+       if(i != horario['viernes'].length - 1 && element != null)
+          viernes += element.toString() + ';';
+       else
+          viernes += element.toString();
+       i++;
+      });
+    }
+
+    if (horario['sabado'] != null) {
+      sabado = '';
+      int i = 0;
+      horario['sabado'].forEach((element) {
+       if(i != horario['sabado'].length - 1 && element != null)
+          sabado += element.toString() + ';';
+       else
+          sabado += element.toString();
+       i++;
+      });
+    }
+
+
+  }
 }

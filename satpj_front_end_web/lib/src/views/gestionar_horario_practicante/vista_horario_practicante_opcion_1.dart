@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:satpj_front_end_web/src/model/horario/horario.dart';
+import 'package:satpj_front_end_web/src/providers/provider_administrar_horarios.dart';
+import 'package:satpj_front_end_web/src/providers/provider_autenticacion.dart';
 import 'package:satpj_front_end_web/src/utils/tema.dart';
 import 'package:satpj_front_end_web/src/utils/widgets/Barras/toolbar_practicante.dart';
 import 'package:satpj_front_end_web/src/utils/widgets/Dialogos/dialog_delete.dart';
@@ -21,14 +23,24 @@ class VistaHorarioPracticanteOpcion1 extends StatefulWidget {
 
 class _VistaHorarioPracticanteOpcion1State
     extends State<VistaHorarioPracticanteOpcion1> {
+  Map<String, List<int>> horarioVista = {};
   @override
   void initState() {
-    widget.horarioPracticante.lunes = '8;9;13';
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
+    final Map arguments = ModalRoute.of(context).settings.arguments as Map;
+    if (arguments != null) {
+      if (arguments['arguments'] is Horario) {
+        widget.horarioPracticante = arguments['arguments'] as Horario;
+        horarioVista = widget.horarioPracticante.forView();
+      }
+    }else{
+       widget.horarioPracticante.opcion = widget.opcion;
+    }
+
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: toolbarPracticante(context),
@@ -61,9 +73,14 @@ class _VistaHorarioPracticanteOpcion1State
                       Icons.date_range_rounded,
                       color: Colors.white,
                     ),
-                    onPressed: () {
+                    onPressed: () async {
                       Navigator.pushNamed(
-                          context, VistaGestionarHorarioPracticante.route);
+                          context, VistaGestionarHorarioPracticante.route,
+                          arguments: {
+                            "arguments": await ProviderAdministracionHorarios
+                                .obtenerHorariosPracticante(
+                                    ProviderAuntenticacion.uid)
+                          });
                     },
                   ),
                   IconButton(
@@ -71,7 +88,17 @@ class _VistaHorarioPracticanteOpcion1State
                       Icons.save,
                       color: Colors.white,
                     ),
-                    onPressed: () {},
+                    onPressed: () {
+                      widget.horarioPracticante.forReques(horarioVista);
+                      if (widget.horarioPracticante.id != null) {
+                        ProviderAdministracionHorarios.crearHorarioPracticante(
+                            widget.horarioPracticante);
+                      } else {
+                        ProviderAdministracionHorarios
+                            .modificarHorarioPracticante(
+                                widget.horarioPracticante);
+                      }
+                    },
                   ),
                   IconButton(
                     icon: Icon(
@@ -90,6 +117,16 @@ class _VistaHorarioPracticanteOpcion1State
                                 labelCancelBtn: 'No',
                                 labelConfirmBtn: 'Si',
                                 colorConfirmBtn: Theme.of(context).errorColor,
+                                functionDelete: () {
+                                  if (!widget.horarioPracticante.id.isNaN) {
+                                    ProviderAdministracionHorarios
+                                        .eliminarHorarioPracticante(
+                                            widget.horarioPracticante.id);
+                                    setState(() {
+                                      
+                                    });
+                                  }
+                                },
                               ));
                     },
                   ),
@@ -97,8 +134,9 @@ class _VistaHorarioPracticanteOpcion1State
               ),
             ),
             ScheduleIntern(
-              opcion: '2',
+              opcion: '1',
               horarioPracticante: widget.horarioPracticante,
+              horarioVista: horarioVista,
             )
           ],
         ),

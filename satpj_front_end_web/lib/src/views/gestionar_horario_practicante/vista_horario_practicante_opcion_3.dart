@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:satpj_front_end_web/src/model/horario/horario.dart';
+import 'package:satpj_front_end_web/src/providers/provider_administrar_horarios.dart';
+import 'package:satpj_front_end_web/src/providers/provider_autenticacion.dart';
 import 'package:satpj_front_end_web/src/utils/tema.dart';
 import 'package:satpj_front_end_web/src/utils/widgets/Barras/toolbar_practicante.dart';
 import 'package:satpj_front_end_web/src/utils/widgets/Dialogos/dialog_delete.dart';
@@ -11,6 +13,7 @@ class VistaHorarioPracticanteOpcion3 extends StatefulWidget {
   static const route = '/horario-opcion-3';
   String opcion;
   Horario horarioPracticante = new Horario();
+  List<Map<String, String>> horario = [];
 
   VistaHorarioPracticanteOpcion3({this.opcion = '3'});
 
@@ -21,31 +24,26 @@ class VistaHorarioPracticanteOpcion3 extends StatefulWidget {
 
 class _VistaHorarioPracticanteOpcion3State
     extends State<VistaHorarioPracticanteOpcion3> {
-  int horas;
-  Map<String, List<int>> horarioVista;
-
+  Map<String, List<int>> horarioVista = {};
   @override
   void initState() {
-    widget.horarioPracticante.lunes = '8;9;13';
-    horas = 7;
-    horarioVista = {};
-    if (widget.horarioPracticante != null) {
-      horarioVista = widget.horarioPracticante.forView();
-    }
     super.initState();
   }
 
-  bool esHora(String dia) {
-    if (horarioVista[dia] != null &&
-        horarioVista[dia].isNotEmpty &&
-        horarioVista[dia].indexOf(horas) > -1) {
-      return true;
-    }
-    return false;
-  }
 
   @override
   Widget build(BuildContext context) {
+    final Map arguments = ModalRoute.of(context).settings.arguments as Map;
+    if (arguments != null) {
+      if (arguments['arguments'] is Horario) {
+        widget.horarioPracticante = arguments['arguments'] as Horario;
+        horarioVista = widget.horarioPracticante.forView();
+      }
+    }
+    else{
+       widget.horarioPracticante.opcion = widget.opcion;
+    }
+    
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: toolbarPracticante(context),
@@ -78,9 +76,14 @@ class _VistaHorarioPracticanteOpcion3State
                       Icons.date_range_rounded,
                       color: Colors.white,
                     ),
-                    onPressed: () {
+                    onPressed: () async {
                       Navigator.pushNamed(
-                          context, VistaGestionarHorarioPracticante.route);
+                          context, VistaGestionarHorarioPracticante.route,
+                          arguments: {
+                            "arguments": await ProviderAdministracionHorarios
+                                .obtenerHorariosPracticante(
+                                    ProviderAuntenticacion.uid)
+                          });
                     },
                   ),
                   IconButton(
@@ -88,7 +91,17 @@ class _VistaHorarioPracticanteOpcion3State
                       Icons.save,
                       color: Colors.white,
                     ),
-                    onPressed: () {},
+                    onPressed: () {
+                      widget.horarioPracticante.forReques(horarioVista);
+                      if (widget.horarioPracticante.id.isNaN) {
+                        ProviderAdministracionHorarios.crearHorarioPracticante(
+                            widget.horarioPracticante);
+                      } else {
+                        ProviderAdministracionHorarios
+                            .modificarHorarioPracticante(
+                                widget.horarioPracticante);
+                      }
+                    },
                   ),
                   IconButton(
                     icon: Icon(
@@ -117,6 +130,7 @@ class _VistaHorarioPracticanteOpcion3State
               opcion: '2',
               horarioPracticante: widget.horarioPracticante,
               colorSelected: Color(0xff85ADEB),
+              horarioVista: horarioVista,
             )
           ],
         ),

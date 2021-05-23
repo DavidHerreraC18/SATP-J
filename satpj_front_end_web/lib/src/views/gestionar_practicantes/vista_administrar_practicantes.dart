@@ -1,14 +1,17 @@
 import 'package:flutter/material.dart';
 
 import 'package:provider/provider.dart';
+import 'package:satpj_front_end_web/src/model/horario/horario.dart';
 import 'package:satpj_front_end_web/src/model/notificadores/practicantes_notifier.dart';
 import 'package:satpj_front_end_web/src/model/practicante/practicante.dart';
 import 'package:satpj_front_end_web/src/providers/provider_administracion_practicantes.dart';
+import 'package:satpj_front_end_web/src/providers/provider_administrar_horarios.dart';
 import 'package:satpj_front_end_web/src/utils/widgets/Barras/toolbar_auxiliar_administrativo.dart';
 import 'package:satpj_front_end_web/src/utils/widgets/Dialogos/dialog_delete.dart';
 import 'package:satpj_front_end_web/src/utils/widgets/fuentes_datos/datatablesource_practicantes.dart';
 import 'package:satpj_front_end_web/src/utils/widgets/loading/LoadingWanderingCube.dart';
 import 'package:satpj_front_end_web/src/utils/widgets/custom_paginated_datatable.dart';
+import 'package:satpj_front_end_web/src/views/gestionar_horario_practicante/vista_gestionar_horario_practicante.dart';
 import 'package:satpj_front_end_web/src/views/gestionar_practicantes/dialogo_crear_practicante.dart';
 import 'package:satpj_front_end_web/src/views/gestionar_practicantes/dialogo_editar_practicante.dart';
 import 'package:satpj_front_end_web/src/views/gestionar_practicantes/dialogo_visualizar_practicante.dart';
@@ -54,6 +57,7 @@ class _InternalWidget extends StatelessWidget {
       onRowSelectEdit: (index) => _edit(context, _model[index]),
       onRowSelectDelete: (index) => _delete(context, _model[index]),
       onRowSelectPacientes: (index) => _pacientes(context, _model[index]),
+      onRowSelectCalendar: (index) => _calendar(context, _model[index]),
       practicantes: _model,
     );
 
@@ -227,6 +231,16 @@ class _InternalWidget extends StatelessWidget {
     Future.delayed(Duration(milliseconds: 1000), () {
       Navigator.of(c)
           .pushNamed(VistaAgregarPacientesPracticantes.route, arguments: data);
+    });
+  }
+
+  void _calendar(BuildContext c, Practicante data) async {
+    List<Horario> horarios =
+        await ProviderAdministracionHorarios.obtenerHorariosPracticante(
+            data.id);
+    Future.delayed(Duration(milliseconds: 1000), () {
+      Navigator.pushNamed(c, VistaGestionarHorarioPracticante.route,
+          arguments: {"arguments": horarios, "auxiliar": true});
     });
   }
 }

@@ -8,38 +8,33 @@ import 'package:satpj_front_end_web/src/utils/widgets/schedule/cell_schedule.dar
 class ScheduleIntern extends StatefulWidget {
   String opcion;
   Horario horarioPracticante = new Horario();
+  Map<String, List<int>> horarioVista = {};
   Color colorSelected;
 
   ScheduleIntern(
       {this.opcion = '1',
       this.colorSelected = kAccentColor,
-      this.horarioPracticante});
+      this.horarioPracticante,
+      this.horarioVista
+      });
 
   @override
   _ScheduleInternState createState() => _ScheduleInternState();
 }
 
-List<Map<String, String>> horario = [];
-
 class _ScheduleInternState extends State<ScheduleIntern> {
   int horas;
-  Map<String, List<int>> horarioVista;
 
   @override
   void initState() {
-    widget.horarioPracticante.lunes = '8;9;13';
     horas = 7;
-    horarioVista = {};
-    if (widget.horarioPracticante != null) {
-      horarioVista = widget.horarioPracticante.forView();
-    }
     super.initState();
   }
 
   bool esHora(String dia) {
-    if (horarioVista[dia] != null &&
-        horarioVista[dia].isNotEmpty &&
-        horarioVista[dia].indexOf(horas) > -1) {
+    if (widget.horarioVista[dia] != null &&
+        widget.horarioVista[dia].isNotEmpty &&
+        widget.horarioVista[dia].indexOf(horas) > -1) {
       return true;
     }
     return false;
@@ -69,9 +64,9 @@ class _ScheduleInternState extends State<ScheduleIntern> {
                     'dia': kEncabezadoHorario[index].toLowerCase(),
                     'hora': horas.toString(),
                   },
-                  horario: horario,
                   selected: esHora(kEncabezadoHorario[index].toLowerCase()),
                   colorSelected: widget.colorSelected,
+                  horario: widget.horarioVista,
                 ),
               );
 

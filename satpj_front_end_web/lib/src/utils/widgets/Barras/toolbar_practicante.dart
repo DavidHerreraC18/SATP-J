@@ -160,7 +160,7 @@ AppBar toolbarPracticante(BuildContext context) {
                     {
                       List<Horario> horarios = await ProviderAdministracionHorarios.obtenerHorariosPracticante(ProviderAuntenticacion.uid);
                       Navigator.pushNamed(
-                          context, VistaGestionarHorarioPracticante.route, arguments :{"argumets" : horarios});
+                          context, VistaGestionarHorarioPracticante.route, arguments :{"arguments" : horarios, "auxiliar" : false});
                     }
                     break;
 

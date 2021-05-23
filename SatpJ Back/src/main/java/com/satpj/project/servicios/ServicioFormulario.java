@@ -101,20 +101,23 @@ public class ServicioFormulario {
         Formulario formulario = new Gson().fromJson(json, Formulario.class);
 
         if (formulario.getPaciente() != null) {
+
             List<Acudiente> acudientes = formulario.getPaciente().getAcudientes();
+            formulario.getPaciente().setAcudientes(null);
+            repositorioUsuario.save(formulario.getPaciente());
+            Paciente paciente = repositorioPaciente.save(formulario.getPaciente());
+
             if (acudientes != null) {
                 if (acudientes.size() > 0) {
                     for (Acudiente a : acudientes) {
                         a = repositorioUsuario.save(a);
-                        a.setPaciente(formulario.getPaciente());
+                        a.setPaciente(paciente);
                         repositorioAcudiente.save(a);
                     }
 
                 }
             }
 
-            repositorioUsuario.save(formulario.getPaciente());
-            repositorioPaciente.save(formulario.getPaciente());
         }
 
         return repositorioFormulario.save(formulario);
