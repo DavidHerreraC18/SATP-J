@@ -90,12 +90,14 @@ public class ServicioSesionTerapia {
         return repositorioSesionUsuario.findById(llaveSesionUsuario).get();
     }
 
-    @GetMapping(value = "/sesiones-posibles/{id}", produces = "application/json; charset=UTF-8")
+    @PostMapping(value = "/sesiones-posibles/{id}", produces = "application/json; charset=UTF-8")
     public SesionTerapiaActual findSesionTerapiaActualById(@AuthenticationPrincipal CustomPrincipal customPrincipal, @PathVariable("id") String id, @RequestBody SesionTerapiaActual sesionTerapiaActual) {
         List<SesionUsuario> sesionesUsuario = servicioUsuario.findSesionesByUsuarioId(customPrincipal, id);
         for(SesionUsuario sUsuario: sesionesUsuario){
             SesionTerapia sT = sUsuario.getSesionTerapia();
-            if(sT.getFecha().isEqual(sesionTerapiaActual.getFecha())){
+            LocalDateTime fechaIni = sT.getFecha();
+            LocalDateTime fechaFin = fechaIni.plusHours(1);
+            if(sesionTerapiaActual.getFecha().isAfter(fechaIni) && sesionTerapiaActual.getFecha().isBefore(fechaFin)){
                 sesionTerapiaActual.setPosible(true);
             }
         }
