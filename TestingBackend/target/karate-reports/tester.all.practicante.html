@@ -1,0 +1,629 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"/>
+    <link rel="stylesheet" href="res/bootstrap.min.css" type="text/css"/>
+    <link rel="stylesheet" href="res/karate-report.css" type="text/css"/>
+    <link rel="shortcut icon" href="favicon.ico"/>
+    <script type="text/javascript" src="res/jquery.min.js"></script>
+    <script type="text/javascript" src="res/jquery.tablesorter.min.js"></script>
+    <script type="text/javascript" src="res/bootstrap.min.js"></script>
+    <script type="text/javascript" src="res/karate-report.js"></script>
+    <title>tester.all.practicante</title>  
+  </head>
+  <body>   
+    <div id="root-container">
+      <div id="leftnav">
+                
+        <div>
+  <div class="nav-logo">
+    <a href="karate-summary.html">
+      <img src="karate-logo.svg" alt="Karate"/>
+    </a>
+    <div class="nav-count">
+      <div id="nav-pass" class="bg-success">3</div>
+      <div id="nav-fail" class="bg-danger">0</div>
+    </div>
+  </div>
+  <div id="nav-type">
+    <div>Scenarios</div>
+  </div>         
+  <div id="nav-date">
+    <div>2021-05-18 09:22:09 PM</div>
+  </div>        
+</div>
+
+        <div class="nav-container">
+          <div class="nav-item passed">
+            <a href="#[1:6]"><span>[1:6]</span> <span>Obtener practicantes</span></a>
+          </div>
+          <div class="nav-item passed">
+            <a href="#[2:11]"><span>[2:11]</span> <span>Obtener practicantes horas</span></a>
+          </div>
+          <div class="nav-item passed">
+            <a href="#[3:16]"><span>[3:16]</span> <span>Obtener practicantes pacientes</span></a>
+          </div>
+        </div>
+      </div>
+      <div id="content">
+        <div class="page-heading alert alert-primary">
+          <a href="karate-summary.html">Summary</a><span class="feature-label">|</span>
+          <a href="karate-tags.html">Tags</a><span class="feature-label">|</span>
+          <span class="feature-label">Feature:</span>
+          <span class="feature-path">tester/all/practicante.feature</span><span class="feature-label">|</span>
+          <span class="feature-name">Practicante karate Prueba Karate</span>
+          <span class="feature-description"></span>
+        </div>
+        <div class="scenario">
+          <div class="scenario-heading" id="[1:6]">
+            <div class="heading-container">
+              <div class="scenario-tags">
+                
+              </div>
+              <div class="scenario-keyword">
+                Scenario: <span>[1:6]</span>
+                <span class="scenario-name">Obtener practicantes</span>
+                <span></span>
+              </div>
+            </div>
+            <div class="scenario-time passed">
+              <span>ms:</span>&nbsp;<span>220</span>
+            </div>
+          </div>
+          <div class="step-row">
+            <div class="step-container" id="[1:6]bg">
+              <div class="step-ref bg-step">&gt;&gt;</div>
+              <div class="step-cell passed">Background:</div>
+            </div>
+            <div class="time-cell passed"></div>
+          </div>
+          <div data-parent="[1:6]bg"><div>
+  
+
+  
+
+  <div class="step-row">
+    <div class="step-container" id="0.4">
+      <div class="step-ref bg-step">4</div>
+      
+      <div class="step-cell passed">
+        <span>*</span>&nbsp;<span>url &#39;http://localhost:8082/practicantes&#39;</span>
+      </div>
+    </div>
+    <div class="time-cell passed">1</div>
+  </div>
+
+   
+  
+  
+
+  
+
+  <div class="preformatted" data-parent="0.4">21:22:07.630 karate.env system property was: null 
+</div>   
+
+  
+
+</div>
+</div>
+          <div data-parent="[1:6]bg"><div>
+  
+
+  
+
+  <div class="step-row">
+    <div class="step-container" id="0.5">
+      <div class="step-ref bg-step">5</div>
+      
+      <div class="step-cell passed">
+        <span>*</span>&nbsp;<span>configure headers = { Authorization : &#39;Bearer eyJhbGciOiJSUzI1NiIsImtpZCI6IjNkOWNmYWE4OGVmMDViNDI0YmU2MjA1ZjQ2YjE4OGQ3MzI1N2JjNDIiLCJ0eXAiOiJKV1QifQ.eyJpc3MiOiJodHRwczovL3NlY3VyZXRva2VuLmdvb2dsZS5jb20vdGVsZXBzaWNvLTFlOWM4IiwiYXVkIjoidGVsZXBzaWNvLTFlOWM4IiwiYXV0aF90aW1lIjoxNjIxMzg4ODQ0LCJ1c2VyX2lkIjoiQkQ3WHpLcFZHMWd5QmN3TVFyclhjWEpXbjJxMSIsInN1YiI6IkJEN1h6S3BWRzFneUJjd01RcnJYY1hKV24ycTEiLCJpYXQiOjE2MjEzODg4NDQsImV4cCI6MTYyMTM5MjQ0NCwiZW1haWwiOiJkYXZpZDE4aGNAZ21haWwuY29tIiwiZW1haWxfdmVyaWZpZWQiOmZhbHNlLCJmaXJlYmFzZSI6eyJpZGVudGl0aWVzIjp7ImVtYWlsIjpbImRhdmlkMThoY0BnbWFpbC5jb20iXX0sInNpZ25faW5fcHJvdmlkZXIiOiJwYXNzd29yZCJ9fQ.aZirAmXKHHriK2hBe0N0E5sT-owA4DSer2UCriiMOcJUdmG-nYjGAoGFAJCg-Zvy8tNWPDjd4ccEbo7QgJvH6ZnvAKHSwrUrVjVxag7czp4fhZWClY1gdZJ1AfA0kOAZcp3QDpTEZJMPZyoQhMgSVFjIouZzrl5ruL9smI0DRXN9QixLPfy5By8_lRKTdRteGA47utva-M11f5-yOivQq1hd9uLs3f0_8K4zKFe7Sz4IYFSBjyVEm2PvBEGTFL7hrrMe0upBiQx5WVsidD1m3Fow7v_mb8FnV8bkU-4THqd2pAKOYvrDKx-EZBhUOrXox7Np8cuQMolJZ8b5m9GEaw&#39;}</span>
+      </div>
+    </div>
+    <div class="time-cell passed">0</div>
+  </div>
+
+   
+  
+  
+
+  
+
+     
+
+  
+
+</div>
+</div>
+          <div><div>
+  
+
+  
+
+  <div class="step-row">
+    <div class="step-container" id="0.7">
+      <div class="step-ref passed">7</div>
+      
+      <div class="step-cell passed">
+        <span>Given</span>&nbsp;<span>path &#39;&#39;</span>
+      </div>
+    </div>
+    <div class="time-cell passed">0</div>
+  </div>
+
+   
+  
+  
+
+  
+
+     
+
+  
+
+</div>
+</div>
+          <div><div>
+  
+
+  
+
+  <div class="step-row">
+    <div class="step-container" id="0.8">
+      <div class="step-ref passed">8</div>
+      
+      <div class="step-cell passed">
+        <span>When</span>&nbsp;<span>method get</span>
+      </div>
+    </div>
+    <div class="time-cell passed">220</div>
+  </div>
+
+   
+  
+  
+
+  
+
+  <div class="preformatted" data-parent="0.8">21:22:07.632 request:
+1 &gt; GET http://localhost:8082/practicantes
+1 &gt; Authorization: Bearer eyJhbGciOiJSUzI1NiIsImtpZCI6IjNkOWNmYWE4OGVmMDViNDI0YmU2MjA1ZjQ2YjE4OGQ3MzI1N2JjNDIiLCJ0eXAiOiJKV1QifQ.eyJpc3MiOiJodHRwczovL3NlY3VyZXRva2VuLmdvb2dsZS5jb20vdGVsZXBzaWNvLTFlOWM4IiwiYXVkIjoidGVsZXBzaWNvLTFlOWM4IiwiYXV0aF90aW1lIjoxNjIxMzg4ODQ0LCJ1c2VyX2lkIjoiQkQ3WHpLcFZHMWd5QmN3TVFyclhjWEpXbjJxMSIsInN1YiI6IkJEN1h6S3BWRzFneUJjd01RcnJYY1hKV24ycTEiLCJpYXQiOjE2MjEzODg4NDQsImV4cCI6MTYyMTM5MjQ0NCwiZW1haWwiOiJkYXZpZDE4aGNAZ21haWwuY29tIiwiZW1haWxfdmVyaWZpZWQiOmZhbHNlLCJmaXJlYmFzZSI6eyJpZGVudGl0aWVzIjp7ImVtYWlsIjpbImRhdmlkMThoY0BnbWFpbC5jb20iXX0sInNpZ25faW5fcHJvdmlkZXIiOiJwYXNzd29yZCJ9fQ.aZirAmXKHHriK2hBe0N0E5sT-owA4DSer2UCriiMOcJUdmG-nYjGAoGFAJCg-Zvy8tNWPDjd4ccEbo7QgJvH6ZnvAKHSwrUrVjVxag7czp4fhZWClY1gdZJ1AfA0kOAZcp3QDpTEZJMPZyoQhMgSVFjIouZzrl5ruL9smI0DRXN9QixLPfy5By8_lRKTdRteGA47utva-M11f5-yOivQq1hd9uLs3f0_8K4zKFe7Sz4IYFSBjyVEm2PvBEGTFL7hrrMe0upBiQx5WVsidD1m3Fow7v_mb8FnV8bkU-4THqd2pAKOYvrDKx-EZBhUOrXox7Np8cuQMolJZ8b5m9GEaw
+1 &gt; Host: localhost:8082
+1 &gt; Connection: Keep-Alive
+1 &gt; User-Agent: Apache-HttpClient/4.5.13 (Java/11.0.10)
+1 &gt; Accept-Encoding: gzip,deflate
+
+
+21:22:07.851 response time in milliseconds: 218
+1 &lt; 200
+1 &lt; Vary: [Origin, Access-Control-Request-Method, Access-Control-Request-Headers]
+1 &lt; X-Content-Type-Options: nosniff
+1 &lt; X-XSS-Protection: 1; mode=block
+1 &lt; Cache-Control: no-cache, no-store, max-age=0, must-revalidate
+1 &lt; Pragma: no-cache
+1 &lt; Expires: 0
+1 &lt; X-Frame-Options: DENY
+1 &lt; Content-Type: application/json;charset=UTF-8
+1 &lt; Transfer-Encoding: chunked
+1 &lt; Date: Wed, 19 May 2021 02:22:07 GMT
+1 &lt; Keep-Alive: timeout=60
+1 &lt; Connection: keep-alive
+[{&quot;aforo&quot;:2,&quot;direccion&quot;:&quot;Ak. 13 #156-23, Bogotá, Cundinamarca&quot;,&quot;documento&quot;:&quot;1234567890&quot;,&quot;nombre&quot;:&quot;PracticanteNombre1&quot;,&quot;infoSesion&quot;:null,&quot;tipoDocumento&quot;:&quot;Cédula de Extranjería&quot;,&quot;enfoque&quot;:&quot;Comportamental&quot;,&quot;apellido&quot;:&quot;PracticanteApellido1&quot;,&quot;tipoUsuario&quot;:&quot;Practicante&quot;,&quot;pregrado&quot;:true,&quot;id&quot;:&quot;0ozSyBFMvEeQxyHif9IMcMcc8573&quot;,&quot;telefono&quot;:&quot;3104039843&quot;,&quot;semestre&quot;:10,&quot;email&quot;:&quot;practicante1@gmail.com&quot;,&quot;activo&quot;:true},{&quot;aforo&quot;:1,&quot;direccion&quot;:&quot;Ak. 15 #178-30, Bogotá, Cundinamarca&quot;,&quot;documento&quot;:&quot;4798567890&quot;,&quot;nombre&quot;:&quot;PracticanteNombre2&quot;,&quot;infoSesion&quot;:null,&quot;tipoDocumento&quot;:&quot;Cédula de Extranjería&quot;,&quot;enfoque&quot;:&quot;Psicoanalítico&quot;,&quot;apellido&quot;:&quot;PracticanteApellido2&quot;,&quot;tipoUsuario&quot;:&quot;Practicante&quot;,&quot;pregrado&quot;:false,&quot;id&quot;:&quot;TL0XtEmgbXbBte1R0NQm7tJgXEq2&quot;,&quot;telefono&quot;:&quot;3106639843&quot;,&quot;semestre&quot;:1,&quot;email&quot;:&quot;practicante2@gmail.com&quot;,&quot;activo&quot;:true},{&quot;aforo&quot;:3,&quot;direccion&quot;:&quot;Calle. 15 #124-30, Bogotá, Cundinamarca&quot;,&quot;documento&quot;:&quot;1234564650&quot;,&quot;nombre&quot;:&quot;PracticanteNombre3&quot;,&quot;infoSesion&quot;:null,&quot;tipoDocumento&quot;:&quot;Cédula de Extranjería&quot;,&quot;enfoque&quot;:&quot;Sistemico&quot;,&quot;apellido&quot;:&quot;PracticanteApellido3&quot;,&quot;tipoUsuario&quot;:&quot;Practicante&quot;,&quot;pregrado&quot;:true,&quot;id&quot;:&quot;Tz2fBb5kS2bK1OAtYpeXxjSvY7I3&quot;,&quot;telefono&quot;:&quot;3104036565&quot;,&quot;semestre&quot;:10,&quot;email&quot;:&quot;practicante3@gmail.com&quot;,&quot;activo&quot;:true},{&quot;aforo&quot;:1,&quot;direccion&quot;:&quot;Ak. 56 #17-30, Bogotá, Cundinamarca&quot;,&quot;documento&quot;:&quot;AP34567890&quot;,&quot;nombre&quot;:&quot;PracticanteNombre4&quot;,&quot;infoSesion&quot;:null,&quot;tipoDocumento&quot;:&quot;Pasaporte&quot;,&quot;enfoque&quot;:&quot;Sistemico&quot;,&quot;apellido&quot;:&quot;PracticanteApellido4&quot;,&quot;tipoUsuario&quot;:&quot;Practicante&quot;,&quot;pregrado&quot;:true,&quot;id&quot;:&quot;yvPNkLU5j2PNsBNLjaiXRikXSqM2&quot;,&quot;telefono&quot;:&quot;3104033333&quot;,&quot;semestre&quot;:9,&quot;email&quot;:&quot;practicante4@gmail.com&quot;,&quot;activo&quot;:true}]
+</div>   
+
+  
+
+</div>
+</div>
+          <div><div>
+  
+
+  
+
+  <div class="step-row">
+    <div class="step-container" id="0.9">
+      <div class="step-ref passed">9</div>
+      
+      <div class="step-cell passed">
+        <span>Then</span>&nbsp;<span>status 200</span>
+      </div>
+    </div>
+    <div class="time-cell passed">0</div>
+  </div>
+
+   
+  
+  
+
+  
+
+     
+
+  
+
+</div>
+</div>
+        </div>
+        <div class="scenario">
+          <div class="scenario-heading" id="[2:11]">
+            <div class="heading-container">
+              <div class="scenario-tags">
+                
+              </div>
+              <div class="scenario-keyword">
+                Scenario: <span>[2:11]</span>
+                <span class="scenario-name">Obtener practicantes horas</span>
+                <span></span>
+              </div>
+            </div>
+            <div class="scenario-time passed">
+              <span>ms:</span>&nbsp;<span>1011</span>
+            </div>
+          </div>
+          <div class="step-row">
+            <div class="step-container" id="[2:11]bg">
+              <div class="step-ref bg-step">&gt;&gt;</div>
+              <div class="step-cell passed">Background:</div>
+            </div>
+            <div class="time-cell passed"></div>
+          </div>
+          <div data-parent="[2:11]bg"><div>
+  
+
+  
+
+  <div class="step-row">
+    <div class="step-container" id="0.4">
+      <div class="step-ref bg-step">4</div>
+      
+      <div class="step-cell passed">
+        <span>*</span>&nbsp;<span>url &#39;http://localhost:8082/practicantes&#39;</span>
+      </div>
+    </div>
+    <div class="time-cell passed">0</div>
+  </div>
+
+   
+  
+  
+
+  
+
+  <div class="preformatted" data-parent="0.4">21:22:07.854 karate.env system property was: null 
+</div>   
+
+  
+
+</div>
+</div>
+          <div data-parent="[2:11]bg"><div>
+  
+
+  
+
+  <div class="step-row">
+    <div class="step-container" id="0.5">
+      <div class="step-ref bg-step">5</div>
+      
+      <div class="step-cell passed">
+        <span>*</span>&nbsp;<span>configure headers = { Authorization : &#39;Bearer eyJhbGciOiJSUzI1NiIsImtpZCI6IjNkOWNmYWE4OGVmMDViNDI0YmU2MjA1ZjQ2YjE4OGQ3MzI1N2JjNDIiLCJ0eXAiOiJKV1QifQ.eyJpc3MiOiJodHRwczovL3NlY3VyZXRva2VuLmdvb2dsZS5jb20vdGVsZXBzaWNvLTFlOWM4IiwiYXVkIjoidGVsZXBzaWNvLTFlOWM4IiwiYXV0aF90aW1lIjoxNjIxMzg4ODQ0LCJ1c2VyX2lkIjoiQkQ3WHpLcFZHMWd5QmN3TVFyclhjWEpXbjJxMSIsInN1YiI6IkJEN1h6S3BWRzFneUJjd01RcnJYY1hKV24ycTEiLCJpYXQiOjE2MjEzODg4NDQsImV4cCI6MTYyMTM5MjQ0NCwiZW1haWwiOiJkYXZpZDE4aGNAZ21haWwuY29tIiwiZW1haWxfdmVyaWZpZWQiOmZhbHNlLCJmaXJlYmFzZSI6eyJpZGVudGl0aWVzIjp7ImVtYWlsIjpbImRhdmlkMThoY0BnbWFpbC5jb20iXX0sInNpZ25faW5fcHJvdmlkZXIiOiJwYXNzd29yZCJ9fQ.aZirAmXKHHriK2hBe0N0E5sT-owA4DSer2UCriiMOcJUdmG-nYjGAoGFAJCg-Zvy8tNWPDjd4ccEbo7QgJvH6ZnvAKHSwrUrVjVxag7czp4fhZWClY1gdZJ1AfA0kOAZcp3QDpTEZJMPZyoQhMgSVFjIouZzrl5ruL9smI0DRXN9QixLPfy5By8_lRKTdRteGA47utva-M11f5-yOivQq1hd9uLs3f0_8K4zKFe7Sz4IYFSBjyVEm2PvBEGTFL7hrrMe0upBiQx5WVsidD1m3Fow7v_mb8FnV8bkU-4THqd2pAKOYvrDKx-EZBhUOrXox7Np8cuQMolJZ8b5m9GEaw&#39;}</span>
+      </div>
+    </div>
+    <div class="time-cell passed">0</div>
+  </div>
+
+   
+  
+  
+
+  
+
+     
+
+  
+
+</div>
+</div>
+          <div><div>
+  
+
+  
+
+  <div class="step-row">
+    <div class="step-container" id="0.12">
+      <div class="step-ref passed">12</div>
+      
+      <div class="step-cell passed">
+        <span>Given</span>&nbsp;<span>path &#39;/horas&#39;</span>
+      </div>
+    </div>
+    <div class="time-cell passed">0</div>
+  </div>
+
+   
+  
+  
+
+  
+
+     
+
+  
+
+</div>
+</div>
+          <div><div>
+  
+
+  
+
+  <div class="step-row">
+    <div class="step-container" id="0.13">
+      <div class="step-ref passed">13</div>
+      
+      <div class="step-cell passed">
+        <span>When</span>&nbsp;<span>method get</span>
+      </div>
+    </div>
+    <div class="time-cell passed">1010</div>
+  </div>
+
+   
+  
+  
+
+  
+
+  <div class="preformatted" data-parent="0.13">21:22:07.857 request:
+1 &gt; GET http://localhost:8082/practicantes/horas
+1 &gt; Authorization: Bearer eyJhbGciOiJSUzI1NiIsImtpZCI6IjNkOWNmYWE4OGVmMDViNDI0YmU2MjA1ZjQ2YjE4OGQ3MzI1N2JjNDIiLCJ0eXAiOiJKV1QifQ.eyJpc3MiOiJodHRwczovL3NlY3VyZXRva2VuLmdvb2dsZS5jb20vdGVsZXBzaWNvLTFlOWM4IiwiYXVkIjoidGVsZXBzaWNvLTFlOWM4IiwiYXV0aF90aW1lIjoxNjIxMzg4ODQ0LCJ1c2VyX2lkIjoiQkQ3WHpLcFZHMWd5QmN3TVFyclhjWEpXbjJxMSIsInN1YiI6IkJEN1h6S3BWRzFneUJjd01RcnJYY1hKV24ycTEiLCJpYXQiOjE2MjEzODg4NDQsImV4cCI6MTYyMTM5MjQ0NCwiZW1haWwiOiJkYXZpZDE4aGNAZ21haWwuY29tIiwiZW1haWxfdmVyaWZpZWQiOmZhbHNlLCJmaXJlYmFzZSI6eyJpZGVudGl0aWVzIjp7ImVtYWlsIjpbImRhdmlkMThoY0BnbWFpbC5jb20iXX0sInNpZ25faW5fcHJvdmlkZXIiOiJwYXNzd29yZCJ9fQ.aZirAmXKHHriK2hBe0N0E5sT-owA4DSer2UCriiMOcJUdmG-nYjGAoGFAJCg-Zvy8tNWPDjd4ccEbo7QgJvH6ZnvAKHSwrUrVjVxag7czp4fhZWClY1gdZJ1AfA0kOAZcp3QDpTEZJMPZyoQhMgSVFjIouZzrl5ruL9smI0DRXN9QixLPfy5By8_lRKTdRteGA47utva-M11f5-yOivQq1hd9uLs3f0_8K4zKFe7Sz4IYFSBjyVEm2PvBEGTFL7hrrMe0upBiQx5WVsidD1m3Fow7v_mb8FnV8bkU-4THqd2pAKOYvrDKx-EZBhUOrXox7Np8cuQMolJZ8b5m9GEaw
+1 &gt; Host: localhost:8082
+1 &gt; Connection: Keep-Alive
+1 &gt; User-Agent: Apache-HttpClient/4.5.13 (Java/11.0.10)
+1 &gt; Accept-Encoding: gzip,deflate
+
+
+21:22:08.866 response time in milliseconds: 1008
+1 &lt; 200
+1 &lt; Vary: [Origin, Access-Control-Request-Method, Access-Control-Request-Headers]
+1 &lt; X-Content-Type-Options: nosniff
+1 &lt; X-XSS-Protection: 1; mode=block
+1 &lt; Cache-Control: no-cache, no-store, max-age=0, must-revalidate
+1 &lt; Pragma: no-cache
+1 &lt; Expires: 0
+1 &lt; X-Frame-Options: DENY
+1 &lt; Content-Type: application/json;charset=UTF-8
+1 &lt; Transfer-Encoding: chunked
+1 &lt; Date: Wed, 19 May 2021 02:22:08 GMT
+1 &lt; Keep-Alive: timeout=60
+1 &lt; Connection: keep-alive
+[{&quot;horas&quot;:0,&quot;practicante&quot;:{&quot;aforo&quot;:2,&quot;direccion&quot;:&quot;Ak. 13 #156-23, Bogotá, Cundinamarca&quot;,&quot;documento&quot;:&quot;1234567890&quot;,&quot;nombre&quot;:&quot;PracticanteNombre1&quot;,&quot;infoSesion&quot;:null,&quot;tipoDocumento&quot;:&quot;Cédula de Extranjería&quot;,&quot;enfoque&quot;:&quot;Comportamental&quot;,&quot;apellido&quot;:&quot;PracticanteApellido1&quot;,&quot;tipoUsuario&quot;:&quot;Practicante&quot;,&quot;pregrado&quot;:true,&quot;id&quot;:&quot;0ozSyBFMvEeQxyHif9IMcMcc8573&quot;,&quot;telefono&quot;:&quot;3104039843&quot;,&quot;semestre&quot;:10,&quot;email&quot;:&quot;practicante1@gmail.com&quot;,&quot;activo&quot;:true}},{&quot;horas&quot;:0,&quot;practicante&quot;:{&quot;aforo&quot;:1,&quot;direccion&quot;:&quot;Ak. 15 #178-30, Bogotá, Cundinamarca&quot;,&quot;documento&quot;:&quot;4798567890&quot;,&quot;nombre&quot;:&quot;PracticanteNombre2&quot;,&quot;infoSesion&quot;:null,&quot;tipoDocumento&quot;:&quot;Cédula de Extranjería&quot;,&quot;enfoque&quot;:&quot;Psicoanalítico&quot;,&quot;apellido&quot;:&quot;PracticanteApellido2&quot;,&quot;tipoUsuario&quot;:&quot;Practicante&quot;,&quot;pregrado&quot;:false,&quot;id&quot;:&quot;TL0XtEmgbXbBte1R0NQm7tJgXEq2&quot;,&quot;telefono&quot;:&quot;3106639843&quot;,&quot;semestre&quot;:1,&quot;email&quot;:&quot;practicante2@gmail.com&quot;,&quot;activo&quot;:true}},{&quot;horas&quot;:0,&quot;practicante&quot;:{&quot;aforo&quot;:3,&quot;direccion&quot;:&quot;Calle. 15 #124-30, Bogotá, Cundinamarca&quot;,&quot;documento&quot;:&quot;1234564650&quot;,&quot;nombre&quot;:&quot;PracticanteNombre3&quot;,&quot;infoSesion&quot;:null,&quot;tipoDocumento&quot;:&quot;Cédula de Extranjería&quot;,&quot;enfoque&quot;:&quot;Sistemico&quot;,&quot;apellido&quot;:&quot;PracticanteApellido3&quot;,&quot;tipoUsuario&quot;:&quot;Practicante&quot;,&quot;pregrado&quot;:true,&quot;id&quot;:&quot;Tz2fBb5kS2bK1OAtYpeXxjSvY7I3&quot;,&quot;telefono&quot;:&quot;3104036565&quot;,&quot;semestre&quot;:10,&quot;email&quot;:&quot;practicante3@gmail.com&quot;,&quot;activo&quot;:true}},{&quot;horas&quot;:0,&quot;practicante&quot;:{&quot;aforo&quot;:1,&quot;direccion&quot;:&quot;Ak. 56 #17-30, Bogotá, Cundinamarca&quot;,&quot;documento&quot;:&quot;AP34567890&quot;,&quot;nombre&quot;:&quot;PracticanteNombre4&quot;,&quot;infoSesion&quot;:null,&quot;tipoDocumento&quot;:&quot;Pasaporte&quot;,&quot;enfoque&quot;:&quot;Sistemico&quot;,&quot;apellido&quot;:&quot;PracticanteApellido4&quot;,&quot;tipoUsuario&quot;:&quot;Practicante&quot;,&quot;pregrado&quot;:true,&quot;id&quot;:&quot;yvPNkLU5j2PNsBNLjaiXRikXSqM2&quot;,&quot;telefono&quot;:&quot;3104033333&quot;,&quot;semestre&quot;:9,&quot;email&quot;:&quot;practicante4@gmail.com&quot;,&quot;activo&quot;:true}}]
+</div>   
+
+  
+
+</div>
+</div>
+          <div><div>
+  
+
+  
+
+  <div class="step-row">
+    <div class="step-container" id="0.14">
+      <div class="step-ref passed">14</div>
+      
+      <div class="step-cell passed">
+        <span>Then</span>&nbsp;<span>status 200</span>
+      </div>
+    </div>
+    <div class="time-cell passed">0</div>
+  </div>
+
+   
+  
+  
+
+  
+
+     
+
+  
+
+</div>
+</div>
+        </div>
+        <div class="scenario">
+          <div class="scenario-heading" id="[3:16]">
+            <div class="heading-container">
+              <div class="scenario-tags">
+                
+              </div>
+              <div class="scenario-keyword">
+                Scenario: <span>[3:16]</span>
+                <span class="scenario-name">Obtener practicantes pacientes</span>
+                <span></span>
+              </div>
+            </div>
+            <div class="scenario-time passed">
+              <span>ms:</span>&nbsp;<span>219</span>
+            </div>
+          </div>
+          <div class="step-row">
+            <div class="step-container" id="[3:16]bg">
+              <div class="step-ref bg-step">&gt;&gt;</div>
+              <div class="step-cell passed">Background:</div>
+            </div>
+            <div class="time-cell passed"></div>
+          </div>
+          <div data-parent="[3:16]bg"><div>
+  
+
+  
+
+  <div class="step-row">
+    <div class="step-container" id="0.4">
+      <div class="step-ref bg-step">4</div>
+      
+      <div class="step-cell passed">
+        <span>*</span>&nbsp;<span>url &#39;http://localhost:8082/practicantes&#39;</span>
+      </div>
+    </div>
+    <div class="time-cell passed">0</div>
+  </div>
+
+   
+  
+  
+
+  
+
+  <div class="preformatted" data-parent="0.4">21:22:08.871 karate.env system property was: null 
+</div>   
+
+  
+
+</div>
+</div>
+          <div data-parent="[3:16]bg"><div>
+  
+
+  
+
+  <div class="step-row">
+    <div class="step-container" id="0.5">
+      <div class="step-ref bg-step">5</div>
+      
+      <div class="step-cell passed">
+        <span>*</span>&nbsp;<span>configure headers = { Authorization : &#39;Bearer eyJhbGciOiJSUzI1NiIsImtpZCI6IjNkOWNmYWE4OGVmMDViNDI0YmU2MjA1ZjQ2YjE4OGQ3MzI1N2JjNDIiLCJ0eXAiOiJKV1QifQ.eyJpc3MiOiJodHRwczovL3NlY3VyZXRva2VuLmdvb2dsZS5jb20vdGVsZXBzaWNvLTFlOWM4IiwiYXVkIjoidGVsZXBzaWNvLTFlOWM4IiwiYXV0aF90aW1lIjoxNjIxMzg4ODQ0LCJ1c2VyX2lkIjoiQkQ3WHpLcFZHMWd5QmN3TVFyclhjWEpXbjJxMSIsInN1YiI6IkJEN1h6S3BWRzFneUJjd01RcnJYY1hKV24ycTEiLCJpYXQiOjE2MjEzODg4NDQsImV4cCI6MTYyMTM5MjQ0NCwiZW1haWwiOiJkYXZpZDE4aGNAZ21haWwuY29tIiwiZW1haWxfdmVyaWZpZWQiOmZhbHNlLCJmaXJlYmFzZSI6eyJpZGVudGl0aWVzIjp7ImVtYWlsIjpbImRhdmlkMThoY0BnbWFpbC5jb20iXX0sInNpZ25faW5fcHJvdmlkZXIiOiJwYXNzd29yZCJ9fQ.aZirAmXKHHriK2hBe0N0E5sT-owA4DSer2UCriiMOcJUdmG-nYjGAoGFAJCg-Zvy8tNWPDjd4ccEbo7QgJvH6ZnvAKHSwrUrVjVxag7czp4fhZWClY1gdZJ1AfA0kOAZcp3QDpTEZJMPZyoQhMgSVFjIouZzrl5ruL9smI0DRXN9QixLPfy5By8_lRKTdRteGA47utva-M11f5-yOivQq1hd9uLs3f0_8K4zKFe7Sz4IYFSBjyVEm2PvBEGTFL7hrrMe0upBiQx5WVsidD1m3Fow7v_mb8FnV8bkU-4THqd2pAKOYvrDKx-EZBhUOrXox7Np8cuQMolJZ8b5m9GEaw&#39;}</span>
+      </div>
+    </div>
+    <div class="time-cell passed">0</div>
+  </div>
+
+   
+  
+  
+
+  
+
+     
+
+  
+
+</div>
+</div>
+          <div><div>
+  
+
+  
+
+  <div class="step-row">
+    <div class="step-container" id="0.17">
+      <div class="step-ref passed">17</div>
+      
+      <div class="step-cell passed">
+        <span>Given</span>&nbsp;<span>path &#39;/pacientes&#39;</span>
+      </div>
+    </div>
+    <div class="time-cell passed">0</div>
+  </div>
+
+   
+  
+  
+
+  
+
+     
+
+  
+
+</div>
+</div>
+          <div><div>
+  
+
+  
+
+  <div class="step-row">
+    <div class="step-container" id="0.18">
+      <div class="step-ref passed">18</div>
+      
+      <div class="step-cell passed">
+        <span>When</span>&nbsp;<span>method get</span>
+      </div>
+    </div>
+    <div class="time-cell passed">219</div>
+  </div>
+
+   
+  
+  
+
+  
+
+  <div class="preformatted" data-parent="0.18">21:22:08.873 request:
+1 &gt; GET http://localhost:8082/practicantes/pacientes
+1 &gt; Authorization: Bearer eyJhbGciOiJSUzI1NiIsImtpZCI6IjNkOWNmYWE4OGVmMDViNDI0YmU2MjA1ZjQ2YjE4OGQ3MzI1N2JjNDIiLCJ0eXAiOiJKV1QifQ.eyJpc3MiOiJodHRwczovL3NlY3VyZXRva2VuLmdvb2dsZS5jb20vdGVsZXBzaWNvLTFlOWM4IiwiYXVkIjoidGVsZXBzaWNvLTFlOWM4IiwiYXV0aF90aW1lIjoxNjIxMzg4ODQ0LCJ1c2VyX2lkIjoiQkQ3WHpLcFZHMWd5QmN3TVFyclhjWEpXbjJxMSIsInN1YiI6IkJEN1h6S3BWRzFneUJjd01RcnJYY1hKV24ycTEiLCJpYXQiOjE2MjEzODg4NDQsImV4cCI6MTYyMTM5MjQ0NCwiZW1haWwiOiJkYXZpZDE4aGNAZ21haWwuY29tIiwiZW1haWxfdmVyaWZpZWQiOmZhbHNlLCJmaXJlYmFzZSI6eyJpZGVudGl0aWVzIjp7ImVtYWlsIjpbImRhdmlkMThoY0BnbWFpbC5jb20iXX0sInNpZ25faW5fcHJvdmlkZXIiOiJwYXNzd29yZCJ9fQ.aZirAmXKHHriK2hBe0N0E5sT-owA4DSer2UCriiMOcJUdmG-nYjGAoGFAJCg-Zvy8tNWPDjd4ccEbo7QgJvH6ZnvAKHSwrUrVjVxag7czp4fhZWClY1gdZJ1AfA0kOAZcp3QDpTEZJMPZyoQhMgSVFjIouZzrl5ruL9smI0DRXN9QixLPfy5By8_lRKTdRteGA47utva-M11f5-yOivQq1hd9uLs3f0_8K4zKFe7Sz4IYFSBjyVEm2PvBEGTFL7hrrMe0upBiQx5WVsidD1m3Fow7v_mb8FnV8bkU-4THqd2pAKOYvrDKx-EZBhUOrXox7Np8cuQMolJZ8b5m9GEaw
+1 &gt; Host: localhost:8082
+1 &gt; Connection: Keep-Alive
+1 &gt; User-Agent: Apache-HttpClient/4.5.13 (Java/11.0.10)
+1 &gt; Accept-Encoding: gzip,deflate
+
+
+21:22:09.090 response time in milliseconds: 217
+1 &lt; 200
+1 &lt; Vary: [Origin, Access-Control-Request-Method, Access-Control-Request-Headers]
+1 &lt; X-Content-Type-Options: nosniff
+1 &lt; X-XSS-Protection: 1; mode=block
+1 &lt; Cache-Control: no-cache, no-store, max-age=0, must-revalidate
+1 &lt; Pragma: no-cache
+1 &lt; Expires: 0
+1 &lt; X-Frame-Options: DENY
+1 &lt; Content-Type: application/json;charset=UTF-8
+1 &lt; Transfer-Encoding: chunked
+1 &lt; Date: Wed, 19 May 2021 02:22:08 GMT
+1 &lt; Keep-Alive: timeout=60
+1 &lt; Connection: keep-alive
+[{&quot;aforo&quot;:2,&quot;direccion&quot;:&quot;Ak. 13 #156-23, Bogotá, Cundinamarca&quot;,&quot;documento&quot;:&quot;1234567890&quot;,&quot;nombre&quot;:&quot;PracticanteNombre1&quot;,&quot;infoSesion&quot;:null,&quot;tipoDocumento&quot;:&quot;Cédula de Extranjería&quot;,&quot;enfoque&quot;:&quot;Comportamental&quot;,&quot;apellido&quot;:&quot;PracticanteApellido1&quot;,&quot;tipoUsuario&quot;:&quot;Practicante&quot;,&quot;pregrado&quot;:true,&quot;id&quot;:&quot;0ozSyBFMvEeQxyHif9IMcMcc8573&quot;,&quot;telefono&quot;:&quot;3104039843&quot;,&quot;semestre&quot;:10,&quot;email&quot;:&quot;practicante1@gmail.com&quot;,&quot;activo&quot;:true},{&quot;aforo&quot;:1,&quot;direccion&quot;:&quot;Ak. 15 #178-30, Bogotá, Cundinamarca&quot;,&quot;documento&quot;:&quot;4798567890&quot;,&quot;nombre&quot;:&quot;PracticanteNombre2&quot;,&quot;infoSesion&quot;:null,&quot;tipoDocumento&quot;:&quot;Cédula de Extranjería&quot;,&quot;enfoque&quot;:&quot;Psicoanalítico&quot;,&quot;apellido&quot;:&quot;PracticanteApellido2&quot;,&quot;tipoUsuario&quot;:&quot;Practicante&quot;,&quot;pregrado&quot;:false,&quot;id&quot;:&quot;TL0XtEmgbXbBte1R0NQm7tJgXEq2&quot;,&quot;telefono&quot;:&quot;3106639843&quot;,&quot;semestre&quot;:1,&quot;email&quot;:&quot;practicante2@gmail.com&quot;,&quot;activo&quot;:true},{&quot;aforo&quot;:3,&quot;direccion&quot;:&quot;Calle. 15 #124-30, Bogotá, Cundinamarca&quot;,&quot;documento&quot;:&quot;1234564650&quot;,&quot;nombre&quot;:&quot;PracticanteNombre3&quot;,&quot;infoSesion&quot;:null,&quot;tipoDocumento&quot;:&quot;Cédula de Extranjería&quot;,&quot;enfoque&quot;:&quot;Sistemico&quot;,&quot;apellido&quot;:&quot;PracticanteApellido3&quot;,&quot;tipoUsuario&quot;:&quot;Practicante&quot;,&quot;pregrado&quot;:true,&quot;id&quot;:&quot;Tz2fBb5kS2bK1OAtYpeXxjSvY7I3&quot;,&quot;telefono&quot;:&quot;3104036565&quot;,&quot;semestre&quot;:10,&quot;email&quot;:&quot;practicante3@gmail.com&quot;,&quot;activo&quot;:true},{&quot;aforo&quot;:1,&quot;direccion&quot;:&quot;Ak. 56 #17-30, Bogotá, Cundinamarca&quot;,&quot;documento&quot;:&quot;AP34567890&quot;,&quot;nombre&quot;:&quot;PracticanteNombre4&quot;,&quot;infoSesion&quot;:null,&quot;tipoDocumento&quot;:&quot;Pasaporte&quot;,&quot;enfoque&quot;:&quot;Sistemico&quot;,&quot;apellido&quot;:&quot;PracticanteApellido4&quot;,&quot;tipoUsuario&quot;:&quot;Practicante&quot;,&quot;pregrado&quot;:true,&quot;id&quot;:&quot;yvPNkLU5j2PNsBNLjaiXRikXSqM2&quot;,&quot;telefono&quot;:&quot;3104033333&quot;,&quot;semestre&quot;:9,&quot;email&quot;:&quot;practicante4@gmail.com&quot;,&quot;activo&quot;:true}]
+</div>   
+
+  
+
+</div>
+</div>
+          <div><div>
+  
+
+  
+
+  <div class="step-row">
+    <div class="step-container" id="0.19">
+      <div class="step-ref passed">19</div>
+      
+      <div class="step-cell passed">
+        <span>Then</span>&nbsp;<span>status 200</span>
+      </div>
+    </div>
+    <div class="time-cell passed">0</div>
+  </div>
+
+   
+  
+  
+
+  
+
+     
+
+  
+
+</div>
+</div>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>
+
