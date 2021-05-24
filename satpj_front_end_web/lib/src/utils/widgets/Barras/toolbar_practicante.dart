@@ -109,21 +109,6 @@ AppBar toolbarPracticante(BuildContext context) {
                     // Replace with a Row for horizontal icon + text
                     children: <Widget>[
                       Icon(
-                        Icons.group,
-                        color: Color(0xFF2E5EAA),
-                      ),
-                      SizedBox(width: 2.0),
-                      Text("Mi Supervisor",
-                          style: Theme.of(context).textTheme.bodyText1)
-                    ],
-                  ),
-                ),
-                PopupMenuItem(
-                  value: 6,
-                  child: Row(
-                    // Replace with a Row for horizontal icon + text
-                    children: <Widget>[
-                      Icon(
                         Icons.logout,
                         color: Color(0xFF2E5EAA),
                       ),
@@ -158,16 +143,16 @@ AppBar toolbarPracticante(BuildContext context) {
 
                   case 4:
                     {
-                      List<Horario> horarios = await ProviderAdministracionHorarios.obtenerHorariosPracticante(ProviderAuntenticacion.uid);
+                      List<Horario> horarios =
+                          await ProviderAdministracionHorarios
+                              .obtenerHorariosPracticante(
+                                  ProviderAuntenticacion.uid);
                       Navigator.pushNamed(
                           context, VistaGestionarHorarioPracticante.route, arguments :{"arguments" : horarios, "auxiliar" : false});
                     }
                     break;
 
                   case 5:
-                    {}
-                    break;
-                  case 6:
                     {
                       ProviderAuntenticacion.signOut();
                       Navigator.pushNamed(context, "/");

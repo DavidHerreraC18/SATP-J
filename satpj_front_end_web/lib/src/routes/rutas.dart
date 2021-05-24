@@ -20,6 +20,7 @@ import 'package:satpj_front_end_web/src/views/gestionar_perfil/vista_perfil_auxi
 import 'package:satpj_front_end_web/src/views/gestionar_perfil/vista_perfil_paciente.dart';
 import 'package:satpj_front_end_web/src/views/gestionar_perfil/vista_perfil_practicante.dart';
 import 'package:satpj_front_end_web/src/views/gestionar_perfil/vista_perfil_supervisor.dart';
+import 'package:satpj_front_end_web/src/views/gestionar_perfil/vista_perfil_supervisor_paciente.dart';
 import 'package:satpj_front_end_web/src/views/gestionar_practicantes/vista_administrar_practicantes.dart';
 import 'package:satpj_front_end_web/src/views/gestionar_practicantes/vista_agregar_pacientes-practicantes.dart';
 import 'package:satpj_front_end_web/src/views/gestionar_practicantes/vista_visualizar_practicantes.dart';
@@ -99,7 +100,11 @@ Map<String, WidgetBuilder> getAppRoutes() {
         VistaEditarSupervisor(),
     VistaVisualizarPracticantes.route: (BuildContext context) =>
         VistaVisualizarPracticantes(),
-    VistaLlamadaPaciente.route: (BuildContext context) => VistaLlamadaPaciente(),
-    VistaLlamadaPracticante.route: (BuildContext context) => VistaLlamadaPracticante()
+    VistaLlamadaPaciente.route: (BuildContext context) =>
+        VistaLlamadaPaciente(),
+    VistaLlamadaPracticante.route: (BuildContext context) =>
+        VistaLlamadaPracticante(),
+    VistaPerfilSupervisorPaciente.route: (BuildContext context) =>
+        VistaPerfilSupervisorPaciente(),
   };
 }

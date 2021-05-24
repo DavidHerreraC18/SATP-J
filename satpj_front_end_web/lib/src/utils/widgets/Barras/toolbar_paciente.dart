@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:satpj_front_end_web/src/providers/provider_autenticacion.dart';
 import 'package:satpj_front_end_web/src/views/gestionar_pacientes/vista_visualizar_pacientes_grupo.dart';
+import 'package:satpj_front_end_web/src/views/gestionar_pacientes/vista_visualizar_pacientes_supervisor.dart';
 import 'package:satpj_front_end_web/src/views/gestionar_perfil/vista_perfil_paciente.dart';
 import 'package:satpj_front_end_web/src/views/pagos/vista_registro_pago.dart';
 import 'package:satpj_front_end_web/src/views/pagos/vista_registro_paquete_sesion.dart';
@@ -123,6 +124,21 @@ AppBar toolbarPaciente(BuildContext context) {
                     // Replace with a Row for horizontal icon + text
                     children: <Widget>[
                       Icon(
+                        Icons.supervised_user_circle,
+                        color: Color(0xFF2E5EAA),
+                      ),
+                      SizedBox(width: 2.0),
+                      Text("Mi Supervisor",
+                          style: Theme.of(context).textTheme.bodyText1)
+                    ],
+                  ),
+                ),
+                PopupMenuItem(
+                  value: 7,
+                  child: Row(
+                    // Replace with a Row for horizontal icon + text
+                    children: <Widget>[
+                      Icon(
                         Icons.logout,
                         color: Color(0xFF2E5EAA),
                       ),
@@ -168,6 +184,13 @@ AppBar toolbarPaciente(BuildContext context) {
                     break;
 
                   case 6:
+                    {
+                      Navigator.pushNamed(
+                          context, VistaVisualizarPacientesSupervisor.route);
+                    }
+                    break;
+
+                  case 7:
                     {
                       ProviderAuntenticacion.signOut();
                       Navigator.pushNamed(context, "/");

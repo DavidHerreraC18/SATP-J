@@ -166,6 +166,7 @@ class DatosPacienteState extends State<DatosPaciente> {
   }
   @override
   void initState() {
+    if (pacienteActual == null) pacienteActual = new Paciente();
     super.initState();
   }
 
@@ -243,7 +244,7 @@ class DatosPacienteState extends State<DatosPaciente> {
                             children: [
                               Flexible(
                                   child: _containerDatos(
-                                      pacienteActual.tipoDocumento,
+                                      pacienteActual.tipoDocumento + ": ",
                                       pacienteActual.documento,
                                       Icon(FontAwesome.address_card,
                                           size: 20.0, color: kPrimaryColor))),
@@ -294,7 +295,9 @@ class DatosPacienteState extends State<DatosPaciente> {
                               Flexible(
                                   child: _containerDatos(
                                       "Dirección: ",
-                                      pacienteActual.direccion,
+                                      pacienteActual.direccion != null
+                                          ? pacienteActual.direccion
+                                          : 'No tiene',
                                       Icon(Icons.house,
                                           size: 20.0, color: kPrimaryColor))),
                               Flexible(
@@ -316,7 +319,7 @@ class DatosPacienteState extends State<DatosPaciente> {
                           //alignment: Alignment.center,
                           child: Row(
                             children: [
-                              _containerDatos(
+                              _containerDatosIndividual(
                                   "Terapeuta: ",
                                   practicanteActual.nombre +
                                       " " +
@@ -357,6 +360,19 @@ class DatosPacienteState extends State<DatosPaciente> {
           height: 20.0,
           constraints: BoxConstraints(minWidth: 125, maxWidth: 350),
           width: 350,
+          child: ListTile(
+              title: Text(texto + datoUsuario,
+                  style: TextStyle(
+                      height: 1.1, fontSize: 16, color: Colors.black)),
+              leading: icono));
+
+  Container _containerDatosIndividual(
+          String texto, String datoUsuario, Icon icono) =>
+      Container(
+          alignment: Alignment.center,
+          height: 20.0,
+          constraints: BoxConstraints(minWidth: 125, maxWidth: 700),
+          width: 700,
           child: ListTile(
               title: Text(texto + datoUsuario,
                   style: TextStyle(

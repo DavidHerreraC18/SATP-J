@@ -145,9 +145,8 @@ class DatosAuxiliarState extends State<DatosAuxiliar> {
   }
   @override
   void initState() {
-    if(auxiliarActual == null)
-       auxiliarActual = new AuxiliarAdministrativo();
-      
+    if (auxiliarActual == null) auxiliarActual = new AuxiliarAdministrativo();
+
     super.initState();
   }
 
@@ -175,6 +174,25 @@ class DatosAuxiliarState extends State<DatosAuxiliar> {
                               color: Colors.black,
                               fontWeight: FontWeight.bold),
                         ),
+                        Row(
+                          children: [
+                            IconButton(
+                                icon: Icon(Icons.vpn_key),
+                                color: kPrimaryColor,
+                                onPressed: () {
+                                  ProviderAuntenticacion
+                                      .sendChangePasswordEmail(
+                                          widget.auxiliarActual.email);
+                                }),
+                            IconButton(
+                                icon: Icon(Icons.edit),
+                                color: kPrimaryColor,
+                                onPressed: () {
+                                  Navigator.pushNamed(
+                                      context, VistaEditarAuxiliar.route);
+                                }),
+                          ],
+                        )
                       ]),
                 )),
             Divider(height: 1),
@@ -189,7 +207,7 @@ class DatosAuxiliarState extends State<DatosAuxiliar> {
                     children: [
                       Flexible(
                           child: _containerDatos(
-                              auxiliarActual.tipoDocumento,
+                              auxiliarActual.tipoDocumento + ": ",
                               auxiliarActual.documento,
                               Icon(FontAwesome.address_card,
                                   size: 20.0, color: kPrimaryColor))),
@@ -234,7 +252,9 @@ class DatosAuxiliarState extends State<DatosAuxiliar> {
                       Flexible(
                           child: _containerDatos(
                               "Dirección: ",
-                              auxiliarActual.direccion != null ? auxiliarActual.direccion : 'No tiene',
+                              auxiliarActual.direccion != null
+                                  ? auxiliarActual.direccion
+                                  : 'No tiene',
                               Icon(Icons.house,
                                   size: 20.0, color: kPrimaryColor))),
                     ],

@@ -34,7 +34,7 @@ class ProviderAdministracionUsuarios {
       }
     } catch (exc) {
       print("Error en provider" + exc);
-      _completer.completeError(<DocumentoPaciente>[]);
+      _completer.completeError(<Usuario>[]);
     }
 
     return _completer.future;

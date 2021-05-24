@@ -803,7 +803,7 @@ class _FormState extends State<FormPatientExtraInformation> {
                         '');
                   }),
               SizedBox(
-                height: 8.0,
+                height: 15.0,
               ),
               Row(
                 mainAxisAlignment: MainAxisAlignment.end,
@@ -874,9 +874,6 @@ class _FormState extends State<FormPatientExtraInformation> {
             }
           }
         } else {
-          if (pacienteActual == null) {
-            print("DIE");
-          }
           formularioExtra.paciente = pacienteActual;
           await ProviderAprobacionPacientes.crearFormularioExtra(
               formularioExtra);

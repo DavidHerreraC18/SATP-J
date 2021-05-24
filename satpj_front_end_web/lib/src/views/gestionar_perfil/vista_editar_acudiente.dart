@@ -207,7 +207,7 @@ class DatosAcudienteState extends State<DatosAcudiente> {
                     children: [
                       Flexible(
                           child: _containerDatos(
-                              acudienteActual.tipoDocumento,
+                              acudienteActual.tipoDocumento + ": ",
                               acudienteActual.documento,
                               Icon(FontAwesome.address_card,
                                   size: 20.0, color: kPrimaryColor))),

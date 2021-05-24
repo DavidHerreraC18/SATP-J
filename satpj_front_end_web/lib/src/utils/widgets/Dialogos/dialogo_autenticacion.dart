@@ -260,7 +260,7 @@ class _AuthDialogState extends State<AuthDialog> {
                                         loginStringColor = Colors.green;
                                       });
                                       Future.delayed(
-                                          Duration(milliseconds: 500), () {
+                                          Duration(milliseconds: 150), () {
                                         //Navigator.of(context).pop();
                                         _funcionRedireccion(context);
                                       });

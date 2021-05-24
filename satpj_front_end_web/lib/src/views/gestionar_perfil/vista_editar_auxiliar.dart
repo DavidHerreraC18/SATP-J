@@ -209,7 +209,7 @@ class DatosAuxiliarState extends State<DatosAuxiliar> {
                     children: [
                       Flexible(
                           child: _containerDatos(
-                              auxiliarActual.tipoDocumento,
+                              auxiliarActual.tipoDocumento + ": ",
                               auxiliarActual.documento,
                               Icon(FontAwesome.address_card,
                                   size: 20.0, color: kPrimaryColor))),

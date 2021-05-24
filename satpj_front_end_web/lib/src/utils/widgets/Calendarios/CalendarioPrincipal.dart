@@ -252,6 +252,7 @@ class _MonthlyCalendarState extends State<MonthlyCalendar> {
             color: Colors.red),
         minDate: _minDate,
         maxDate: _maxDate,
+        todayHighlightColor: kAccentColor,
         viewHeaderStyle: new ViewHeaderStyle(
             backgroundColor: kPrimaryColor,
             dayTextStyle:

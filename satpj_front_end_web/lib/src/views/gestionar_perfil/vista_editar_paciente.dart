@@ -209,7 +209,7 @@ class DatosPacienteState extends State<DatosPaciente> {
                     children: [
                       Flexible(
                           child: _containerDatos(
-                              pacienteActual.tipoDocumento,
+                              pacienteActual.tipoDocumento + ": ",
                               pacienteActual.documento,
                               Icon(FontAwesome.address_card,
                                   size: 20.0, color: kPrimaryColor))),

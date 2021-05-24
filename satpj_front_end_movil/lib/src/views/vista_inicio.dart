@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../utils/widgets/dialogo_autenticacion.dart';
+import '../utils/widgets/dialogos/dialogo_autenticacion.dart';
 
 class VistaInicio extends StatelessWidget {
   //const VistaInicio({Key key}) : super(key: key);
@@ -17,7 +17,7 @@ class VistaInicio extends StatelessWidget {
             children: [
               Image.asset(
                 "lib/src/utils/images/logo_plataforma.png",
-                ),
+              ),
               Text(
                 "SATP-J",
                 style: Theme.of(context).textTheme.headline1,
@@ -28,11 +28,8 @@ class VistaInicio extends StatelessWidget {
                     backgroundColor: MaterialStateProperty.all(
                         Theme.of(context).colorScheme.primary),
                     padding: MaterialStateProperty.all(EdgeInsets.all(16.0)),
-                    shape: MaterialStateProperty.all(
-                      RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(20)
-                      )
-                    ),
+                    shape: MaterialStateProperty.all(RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(20))),
                     shadowColor: MaterialStateProperty.all(Colors.black),
                     elevation: MaterialStateProperty.all(6.0),
                     textStyle: MaterialStateProperty.all(
@@ -48,26 +45,19 @@ class VistaInicio extends StatelessWidget {
               SizedBox(height: 30.0),
               OutlinedButton(
                   style: ButtonStyle(
-                    foregroundColor: MaterialStateProperty.all(
-                      Colors.blue
-                    ),
+                    foregroundColor: MaterialStateProperty.all(Colors.blue),
                     side: MaterialStateProperty.all(
                       BorderSide(
-                        color: Theme.of(context).colorScheme.primary,
-                        width: 2.0
-                      ),
+                          color: Theme.of(context).colorScheme.primary,
+                          width: 2.0),
                     ),
                     backgroundColor: MaterialStateProperty.all(
                         //Colors.white
-                        Color(0xFFD4EDEB)
-                        ),
+                        Color(0xFFD4EDEB)),
                     //shape: MaterialS,
                     padding: MaterialStateProperty.all(EdgeInsets.all(16.0)),
-                    shape: MaterialStateProperty.all(
-                      RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(20)
-                      )
-                    ),
+                    shape: MaterialStateProperty.all(RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(20))),
                     shadowColor: MaterialStateProperty.all(Colors.black),
                     elevation: MaterialStateProperty.all(6.0),
                     enableFeedback: true,
@@ -75,8 +65,7 @@ class VistaInicio extends StatelessWidget {
                   onPressed: () {
                     //Navigator.pushNamed(context, 'login');
                     showDialog(
-                    context: context,
-                    builder: (context) => AuthDialog());
+                        context: context, builder: (context) => AuthDialog());
                   },
                   child: Text(
                     "INICIAR SESIÓN",

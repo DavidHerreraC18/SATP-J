@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:satpj_front_end_movil/src/providers/provider_autenticacion.dart';
+import 'package:satpj_front_end_movil/src/views/home/vista_home.dart';
 import 'package:satpj_front_end_movil/src/views/home_acudientes/vista_home_practicantes.dart';
-
-import '../autenticacion.dart';
 
 //import 'google_sign_in_button.dart';
 
@@ -216,7 +216,6 @@ class _AuthDialogState extends State<AuthDialog> {
                           child: Container(
                             width: double.maxFinite,
                             child: TextButton(
-                              
                               style: ButtonStyle(
                                 backgroundColor: MaterialStateProperty.all(
                                     Theme.of(context).colorScheme.secondary),
@@ -242,9 +241,10 @@ class _AuthDialogState extends State<AuthDialog> {
                                     _validatePassword(
                                             textControllerPassword.text) ==
                                         null) {
-                                  await signInWithEmailPassword(
-                                          textControllerEmail.text,
-                                          textControllerPassword.text)
+                                  await ProviderAuntenticacion
+                                          .signInWithEmailPassword(
+                                              textControllerEmail.text,
+                                              textControllerPassword.text)
                                       .then((result) {
                                     if (result != null) {
                                       print(result);
@@ -252,7 +252,11 @@ class _AuthDialogState extends State<AuthDialog> {
                                         loginStatus =
                                             'Ha ingresado Correctamente';
                                         loginStringColor = Colors.green;
-                                        Navigator.pushNamed(context, HomePracticantes.route);
+                                      });
+                                      Future.delayed(
+                                          Duration(milliseconds: 150), () {
+                                        //Navigator.of(context).pop();
+                                        _funcionRedireccion(context);
                                       });
                                     }
                                   }).catchError((error) {
@@ -340,10 +344,11 @@ class _AuthDialogState extends State<AuthDialog> {
                 ),
                 SizedBox(height: 30),
                 //Center(child: GoogleButton()),
-                Center(child: Text(
+                Center(
+                    child: Text(
                   "INGRESO MICROSOFT",
                   style: Theme.of(context).textTheme.bodyText1,
-                  )),
+                )),
                 /*SizedBox(height: 30),
                 Padding(
                   padding: const EdgeInsets.all(8.0),
@@ -357,5 +362,9 @@ class _AuthDialogState extends State<AuthDialog> {
         ),
       ),
     );
+  }
+
+  _funcionRedireccion(BuildContext context) async {
+    Navigator.pushNamed(context, HomePage.route);
   }
 }
