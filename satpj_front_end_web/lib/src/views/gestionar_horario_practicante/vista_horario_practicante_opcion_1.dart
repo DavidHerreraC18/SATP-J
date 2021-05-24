@@ -59,7 +59,6 @@ class _VistaHorarioPracticanteOpcion1State
   @override
   Widget build(BuildContext context) {
     final Map arguments = ModalRoute.of(context).settings.arguments as Map;
-    widget.horarioPracticante.opcion = widget.opcion;
     if (arguments != null) {
       if (arguments['arguments'] is Horario) {
         widget.horarioPracticante = arguments['arguments'] as Horario;
@@ -69,6 +68,8 @@ class _VistaHorarioPracticanteOpcion1State
         widget.practicante = arguments['practicante'] as Practicante;
       }
     }
+
+    widget.horarioPracticante.opcion = widget.opcion;
 
     return FutureBuilder<String>(
       future: obtenerInformacionPrincipal(), // function where you call your api
@@ -117,14 +118,18 @@ class _VistaHorarioPracticanteOpcion1State
                               color: Colors.white,
                             ),
                             onPressed: () async {
-                              Navigator.pushNamed(context,
-                                  VistaGestionarHorarioPracticante.route,
-                                  arguments: {
-                                    "arguments":
-                                        await ProviderAdministracionHorarios
-                                            .obtenerHorariosPracticante(
-                                                widget.practicante.id)
-                                  });
+                             print('HOLLA' +
+                                    auxiliar.toString() +
+                                    widget.practicante.id);
+                                Navigator.pushNamed(context,
+                                    VistaGestionarHorarioPracticante.route,
+                                    arguments: {
+                                      "arguments":
+                                          await ProviderAdministracionHorarios
+                                              .obtenerHorariosPracticante(
+                                        widget.practicante.id,
+                                      ),
+                                    });
                             },
                           ),
                           if (auxiliar)
@@ -187,6 +192,7 @@ class _VistaHorarioPracticanteOpcion1State
                                 color: Colors.white,
                               ),
                               onPressed: () {
+                                widget.horarioPracticante.opcion = '1';
                                 widget.horarioPracticante
                                     .forReques(horarioVista);
                                 if (widget.horarioPracticante.id == null) {

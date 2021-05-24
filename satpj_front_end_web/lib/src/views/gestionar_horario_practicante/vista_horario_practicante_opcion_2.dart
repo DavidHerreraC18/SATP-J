@@ -67,9 +67,9 @@ class _VistaHorarioPracticanteOpcion2State
       if (arguments['practicante'] is Practicante) {
         widget.practicante = arguments['practicante'] as Practicante;
       }
-    } else {
-      widget.horarioPracticante.opcion = widget.opcion;
-    }
+    } 
+
+    widget.horarioPracticante.opcion = widget.opcion;
 
     return FutureBuilder<String>(
         future:
@@ -196,6 +196,7 @@ class _VistaHorarioPracticanteOpcion2State
                                   color: Colors.white,
                                 ),
                                 onPressed: () {
+                                  widget.horarioPracticante.opcion = '2';
                                   widget.horarioPracticante
                                       .forReques(horarioVista);
                                   if (widget.horarioPracticante.id == null) {

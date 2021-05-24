@@ -42,7 +42,7 @@ class _VistaGestionarHorarioPracticanteState
   Map<String, List<int>> horarioVista;
   bool auxiliar = false;
   Practicante practicante = new Practicante();
-  AppBar appBar;
+  AppBar appBar = AppBar();
   Usuario usuario = new Usuario();
   bool aprobado = false;
 

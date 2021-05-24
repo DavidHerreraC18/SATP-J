@@ -68,9 +68,9 @@ class _VistaHorarioPracticanteOpcion3State
       if (arguments['practicante'] is Practicante) {
         widget.practicante = arguments['practicante'] as Practicante;
       }
-    } else {
-      widget.horarioPracticante.opcion = widget.opcion;
     }
+
+    widget.horarioPracticante.opcion = widget.opcion;
 
     return FutureBuilder<String>(
       future: obtenerInformacionPrincipal(), // function where you call your api
@@ -119,16 +119,18 @@ class _VistaHorarioPracticanteOpcion3State
                               color: Colors.white,
                             ),
                             onPressed: () async {
-                              Navigator.pushNamed(context,
-                                  VistaGestionarHorarioPracticante.route,
-                                  arguments: {
-                                    "arguments":
-                                        await ProviderAdministracionHorarios
-                                            .obtenerHorariosPracticante(
-                                                !auxiliar
-                                                    ? ProviderAuntenticacion.uid
-                                                    : widget.practicante.id),
-                                  });
+                             print('HOLLA' +
+                                    auxiliar.toString() +
+                                    widget.practicante.id);
+                                Navigator.pushNamed(context,
+                                    VistaGestionarHorarioPracticante.route,
+                                    arguments: {
+                                      "arguments":
+                                          await ProviderAdministracionHorarios
+                                              .obtenerHorariosPracticante(
+                                        widget.practicante.id,
+                                      ),
+                                    });
                             },
                           ),
                           if (auxiliar)
@@ -191,6 +193,7 @@ class _VistaHorarioPracticanteOpcion3State
                                 color: Colors.white,
                               ),
                               onPressed: () {
+                                widget.horarioPracticante.opcion = '3';
                                 widget.horarioPracticante
                                     .forReques(horarioVista);
                                 if (widget.horarioPracticante.id == null) {
