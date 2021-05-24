@@ -67,6 +67,7 @@ class _VistaGestionarHorarioPracticanteState
           horario2 = opcion2.forView();
         } else {
           opcion3 = h;
+          print('HOLA');
           horario3 = opcion3.forView();
         }
       }
