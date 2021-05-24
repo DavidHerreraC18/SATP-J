@@ -23,7 +23,7 @@ class _MeetingState extends State<VistaLlamada> {
   Practicante practicanteLlamada;
   Usuario usuarioActual;
   final roomText = TextEditingController(text: "plugintestroom");
-  final subjectText = TextEditingController(text: "texto que no se ve");
+  final subjectText = TextEditingController(text: " ");
   final nameText = TextEditingController(text: "Plugin Test User");
   final emailText = TextEditingController(text: "fake@email.com");
   final iosAppBarRGBAColor =
@@ -139,6 +139,7 @@ class _MeetingState extends State<VistaLlamada> {
     return SingleChildScrollView(
       child: Column(
         children: <Widget>[
+          SizedBox(height: 24),
           SizedBox(
             height: 32.0,
             width: double.maxFinite,
@@ -147,7 +148,7 @@ class _MeetingState extends State<VistaLlamada> {
                 _joinMeeting();
               },
               child: Text(
-                "Unirse A la sesion",
+                "Unirse a la sesion",
                 style: TextStyle(color: Colors.white),
               ),
               style: ButtonStyle(

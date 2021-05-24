@@ -4,7 +4,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 /**
  * Interface RepositorioAlertaUsuario Permite realizar las consultas a la BD de
- * la Entidad alerta_usuario
+ * la Entidad AlertaUsuario
  */
 public interface RepositorioAlertaUsuario extends JpaRepository<AlertaUsuario, LlaveAlertaUsuario> {
 

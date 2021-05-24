@@ -5,12 +5,15 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:jitsi_meet/jitsi_meet.dart';
 import 'package:satpj_front_end_web/src/model/practicante/practicante.dart';
+import 'package:satpj_front_end_web/src/model/sesion_terapia/sesion_terapia.dart';
 import 'package:satpj_front_end_web/src/model/usuario/usuario.dart';
 import 'package:satpj_front_end_web/src/providers/provider_administracion_pacientes.dart';
 import 'package:satpj_front_end_web/src/providers/provider_administracion_practicantes.dart';
 import 'package:satpj_front_end_web/src/providers/provider_administracion_usuarios.dart';
 import 'package:satpj_front_end_web/src/providers/provider_autenticacion.dart';
+import 'package:satpj_front_end_web/src/providers/provider_sesiones_terapia.dart';
 import 'package:satpj_front_end_web/src/utils/widgets/Barras/toolbar_practicante.dart';
+import 'package:satpj_front_end_web/src/utils/widgets/inputs/rounded_text_field.dart';
 import 'package:satpj_front_end_web/src/utils/widgets/loading/LoadingWanderingCube.dart';
 
 class VistaLlamadaPracticante extends StatefulWidget {
@@ -33,9 +36,19 @@ class _MeetingState extends State<VistaLlamadaPracticante> {
   bool isAudioMuted = true;
   bool isVideoMuted = true;
 
+  bool iniciada = false;
+
+  TextEditingController textControllerSesionesTerapias;
+  FocusNode textFocusNodeSesionesTerapias;
+  bool _isEditingSesionesTerapias = false;
+
+  SesionTerapia sesionTerapia;
+
   @override
   void initState() {
-
+    textControllerSesionesTerapias = TextEditingController(text: '');
+    sesionTerapia = new SesionTerapia(id: 1);
+    textFocusNodeSesionesTerapias = FocusNode();
     super.initState();
     JitsiMeet.addListener(JitsiMeetingListener(
         onConferenceWillJoin: _onConferenceWillJoin,
@@ -54,17 +67,19 @@ class _MeetingState extends State<VistaLlamadaPracticante> {
     String uid = ProviderAuntenticacion.uid;
     usuarioActual = await ProviderAdministracionUsuarios.buscarUsuario(uid);
     //print("tipo de usuario: "+ usuarioActual.tipoUsuario);
-    if(usuarioActual.tipoUsuario == "Paciente"){
-      practicanteLlamada = await ProviderAdministracionPacientes.traerPracticanteActivoPaciente(usuarioActual.id);
-
+    if (usuarioActual.tipoUsuario == "Paciente") {
+      practicanteLlamada =
+          await ProviderAdministracionPacientes.traerPracticanteActivoPaciente(
+              usuarioActual.id);
+    } else if (usuarioActual.tipoUsuario == "Practicante") {
+      practicanteLlamada =
+          await ProviderAdministracionPracticantes.buscarPracticante(
+              usuarioActual.id);
     }
-    else if (usuarioActual.tipoUsuario == "Practicante"){
-      practicanteLlamada = await ProviderAdministracionPracticantes.buscarPracticante(usuarioActual.id);
-    }
-    print("Que pasa master"+practicanteLlamada.nombre);
+    print("Que pasa master" + practicanteLlamada.nombre);
     return Future.value("Data download successfully");
   }
-  
+
   @override
   Widget build(BuildContext context) {
     double width = MediaQuery.of(context).size.width;
@@ -112,13 +127,17 @@ class _MeetingState extends State<VistaLlamadaPracticante> {
                                         ),
                                       )),
                                 )),
-                                SizedBox(height: 10.0,),
+                            SizedBox(
+                              height: 10.0,
+                            ),
                             Container(
-                              margin: EdgeInsets.symmetric(horizontal : 320.0),
+                              margin: EdgeInsets.symmetric(horizontal: 320.0),
                               width: width * 0.25,
                               child: meetConfig(),
                             ),
-                            SizedBox(height: 10.0,),
+                            SizedBox(
+                              height: 10.0,
+                            ),
                           ],
                         ),
                       )
@@ -130,7 +149,6 @@ class _MeetingState extends State<VistaLlamadaPracticante> {
       },
     );
   }
-
 
   Widget meetConfig() {
     return SingleChildScrollView(
@@ -148,10 +166,43 @@ class _MeetingState extends State<VistaLlamadaPracticante> {
                 style: TextStyle(color: Colors.white),
               ),
               style: ButtonStyle(
-                  backgroundColor:
-                      MaterialStateColor.resolveWith((states) => Theme.of(context).colorScheme.primary)),
+                  backgroundColor: MaterialStateColor.resolveWith(
+                      (states) => Theme.of(context).colorScheme.primary)),
             ),
           ),
+          SizedBox(
+            height: 20,
+          ),
+          SizedBox(
+            height: 32.0,
+            width: double.maxFinite,
+            child: ElevatedButton(
+              onPressed: () {
+                if (textControllerSesionesTerapias.text != null) {
+                  sesionTerapia.enlaceStreaming =
+                      textControllerSesionesTerapias.text;
+                  ProviderSesionesTerapia.compartirEnlaceSesionTerapia(
+                      sesionTerapia);
+                }
+              },
+              child: Text(
+                "Compartir enlace observador",
+                style: TextStyle(color: Colors.white),
+              ),
+              style: ButtonStyle(
+                  backgroundColor: MaterialStateColor.resolveWith(
+                      (states) => Theme.of(context).colorScheme.primary)),
+            ),
+          ),
+          RoundedTextFieldValidators(
+              textFocusNode: textFocusNodeSesionesTerapias,
+              textController: textControllerSesionesTerapias,
+              textInputType: TextInputType.number,
+              isEditing: _isEditingSesionesTerapias,
+              hintText: 'Enlace sesión de terapia',
+              validate: () {
+                return null;
+              }),
           /*SizedBox(
             height: 15.0,
             width: double.maxFinite,
@@ -203,9 +254,8 @@ class _MeetingState extends State<VistaLlamadaPracticante> {
   }
 
   _joinMeeting() async {
-    
-    String serverUrl ="https://tesis.puli.com.co";
-    
+    String serverUrl = "https://tesis.puli.com.co";
+
     // Enable or disable any feature flag here
     // If feature flag are not provided, default values will be used
     // Full list of feature flags (and defaults) available in the README
@@ -229,9 +279,9 @@ class _MeetingState extends State<VistaLlamadaPracticante> {
       ..userDisplayName = nameText.text
       ..userEmail = emailText.text
       ..iosAppBarRGBAColor = iosAppBarRGBAColor.text
-      ..audioOnly = isAudioOnly
-      ..audioMuted = isAudioMuted
-      ..videoMuted = isVideoMuted
+      ..audioOnly = true
+      ..audioMuted = false
+      ..videoMuted = false
       ..featureFlags.addAll(featureFlags)
       ..webOptions = {
         "roomName": roomText.text,

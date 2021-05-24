@@ -159,6 +159,17 @@ class _InternalWidget extends StatelessWidget {
         ),
         DataColumn(
           label: Text(
+            "Estado",
+            style: Theme.of(context).textTheme.subtitle1,
+          ),
+          tooltip: "Estado del paciente",
+          onSort: (colIndex, asc) {
+            _sort<String>((paciente) => paciente.estadoAprobado.toString(),
+                colIndex, asc, _src, _provider);
+          },
+        ),
+        DataColumn(
+          label: Text(
             "Acciones",
             style: Theme.of(context).textTheme.subtitle1,
           ),

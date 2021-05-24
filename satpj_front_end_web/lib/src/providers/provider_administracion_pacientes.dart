@@ -296,7 +296,6 @@ class ProviderAdministracionPacientes {
   static Future<Grupo> traerGrupoPaciente(String pacienteActual) async {
     //
     final _completer = Completer<Grupo>();
-
     try {
       //ProviderAuntenticacion.extractToken();
       Map<String, String> headers = {
@@ -307,18 +306,20 @@ class ProviderAdministracionPacientes {
         'Content-Type': 'application/json; charset=UTF-8'
       };
       final resp = await http.get(
-          Uri.http(_url, "/" + pacienteActual + "/grupo"),
+          Uri.http(_url, "/pacientes/" + pacienteActual + "/grupo"),
           headers: headers);
       //print("JSON RECIBIDO" + resp.body);
       if (resp.statusCode == 200) {
         final _data = singleGrupoFromJson(resp.body);
         _completer.complete(_data);
+      } else {
+        print("NULL");
+        _completer.complete(null);
       }
     } catch (exc) {
       print("Error en provider" + exc);
       _completer.completeError(<Grupo>[]);
     }
-
     return _completer.future;
   }
 }

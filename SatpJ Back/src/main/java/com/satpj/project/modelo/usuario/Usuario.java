@@ -31,7 +31,7 @@ import com.satpj.project.modelo.sesion_terapia.SesionUsuario;
 @Table(name = "usuario")
 @Inheritance(strategy = InheritanceType.JOINED)
 public class Usuario {
-
+	
 	@Id
 	@Column(name = "usuario_id")
 	private String id;

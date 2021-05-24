@@ -11,13 +11,19 @@ import lombok.Setter;
 @Setter
 /**
  * Clase LlaveAlertaUsuario Llave primaria compuesta de la tabla intermedia
- * practicante_paciente
+ * PracticantePaciente
  */
 public class LlavePracticantePaciente implements Serializable {
 
+    /**
+     * Corresponde al código de identificación del Practicante.
+     */ 
     @Column(name = "practicante_id")
     private String practicante_id;
 
+    /**
+     * Corresponde al código de identificación del Paciente.
+     */ 
     @Column(name = "paciente_id")
     private String paciente_id;
 

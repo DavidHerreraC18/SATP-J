@@ -17,14 +17,6 @@ import 'package:satpj_front_end_web/src/views/gestionar_practicantes/vista_admin
 
 import '../vista_home.dart';
 
-Horario opcion1;
-Horario opcion2;
-Horario opcion3;
-
-Map<String, List<int>> horario1 = {};
-Map<String, List<int>> horario2 = {};
-Map<String, List<int>> horario3 = {};
-
 class VistaGestionarHorarioPracticante extends StatefulWidget {
   static const route = '/horario-practicante';
 
@@ -46,7 +38,18 @@ class _VistaGestionarHorarioPracticanteState
   Usuario usuario = new Usuario();
   bool aprobado = false;
 
+  Horario opcion1;
+  Horario opcion2;
+  Horario opcion3;
+
+  Map<String, List<int>> horario1;
+  Map<String, List<int>> horario2;
+  Map<String, List<int>> horario3;
+
   initDataHorarios() {
+    horario1 = {};
+    horario2 = {};
+    horario3 = {};
     if (practicante.horarios == null) {
       practicante.horarios = [];
       horarioVista = {};
@@ -67,7 +70,6 @@ class _VistaGestionarHorarioPracticanteState
           horario2 = opcion2.forView();
         } else {
           opcion3 = h;
-          print('HOLA');
           horario3 = opcion3.forView();
         }
       }
@@ -317,7 +319,8 @@ class _VistaGestionarHorarioPracticanteState
                       ),
                       ScheduleInternCombined(
                         horarios: practicante.horarios,
-                        colorSelected: Theme.of(context).colorScheme.secondary,
+                        colorSelected:
+                            !aprobado ? Color(0xFFFF637D) : kAccentColor,
                       ),
                     ],
                   )),

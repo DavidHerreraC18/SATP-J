@@ -10,9 +10,6 @@ import lombok.Setter;
 import javax.persistence.Column;
 import javax.validation.constraints.NotNull;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
-
-import org.springframework.format.annotation.DateTimeFormat;
 
 /**
  * Entidad sesion_terapia Son las Sesiones de Terapia que toma el Paciente y
@@ -29,6 +26,8 @@ public class SesionTerapiaActual {
 	@Column(name = "fecha", nullable = false)	
 	private LocalDateTime fecha;
 
-	boolean posible;
+	private boolean posible;
+
+	private SesionTerapia sesionTerapia;
 
 }

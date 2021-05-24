@@ -1,4 +1,8 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
+import 'package:satpj_front_end_web/src/model/sesion_terapia/sesion_terapia.dart';
+import 'package:satpj_front_end_web/src/model/sesion_terapia/sesion_terapia_actual.dart';
 import 'package:satpj_front_end_web/src/model/sesion_terapia/sesion_usuario.dart';
 import 'package:satpj_front_end_web/src/model/usuario/usuario.dart';
 import 'package:satpj_front_end_web/src/providers/provider_administracion_usuarios.dart';
@@ -9,6 +13,7 @@ import 'package:satpj_front_end_web/src/utils/widgets/Barras/toolbar_paciente.da
 import 'package:satpj_front_end_web/src/utils/widgets/Barras/toolbar_practicante.dart';
 import 'package:satpj_front_end_web/src/utils/widgets/Barras/toolbar_supervisor.dart';
 import 'package:satpj_front_end_web/src/utils/widgets/Calendarios/CalendarioPrincipal.dart';
+import 'package:satpj_front_end_web/src/utils/widgets/barras/toolbar_acudiente.dart';
 import 'package:satpj_front_end_web/src/utils/widgets/loading/LoadingWanderingCube.dart';
 
 class HomePage extends StatefulWidget {
@@ -21,9 +26,38 @@ class _HomePageState extends State<HomePage> {
   Usuario usuario;
   List<SesionUsuario> sesionesUsuario;
   AppBar appBar;
+  SesionTerapia sesionTerapiaActual;
+  bool sesionHabilitada;
+  Timer timer;
   @override
   initState() {
+    sesionTerapiaActual = null;
+    sesionesUsuario = null;
     super.initState();
+  }
+
+  void revisarSesionTerapiaActual() async {
+    bool ninguna = true;
+    for (SesionUsuario sesionUsuario in sesionesUsuario) {
+      SesionTerapia sT = sesionUsuario.sesionTerapia;
+      DateTime ahora = DateTime.now();
+      DateTime finSesion = sT.fecha.add(new Duration(hours: 1));
+      if (ahora.isAfter(sT.fecha) &&
+          ahora.isBefore(finSesion) &&
+          !sesionHabilitada) {
+        setState(() {
+          sesionTerapiaActual = sT;
+          sesionHabilitada = true;
+        });
+        ninguna = false;
+      }
+    }
+    if (ninguna && sesionHabilitada) {
+      setState(() {
+        sesionTerapiaActual = null;
+        sesionHabilitada = false;
+      });
+    }
   }
 
   Future<String> obtenerInformacionPrincipal() async {
@@ -41,7 +75,7 @@ class _HomePageState extends State<HomePage> {
         appBar = toolbarAuxiliarAdministrativo(context);
         break;
       case "Acudiente":
-        appBar = toolbarPaciente(context);
+        appBar = toolbarAcudiente(context);
         break;
       case "Supervisor":
         appBar = toolbarSupervisor(context);

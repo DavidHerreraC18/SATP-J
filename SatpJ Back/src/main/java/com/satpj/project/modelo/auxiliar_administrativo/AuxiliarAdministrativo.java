@@ -12,7 +12,7 @@ import org.hibernate.annotations.PolymorphismType;
 import com.satpj.project.modelo.usuario.Usuario;
 
 /**
- * Clase AuxiliarAdministravo 
+ * Entidad AuxiliarAdministravo 
  * El Auxiliar Administrativo es el Usuario que puede gestionar
  * la mayoria de los componentes del sistema, como los pacientes,
  * agendar citas, entre otros

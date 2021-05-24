@@ -18,9 +18,15 @@ import lombok.Setter;
 @Embeddable
 public class LlaveSesionUsuario implements Serializable {
 
+    /**
+     * Codigó de identificación del usuario el cual compone la llave primaria
+     */
     @Column(name = "usuario_id")
     private String usuarioId;
 
+    /**
+     * Número de identificación de la Sesion de Terapia la cual compone la llave primaria
+     */
     @Column(name = "sesion_terapia_id")
     private Long sesion_terapia_id;
 

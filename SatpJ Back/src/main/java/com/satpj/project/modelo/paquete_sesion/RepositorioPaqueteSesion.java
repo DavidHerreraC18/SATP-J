@@ -8,7 +8,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 /**
  * Interface RepositorioPaqueteSesion Permite realizar las consultas a la BD de
- * la Entidad paquete_sesion
+ * la Entidad PaqueteSesion
  */
 public interface RepositorioPaqueteSesion extends JpaRepository<PaqueteSesion, Long> {
 

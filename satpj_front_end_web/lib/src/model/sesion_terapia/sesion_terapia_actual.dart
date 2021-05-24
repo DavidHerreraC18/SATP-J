@@ -1,6 +1,8 @@
 import 'package:json_annotation/json_annotation.dart';
 import 'dart:convert';
 
+import 'package:satpj_front_end_web/src/model/sesion_terapia/sesion_terapia.dart';
+
 part 'sesion_terapia_actual.g.dart';
 
 List<SesionTerapiaActual> sesionTerapiaActualFromJson(String str) =>
@@ -20,10 +22,12 @@ SesionTerapiaActual singleSesionTerapiaActualFromJson(String str) {
 class SesionTerapiaActual {
   DateTime fecha;
   bool posible;
+  SesionTerapia sesionTerapia;
 
   SesionTerapiaActual({
     this.fecha,
     this.posible,
+    this.sesionTerapia,
   });
 
   factory SesionTerapiaActual.fromJson(Map<String, dynamic> json) =>

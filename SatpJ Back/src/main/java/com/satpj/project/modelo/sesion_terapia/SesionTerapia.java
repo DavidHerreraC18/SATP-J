@@ -19,12 +19,10 @@ import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.satpj.project.modelo.consultorio.Consultorio;
 import com.satpj.project.modelo.paquete_sesion.PaqueteSesion;
 
-import org.springframework.format.annotation.DateTimeFormat;
 
 /**
  * Entidad sesion_terapia Son las Sesiones de Terapia que toma el Paciente y
@@ -45,7 +43,7 @@ public class SesionTerapia {
 	@JsonIgnore
 	private List<SesionUsuario> sesiones;
 
-	@ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+	@ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
 	private PaqueteSesion paqueteSesion;
 
 	@NotNull(message = "La Fecha de la Sesión de Terapia es obligatoria")

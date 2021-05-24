@@ -30,10 +30,16 @@ import com.satpj.project.modelo.usuario.Usuario;
 @Polymorphism(type = PolymorphismType.EXPLICIT)
 public class Supervisor extends Usuario {
 
+    /**
+     * Enfoque del Supervisor
+     */
     @NotNull(message = "El Enfoque es obligatorio")
     @Column(name = "enfoque", nullable = false)
     private String enfoque;
 
+    /**
+     * Pacientes asignados al Supervisor
+     */
     @OneToMany(mappedBy = "supervisor")
     @JsonIgnore
     private List<Paciente> pacientes;

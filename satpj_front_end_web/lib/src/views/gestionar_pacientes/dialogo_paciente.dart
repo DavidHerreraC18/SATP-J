@@ -174,22 +174,16 @@ class _PrimeraPaginaCrearPacienteState
                   label: widget.labelHeader + ' Paciente',
                   height: 55.0,
                 ),
-                RawScrollbar(
-                    radius: Radius.circular(8.0),
-                    isAlwaysShown: true,
-                    thumbColor: Theme.of(context).colorScheme.primary,
-                    child: SingleChildScrollView(
-                      child: Container(
-                        margin: EdgeInsets.symmetric(horizontal: 40.0),
-                        child: FormPatientInformation(
-                            paciente: widget.paciente,
-                            prefix: 'el',
-                            label: 'del paciente',
-                            fechaNacimiento: widget.fechaNacimiento,
-                            stack: false,
-                            enabled: widget.enabled),
-                      ),
-                    )),
+                Container(
+                  margin: EdgeInsets.symmetric(horizontal: 40.0),
+                  child: FormPatientInformation(
+                      paciente: widget.paciente,
+                      prefix: 'el',
+                      label: 'del paciente',
+                      fechaNacimiento: widget.fechaNacimiento,
+                      stack: false,
+                      enabled: widget.enabled),
+                ),
               ],
             ),
             widget.labelHeader == 'Crear'
@@ -351,7 +345,6 @@ class _TerceraPaginaCrearPacienteState
     padre = new Acudiente();
 
     if (widget.paciente.acudientes == null) {
-
       widget.paciente.acudientes = [];
     }
 
@@ -402,8 +395,8 @@ class _TerceraPaginaCrearPacienteState
                             changeContainer(-1);
                           },
                           functionConfirmBtn: () {
-                            if(padre.documento != null && padre.email != null)
-                               widget.paciente.acudientes.add(padre);
+                            if (padre.documento != null && padre.email != null)
+                              widget.paciente.acudientes.add(padre);
                             changeContainer(1);
                           },
                           width: 120.0,

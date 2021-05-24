@@ -1,7 +1,9 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.example.satpj_front_end_movil">
+    package="com.example.satpj_front_end_movil"
+    xmlns:tools="http://schemas.android.com/tools"> 
    <application
         android:label="satpj_front_end_movil"
+        tools:replace="android:label"  
         android:icon="@mipmap/ic_launcher">
         <activity
             android:name=".MainActivity"

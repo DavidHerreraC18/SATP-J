@@ -33,13 +33,16 @@ class SesionTerapia {
 
   Consultorio consultorio;
 
+  String enlaceStreaming;
+
   SesionTerapia(
       {this.id,
       this.sesiones,
       this.paqueteSesion,
       this.fecha,
       this.virtual,
-      this.consultorio});
+      this.consultorio,
+      this.enlaceStreaming});
 
   factory SesionTerapia.fromJson(Map<String, dynamic> json) =>
       _$SesionTerapiaFromJson(json);

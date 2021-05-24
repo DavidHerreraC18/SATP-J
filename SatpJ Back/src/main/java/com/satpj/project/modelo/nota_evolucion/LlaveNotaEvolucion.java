@@ -7,14 +7,21 @@ import javax.persistence.Column;
 import javax.persistence.Embeddable;
 
 /**
- * Clase LlaveNotaEvolucion Llave primaria compuesta de la tabla nota_evolucion
+ * Entidad LlaveNotaEvolucion
+ * Llave primaria compuesta del número de identificación del Practicante y la SesionTerapia presentes en la tabla NotaEvolución
  */
 @Embeddable
 public class LlaveNotaEvolucion implements Serializable {
 
+    /**
+     * Código de identificación del Practicante
+     */ 
     @Column(name = "practicante_id")
     private String practicanteId;
 
+    /**
+     * Número de identificación de la SesionTerapia
+     */ 
     @Column(name = "sesion_terapia_id")
     private Long sesionTerapiaId;
 

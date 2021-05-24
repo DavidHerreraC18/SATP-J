@@ -6,6 +6,7 @@ import 'package:satpj_front_end_web/src/providers/provider_administracion_pacien
 import 'package:satpj_front_end_web/src/providers/provider_administracion_usuarios.dart';
 import 'package:satpj_front_end_web/src/providers/provider_autenticacion.dart';
 import 'package:satpj_front_end_web/src/views/documentacion/vista_registro_documentos.dart';
+import 'package:satpj_front_end_web/src/views/registro/vista_pre_registro_4.dart';
 import 'package:satpj_front_end_web/src/views/registro/vista_registro.dart';
 import 'package:satpj_front_end_web/src/views/vista_home.dart';
 
@@ -381,6 +382,9 @@ class _AuthDialogState extends State<AuthDialog> {
         } else {
           Navigator.pushNamed(context, VistaRegistroDocumentos.route);
         }
+      } else if (paciente.estadoAprobado == "PendienteAprobacion") {
+        Navigator.pushNamed(context, PreRegisterPage4.route,
+            arguments: {"error": true});
       } else {
         Navigator.pushNamed(context, HomePage.route);
       }

@@ -29,18 +29,30 @@ import com.satpj.project.modelo.usuario.Usuario;
 public class Practicante extends Usuario {
 
 	/* Los Pacientes que reciben la Terapia del Practicante */
+	/**
+	 * Lista de Pacientes asociados al practicante
+	 */
 	@OneToMany(mappedBy = "practicante")
 	@JsonIgnore
 	private List<PracticantePaciente> practicantesPaciente;
 
+	/**
+	 * Si el Practicante actualmente se encuentra en Pregrado, o algún nivel de escolaridad mayor
+	 */
 	@NotNull(message = "El Pregrado es obligatorio")
 	@Column(name = "pregrado", nullable = false)
 	private boolean pregrado;
 
+	/**
+	 * Número de semestre que el Practicante se encuentra cursando.
+	 */
 	@NotNull(message = "El Semestre es obligatorio")
 	@Column(name = "semestre", nullable = false)
 	private int semestre;
 
+	/**
+	 * Aforo del practicante para atención a pacientes
+	 */
 	@NotNull(message = "El Aforo es obligatorio")
 	@Column(name = "aforo", nullable = false)
 	private int aforo;

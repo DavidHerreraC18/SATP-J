@@ -4,6 +4,7 @@ import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:satpj_front_end_web/src/model/consultorio/consultorio.dart';
 import 'package:satpj_front_end_web/src/model/sesion_terapia/sesion_terapia.dart';
+import 'package:satpj_front_end_web/src/model/sesion_terapia/sesion_terapia_actual.dart';
 import 'package:satpj_front_end_web/src/model/sesion_terapia/sesion_usuario.dart';
 import 'package:satpj_front_end_web/src/providers/provider_autenticacion.dart';
 
@@ -42,6 +43,60 @@ class ProviderSesionesTerapia {
         final _data = singleSesionTerapiaFromJson(resp.body);
         _completer.complete(_data);
       }
+    } catch (e) {
+      print(e);
+      _completer.completeError("Error");
+    }
+    return _completer.future;
+  }
+
+  static Future<SesionTerapiaActual> traerSesionTerapiaActual(
+      String usuarioId) async {
+    final _completer = Completer<SesionTerapiaActual>();
+    SesionTerapiaActual sesionTerapiaActual =
+        new SesionTerapiaActual(fecha: DateTime.now(), posible: false);
+
+    String jsonSesionTerapiaActual = jsonEncode(sesionTerapiaActual.toJson());
+
+    try {
+      Map<String, String> headers = {
+        "Authorization":
+            "Bearer " + await ProviderAuntenticacion.extractToken(),
+        "Cache-Control": "no-cache",
+        "Accept": "*/*",
+        "Accept-Encoding": "gzip, deflate, br",
+        'Content-Type': 'application/json; charset=UTF-8',
+      };
+      final resp = await http.post(
+          Uri.http(_url, "/sesionterapias/sesiones-posibles/" + usuarioId),
+          headers: headers,
+          body: jsonSesionTerapiaActual);
+      if (resp.statusCode == 200) {
+        final _data = singleSesionTerapiaActualFromJson(resp.body);
+        _completer.complete(_data);
+      }
+    } catch (e) {
+      print(e);
+      _completer.completeError("Error");
+    }
+    return _completer.future;
+  }
+
+  static compartirEnlaceSesionTerapia(SesionTerapia sesionTerapia) async {
+    final _completer = Completer<void>();
+    String jsonSesionTerapia = jsonEncode(sesionTerapia.toJson());
+    try {
+      Map<String, String> headers = {
+        "Authorization":
+            "Bearer " + await ProviderAuntenticacion.extractToken(),
+        "Cache-Control": "no-cache",
+        "Accept": "*/*",
+        "Accept-Encoding": "gzip, deflate, br",
+        'Content-Type': 'application/json; charset=UTF-8',
+      };
+      final resp = await http.post(Uri.http(_url, "/sesionterapias/compartir"),
+          headers: headers, body: jsonSesionTerapia);
+      _completer.complete(resp.body);
     } catch (e) {
       print(e);
       _completer.completeError("Error");

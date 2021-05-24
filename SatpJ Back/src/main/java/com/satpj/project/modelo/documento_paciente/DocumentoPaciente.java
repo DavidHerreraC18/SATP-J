@@ -18,13 +18,12 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
 import com.satpj.project.modelo.paciente.Paciente;
 
-import org.springframework.format.annotation.DateTimeFormat;
 
 /**
- * Entidad documento_paciente Son los documentos que el Consultorio le solicita
+ * Entidad Documento Paciente 
+ * Representa los documentos que el Consultorio le solicita
  * al Paciente para que este pueda recibir atención
  */
 @Getter
@@ -33,32 +32,53 @@ import org.springframework.format.annotation.DateTimeFormat;
 @Table(name = "documento_paciente")
 public class DocumentoPaciente {
 
+	/**
+     * Corresponde al número de identificación del documento.
+     */
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "documento_paciente_id")
 	private Long id;
 
-	@ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+	/**
+     * Corresponde al Paciente el cual diligencio el documento.
+     */
+	@ManyToOne(cascade = CascadeType.MERGE, fetch = FetchType.EAGER)
 	@JoinColumn(name = "paciente_id", nullable = false)
 	private Paciente paciente;
 
+	/**
+     * Corresponde al nombre del documento diligenciado
+     */
 	@NotNull(message = "El Nombre del Documento es obligatorio")
 	@Column(name = "nombre", nullable = false)
 	private String nombre;
 
+	/**
+     * Corresponde al contenido del documento
+     */
 	@Lob
 	@NotNull(message = "El Contenido del Documento es obligatorio")
-	@Column(name = "contenido", nullable = false, length = 200000)
+	@Column(name = "contenido", nullable = false, length = 2000000)
 	private String contenido;
 
+	/**
+     * Corresponde al tipo de documento diligenciado
+     */
 	@NotNull(message = "El Tipo del Documento es obligatorio")
-	@Column(name = "tipo", nullable = false)
+	@Column(name = "tipo", nullable = true)
 	private String tipo;
 
+	/**
+     * Corresponde a la fecha de radicación del documento
+     */
 	@NotNull(message = "La Fecha de Radicacion del Documento es obligatorio")
-	@Column(name = "radicacion", nullable = false)
+	@Column(name = "radicacion", nullable = true)
 	private LocalDateTime radicacion;
 
+	/**
+     * Corresponde a la fecha de vencimiento del documento (si tiene, de no ser así será la misma fecha de radicación)
+     */
 	@NotNull(message = "La Fecha de Vencimiento del Documento es obligatorio")
 	@Column(name = "vencimiento", nullable = true)	
 	private LocalDateTime vencimiento;

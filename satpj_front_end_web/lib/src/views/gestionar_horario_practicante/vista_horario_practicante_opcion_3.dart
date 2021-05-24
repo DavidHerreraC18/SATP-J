@@ -62,11 +62,18 @@ class _VistaHorarioPracticanteOpcion3State
     final Map arguments = ModalRoute.of(context).settings.arguments as Map;
     if (arguments != null) {
       if (arguments['arguments'] is Horario) {
-        widget.horarioPracticante = arguments['arguments'] as Horario;
-        horarioVista = widget.horarioPracticante.forView();
+        if (arguments['arguments'] as Horario != null) {
+          widget.horarioPracticante = arguments['arguments'] as Horario;
+          horarioVista = widget.horarioPracticante.forView();
+        } else {
+          widget.horarioPracticante = new Horario();
+          horarioVista = {};
+        }
       }
       if (arguments['practicante'] is Practicante) {
-        widget.practicante = arguments['practicante'] as Practicante;
+        if (arguments['practicante'] as Practicante != null) {
+          widget.practicante = arguments['practicante'] as Practicante;
+        }
       }
     }
 
@@ -119,18 +126,18 @@ class _VistaHorarioPracticanteOpcion3State
                               color: Colors.white,
                             ),
                             onPressed: () async {
-                             print('HOLLA' +
-                                    auxiliar.toString() +
-                                    widget.practicante.id);
-                                Navigator.pushNamed(context,
-                                    VistaGestionarHorarioPracticante.route,
-                                    arguments: {
-                                      "arguments":
-                                          await ProviderAdministracionHorarios
-                                              .obtenerHorariosPracticante(
-                                        widget.practicante.id,
-                                      ),
-                                    });
+                              print('HOLLA' +
+                                  auxiliar.toString() +
+                                  widget.practicante.id);
+                              Navigator.pushNamed(context,
+                                  VistaGestionarHorarioPracticante.route,
+                                  arguments: {
+                                    "arguments":
+                                        await ProviderAdministracionHorarios
+                                            .obtenerHorariosPracticante(
+                                      widget.practicante.id,
+                                    ),
+                                  });
                             },
                           ),
                           if (auxiliar)
@@ -217,27 +224,49 @@ class _VistaHorarioPracticanteOpcion3State
                             ),
                           if (!auxiliar)
                             IconButton(
-                              icon: Icon(
-                                Icons.delete_rounded,
-                                color: Colors.white,
-                              ),
-                              onPressed: () {
-                                showDialog(
-                                    context: context,
-                                    builder: (context) => DialogDelete(
-                                          labelHeader: 'Eliminar Opción ' +
-                                              widget.opcion,
-                                          label:
-                                              '¿Esta seguro que desea eliminar la Opción ' +
-                                                  widget.opcion +
-                                                  ' del Horario?  ',
-                                          labelCancelBtn: 'No',
-                                          labelConfirmBtn: 'Si',
-                                          colorConfirmBtn:
-                                              Theme.of(context).errorColor,
-                                        ));
-                              },
-                            ),
+                                icon: Icon(
+                                  Icons.delete_rounded,
+                                  color: Colors.white,
+                                ),
+                                onPressed: () {
+                                  showDialog(
+                                      context: context,
+                                      builder: (context) => DialogDelete(
+                                            labelHeader: 'Eliminar Opción ' +
+                                                widget.opcion,
+                                            label:
+                                                '¿Esta seguro que desea eliminar la Opción ' +
+                                                    widget.opcion +
+                                                    ' del Horario?  ',
+                                            labelCancelBtn: 'No',
+                                            labelConfirmBtn: 'Si',
+                                            colorConfirmBtn:
+                                                Theme.of(context).errorColor,
+                                            functionDelete: () async {
+                                              if (widget
+                                                      .horarioPracticante.id !=
+                                                  null) {
+                                                await ProviderAdministracionHorarios
+                                                    .eliminarHorarioPracticante(
+                                                        widget
+                                                            .horarioPracticante
+                                                            .id);
+                                                Navigator.pushNamed(
+                                                    context,
+                                                    VistaGestionarHorarioPracticante
+                                                        .route,
+                                                    arguments: {
+                                                      "arguments":
+                                                          await ProviderAdministracionHorarios
+                                                              .obtenerHorariosPracticante(
+                                                                  widget
+                                                                      .practicante
+                                                                      .id)
+                                                    });
+                                              }
+                                            },
+                                          ));
+                                }),
                         ],
                       ),
                     ),

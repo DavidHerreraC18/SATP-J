@@ -95,6 +95,7 @@ public class ServicioSesionTerapia {
         return repositorioSesionUsuario.findById(llaveSesionUsuario).get();
     }
 
+    @ResponseStatus(HttpStatus.OK)
     @PostMapping(value = "/sesiones-posibles/{id}", produces = "application/json; charset=UTF-8")
     public SesionTerapiaActual findSesionTerapiaActualById(@AuthenticationPrincipal CustomPrincipal customPrincipal, @PathVariable("id") String id, @RequestBody SesionTerapiaActual sesionTerapiaActual) {
         List<SesionUsuario> sesionesUsuario = servicioUsuario.findSesionesByUsuarioId(customPrincipal, id);
@@ -104,6 +105,7 @@ public class ServicioSesionTerapia {
             LocalDateTime fechaFin = fechaIni.plusHours(1);
             if(sesionTerapiaActual.getFecha().isAfter(fechaIni) && sesionTerapiaActual.getFecha().isBefore(fechaFin)){
                 sesionTerapiaActual.setPosible(true);
+                sesionTerapiaActual.setSesionTerapia(sT);
             }
         }
         return sesionTerapiaActual;
@@ -189,16 +191,20 @@ public class ServicioSesionTerapia {
                 Grupo grupo = paciente.getGrupo();
                 if (grupo != null) {
                     for (Paciente pacienteGrupo : grupo.getIntegrantes()) {
-                        SesionUsuario nuevaSesionUsuario = new SesionUsuario();
-                        LlaveSesionUsuario llaveSesionUsuario = new LlaveSesionUsuario();
-                        llaveSesionUsuario.setSesion_terapia_id(sesionTerapia.getId());
-                        llaveSesionUsuario.setUsuarioId(pacienteGrupo.getId());
-                        nuevaSesionUsuario.setId(llaveSesionUsuario);
-                        Usuario usuarioSesionGrupo = servicioUsuario.findById(customPrincipal, pacienteGrupo.getId());
-                        nuevaSesionUsuario.setUsuario(usuarioSesionGrupo);
-                        nuevaSesionUsuario.setSesionTerapia(sesionTerapia);
-                        nuevaSesionUsuario.setObservador(false);
-                        repositorioSesionUsuario.save(nuevaSesionUsuario);
+                        if(paciente.getId() != pacienteGrupo.getId())
+                        {
+                            SesionUsuario nuevaSesionUsuario = new SesionUsuario();
+                            LlaveSesionUsuario llaveSesionUsuario = new LlaveSesionUsuario();
+                            llaveSesionUsuario.setSesion_terapia_id(sesionTerapia.getId());
+                            llaveSesionUsuario.setUsuarioId(pacienteGrupo.getId());
+                            nuevaSesionUsuario.setId(llaveSesionUsuario);
+                            Usuario usuarioSesionGrupo = servicioUsuario.findById(customPrincipal, pacienteGrupo.getId());
+                            nuevaSesionUsuario.setUsuario(usuarioSesionGrupo);
+                            nuevaSesionUsuario.setSesionTerapia(sesionTerapia);
+                            nuevaSesionUsuario.setObservador(false);
+                            repositorioSesionUsuario.save(nuevaSesionUsuario);
+                            servicioEmail.sendEmailSesionTerapia(customPrincipal, pacienteGrupo.getId(), sesionTerapia.getId());
+                        }                        
                     }
                 }
                 for (Acudiente acudiente : paciente.getAcudientes()) {
@@ -212,6 +218,7 @@ public class ServicioSesionTerapia {
                     nuevaSesionUsuario.setSesionTerapia(sesionTerapia);
                     nuevaSesionUsuario.setObservador(true);
                     repositorioSesionUsuario.save(nuevaSesionUsuario);
+                    servicioEmail.sendEmailSesionTerapia(customPrincipal, acudiente.getId(), sesionTerapia.getId());
                 }
                 Supervisor supervisor = paciente.getSupervisor();
                 if (supervisor != null) {
@@ -225,6 +232,7 @@ public class ServicioSesionTerapia {
                     nuevaSesionUsuario.setSesionTerapia(sesionTerapia);
                     nuevaSesionUsuario.setObservador(true);
                     repositorioSesionUsuario.save(nuevaSesionUsuario);
+                    servicioEmail.sendEmailSesionTerapia(customPrincipal, supervisor.getId(), sesionTerapia.getId());
                 }
                 Practicante practicante = servicioPaciente.findPracticanteActivoByPacienteId(customPrincipal,
                         paciente.getId());
@@ -239,7 +247,9 @@ public class ServicioSesionTerapia {
                     nuevaSesionUsuario.setSesionTerapia(sesionTerapia);
                     nuevaSesionUsuario.setObservador(false);
                     repositorioSesionUsuario.save(nuevaSesionUsuario);
+                    servicioEmail.sendEmailSesionTerapia(customPrincipal, practicante.getId(), sesionTerapia.getId());
                 }
+                servicioEmail.sendEmailSesionTerapia(customPrincipal, paciente.getId(), sesionTerapia.getId());
 
             }
             List<AuxiliarAdministrativo> auxiliares = servicioAuxiliarAdministrativo.findAll(customPrincipal);
@@ -274,6 +284,7 @@ public class ServicioSesionTerapia {
         for (SesionUsuario sesionUsuario : sesion.getSesiones()) {
             Usuario usuario = sesionUsuario.getUsuario();
             if (usuario.getTipoUsuario().equals("Supervisor")) {
+                System.out.println("AAAAAAAAAAA");
                 supervisor = usuario;
             }
             if (usuario.getTipoUsuario().equals("Acudiente")) {
@@ -288,12 +299,12 @@ public class ServicioSesionTerapia {
         if (practicante != null) {
             if (supervisor != null) {
                 servicioEmail.sendEmailCompartirSesion(customPrincipal, supervisor.getId(), practicante.getId(),
-                        sesion.getEnlaceStreaming(), "compartir_sesion");
+                sesionTerapia.getEnlaceStreaming(), "compartir_sesion");
             }
             if (!acudientes.isEmpty()) {
                 for (Usuario a : acudientes) {
                     servicioEmail.sendEmailCompartirSesion(customPrincipal, a.getId(), practicante.getId(),
-                            sesion.getEnlaceStreaming(), "compartir_sesion");
+                    sesionTerapia.getEnlaceStreaming(), "compartir_sesion");
                 }
             }
         }

@@ -10,6 +10,8 @@ class PracticantesHorasDataTableSource extends DataTableSource {
   })  : _practicantes = practicantes,
         assert(practicantes != null);
 
+  FocusNode focusNodeBoton = new FocusNode();
+
   final List<PracticanteHoras> _practicantes;
   final OnRowSelectCertificate onRowSelectCertificate;
 
@@ -37,10 +39,13 @@ class PracticantesHorasDataTableSource extends DataTableSource {
             alignment: MainAxisAlignment.center,
             children: <Widget>[
               IconButton(
-                color: Color(0xFF2E5EAA),
-                icon: const Icon(Icons.verified),
-                onPressed: () => onRowSelectCertificate(index),
-              ),
+                  color: Color(0xFF2E5EAA),
+                  icon: const Icon(Icons.verified),
+                  focusNode: focusNodeBoton,
+                  onPressed: () {
+                    focusNodeBoton.unfocus();
+                    onRowSelectCertificate(index);
+                  }),
             ],
           ),
         ),

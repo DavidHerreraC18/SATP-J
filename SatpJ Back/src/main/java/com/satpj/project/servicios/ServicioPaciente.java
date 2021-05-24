@@ -113,7 +113,6 @@ public class ServicioPaciente {
     public Grupo findGrupoByPacienteId(@AuthenticationPrincipal CustomPrincipal customPrincipal, @PathVariable("id") String id) {
         Paciente paciente = repositorioPaciente.findById(id).get();
         Preconditions.checkNotNull(paciente);
-        Preconditions.checkNotNull(paciente.getGrupo());
         return paciente.getGrupo();
     }
     

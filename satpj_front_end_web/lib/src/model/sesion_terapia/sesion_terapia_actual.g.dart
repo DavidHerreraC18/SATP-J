@@ -11,6 +11,9 @@ SesionTerapiaActual _$SesionTerapiaActualFromJson(Map<String, dynamic> json) {
     fecha:
         json['fecha'] == null ? null : DateTime.parse(json['fecha'] as String),
     posible: json['posible'] as bool,
+    sesionTerapia: json['sesionTerapia'] == null
+        ? null
+        : SesionTerapia.fromJson(json['sesionTerapia'] as Map<String, dynamic>),
   );
 }
 
@@ -19,4 +22,5 @@ Map<String, dynamic> _$SesionTerapiaActualToJson(
     <String, dynamic>{
       'fecha': instance.fecha?.toIso8601String(),
       'posible': instance.posible,
+      'sesionTerapia': instance.sesionTerapia?.toJson(),
     };

@@ -27,15 +27,24 @@ import com.satpj.project.modelo.paciente.Paciente;
 @Table(name = "grupo")
 public class Grupo {
 
+	/**
+     * Número de identificación del Grupo
+     */
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "grupo_id")
 	private Long id;
 
+	/**
+     * Tipo de Grupo
+     */
 	@NotNull(message = "El Tipo es obligatorio")
 	@Column(name = "tipo", nullable = false)
 	private String tipo;
 
+	/**
+     * Integrantes del Grupo
+     */
 	@OneToMany(mappedBy = "grupo")
 	@JsonIgnore
 	private List<Paciente> integrantes;
