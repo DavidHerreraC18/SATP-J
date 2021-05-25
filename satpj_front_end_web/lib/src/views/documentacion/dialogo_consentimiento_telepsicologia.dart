@@ -525,7 +525,7 @@ class TerceraPaginaConsentimientoTelepsicologiaState
         PdfConsentimientoTelepsicologia(infoP);
     List<int> bytes = await pdf.generatePDF();
     await FileSaveHelper.saveAndLaunchFile(
-        bytes, 'Consentimiento Telepsciologia.pdf');
+        bytes, 'Consentimiento Telepsicologia.pdf');
     Uint8List aaa = Uint8List.fromList(bytes);
     widget.funcionConsentimientoTP(aaa);
   }

@@ -52,7 +52,7 @@ public class ComprobantePago {
     /**
      * Corresponde a  los informes de pago que pueden ser generados a partir del Comporbante.
      */
-    @ManyToMany(mappedBy = "comprobatesPagos")
+    @ManyToMany(mappedBy = "comprobantesPagos")
     @JsonIgnore
     private List<InformePago> informesPagos;
 

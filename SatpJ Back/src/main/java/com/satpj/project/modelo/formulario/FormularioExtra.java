@@ -37,7 +37,7 @@ public class FormularioExtra {
      */
     @OneToOne
     @JoinColumn(name = "paciente_id")
-    private Paciente Paciente;
+    private Paciente paciente;
 
     /**
      * Escolaridad del Paciente 
