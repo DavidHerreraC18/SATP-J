@@ -1,3 +1,5 @@
+com\satpj\project\modelo\consultorio\RepositorioConsultorio.class
+com\satpj\project\modelo\practicante\PracticanteHoras.class
 com\satpj\project\modelo\registro_practica\RepositorioRegistroPractica.class
 com\satpj\project\servicios\ServicioDocumentoPaciente.class
 com\satpj\project\modelo\usuario\RepositorioUsuario.class
@@ -17,6 +19,7 @@ com\satpj\project\servicios\ServicioPaciente.class
 com\satpj\project\modelo\acudiente\RepositorioAcudiente.class
 com\satpj\project\modelo\documento_paciente\RepositorioDocumentoPaciente.class
 com\satpj\project\modelo\paciente\RepositorioPaciente.class
+com\satpj\project\modelo\sesion_terapia\SesionTerapiaActual.class
 com\satpj\project\modelo\alerta\RepositorioAlertaUsuario.class
 com\satpj\project\modelo\nota_evolucion\LlaveNotaEvolucion.class
 com\satpj\project\seguridad\SecurityUtils.class
@@ -40,6 +43,7 @@ com\satpj\project\modelo\registro_practica\RegistroPractica.class
 com\satpj\project\modelo\sesion_terapia\LlaveSesionUsuario.class
 com\satpj\project\servicios\ServicioSesionTerapia.class
 com\satpj\project\seguridad\SecurityConfig.class
+com\satpj\project\modelo\consultorio\Consultorio.class
 com\satpj\project\modelo\supervisor\Supervisor.class
 com\satpj\project\servicios\ServicioFormulario.class
 com\satpj\project\servicios\ServicioAcudiente.class
@@ -50,6 +54,7 @@ com\satpj\project\modelo\alerta\LlaveAlertaUsuario.class
 com\satpj\project\servicios\ServicioComprobantePago.class
 com\satpj\project\modelo\formulario\Formulario.class
 com\satpj\project\modelo\practicante\LlavePracticantePaciente.class
+com\satpj\project\servicios\ServicioConsultorio.class
 com\satpj\project\modelo\formulario\RepositorioFormulario.class
 com\satpj\project\modelo\sesion_terapia\RepositorioSesionTerapia.class
 com\satpj\project\modelo\horario\RepositorioHorario.class
@@ -68,6 +73,7 @@ com\satpj\project\seguridad\SecurityConfig$1.class
 com\satpj\project\servicios\ServicioFormularioExtra.class
 com\satpj\project\modelo\paquete_sesion\PaqueteSesion.class
 com\satpj\project\modelo\nota_evolucion\NotaEvolucion.class
+com\satpj\project\email\ServicioEmailImpl.class
 com\satpj\project\modelo\informe_pago\RepositorioInformePago.class
 com\satpj\project\modelo\horario\Horario.class
 com\satpj\project\modelo\practicante\RepositorioPracticante.class

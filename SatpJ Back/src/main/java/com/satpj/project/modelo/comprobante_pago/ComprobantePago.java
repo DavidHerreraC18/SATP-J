@@ -24,8 +24,8 @@ import com.satpj.project.modelo.informe_pago.InformePago;
 import com.satpj.project.modelo.paquete_sesion.PaqueteSesion;
 
 /**
- * Clase ComprobantePago El Comprobante de Pago certifica que el Paciente
- * cancelo la Sesión de Terapia
+ * Entidad ComprobantePago 
+ * Certifica que el Paciente hizo pago de la Sesión de Terapia
  */
 @Getter
 @Setter
@@ -33,31 +33,53 @@ import com.satpj.project.modelo.paquete_sesion.PaqueteSesion;
 @Table(name = "comprobante_pago")
 public class ComprobantePago {
 
+    /**
+     * Corresponde al Id del Comprobante.
+     */
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "comprobante_pago_id")
     private Long id;
 
+    /**
+     * Corresponde al paquete de sesiones, el cual permite asociar sesiones de terapia a los pacientes,
+     * una vez se hayan pagado.
+     */
     @OneToOne(cascade = CascadeType.MERGE, fetch = FetchType.EAGER)
     @JoinColumn(name = "paquete_sesion_id", nullable = false)
     private PaqueteSesion paqueteSesion;
 
-    @ManyToMany(mappedBy = "comprobatesPagos")
+    /**
+     * Corresponde a  los informes de pago que pueden ser generados a partir del Comporbante.
+     */
+    @ManyToMany(mappedBy = "comprobantesPagos")
     @JsonIgnore
     private List<InformePago> informesPagos;
 
+    /**
+     * Corresponde al valor total del comprobante.
+     */
     @NotNull(message = "El Valor Total es obligatorio")
     @Column(name = "valor_total", nullable = false)
     private double valorTotal;
 
+    /**
+     * Corresponde a la referencia del pago realizado
+     */
     @NotNull(message = "La Referencia de Pago es obligatoria")
     @Column(name = "referencia_pago", nullable = false)
     private String referenciaPago;
 
+    /**
+     * Fecha del pago
+     */
     @NotNull(message = "La Fecha es obligatoria")
     @Column(name = "fecha", nullable = false)
     private LocalDate fecha;
 
+    /**
+     * Corresponde a la observaciones encontradas al momento de realizar el pago.
+     */
     @Column(name = "observacion", nullable = true)
     private String observacion;
 

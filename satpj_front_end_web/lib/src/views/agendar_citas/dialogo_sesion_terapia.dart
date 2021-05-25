@@ -404,7 +404,6 @@ class _DialogoAgendarSesionTerapiaState
                                   widget.sesionTerapia.fecha.minute);
                               DateTime newEndTime =
                                   newStartTime.add(new Duration(hours: 1));
-                              print(widget.events.appointments.length);
                               final List<Appointment> appointment =
                                   <Appointment>[];
                               CustomAppointment nuevoAppointment =
@@ -416,7 +415,6 @@ class _DialogoAgendarSesionTerapiaState
                                 isAllDay: false,
                                 subject: "Disponible",
                               );
-                              print(widget.events.appointments.length);
                               appointment.add(nuevoAppointment);
                               widget.events.appointments.add(appointment[0]);
                               SchedulerBinding.instance
@@ -466,9 +464,8 @@ class _DialogoAgendarSesionTerapiaState
                               SesionTerapia nueva = new SesionTerapia(
                                 fecha: fecha,
                                 virtual: virtual,
-                                consultorio: (virtual)
-                                    ? _consultorioActual
-                                    : textControllerConsultorio.text,
+                                consultorio:
+                                    (virtual) ? null : _consultorioActual,
                               );
                               widget.sesionesTerapia.add(nueva);
                               SesionTerapia sesionTerapiaNueva =

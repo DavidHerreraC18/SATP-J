@@ -6,7 +6,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 /**
  * Interface RepositorioPaciente Permite realizar las consultas a la BD de la
- * Entidad paciente
+ * Entidad Paciente
  */
 public interface RepositorioPaciente extends JpaRepository<Paciente, String> {
     List<Paciente> findByEmail(String email);

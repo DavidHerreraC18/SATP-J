@@ -55,22 +55,20 @@ class _FormState extends State<FormFormularioExtraInformation> {
         await ProviderAdministracionPacientes.traerDocumentosPaciente(
             widget.formularioExtra.paciente);
     if (documentos.isNotEmpty) {
-      setState(() {
-        for (int i = 0; i < documentos.length; i++) {
-          print(documentos[i].tipo);
-          if (documentos[i].tipo == "FotoPerfil") {
-            _fotoDocumento = Base64Codec().decode(documentos[i].contenido);
-          } else if (documentos[i].tipo == "ConsentimientoPrincipal") {
-            _consentimientoPrincipal =
-                Base64Codec().decode(documentos[i].contenido);
-          } else if (documentos[i].tipo == "ReciboPago") {
-            _fotoDocumento = Base64Codec().decode(documentos[i].contenido);
-          } else if (documentos[i].tipo == "ConsentimientoTP") {
-            _consentimientoTP = Base64Codec().decode(documentos[i].contenido);
-          }
-          _isCompleted = true;
+      for (int i = 0; i < documentos.length; i++) {
+        print(documentos[i].tipo);
+        if (documentos[i].tipo == "FotoPerfil") {
+          _fotoDocumento = Base64Codec().decode(documentos[i].contenido);
+        } else if (documentos[i].tipo == "ConsentimientoPrincipal") {
+          _consentimientoPrincipal =
+              Base64Codec().decode(documentos[i].contenido);
+        } else if (documentos[i].tipo == "ReciboPago") {
+          _fotoDocumento = Base64Codec().decode(documentos[i].contenido);
+        } else if (documentos[i].tipo == "ConsentimientoTP") {
+          _consentimientoTP = Base64Codec().decode(documentos[i].contenido);
         }
-      });
+        _isCompleted = true;
+      }
     }
     supervisores = [];
     supervisoresNombres = [];
@@ -82,6 +80,7 @@ class _FormState extends State<FormFormularioExtraInformation> {
       }
       _supervisorNombreActual = supervisoresNombres[0];
       _supervisorActual = supervisores[0];
+      widget.funcionAsignacionPaciente(_supervisorActual);
       _dropDownMenuItems = getDropDownMenuItems();
     }
     return Future.value("Data download successfully");
@@ -101,6 +100,7 @@ class _FormState extends State<FormFormularioExtraInformation> {
       for (int i = 0; i < supervisoresNombres.length; i++) {
         if (supervisoresNombres[i] == _supervisorNombreActual) {
           _supervisorActual = supervisores[i];
+          widget.funcionAsignacionPaciente(_supervisorActual);
           i = supervisoresNombres.length;
         }
       }
@@ -376,48 +376,56 @@ class _FormState extends State<FormFormularioExtraInformation> {
                             children: [
                               Center(
                                   child: new InkWell(
-                                child: new Text(
-                                  'Ver Documento',
-                                  style: TextStyle(
-                                      color: kPrimaryColor, fontSize: 18.0),
-                                ),
-                                onTap: this._isCompleted
-                                    ? descargarDocumento()
-                                    : null,
-                              )),
+                                      child: new Text(
+                                        'Ver Documento',
+                                        style: TextStyle(
+                                            color: kPrimaryColor,
+                                            fontSize: 18.0),
+                                      ),
+                                      onTap: () {
+                                        if (this._isCompleted) {
+                                          descargarDocumento();
+                                        }
+                                      })),
                               Center(
                                   child: new InkWell(
-                                child: new Text(
-                                  'Ver Consentimiento Principal',
-                                  style: TextStyle(
-                                      color: kPrimaryColor, fontSize: 18.0),
-                                ),
-                                onTap: this._isCompleted
-                                    ? descargarConsentimientoP()
-                                    : null,
-                              )),
+                                      child: new Text(
+                                        'Ver Consentimiento Principal',
+                                        style: TextStyle(
+                                            color: kPrimaryColor,
+                                            fontSize: 18.0),
+                                      ),
+                                      onTap: () {
+                                        if (this._isCompleted) {
+                                          descargarConsentimientoP();
+                                        }
+                                      })),
                               Center(
                                   child: new InkWell(
-                                child: new Text(
-                                  'Ver Consentimiento Telepsicología',
-                                  style: TextStyle(
-                                      color: kPrimaryColor, fontSize: 18.0),
-                                ),
-                                onTap: this._isCompleted
-                                    ? descargarConsentimientoTP()
-                                    : null,
-                              )),
+                                      child: new Text(
+                                        'Ver Consentimiento Telepsicología',
+                                        style: TextStyle(
+                                            color: kPrimaryColor,
+                                            fontSize: 18.0),
+                                      ),
+                                      onTap: () {
+                                        if (this._isCompleted) {
+                                          descargarConsentimientoTP();
+                                        }
+                                      })),
                               Center(
                                   child: new InkWell(
-                                child: new Text(
-                                  'Ver Recibo de Pago',
-                                  style: TextStyle(
-                                      color: kPrimaryColor, fontSize: 18.0),
-                                ),
-                                onTap: this._isCompleted
-                                    ? descargarRecibo()
-                                    : null,
-                              )),
+                                      child: new Text(
+                                        'Ver Recibo de Pago',
+                                        style: TextStyle(
+                                            color: kPrimaryColor,
+                                            fontSize: 18.0),
+                                      ),
+                                      onTap: () {
+                                        if (this._isCompleted) {
+                                          descargarRecibo();
+                                        }
+                                      })),
                             ],
                           ),
                         ]),

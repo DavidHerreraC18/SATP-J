@@ -21,7 +21,8 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.satpj.project.modelo.comprobante_pago.ComprobantePago;
 
 /**
- * Entidad informe_pago Es el Informe de los Pagos de las Sesiones de Terapia
+ * Entidad InformePago 
+ * Es el Informe de los Pagos de las Sesiones de Terapia
  * que realizan los Pacientes al Consultorio
  */
 @Getter
@@ -30,24 +31,39 @@ import com.satpj.project.modelo.comprobante_pago.ComprobantePago;
 @Table(name = "informe_pago")
 public class InformePago {
 
+    /**
+     * Número de identificación del Informe de Pago
+     */ 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "informe_pago_id")
     private Long id;
 
+    /**
+     * Comprobantes de Pago utilizados para el informe de pago
+     */ 
     @ManyToMany
     @JoinTable(name = "informe_comprobante_pago", joinColumns = @JoinColumn(name = "informe_pago_id"), inverseJoinColumns = @JoinColumn(name = "comprobante_pago_id"))
     @JsonIgnore
-    private List<ComprobantePago> comprobatesPagos;
+    private List<ComprobantePago> comprobantesPagos;
 
+    /**
+     * Fecha de Inicio para la generación del informe
+     */ 
     @NotNull(message = "La Fecha de Inicio es obligatoria")
     @Column(name = "fecha_inicio", nullable = false)
     private LocalDate fechaInicio;
 
+    /**
+     * Fecha de Fin para la generación del informe
+     */ 
     @NotNull(message = "La Fecha de Finalización es obligatoria")
     @Column(name = "fecha_fin", nullable = false)
     private LocalDate fechaFin;
 
+    /**
+     * Total generado por los comprobantes
+     */ 
     @NotNull(message = "El Total es obligatorio")
     @Column(name = "total", nullable = false)
     private double total;

@@ -20,7 +20,10 @@ import org.springframework.web.bind.annotation.RestController;
 
 import lombok.Getter;
 import lombok.Setter;
-
+/**
+ * Servicio
+ * Permite el envio de correos electrónicos por medio de llamadas internas o a servicios REST 
+ */
 @Getter
 @Setter
 @EnableAutoConfiguration(exclude = SecurityAutoConfiguration.class)
@@ -37,10 +40,13 @@ public class ServicioEmail {
   @Autowired
   private RepositorioSesionTerapia repositorioSesionTerapia;
 
-  @GetMapping(value = "/{idUsuario}/{idSesion}/{tipo}", produces = "application/json; charset=UTF-8")
+  /**
+   * Get Request
+   * Hace envio del correo con la información de una nueva sesión de terapia creada. 
+   */
+  @GetMapping(value = "/{idUsuario}/{idSesion}", produces = "application/json; charset=UTF-8")
   public void sendEmailSesionTerapia(@AuthenticationPrincipal CustomPrincipal customPrincipal,
-      @PathVariable("idUsuario") String idUsuario, @PathVariable("idSesion") Long idSesion,
-      @PathVariable("tipo") String tipo) {
+      @PathVariable("idUsuario") String idUsuario, @PathVariable("idSesion") Long idSesion) {
 
     Usuario usuario = repositorioUsuario.findById(idUsuario).get();
 
@@ -49,16 +55,29 @@ public class ServicioEmail {
       if (sesion != null) {
         Map<String, Object> model = new HashMap<String, Object>();
         model.put("nombre", usuario.getNombre() + " " + usuario.getDocumento());
-        model.put("fecha", sesion.getFecha());
-        if (tipo.equals("cita_presencial")) {
-          emailSender.sendEmail(usuario.getEmail(), "Consultores en Psicología", model, false, "cita_presencial");
-        } else {
+        String aa = sesion.getFecha().getDayOfMonth() +"/"+sesion.getFecha().getMonthValue() +"/"+sesion.getFecha().getYear();
+        String hh = sesion.getFecha().getHour() +":"+ sesion.getFecha().getMinute();
+        model.put("fecha", aa);
+        model.put("hora", hh);
+
+        if(sesion.isVirtual()){
+          model.put("modalidad", "Virtual");
           emailSender.sendEmail(usuario.getEmail(), "Consultores en Psicología", model, false, "cita_virtual");
         }
+        else{
+          model.put("modalidad", "Presencial");
+          model.put("consultorio", sesion.getConsultorio());
+          emailSender.sendEmail(usuario.getEmail(), "Consultores en Psicología", model, false, "cita_presencial");
+        }
+       
       }
     }
   }
 
+  /**
+   * Get Request
+   * Hace envio del correo con la información de registro de un paciente, practicante o supervisor nuevo. 
+   */
   @GetMapping(value = "/{id}/{tipo}", produces = "application/json; charset=UTF-8")
   public void sendEmailRegistro(@AuthenticationPrincipal CustomPrincipal customPrincipal, @PathVariable("id") String id,
       @PathVariable("tipo") String tipo) {
@@ -73,7 +92,11 @@ public class ServicioEmail {
 
   }
 
-  @GetMapping(value = "/{supervisorId}/{practicanteId}/{tipo}/{link}", produces = "application/json; charset=UTF-8")
+  /**
+   * Get Request
+   * Hace envio del correo con la información de la videollamada para compartirla con los supervisores y acudientes.
+   */
+  @GetMapping(value = "compartir/{supervisorId}/{practicanteId}/{tipo}/{link}", produces = "application/json; charset=UTF-8")
   public void sendEmailCompartirSesion(@AuthenticationPrincipal CustomPrincipal customPrincipal,
       @PathVariable("supervisorId") String supervisorId, @PathVariable("practicanteId") String practicanteId,
       @PathVariable("link") String link,

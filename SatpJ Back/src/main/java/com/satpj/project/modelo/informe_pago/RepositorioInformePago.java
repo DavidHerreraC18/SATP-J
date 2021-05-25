@@ -4,7 +4,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 /**
  * Interface RepositorioInformePago Permite realizar las consultas a la BD de la
- * Entidad informe_pago
+ * Entidad Informe Pago
  */
 public interface RepositorioInformePago extends JpaRepository<InformePago, Long> {
 

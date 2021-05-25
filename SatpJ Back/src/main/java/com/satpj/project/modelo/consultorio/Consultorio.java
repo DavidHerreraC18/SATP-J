@@ -11,14 +11,17 @@ import javax.persistence.Table;
 
 
 /**
- * Clase ComprobantePago El Comprobante de Pago certifica que el Paciente
- * cancelo la Sesión de Terapia
+ * Entidad Consultorio
+ * Representación de un consultorio físico presente en la universidad.
  */
 @Getter
 @Setter
 @Entity
 @Table(name = "consultorio")
 public class Consultorio {
+    /**
+     * Corresponde al id de la Entidad Consultorio, el cual es al mismo tiempo el nombre del consultorio presencial.
+     */
     @Id
     @Column(name = "consultorio")
     private String consultorio;

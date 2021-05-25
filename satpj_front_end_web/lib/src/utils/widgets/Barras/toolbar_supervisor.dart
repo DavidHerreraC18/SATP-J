@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:satpj_front_end_web/src/providers/provider_autenticacion.dart';
 import 'package:satpj_front_end_web/src/views/gestionar_pacientes/vista_visualizar_pacientes_supervisor.dart';
 import 'package:satpj_front_end_web/src/views/gestionar_perfil/vista_perfil_supervisor.dart';
+import 'package:satpj_front_end_web/src/views/gestionar_practicantes/vista_visualizar_practicantes.dart';
 import 'package:satpj_front_end_web/src/views/vista_home.dart';
 
 AppBar toolbarSupervisor(BuildContext context) {
@@ -107,11 +108,14 @@ AppBar toolbarSupervisor(BuildContext context) {
                     children: <Widget>[
                       Icon(
                         Icons.assignment_rounded, //QUEJESA JOA
-                        color: Color(0xFF2E5EAA),
+                        color: Colors.grey,
                       ),
                       SizedBox(width: 2.0),
                       Text("Mis Tareas",
-                          style: Theme.of(context).textTheme.bodyText1)
+                          style: TextStyle(
+                              color: Colors.grey,
+                              fontSize: 12.0,
+                              fontFamily: 'Dubai'))
                     ],
                   ),
                 ),
@@ -155,7 +159,7 @@ AppBar toolbarSupervisor(BuildContext context) {
                   case 4:
                     {
                       Navigator.pushNamed(
-                          context, VistaVisualizarPacientesSupervisor.route);
+                          context, VistaVisualizarPracticantes.route);
                     }
                     break;
 

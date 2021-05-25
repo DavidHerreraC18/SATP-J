@@ -40,6 +40,7 @@ class PacientesDataTableSource extends DataTableSource {
         DataCell(Text('${_paciente.email}')),
         DataCell(Text('${_paciente.telefono}')),
         DataCell(Text('${_paciente.edad}')),
+        DataCell(Text('${_paciente.estadoAprobado}')),
         DataCell(
           ButtonBar(
             alignment: MainAxisAlignment.start,

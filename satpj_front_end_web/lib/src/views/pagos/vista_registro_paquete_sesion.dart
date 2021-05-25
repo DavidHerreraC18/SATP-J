@@ -76,7 +76,6 @@ class _FormularioRegistroPaquetesSesionesState
   String valor = '0.0';
   String total = '0.0';
 
-
   TextEditingController textControllerSesionesTerapias;
   FocusNode textFocusNodeSesionesTerapias;
   bool _isEditingSesionesTerapias = false;
@@ -98,11 +97,10 @@ class _FormularioRegistroPaquetesSesionesState
 
     paciente = (await ProviderAdministracionPacientes.buscarPaciente(
         ProviderAuntenticacion.uid));
-    print('PACIENTE ID' + paciente.id);
     return Future.value("Data download successfully");
   }
 
-  cleanControllers(){
+  cleanControllers() {
     textControllerSesionesTerapias.text = '';
     textControllerTotal.text = '';
     textControllerValorSesionTerapia.text = '';

@@ -111,10 +111,8 @@ class _AprobDialogState extends State<AprobDialog> {
                       onPressed: () {
                         _rechazarPaciente(widget.formularioSeleccionado);
                         //Navigator.of(context).pop();
-                        Future.delayed(Duration(milliseconds: 1000), () {
-                          Navigator.of(context)
-                              .pushNamed(VistaAprobacionFormularios.route);
-                        });
+                        Navigator.of(context)
+                            .pushNamed(VistaAprobacionFormularios.route);
                       },
                       child: Padding(
                         padding: EdgeInsets.symmetric(
@@ -151,12 +149,8 @@ class _AprobDialogState extends State<AprobDialog> {
                       ),
                       onPressed: () {
                         _aprobarPaciente(widget.formularioSeleccionado);
-                        Future.delayed(Duration(milliseconds: 1000), () {
-                          /*Navigator.of(context).popAndPushNamed(
-                              VistaAprobacionFormularios.route);*/
-                          Navigator.of(context)
-                              .pushNamed(VistaAprobacionFormularios.route);
-                        });
+                        Navigator.of(context)
+                            .pushNamed(VistaAprobacionFormularios.route);
                       },
                       child: Padding(
                         padding: EdgeInsets.symmetric(
@@ -183,7 +177,17 @@ class _AprobDialogState extends State<AprobDialog> {
   }
 
   Future<void> _aprobarPaciente(FormularioExtra formulario) async {
-    Grupo grupo = await ProviderAdministracionPacientes.traerGrupoPaciente(
+    formulario.paciente.supervisor = this.supervisor;
+    String resuesta =
+        await ProviderAprobacionPacientes.aprobarPaciente(formulario.paciente);
+    if (resuesta == "Error") {
+      mensaje = "Error procesando la solicitud, intenta de nuevo mas tarde";
+      colorMensaje = Theme.of(context).colorScheme.error;
+    } else {
+      mensaje = "¡Paciente aprobado exitosamente!";
+      colorMensaje = Theme.of(context).colorScheme.secondaryVariant;
+    }
+    /*Grupo grupo = await ProviderAdministracionPacientes.traerGrupoPaciente(
         formulario.paciente.id);
     if (grupo != null) {
       bool posible = false;
@@ -236,11 +240,20 @@ class _AprobDialogState extends State<AprobDialog> {
         mensaje = "¡Paciente aprobado exitosamente!";
         colorMensaje = Theme.of(context).colorScheme.secondaryVariant;
       }
-    }
+    }*/
   }
 
   Future<void> _rechazarPaciente(FormularioExtra formulario) async {
-    Grupo grupo = await ProviderAdministracionPacientes.traerGrupoPaciente(
+    String resuesta =
+        await ProviderAprobacionPacientes.rechazarPaciente(formulario.paciente);
+    if (resuesta == "Error") {
+      mensaje = "Error procesando la solicitud, intenta de nuevo mas tarde";
+      colorMensaje = Theme.of(context).colorScheme.error;
+    } else {
+      mensaje = "¡Paciente rechazado exitosamente!";
+      colorMensaje = Theme.of(context).colorScheme.secondaryVariant;
+    }
+    /*Grupo grupo = await ProviderAdministracionPacientes.traerGrupoPaciente(
         formulario.paciente.id);
     if (grupo != null) {
       for (int i = 0; i < grupo.integrantes.length; i++) {
@@ -256,15 +269,7 @@ class _AprobDialogState extends State<AprobDialog> {
         }
       }
     } else {
-      String resuesta = await ProviderAprobacionPacientes.rechazarPaciente(
-          formulario.paciente);
-      if (resuesta == "Error") {
-        mensaje = "Error procesando la solicitud, intenta de nuevo mas tarde";
-        colorMensaje = Theme.of(context).colorScheme.error;
-      } else {
-        mensaje = "¡Paciente rechazado exitosamente!";
-        colorMensaje = Theme.of(context).colorScheme.secondaryVariant;
-      }
-    }
+      
+    }*/
   }
 }

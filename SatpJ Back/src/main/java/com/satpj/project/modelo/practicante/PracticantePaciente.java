@@ -25,6 +25,10 @@ import com.satpj.project.modelo.paciente.Paciente;
 @Table(name = "practicante_paciente")
 public class PracticantePaciente {
 
+    /**
+     * Llave compuesta entre El Practicante es quién realizará las Sesiones de Terapia
+     * en el Consultorio a los Pacientes
+     */
     @EmbeddedId
     private LlavePracticantePaciente id;
 
@@ -38,6 +42,9 @@ public class PracticantePaciente {
     @JoinColumn(name = "paciente_id")
     private Paciente paciente;
 
+    /**
+     * Sera verdadero si el practicante es actualmente el terapeuta del Paciente
+     */
     @NotNull(message = "El Estado Activo del Practicante Paciente es obligatorio ")
     @Column(name = "activo", nullable = false)
     private boolean activo;

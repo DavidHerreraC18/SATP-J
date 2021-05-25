@@ -41,51 +41,87 @@ import com.satpj.project.modelo.usuario.Usuario;
 @Polymorphism(type = PolymorphismType.EXPLICIT)
 public class Paciente extends Usuario {
 
-    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    /**
+     * Corresponde al Supervisor que tiene asignado el Paciente
+     */ 
+    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JoinColumn(name = "supervisor_id", nullable = true)
     Supervisor supervisor;
 
-    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    /**
+     * Corresponde al Grupo al que puede pertenecer un Paciente
+     */ 
+    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JoinColumn(name = "grupo_id", nullable = true)
     Grupo grupo;
 
+    /**
+     * Corresponde a la lista de Practicantes que puede tener asignado el Paciente
+     */ 
     @OneToMany(mappedBy = "paciente")
     @JsonIgnore
     private List<PracticantePaciente> practicantesPaciente;
 
+    /**
+     * Corresponde a la colección de Documentos diligenciados por el Paciente
+     */ 
     @OneToMany(mappedBy = "paciente")
     @JsonIgnore
     private List<DocumentoPaciente> documentosPaciente;
 
+    /**
+     * Corresponde al Paquete de Sesiones que tiene un Paciente
+     */ 
     @OneToMany(mappedBy = "paciente")
     @JsonIgnore
     private List<PaqueteSesion> paquetesSesion;
 
+    /**
+    * Corresponde al Acudiente que tiene asignado el Paciente en caso de ser menor de edad
+    */ 
     @OneToMany(mappedBy = "paciente")
     @JsonIgnore
     private List<Acudiente> acudientes;
 
+    /**
+     * Corresponde al Formulario que diligencia el Paciente como proceso inicial para registrarse en el sistema
+     */ 
     @OneToOne(mappedBy = "paciente")
     @JsonIgnore
     private Formulario formulario;
 
+    /**
+     * Corresponde al FormularioExtra que diligencia el Paciente como proceso para completar en el sistema
+     */ 
     @OneToOne(mappedBy = "paciente")
     @JsonIgnore
     private FormularioExtra formularioExtra;
-
+    
     /*Posibles Estados:  PendienteAprobacion, PreAprobado, Aprobado, NoAprobado */
+    /**
+     * Corresponde al estado de aprobación que diligencia el Paciente como proceso para completar en el sistema
+     */ 
     @NotNull(message = "El estado de Aprobacion es obligatorio")
     @Column(name = "estado_aprobado")
     private String estadoAprobado;
 
     /* Con el estrato se realiza el cobro de las Sesiones de Terapia */
+    /**
+     * Corresponde al estrato que tiene el Paciente
+     */ 
     @Column(name = "estrato", nullable = true)
     private int estrato;
 
+    /**
+     * Corresponde a la edad del Paciente
+     */ 
     @NotNull(message = "La Edad es obligatorio")
     @Column(name = "edad", nullable = false)
     private int edad;
 
+    /**
+     * Corresponde al estado de remisión del Paciente.
+     */ 
     @NotNull(message = "El Estado de Remision es obligatorio")
     @Column(name = "remitido", nullable = false)
     private boolean remitido;

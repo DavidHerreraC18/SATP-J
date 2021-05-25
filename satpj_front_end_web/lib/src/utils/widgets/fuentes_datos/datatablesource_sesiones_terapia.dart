@@ -34,7 +34,9 @@ class SesionesTerapiaDataTableSource extends DataTableSource {
         DataCell(Text('${formatter.format(_sesion.fecha)}')),
         DataCell(Text('${DateFormat.Hms().format(_sesion.fecha)}')),
         DataCell(Text('${_sesion.virtual ? 'Virtual' : 'Presencial'}')),
-        DataCell(Text('${_sesion.consultorio}')),
+        DataCell(Text(_sesion.consultorio != null
+            ? '${_sesion.consultorio.consultorio}'
+            : '')),
         DataCell(
           Row(
             mainAxisAlignment: MainAxisAlignment.start,

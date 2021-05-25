@@ -9,6 +9,8 @@ import 'package:satpj_front_end_web/src/model/sesion_terapia/sesion_terapia.dart
 import 'package:satpj_front_end_web/src/model/sesion_terapia/sesion_usuario.dart';
 import 'package:satpj_front_end_web/src/model/usuario/usuario.dart';
 import 'package:satpj_front_end_web/src/utils/widgets/Barras/toolbar_inicio.dart';
+import 'package:satpj_front_end_web/src/views/sesion_videollamadas/vista_llamada_paciente.dart';
+import 'package:satpj_front_end_web/src/views/sesion_videollamadas/vista_llamada_practicante.dart';
 import 'package:syncfusion_flutter_calendar/calendar.dart';
 import 'package:flutter/foundation.dart' show kIsWeb;
 
@@ -40,12 +42,25 @@ class _CalendarioPrincipalState extends State<CalendarioPrincipal> {
                 children: [
                   Column(
                     children: [
-                      (widget.usuario.tipoUsuario != "Auxiliar Administrativo")
+                      (widget.usuario.tipoUsuario !=
+                                  "Auxiliar Administrativo" &&
+                              widget.usuario.tipoUsuario != "Acudiente" &&
+                              widget.usuario.tipoUsuario != "Supervisor")
                           ? Container(
                               width: 300,
                               height: 150,
                               child: ElevatedButton(
-                                onPressed: () {},
+                                onPressed: () {
+                                  if (widget.usuario.tipoUsuario ==
+                                      "Paciente") {
+                                    Navigator.pushNamed(
+                                        context, VistaLlamadaPaciente.route);
+                                  } else if (widget.usuario.tipoUsuario ==
+                                      "Practicante") {
+                                    Navigator.pushNamed(
+                                        context, VistaLlamadaPracticante.route);
+                                  }
+                                },
                                 child: Text(
                                   "Sesión En Curso",
                                   style: TextStyle(color: Colors.white),

@@ -78,11 +78,8 @@ class _PreAprobDialogState extends State<PreAprobDialog> {
                       ),
                       onPressed: () {
                         _rechazarPaciente(widget.formularioSeleccionado);
-                        //Navigator.of(context).pop();
-                        Future.delayed(Duration(milliseconds: 1000), () {
-                          Navigator.of(context)
-                              .pushNamed(VistaAprobacionFormularios.route);
-                        });
+                        Navigator.of(context)
+                            .pushNamed(VistaAprobacionFormularios.route);
                       },
                       child: Padding(
                         padding: EdgeInsets.symmetric(
@@ -122,12 +119,8 @@ class _PreAprobDialogState extends State<PreAprobDialog> {
                       ),
                       onPressed: () {
                         _aprobarPaciente(widget.formularioSeleccionado);
-                        Future.delayed(Duration(milliseconds: 1000), () {
-                          /*Navigator.of(context).popAndPushNamed(
-                              VistaAprobacionFormularios.route);*/
-                          Navigator.of(context)
-                              .pushNamed(VistaAprobacionFormularios.route);
-                        });
+                        Navigator.of(context)
+                            .pushNamed(VistaAprobacionFormularios.route);
                       },
                       child: Padding(
                         padding: EdgeInsets.symmetric(

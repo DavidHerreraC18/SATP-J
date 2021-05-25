@@ -369,26 +369,24 @@ class DocumentosPacienteState extends State<DocumentosPaciente> {
         await ProviderAdministracionPacientes.traerDocumentosPaciente(
             pacienteActual);
     if (documentos.isNotEmpty) {
-      setState(() {
-        for (int i = 0; i < documentos.length; i++) {
-          print(documentos[i].tipo);
-          if (documentos[i].tipo == "FotoPerfil") {
-            _fotoDocumento = Base64Codec().decode(documentos[i].contenido);
-            _isFotoDocumentoEntered = true;
-          } else if (documentos[i].tipo == "ConsentimientoPrincipal") {
-            _consentimientoPrincipal =
-                Base64Codec().decode(documentos[i].contenido);
-            _isConsentimientoEntered = true;
-          } else if (documentos[i].tipo == "ReciboPago") {
-            _fotoDocumento = Base64Codec().decode(documentos[i].contenido);
-            _isReciboPagoEntered = true;
-          } else if (documentos[i].tipo == "ConsentimientoTP") {
-            _consentimientoTP = Base64Codec().decode(documentos[i].contenido);
-            _isConsentimientoTPEntered = true;
-          }
-          _isCompleted = true;
+      for (int i = 0; i < documentos.length; i++) {
+        print(documentos[i].tipo);
+        if (documentos[i].tipo == "FotoPerfil") {
+          _fotoDocumento = Base64Codec().decode(documentos[i].contenido);
+          _isFotoDocumentoEntered = true;
+        } else if (documentos[i].tipo == "ConsentimientoPrincipal") {
+          _consentimientoPrincipal =
+              Base64Codec().decode(documentos[i].contenido);
+          _isConsentimientoEntered = true;
+        } else if (documentos[i].tipo == "ReciboPago") {
+          _fotoDocumento = Base64Codec().decode(documentos[i].contenido);
+          _isReciboPagoEntered = true;
+        } else if (documentos[i].tipo == "ConsentimientoTP") {
+          _consentimientoTP = Base64Codec().decode(documentos[i].contenido);
+          _isConsentimientoTPEntered = true;
         }
-      });
+        _isCompleted = true;
+      }
     }
     return Future.value("Data download successfully");
   }

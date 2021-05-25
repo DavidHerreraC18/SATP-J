@@ -37,11 +37,6 @@ class PracticantesVisualizarDataTableSource extends DataTableSource {
             children: <Widget>[
               IconButton(
                 color: Color(0xFF2E5EAA),
-                icon: const Icon(Icons.insert_invitation),
-                onPressed: () {},
-              ),
-              IconButton(
-                color: Color(0xFF2E5EAA),
                 icon: const Icon(Icons.remove_red_eye),
                 onPressed: () => onRowSelectDetail(index),
               ),

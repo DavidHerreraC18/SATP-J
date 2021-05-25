@@ -58,7 +58,7 @@ public class ServicioInformePago {
     public List<ComprobantePago> findComprobantesByInformeId(@AuthenticationPrincipal CustomPrincipal customPrincipal, @PathVariable("id") Long id) {
         InformePago informePago = repositorioInformePago.findById(id).get();
         Preconditions.checkNotNull(informePago);
-        return informePago.getComprobatesPagos();
+        return informePago.getComprobantesPagos();
     }
 
     @PostMapping

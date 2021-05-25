@@ -23,6 +23,7 @@ SesionTerapia _$SesionTerapiaFromJson(Map<String, dynamic> json) {
     consultorio: json['consultorio'] == null
         ? null
         : Consultorio.fromJson(json['consultorio'] as Map<String, dynamic>),
+    enlaceStreaming: json['enlaceStreaming'] as String,
   );
 }
 
@@ -34,4 +35,5 @@ Map<String, dynamic> _$SesionTerapiaToJson(SesionTerapia instance) =>
       'fecha': instance.fecha?.toIso8601String(),
       'virtual': instance.virtual,
       'consultorio': instance.consultorio?.toJson(),
+      'enlaceStreaming': instance.enlaceStreaming,
     };

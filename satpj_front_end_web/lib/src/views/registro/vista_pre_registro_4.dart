@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:satpj_front_end_web/src/utils/tema.dart';
 import 'package:satpj_front_end_web/src/utils/widgets/Barras/toolbar_inicio_registro.dart';
+import 'package:satpj_front_end_web/src/utils/widgets/barras/toolbar_paciente_preaprobado.dart';
 import 'package:satpj_front_end_web/src/utils/widgets/formularios/tema_formularios.dart';
 
 class PreRegisterPage4 extends StatelessWidget {
@@ -9,9 +10,20 @@ class PreRegisterPage4 extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    bool error = false;
+    final Map arguments = ModalRoute.of(context).settings.arguments as Map;
+
+    if (arguments != null) {
+      if (arguments['error'] is bool) {
+        error = arguments['error'] as bool;
+      }
+    }
+
     return Scaffold(
         backgroundColor: kAccentColor,
-        appBar: toolbarInicioRegistro(context),
+        appBar: !error
+            ? toolbarInicioRegistro(context)
+            : toolbarPacientePreaprobado(context),
         body: ListView(
           children: [
             Column(

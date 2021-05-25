@@ -7,15 +7,21 @@ import javax.persistence.Column;
 import javax.persistence.Embeddable;
 
 /**
- * Clase LlaveAlertaUsuario Llave primaria compuesta de la tabla intermedia
- * alerta_usuario
+ * Llave de AlertaUsuario 
+ * Corresponde a una llave primaria compuesta del Id de Usuario y Alerta.
  */
 @Embeddable
 public class LlaveAlertaUsuario implements Serializable {
 
+    /**
+     * Corresponde al Id de la Alerta.
+     */
     @Column(name = "alerta_id")
     private Long alertaId;
 
+    /**
+     * Corresponde al Id del Usuario.
+     */
     @Column(name = "usuario_id")
     private String usuarioId;
 

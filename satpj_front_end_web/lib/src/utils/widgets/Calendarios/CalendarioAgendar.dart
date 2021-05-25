@@ -306,16 +306,16 @@ class _CalendarAppointmentEditorState extends State<CalendarAppointmentEditor> {
   }
 
   Future<Horario> _getHorario() async {
-    Horario horario = new Horario(
+    /*Horario horario = new Horario(
         lunes: "9;11;12;14;15",
         martes: "",
         miercoles: "",
         jueves: "17;18",
         viernes: "",
-        sabado: "9;11");
-    //Horario horario =
-    //await ProviderAdministracionUsuarios.traerHorarioSeleccionado(
-    // widget.practicante.id);
+        sabado: "9;11");*/
+    Horario horario =
+        await ProviderAdministracionUsuarios.traerHorarioSeleccionado(
+            widget.practicante.id);
     return horario;
   }
 
@@ -347,21 +347,13 @@ class _CalendarAppointmentEditorState extends State<CalendarAppointmentEditor> {
         virtual: false));*/
     List<SesionUsuario> sesionesUsuarioPaciente =
         await ProviderSesionesTerapia.obtenerSesionesUsuario(
-            widget.paciente.id);
-    List<SesionTerapia> sesionesPaciente = <SesionTerapia>[];
+            widget.practicante.id);
+    List<SesionTerapia> sesionesPracticante = <SesionTerapia>[];
     for (int i = 0; i < sesionesUsuarioPaciente.length; i++) {
-      sesionesPaciente.add(sesionesUsuarioPaciente[i].sesionTerapia);
+      sesionesPracticante.add(sesionesUsuarioPaciente[i].sesionTerapia);
     }
-    List<SesionUsuario> sesionesUsuarioPracticante =
-        await ProviderSesionesTerapia.obtenerSesionesUsuario(
-            widget.paciente.id);
-    List<SesionTerapia> sesiones = List.from(sesionesPaciente);
-    for (int i = 0; i < sesionesUsuarioPracticante.length; i++) {
-      SesionTerapia sesionTerapia = sesionesUsuarioPracticante[i].sesionTerapia;
-      sesiones.removeWhere((item) => item.id == sesionTerapia.id);
-      sesionesPaciente.add(sesionTerapia);
-    }
-    return sesiones;
+
+    return sesionesPracticante;
   }
 
   /// Creates the required appointment details as a list, and created the data

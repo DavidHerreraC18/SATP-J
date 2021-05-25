@@ -119,7 +119,7 @@ public class ServicioUsuario {
         Preconditions.checkNotNull(usuario);
         Horario seleccionado = null;
         for(Horario horario: usuario.getHorarios()){
-            if(horario.getOpcion().equals("Seleccionado"))
+            if(horario.getOpcion().equals("seleccionado"))
             {
                 seleccionado = horario;
             }

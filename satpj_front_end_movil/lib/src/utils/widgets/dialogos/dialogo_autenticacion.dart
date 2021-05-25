@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:satpj_front_end_movil/src/providers/provider_autenticacion.dart';
 import 'package:satpj_front_end_movil/src/views/home/vista_home.dart';
-import 'package:satpj_front_end_movil/src/views/home_acudientes/vista_home_practicantes.dart';
 
 //import 'google_sign_in_button.dart';
 

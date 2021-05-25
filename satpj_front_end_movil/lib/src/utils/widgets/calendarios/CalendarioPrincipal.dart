@@ -7,6 +7,7 @@ import 'package:flutter/widgets.dart';
 import 'package:satpj_front_end_movil/src/model/sesion_terapia/sesion_usuario.dart';
 import 'package:satpj_front_end_movil/src/model/usuario/usuario.dart';
 import 'package:satpj_front_end_movil/src/model/sesion_terapia/sesion_terapia.dart';
+import 'package:satpj_front_end_movil/src/views/sesion_videollamadas/vista_llamada.dart';
 import 'package:syncfusion_flutter_calendar/calendar.dart';
 import 'package:flutter/foundation.dart' show kIsWeb;
 
@@ -32,16 +33,20 @@ class _CalendarioPrincipalState extends State<CalendarioPrincipal> {
   @override
   Widget build(BuildContext context) {
     return Container(
-        height: 1000,
+        height: double.infinity,
         child: Column(
           children: [
-            SizedBox(height: 15),
-            (widget.usuario.tipoUsuario != "Auxiliar Administrativo")
+            SizedBox(height: 24),
+            (widget.usuario.tipoUsuario != "Auxiliar Administrativo" &&
+                    widget.usuario.tipoUsuario != "Acudiente" &&
+                    widget.usuario.tipoUsuario != "Supervisor")
                 ? Container(
-                    width: 300,
-                    height: 150,
+                    width: double.infinity,
+                    height: 75,
                     child: ElevatedButton(
-                      onPressed: () {},
+                      onPressed: () {
+                        Navigator.pushNamed(context, VistaLlamada.route);
+                      },
                       child: Text(
                         "Sesión En Curso",
                         style: TextStyle(color: Colors.white),

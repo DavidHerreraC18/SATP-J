@@ -20,7 +20,6 @@ class PdfCertificadoHoras {
     final PdfDocument document = PdfDocument();
     document.pageSettings.orientation = PdfPageOrientation.landscape;
     document.pageSettings.margins.all = 0;
-    print(practicanteHoras.practicante.nombre);
     //Add page to the PDF
     final PdfPage page = document.pages.add();
     //Get the page size
@@ -61,7 +60,7 @@ class PdfCertificadoHoras {
     //Dispose the document.
     document.dispose();
     //Save and launch file.
-    await FileSaveHelper.saveAndLaunchFile(
+    FileSaveHelper.saveAndLaunchFile(
         bytes,
         'Certificado - ' +
             practicanteHoras.practicante.nombre +

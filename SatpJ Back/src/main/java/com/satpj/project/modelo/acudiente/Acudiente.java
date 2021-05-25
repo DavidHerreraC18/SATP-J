@@ -18,7 +18,7 @@ import com.satpj.project.modelo.usuario.Usuario;
 
 
 /**
- * Clase Acudiente
+ * Entidad Acudiente
  * El Acudiente representa al tutor legal que tiene un Paciente
  * menor de edad como el padre o la madre
  */
@@ -29,6 +29,9 @@ import com.satpj.project.modelo.usuario.Usuario;
 @Polymorphism(type = PolymorphismType.EXPLICIT)
 public class Acudiente extends Usuario{
     
+    /**
+     * Corresponde al paciente que tiene a su cuidado. 
+     */
     @ManyToOne(cascade = CascadeType.MERGE, fetch = FetchType.EAGER)
     @JoinColumn(name = "paciente_id", nullable = true,  insertable = false)
     private Paciente paciente;

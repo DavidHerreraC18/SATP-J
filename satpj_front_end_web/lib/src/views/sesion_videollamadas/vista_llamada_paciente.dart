@@ -11,6 +11,7 @@ import 'package:satpj_front_end_web/src/providers/provider_administracion_practi
 import 'package:satpj_front_end_web/src/providers/provider_administracion_usuarios.dart';
 import 'package:satpj_front_end_web/src/providers/provider_autenticacion.dart';
 import 'package:satpj_front_end_web/src/utils/widgets/Barras/toolbar_paciente.dart';
+import 'package:satpj_front_end_web/src/utils/widgets/inputs/rounded_text_field.dart';
 import 'package:satpj_front_end_web/src/utils/widgets/loading/LoadingWanderingCube.dart';
 
 class VistaLlamadaPaciente extends StatefulWidget {
@@ -112,13 +113,17 @@ class _MeetingState extends State<VistaLlamadaPaciente> {
                                         ),
                                       )),
                                 )),
-                                SizedBox(height: 10.0,),
+                            SizedBox(
+                              height: 10.0,
+                            ),
                             Container(
-                              margin: EdgeInsets.symmetric(horizontal : 320.0),
+                              margin: EdgeInsets.symmetric(horizontal: 320.0),
                               width: width * 0.25,
                               child: meetConfig(),
                             ),
-                            SizedBox(height: 10.0,),
+                            SizedBox(
+                              height: 10.0,
+                            ),
                           ],
                         ),
                       )
@@ -150,7 +155,7 @@ class _MeetingState extends State<VistaLlamadaPaciente> {
                   backgroundColor: MaterialStateColor.resolveWith(
                       (states) => Theme.of(context).colorScheme.primary)),
             ),
-          ),
+          )
         ],
       ),
     );
