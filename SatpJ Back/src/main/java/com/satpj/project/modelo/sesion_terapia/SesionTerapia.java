@@ -1,7 +1,6 @@
 package com.satpj.project.modelo.sesion_terapia;
 
-import java.time.LocalDate;
-import java.time.LocalTime;
+import java.time.LocalDateTime;
 import java.util.List;
 
 import lombok.Getter;
@@ -16,15 +15,17 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.satpj.project.modelo.consultorio.Consultorio;
 import com.satpj.project.modelo.paquete_sesion.PaqueteSesion;
 
 
 /**
- * Entidad sesion_terapia
- * Son las Sesiones de Terapia que toma el Paciente y  
+ * Entidad sesion_terapia Son las Sesiones de Terapia que toma el Paciente y
  * realiza el Practicante
  */
 @Getter
@@ -33,34 +34,37 @@ import com.satpj.project.modelo.paquete_sesion.PaqueteSesion;
 @Table(name = "sesion_terapia")
 public class SesionTerapia {
 
-    @Id
+	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "sesion_terapia_id")
 	private Long id;
-    
-	@OneToMany(mappedBy = "sesion_terapia")
+
+	@OneToMany(mappedBy = "sesionTerapia")
+	@JsonIgnore
 	private List<SesionUsuario> sesiones;
 
-	@ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+	@ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
 	private PaqueteSesion paqueteSesion;
-    
-	@NotNull(message="La Fecha de la Sesión de Terapia es obligatoria")
-	@Column(name = "fecha", nullable = false)
-	private LocalDate fecha;
 
-    @NotNull(message="La Hora de la Sesión de Terapia es obligatoria")
-	@Column(name = "hora", nullable = false)
-	private LocalTime hora;
-    
+	@NotNull(message = "La Fecha de la Sesión de Terapia es obligatoria")
+	@Column(name = "fecha", nullable = false)
+	private LocalDateTime fecha;
+
 	/* Indica si la Sesión de Terapia se realizará presencial o virtual */
-    @NotNull(message="Indicar si la Sesión de Terapia es Virtual o Presencial")
+	@NotNull(message = "Indicar si la Sesión de Terapia es Virtual o Presencial")
 	@Column(name = "virtual", nullable = false)
 	private boolean virtual;
-    
-	/* Puede contener el número de consultorio o el link a la sala de la
-	videollamada */
-    @NotNull(message="El Consultorio de la Sesión de Terapia es obligatorio")
-	@Column(name = "consultorio", nullable = false)
-	private String consultorio;
-    
+
+	/*
+	 * Puede contener el número de consultorio o el link a la sala de la
+	 * videollamada
+	 */
+	@OneToOne(fetch = FetchType.EAGER)
+	private Consultorio consultorio;
+
+	@Column(name = "enlace_streaming", nullable = true)
+	private String enlaceStreaming;
+
+
+
 }

@@ -14,12 +14,11 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.satpj.project.modelo.paciente.Paciente;
 
-
 /**
- * Entidad grupo
- * Es un Grupo de Pacientes que reciben atención conjuntamente y
+ * Entidad grupo Es un Grupo de Pacientes que reciben atención conjuntamente y
  * asisten a las Sesiones de Terapia juntos
  */
 @Getter
@@ -27,16 +26,26 @@ import com.satpj.project.modelo.paciente.Paciente;
 @Entity
 @Table(name = "grupo")
 public class Grupo {
-    
-    @Id
+
+	/**
+     * Número de identificación del Grupo
+     */
+	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "grupo_id")
 	private Long id;
 
-    @NotNull(message="El Tipo es obligatorio")
+	/**
+     * Tipo de Grupo
+     */
+	@NotNull(message = "El Tipo es obligatorio")
 	@Column(name = "tipo", nullable = false)
 	private String tipo;
 
-    @OneToMany
-    private List<Paciente> integrantes;
+	/**
+     * Integrantes del Grupo
+     */
+	@OneToMany(mappedBy = "grupo")
+	@JsonIgnore
+	private List<Paciente> integrantes;
 }

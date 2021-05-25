@@ -1,0 +1,438 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"/>
+    <link rel="stylesheet" href="res/bootstrap.min.css" type="text/css"/>
+    <link rel="stylesheet" href="res/karate-report.css" type="text/css"/>
+    <link rel="shortcut icon" href="favicon.ico"/>
+    <script type="text/javascript" src="res/jquery.min.js"></script>
+    <script type="text/javascript" src="res/jquery.tablesorter.min.js"></script>
+    <script type="text/javascript" src="res/bootstrap.min.js"></script>
+    <script type="text/javascript" src="res/karate-report.js"></script>
+    <title>tester.all.usuario</title>  
+  </head>
+  <body>   
+    <div id="root-container">
+      <div id="leftnav">
+                
+        <div>
+  <div class="nav-logo">
+    <a href="karate-summary.html">
+      <img src="karate-logo.svg" alt="Karate"/>
+    </a>
+    <div class="nav-count">
+      <div id="nav-pass" class="bg-success">2</div>
+      <div id="nav-fail" class="bg-danger">0</div>
+    </div>
+  </div>
+  <div id="nav-type">
+    <div>Scenarios</div>
+  </div>         
+  <div id="nav-date">
+    <div>2021-05-18 09:22:14 PM</div>
+  </div>        
+</div>
+
+        <div class="nav-container">
+          <div class="nav-item passed">
+            <a href="#[1:6]"><span>[1:6]</span> <span>Obtener usuarios</span></a>
+          </div>
+          <div class="nav-item passed">
+            <a href="#[2:11]"><span>[2:11]</span> <span>Obtener usuarios por el email</span></a>
+          </div>
+        </div>
+      </div>
+      <div id="content">
+        <div class="page-heading alert alert-primary">
+          <a href="karate-summary.html">Summary</a><span class="feature-label">|</span>
+          <a href="karate-tags.html">Tags</a><span class="feature-label">|</span>
+          <span class="feature-label">Feature:</span>
+          <span class="feature-path">tester/all/usuario.feature</span><span class="feature-label">|</span>
+          <span class="feature-name">Usuario Prueba Karate</span>
+          <span class="feature-description"></span>
+        </div>
+        <div class="scenario">
+          <div class="scenario-heading" id="[1:6]">
+            <div class="heading-container">
+              <div class="scenario-tags">
+                
+              </div>
+              <div class="scenario-keyword">
+                Scenario: <span>[1:6]</span>
+                <span class="scenario-name">Obtener usuarios</span>
+                <span></span>
+              </div>
+            </div>
+            <div class="scenario-time passed">
+              <span>ms:</span>&nbsp;<span>3545</span>
+            </div>
+          </div>
+          <div class="step-row">
+            <div class="step-container" id="[1:6]bg">
+              <div class="step-ref bg-step">&gt;&gt;</div>
+              <div class="step-cell passed">Background:</div>
+            </div>
+            <div class="time-cell passed"></div>
+          </div>
+          <div data-parent="[1:6]bg"><div>
+  
+
+  
+
+  <div class="step-row">
+    <div class="step-container" id="0.4">
+      <div class="step-ref bg-step">4</div>
+      
+      <div class="step-cell passed">
+        <span>*</span>&nbsp;<span>url &#39;http://localhost:8082/usuarios&#39;</span>
+      </div>
+    </div>
+    <div class="time-cell passed">0</div>
+  </div>
+
+   
+  
+  
+
+  
+
+  <div class="preformatted" data-parent="0.4">21:22:10.189 karate.env system property was: null 
+</div>   
+
+  
+
+</div>
+</div>
+          <div data-parent="[1:6]bg"><div>
+  
+
+  
+
+  <div class="step-row">
+    <div class="step-container" id="0.5">
+      <div class="step-ref bg-step">5</div>
+      
+      <div class="step-cell passed">
+        <span>*</span>&nbsp;<span>configure headers = { Authorization : &#39;Bearer eyJhbGciOiJSUzI1NiIsImtpZCI6IjNkOWNmYWE4OGVmMDViNDI0YmU2MjA1ZjQ2YjE4OGQ3MzI1N2JjNDIiLCJ0eXAiOiJKV1QifQ.eyJpc3MiOiJodHRwczovL3NlY3VyZXRva2VuLmdvb2dsZS5jb20vdGVsZXBzaWNvLTFlOWM4IiwiYXVkIjoidGVsZXBzaWNvLTFlOWM4IiwiYXV0aF90aW1lIjoxNjIxMzg4ODQ0LCJ1c2VyX2lkIjoiQkQ3WHpLcFZHMWd5QmN3TVFyclhjWEpXbjJxMSIsInN1YiI6IkJEN1h6S3BWRzFneUJjd01RcnJYY1hKV24ycTEiLCJpYXQiOjE2MjEzODg4NDQsImV4cCI6MTYyMTM5MjQ0NCwiZW1haWwiOiJkYXZpZDE4aGNAZ21haWwuY29tIiwiZW1haWxfdmVyaWZpZWQiOmZhbHNlLCJmaXJlYmFzZSI6eyJpZGVudGl0aWVzIjp7ImVtYWlsIjpbImRhdmlkMThoY0BnbWFpbC5jb20iXX0sInNpZ25faW5fcHJvdmlkZXIiOiJwYXNzd29yZCJ9fQ.aZirAmXKHHriK2hBe0N0E5sT-owA4DSer2UCriiMOcJUdmG-nYjGAoGFAJCg-Zvy8tNWPDjd4ccEbo7QgJvH6ZnvAKHSwrUrVjVxag7czp4fhZWClY1gdZJ1AfA0kOAZcp3QDpTEZJMPZyoQhMgSVFjIouZzrl5ruL9smI0DRXN9QixLPfy5By8_lRKTdRteGA47utva-M11f5-yOivQq1hd9uLs3f0_8K4zKFe7Sz4IYFSBjyVEm2PvBEGTFL7hrrMe0upBiQx5WVsidD1m3Fow7v_mb8FnV8bkU-4THqd2pAKOYvrDKx-EZBhUOrXox7Np8cuQMolJZ8b5m9GEaw&#39;}</span>
+      </div>
+    </div>
+    <div class="time-cell passed">0</div>
+  </div>
+
+   
+  
+  
+
+  
+
+     
+
+  
+
+</div>
+</div>
+          <div><div>
+  
+
+  
+
+  <div class="step-row">
+    <div class="step-container" id="0.7">
+      <div class="step-ref passed">7</div>
+      
+      <div class="step-cell passed">
+        <span>Given</span>&nbsp;<span>path &#39;&#39;</span>
+      </div>
+    </div>
+    <div class="time-cell passed">0</div>
+  </div>
+
+   
+  
+  
+
+  
+
+     
+
+  
+
+</div>
+</div>
+          <div><div>
+  
+
+  
+
+  <div class="step-row">
+    <div class="step-container" id="0.8">
+      <div class="step-ref passed">8</div>
+      
+      <div class="step-cell passed">
+        <span>When</span>&nbsp;<span>method get</span>
+      </div>
+    </div>
+    <div class="time-cell passed">3544</div>
+  </div>
+
+   
+  
+  
+
+  
+
+  <div class="preformatted" data-parent="0.8">21:22:10.192 request:
+1 &gt; GET http://localhost:8082/usuarios
+1 &gt; Authorization: Bearer eyJhbGciOiJSUzI1NiIsImtpZCI6IjNkOWNmYWE4OGVmMDViNDI0YmU2MjA1ZjQ2YjE4OGQ3MzI1N2JjNDIiLCJ0eXAiOiJKV1QifQ.eyJpc3MiOiJodHRwczovL3NlY3VyZXRva2VuLmdvb2dsZS5jb20vdGVsZXBzaWNvLTFlOWM4IiwiYXVkIjoidGVsZXBzaWNvLTFlOWM4IiwiYXV0aF90aW1lIjoxNjIxMzg4ODQ0LCJ1c2VyX2lkIjoiQkQ3WHpLcFZHMWd5QmN3TVFyclhjWEpXbjJxMSIsInN1YiI6IkJEN1h6S3BWRzFneUJjd01RcnJYY1hKV24ycTEiLCJpYXQiOjE2MjEzODg4NDQsImV4cCI6MTYyMTM5MjQ0NCwiZW1haWwiOiJkYXZpZDE4aGNAZ21haWwuY29tIiwiZW1haWxfdmVyaWZpZWQiOmZhbHNlLCJmaXJlYmFzZSI6eyJpZGVudGl0aWVzIjp7ImVtYWlsIjpbImRhdmlkMThoY0BnbWFpbC5jb20iXX0sInNpZ25faW5fcHJvdmlkZXIiOiJwYXNzd29yZCJ9fQ.aZirAmXKHHriK2hBe0N0E5sT-owA4DSer2UCriiMOcJUdmG-nYjGAoGFAJCg-Zvy8tNWPDjd4ccEbo7QgJvH6ZnvAKHSwrUrVjVxag7czp4fhZWClY1gdZJ1AfA0kOAZcp3QDpTEZJMPZyoQhMgSVFjIouZzrl5ruL9smI0DRXN9QixLPfy5By8_lRKTdRteGA47utva-M11f5-yOivQq1hd9uLs3f0_8K4zKFe7Sz4IYFSBjyVEm2PvBEGTFL7hrrMe0upBiQx5WVsidD1m3Fow7v_mb8FnV8bkU-4THqd2pAKOYvrDKx-EZBhUOrXox7Np8cuQMolJZ8b5m9GEaw
+1 &gt; Host: localhost:8082
+1 &gt; Connection: Keep-Alive
+1 &gt; User-Agent: Apache-HttpClient/4.5.13 (Java/11.0.10)
+1 &gt; Accept-Encoding: gzip,deflate
+
+
+21:22:13.735 response time in milliseconds: 3542
+1 &lt; 200
+1 &lt; Vary: [Origin, Access-Control-Request-Method, Access-Control-Request-Headers]
+1 &lt; X-Content-Type-Options: nosniff
+1 &lt; X-XSS-Protection: 1; mode=block
+1 &lt; Cache-Control: no-cache, no-store, max-age=0, must-revalidate
+1 &lt; Pragma: no-cache
+1 &lt; Expires: 0
+1 &lt; X-Frame-Options: DENY
+1 &lt; Content-Type: application/json;charset=UTF-8
+1 &lt; Transfer-Encoding: chunked
+1 &lt; Date: Wed, 19 May 2021 02:22:13 GMT
+1 &lt; Keep-Alive: timeout=60
+1 &lt; Connection: keep-alive
+[{&quot;aforo&quot;:2,&quot;direccion&quot;:&quot;Ak. 13 #156-23, Bogotá, Cundinamarca&quot;,&quot;documento&quot;:&quot;1234567890&quot;,&quot;nombre&quot;:&quot;PracticanteNombre1&quot;,&quot;infoSesion&quot;:null,&quot;tipoDocumento&quot;:&quot;Cédula de Extranjería&quot;,&quot;enfoque&quot;:&quot;Comportamental&quot;,&quot;apellido&quot;:&quot;PracticanteApellido1&quot;,&quot;tipoUsuario&quot;:&quot;Practicante&quot;,&quot;pregrado&quot;:true,&quot;id&quot;:&quot;0ozSyBFMvEeQxyHif9IMcMcc8573&quot;,&quot;telefono&quot;:&quot;3104039843&quot;,&quot;semestre&quot;:10,&quot;email&quot;:&quot;practicante1@gmail.com&quot;,&quot;activo&quot;:true},{&quot;aforo&quot;:1,&quot;direccion&quot;:&quot;Ak. 15 #178-30, Bogotá, Cundinamarca&quot;,&quot;documento&quot;:&quot;4798567890&quot;,&quot;nombre&quot;:&quot;PracticanteNombre2&quot;,&quot;infoSesion&quot;:null,&quot;tipoDocumento&quot;:&quot;Cédula de Extranjería&quot;,&quot;enfoque&quot;:&quot;Psicoanalítico&quot;,&quot;apellido&quot;:&quot;PracticanteApellido2&quot;,&quot;tipoUsuario&quot;:&quot;Practicante&quot;,&quot;pregrado&quot;:false,&quot;id&quot;:&quot;TL0XtEmgbXbBte1R0NQm7tJgXEq2&quot;,&quot;telefono&quot;:&quot;3106639843&quot;,&quot;semestre&quot;:1,&quot;email&quot;:&quot;practicante2@gmail.com&quot;,&quot;activo&quot;:true},{&quot;aforo&quot;:3,&quot;direccion&quot;:&quot;Calle. 15 #124-30, Bogotá, Cundinamarca&quot;,&quot;documento&quot;:&quot;1234564650&quot;,&quot;nombre&quot;:&quot;PracticanteNombre3&quot;,&quot;infoSesion&quot;:null,&quot;tipoDocumento&quot;:&quot;Cédula de Extranjería&quot;,&quot;enfoque&quot;:&quot;Sistemico&quot;,&quot;apellido&quot;:&quot;PracticanteApellido3&quot;,&quot;tipoUsuario&quot;:&quot;Practicante&quot;,&quot;pregrado&quot;:true,&quot;id&quot;:&quot;Tz2fBb5kS2bK1OAtYpeXxjSvY7I3&quot;,&quot;telefono&quot;:&quot;3104036565&quot;,&quot;semestre&quot;:10,&quot;email&quot;:&quot;practicante3@gmail.com&quot;,&quot;activo&quot;:true},{&quot;aforo&quot;:1,&quot;direccion&quot;:&quot;Ak. 56 #17-30, Bogotá, Cundinamarca&quot;,&quot;documento&quot;:&quot;AP34567890&quot;,&quot;nombre&quot;:&quot;PracticanteNombre4&quot;,&quot;infoSesion&quot;:null,&quot;tipoDocumento&quot;:&quot;Pasaporte&quot;,&quot;enfoque&quot;:&quot;Sistemico&quot;,&quot;apellido&quot;:&quot;PracticanteApellido4&quot;,&quot;tipoUsuario&quot;:&quot;Practicante&quot;,&quot;pregrado&quot;:true,&quot;id&quot;:&quot;yvPNkLU5j2PNsBNLjaiXRikXSqM2&quot;,&quot;telefono&quot;:&quot;3104033333&quot;,&quot;semestre&quot;:9,&quot;email&quot;:&quot;practicante4@gmail.com&quot;,&quot;activo&quot;:true},{&quot;tipoDocumento&quot;:&quot;Pasaporte&quot;,&quot;enfoque&quot;:&quot;Sistemico&quot;,&quot;apellido&quot;:&quot;SupervisorApellido1&quot;,&quot;direccion&quot;:&quot;Ak. 15 #179-30, Bogotá, Cundinamarca&quot;,&quot;documento&quot;:&quot;AP34537840&quot;,&quot;tipoUsuario&quot;:&quot;Supervisor&quot;,&quot;id&quot;:&quot;ye4QvNuLkyNbAGz7CsENNtxhMry1&quot;,&quot;telefono&quot;:&quot;3004039843&quot;,&quot;nombre&quot;:&quot;SupervisorNombre1&quot;,&quot;email&quot;:&quot;supervisor1@gmail.com&quot;,&quot;infoSesion&quot;:null},{&quot;tipoDocumento&quot;:&quot;Pasaporte&quot;,&quot;enfoque&quot;:&quot;Sistemico&quot;,&quot;apellido&quot;:&quot;SupervisorApellido2&quot;,&quot;direccion&quot;:&quot;Ak. 15 #124-30, Bogotá, Cundinamarca&quot;,&quot;documento&quot;:&quot;AP34567124&quot;,&quot;tipoUsuario&quot;:&quot;Supervisor&quot;,&quot;id&quot;:&quot;npsQVG62qbcPPuR55oMo2uIaTyy2&quot;,&quot;telefono&quot;:&quot;3104039122&quot;,&quot;nombre&quot;:&quot;SupervisorNombre2&quot;,&quot;email&quot;:&quot;supervisor2@gmail.com&quot;,&quot;infoSesion&quot;:null},{&quot;tipoDocumento&quot;:&quot;Cédula de Ciudadanía&quot;,&quot;enfoque&quot;:&quot;Psicoanalítico&quot;,&quot;apellido&quot;:&quot;SupervisorApellido3&quot;,&quot;direccion&quot;:&quot;Ak. 15 #145-30, Bogotá, Cundinamarca&quot;,&quot;documento&quot;:&quot;1237527124&quot;,&quot;tipoUsuario&quot;:&quot;Supervisor&quot;,&quot;id&quot;:&quot;sWcxD8xAPsV8roOfNYrOoLXNKrr2&quot;,&quot;telefono&quot;:&quot;3102469122&quot;,&quot;nombre&quot;:&quot;SupervisorNombre3&quot;,&quot;email&quot;:&quot;supervisor3@gmail.com&quot;,&quot;infoSesion&quot;:null},{&quot;tipoDocumento&quot;:&quot;Cédula de Ciudadanía&quot;,&quot;enfoque&quot;:&quot;Comportamental&quot;,&quot;apellido&quot;:&quot;SupervisorApellido4&quot;,&quot;direccion&quot;:&quot;Ak. 23 #167-30, Bogotá, Cundinamarca&quot;,&quot;documento&quot;:&quot;1237527124&quot;,&quot;tipoUsuario&quot;:&quot;Supervisor&quot;,&quot;id&quot;:&quot;guhpu8qp6eYuYFu3djNV0mm3C9N2&quot;,&quot;telefono&quot;:&quot;3102469188&quot;,&quot;nombre&quot;:&quot;SupervisorNombre4&quot;,&quot;email&quot;:&quot;supervisor4@gmail.com&quot;,&quot;infoSesion&quot;:null},{&quot;estadoAprobado&quot;:&quot;PendienteAprobacion&quot;,&quot;direccion&quot;:&quot;Calle 187 Bis #20-45&quot;,&quot;grupo&quot;:null,&quot;documento&quot;:&quot;1020811084&quot;,&quot;nombre&quot;:&quot;Daniel&quot;,&quot;edad&quot;:25,&quot;infoSesion&quot;:null,&quot;tipoDocumento&quot;:&quot;Cédula de Ciudadanía&quot;,&quot;acudientes&quot;:[],&quot;remitido&quot;:false,&quot;apellido&quot;:&quot;Fernández&quot;,&quot;tipoUsuario&quot;:&quot;Paciente&quot;,&quot;estrato&quot;:4,&quot;id&quot;:&quot;O6mFo3YgfnUUlBUQ2RqgpKqZpc03&quot;,&quot;telefono&quot;:&quot;3103106722&quot;,&quot;email&quot;:&quot;dafeul@gmail.com&quot;,&quot;supervisor&quot;:null},{&quot;estadoAprobado&quot;:&quot;PendienteAprobacion&quot;,&quot;direccion&quot;:&quot;Carrera 13 #98-21&quot;,&quot;grupo&quot;:null,&quot;documento&quot;:&quot;1030833859&quot;,&quot;nombre&quot;:&quot;Pablo&quot;,&quot;edad&quot;:21,&quot;infoSesion&quot;:null,&quot;tipoDocumento&quot;:&quot;Cédula de Ciudadanía&quot;,&quot;acudientes&quot;:[],&quot;remitido&quot;:true,&quot;apellido&quot;:&quot;Pulido&quot;,&quot;tipoUsuario&quot;:&quot;Paciente&quot;,&quot;estrato&quot;:4,&quot;id&quot;:&quot;3cCblmh8oaPvqUcR4jv1LEFv4BC3&quot;,&quot;telefono&quot;:&quot;3203736717&quot;,&quot;email&quot;:&quot;pablopulido190@gmail.com&quot;,&quot;supervisor&quot;:null},{&quot;estadoAprobado&quot;:&quot;PreAprobado&quot;,&quot;direccion&quot;:&quot;Calle 100 #35-50&quot;,&quot;grupo&quot;:null,&quot;documento&quot;:&quot;1020744973&quot;,&quot;nombre&quot;:&quot;David&quot;,&quot;edad&quot;:22,&quot;infoSesion&quot;:null,&quot;tipoDocumento&quot;:&quot;Cédula de Ciudadanía&quot;,&quot;acudientes&quot;:[],&quot;remitido&quot;:false,&quot;apellido&quot;:&quot;Herrera&quot;,&quot;tipoUsuario&quot;:&quot;Paciente&quot;,&quot;estrato&quot;:4,&quot;id&quot;:&quot;BD7XzKpVG1gyBcwMQrrXcXJWn2q1&quot;,&quot;telefono&quot;:&quot;3204581037&quot;,&quot;email&quot;:&quot;david18hc@gmail.com&quot;,&quot;supervisor&quot;:null},{&quot;estadoAprobado&quot;:&quot;Aprobado&quot;,&quot;direccion&quot;:&quot;Carrera 7B #54-32&quot;,&quot;grupo&quot;:null,&quot;documento&quot;:&quot;1010744822&quot;,&quot;nombre&quot;:&quot;Geraldine&quot;,&quot;edad&quot;:22,&quot;infoSesion&quot;:null,&quot;tipoDocumento&quot;:&quot;Cédula de Ciudadanía&quot;,&quot;acudientes&quot;:[],&quot;remitido&quot;:true,&quot;apellido&quot;:&quot;Gómez&quot;,&quot;tipoUsuario&quot;:&quot;Paciente&quot;,&quot;estrato&quot;:4,&quot;id&quot;:&quot;ZumcTA445uVSbF56PsGJieR6TOM2&quot;,&quot;telefono&quot;:&quot;3104379861&quot;,&quot;email&quot;:&quot;geraldinegomez070@gmail.com&quot;,&quot;supervisor&quot;:null},{&quot;tipoDocumento&quot;:&quot;Cédula de Ciudadanía&quot;,&quot;apellido&quot;:&quot;Auxiliador&quot;,&quot;direccion&quot;:null,&quot;documento&quot;:&quot;1015479406&quot;,&quot;tipoUsuario&quot;:&quot;Auxiliar Administrativo&quot;,&quot;id&quot;:&quot;weWmlfoVRVSTMv0SOKWMaJFPU9y1&quot;,&quot;telefono&quot;:&quot;3132311874&quot;,&quot;nombre&quot;:&quot;Auxiliar&quot;,&quot;email&quot;:&quot;auxiliar@gmail.com&quot;,&quot;infoSesion&quot;:null},{&quot;estadoAprobado&quot;:&quot;PendienteAprobacion&quot;,&quot;direccion&quot;:&quot;Callle &quot;,&quot;grupo&quot;:null,&quot;documento&quot;:&quot;1234567890&quot;,&quot;nombre&quot;:&quot;Grupo30&quot;,&quot;edad&quot;:0,&quot;infoSesion&quot;:null,&quot;tipoDocumento&quot;:&quot;Cédula de Ciudadanía&quot;,&quot;acudientes&quot;:[],&quot;remitido&quot;:false,&quot;apellido&quot;:&quot;Grupo30&quot;,&quot;tipoUsuario&quot;:&quot;Paciente&quot;,&quot;estrato&quot;:3,&quot;id&quot;:&quot;t8PG3ZjTpCUhHacKSmQrcBkTEhz2&quot;,&quot;telefono&quot;:&quot;12345678&quot;,&quot;email&quot;:&quot;Grupo30@Grupo30.com&quot;,&quot;supervisor&quot;:null},{&quot;estadoAprobado&quot;:&quot;PendienteAprobacion&quot;,&quot;direccion&quot;:&quot;adadda&quot;,&quot;grupo&quot;:null,&quot;documento&quot;:&quot;123456789&quot;,&quot;nombre&quot;:&quot;Grupo31&quot;,&quot;edad&quot;:0,&quot;infoSesion&quot;:null,&quot;tipoDocumento&quot;:&quot;Cédula de Ciudadanía&quot;,&quot;acudientes&quot;:[],&quot;remitido&quot;:false,&quot;apellido&quot;:&quot;Grupo31&quot;,&quot;tipoUsuario&quot;:&quot;Paciente&quot;,&quot;estrato&quot;:4,&quot;id&quot;:&quot;2nRmgUWlnTZvcNiegOwFFc4f6R43&quot;,&quot;telefono&quot;:&quot;232312&quot;,&quot;email&quot;:&quot;Grupo31@Grupo31.com&quot;,&quot;supervisor&quot;:null},{&quot;estadoAprobado&quot;:&quot;PendienteAprobacion&quot;,&quot;direccion&quot;:&quot;scascacsac&quot;,&quot;grupo&quot;:null,&quot;documento&quot;:&quot;123456789&quot;,&quot;nombre&quot;:&quot;Grupo32&quot;,&quot;edad&quot;:0,&quot;infoSesion&quot;:null,&quot;tipoDocumento&quot;:&quot;Cédula de Ciudadanía&quot;,&quot;acudientes&quot;:[],&quot;remitido&quot;:false,&quot;apellido&quot;:&quot;Grupo32&quot;,&quot;tipoUsuario&quot;:&quot;Paciente&quot;,&quot;estrato&quot;:3,&quot;id&quot;:&quot;5O3zVdr3RGTrMeSMec4DeDxnzfh1&quot;,&quot;telefono&quot;:&quot;123456789&quot;,&quot;email&quot;:&quot;Grupo32@Grupo32.com&quot;,&quot;supervisor&quot;:null},{&quot;estadoAprobado&quot;:&quot;PendienteAprobacion&quot;,&quot;direccion&quot;:&quot;dadsaadda&quot;,&quot;grupo&quot;:null,&quot;documento&quot;:&quot;1234567&quot;,&quot;nombre&quot;:&quot;Grupo33&quot;,&quot;edad&quot;:0,&quot;infoSesion&quot;:null,&quot;tipoDocumento&quot;:&quot;Cédula de Ciudadanía&quot;,&quot;acudientes&quot;:[],&quot;remitido&quot;:false,&quot;apellido&quot;:&quot;Grupo33&quot;,&quot;tipoUsuario&quot;:&quot;Paciente&quot;,&quot;estrato&quot;:3,&quot;id&quot;:&quot;DxoSK0zRa9bKwEnI4M22MB63yy33&quot;,&quot;telefono&quot;:&quot;12345678&quot;,&quot;email&quot;:&quot;Grupo33@Grupo33.com&quot;,&quot;supervisor&quot;:null},{&quot;estadoAprobado&quot;:&quot;PendienteAprobacion&quot;,&quot;direccion&quot;:&quot;312312312&quot;,&quot;grupo&quot;:null,&quot;documento&quot;:&quot;1234567&quot;,&quot;nombre&quot;:&quot;Grupo60&quot;,&quot;edad&quot;:0,&quot;infoSesion&quot;:null,&quot;tipoDocumento&quot;:&quot;Cédula de Ciudadanía&quot;,&quot;acudientes&quot;:[],&quot;remitido&quot;:true,&quot;apellido&quot;:&quot;Grupo60&quot;,&quot;tipoUsuario&quot;:&quot;Paciente&quot;,&quot;estrato&quot;:3,&quot;id&quot;:&quot;5hCOLF2cdmRdHu6c7YHOcfeEOtH2&quot;,&quot;telefono&quot;:&quot;daadsads&quot;,&quot;email&quot;:&quot;Grupo60@Grupo60.com&quot;,&quot;supervisor&quot;:null},{&quot;estadoAprobado&quot;:&quot;PendienteAprobacion&quot;,&quot;direccion&quot;:&quot;dasdas&quot;,&quot;grupo&quot;:null,&quot;documento&quot;:&quot;12345678&quot;,&quot;nombre&quot;:&quot;Grupo61&quot;,&quot;edad&quot;:0,&quot;infoSesion&quot;:null,&quot;tipoDocumento&quot;:&quot;Cédula de Ciudadanía&quot;,&quot;acudientes&quot;:[],&quot;remitido&quot;:true,&quot;apellido&quot;:&quot;Grupo61&quot;,&quot;tipoUsuario&quot;:&quot;Paciente&quot;,&quot;estrato&quot;:3,&quot;id&quot;:&quot;G6unzBReDyYAQx7vkHGFhVw5FT72&quot;,&quot;telefono&quot;:&quot;231231&quot;,&quot;email&quot;:&quot;Grupo61@Grupo61.com&quot;,&quot;supervisor&quot;:null},{&quot;estadoAprobado&quot;:&quot;PendienteAprobacion&quot;,&quot;direccion&quot;:&quot;dadad&quot;,&quot;grupo&quot;:null,&quot;documento&quot;:&quot;21212222222&quot;,&quot;nombre&quot;:&quot;aaa&quot;,&quot;edad&quot;:78,&quot;infoSesion&quot;:null,&quot;tipoDocumento&quot;:&quot;Cédula de Ciudadanía&quot;,&quot;acudientes&quot;:[],&quot;remitido&quot;:true,&quot;apellido&quot;:&quot;aaa&quot;,&quot;tipoUsuario&quot;:&quot;Paciente&quot;,&quot;estrato&quot;:3,&quot;id&quot;:&quot;8PPGt1RgB0PZ7mHR50BJOgNruFy2&quot;,&quot;telefono&quot;:&quot;231312&quot;,&quot;email&quot;:&quot;sasasasasa@asasasasas.com&quot;,&quot;supervisor&quot;:null},{&quot;tipoDocumento&quot;:&quot;Cédula de Ciudadanía&quot;,&quot;apellido&quot;:&quot;Caicedo Erazo&quot;,&quot;direccion&quot;:&quot;Avenida Cra 30&quot;,&quot;documento&quot;:&quot;51808877&quot;,&quot;tipoUsuario&quot;:&quot;Auxiliar Administrativo&quot;,&quot;id&quot;:&quot;SzIl8SFWCxRrInIgXJ1j3GDXUnS2&quot;,&quot;telefono&quot;:&quot;3132311874&quot;,&quot;nombre&quot;:&quot;Adriana Patricia&quot;,&quot;email&quot;:&quot;patricaicedo@gmail.com&quot;,&quot;infoSesion&quot;:null}]
+</div>   
+
+  
+
+</div>
+</div>
+          <div><div>
+  
+
+  
+
+  <div class="step-row">
+    <div class="step-container" id="0.9">
+      <div class="step-ref passed">9</div>
+      
+      <div class="step-cell passed">
+        <span>Then</span>&nbsp;<span>status 200</span>
+      </div>
+    </div>
+    <div class="time-cell passed">0</div>
+  </div>
+
+   
+  
+  
+
+  
+
+     
+
+  
+
+</div>
+</div>
+        </div>
+        <div class="scenario">
+          <div class="scenario-heading" id="[2:11]">
+            <div class="heading-container">
+              <div class="scenario-tags">
+                
+              </div>
+              <div class="scenario-keyword">
+                Scenario: <span>[2:11]</span>
+                <span class="scenario-name">Obtener usuarios por el email</span>
+                <span></span>
+              </div>
+            </div>
+            <div class="scenario-time passed">
+              <span>ms:</span>&nbsp;<span>631</span>
+            </div>
+          </div>
+          <div class="step-row">
+            <div class="step-container" id="[2:11]bg">
+              <div class="step-ref bg-step">&gt;&gt;</div>
+              <div class="step-cell passed">Background:</div>
+            </div>
+            <div class="time-cell passed"></div>
+          </div>
+          <div data-parent="[2:11]bg"><div>
+  
+
+  
+
+  <div class="step-row">
+    <div class="step-container" id="0.4">
+      <div class="step-ref bg-step">4</div>
+      
+      <div class="step-cell passed">
+        <span>*</span>&nbsp;<span>url &#39;http://localhost:8082/usuarios&#39;</span>
+      </div>
+    </div>
+    <div class="time-cell passed">0</div>
+  </div>
+
+   
+  
+  
+
+  
+
+  <div class="preformatted" data-parent="0.4">21:22:13.739 karate.env system property was: null 
+</div>   
+
+  
+
+</div>
+</div>
+          <div data-parent="[2:11]bg"><div>
+  
+
+  
+
+  <div class="step-row">
+    <div class="step-container" id="0.5">
+      <div class="step-ref bg-step">5</div>
+      
+      <div class="step-cell passed">
+        <span>*</span>&nbsp;<span>configure headers = { Authorization : &#39;Bearer eyJhbGciOiJSUzI1NiIsImtpZCI6IjNkOWNmYWE4OGVmMDViNDI0YmU2MjA1ZjQ2YjE4OGQ3MzI1N2JjNDIiLCJ0eXAiOiJKV1QifQ.eyJpc3MiOiJodHRwczovL3NlY3VyZXRva2VuLmdvb2dsZS5jb20vdGVsZXBzaWNvLTFlOWM4IiwiYXVkIjoidGVsZXBzaWNvLTFlOWM4IiwiYXV0aF90aW1lIjoxNjIxMzg4ODQ0LCJ1c2VyX2lkIjoiQkQ3WHpLcFZHMWd5QmN3TVFyclhjWEpXbjJxMSIsInN1YiI6IkJEN1h6S3BWRzFneUJjd01RcnJYY1hKV24ycTEiLCJpYXQiOjE2MjEzODg4NDQsImV4cCI6MTYyMTM5MjQ0NCwiZW1haWwiOiJkYXZpZDE4aGNAZ21haWwuY29tIiwiZW1haWxfdmVyaWZpZWQiOmZhbHNlLCJmaXJlYmFzZSI6eyJpZGVudGl0aWVzIjp7ImVtYWlsIjpbImRhdmlkMThoY0BnbWFpbC5jb20iXX0sInNpZ25faW5fcHJvdmlkZXIiOiJwYXNzd29yZCJ9fQ.aZirAmXKHHriK2hBe0N0E5sT-owA4DSer2UCriiMOcJUdmG-nYjGAoGFAJCg-Zvy8tNWPDjd4ccEbo7QgJvH6ZnvAKHSwrUrVjVxag7czp4fhZWClY1gdZJ1AfA0kOAZcp3QDpTEZJMPZyoQhMgSVFjIouZzrl5ruL9smI0DRXN9QixLPfy5By8_lRKTdRteGA47utva-M11f5-yOivQq1hd9uLs3f0_8K4zKFe7Sz4IYFSBjyVEm2PvBEGTFL7hrrMe0upBiQx5WVsidD1m3Fow7v_mb8FnV8bkU-4THqd2pAKOYvrDKx-EZBhUOrXox7Np8cuQMolJZ8b5m9GEaw&#39;}</span>
+      </div>
+    </div>
+    <div class="time-cell passed">0</div>
+  </div>
+
+   
+  
+  
+
+  
+
+     
+
+  
+
+</div>
+</div>
+          <div><div>
+  
+
+  
+
+  <div class="step-row">
+    <div class="step-container" id="0.12">
+      <div class="step-ref passed">12</div>
+      
+      <div class="step-cell passed">
+        <span>Given</span>&nbsp;<span>path &#39;/email/david18hc@gmail.com&#39;</span>
+      </div>
+    </div>
+    <div class="time-cell passed">0</div>
+  </div>
+
+   
+  
+  
+
+  
+
+     
+
+  
+
+</div>
+</div>
+          <div><div>
+  
+
+  
+
+  <div class="step-row">
+    <div class="step-container" id="0.13">
+      <div class="step-ref passed">13</div>
+      
+      <div class="step-cell passed">
+        <span>When</span>&nbsp;<span>method get</span>
+      </div>
+    </div>
+    <div class="time-cell passed">631</div>
+  </div>
+
+   
+  
+  
+
+  
+
+  <div class="preformatted" data-parent="0.13">21:22:13.740 request:
+1 &gt; GET http://localhost:8082/usuarios/email/david18hc@gmail.com
+1 &gt; Authorization: Bearer eyJhbGciOiJSUzI1NiIsImtpZCI6IjNkOWNmYWE4OGVmMDViNDI0YmU2MjA1ZjQ2YjE4OGQ3MzI1N2JjNDIiLCJ0eXAiOiJKV1QifQ.eyJpc3MiOiJodHRwczovL3NlY3VyZXRva2VuLmdvb2dsZS5jb20vdGVsZXBzaWNvLTFlOWM4IiwiYXVkIjoidGVsZXBzaWNvLTFlOWM4IiwiYXV0aF90aW1lIjoxNjIxMzg4ODQ0LCJ1c2VyX2lkIjoiQkQ3WHpLcFZHMWd5QmN3TVFyclhjWEpXbjJxMSIsInN1YiI6IkJEN1h6S3BWRzFneUJjd01RcnJYY1hKV24ycTEiLCJpYXQiOjE2MjEzODg4NDQsImV4cCI6MTYyMTM5MjQ0NCwiZW1haWwiOiJkYXZpZDE4aGNAZ21haWwuY29tIiwiZW1haWxfdmVyaWZpZWQiOmZhbHNlLCJmaXJlYmFzZSI6eyJpZGVudGl0aWVzIjp7ImVtYWlsIjpbImRhdmlkMThoY0BnbWFpbC5jb20iXX0sInNpZ25faW5fcHJvdmlkZXIiOiJwYXNzd29yZCJ9fQ.aZirAmXKHHriK2hBe0N0E5sT-owA4DSer2UCriiMOcJUdmG-nYjGAoGFAJCg-Zvy8tNWPDjd4ccEbo7QgJvH6ZnvAKHSwrUrVjVxag7czp4fhZWClY1gdZJ1AfA0kOAZcp3QDpTEZJMPZyoQhMgSVFjIouZzrl5ruL9smI0DRXN9QixLPfy5By8_lRKTdRteGA47utva-M11f5-yOivQq1hd9uLs3f0_8K4zKFe7Sz4IYFSBjyVEm2PvBEGTFL7hrrMe0upBiQx5WVsidD1m3Fow7v_mb8FnV8bkU-4THqd2pAKOYvrDKx-EZBhUOrXox7Np8cuQMolJZ8b5m9GEaw
+1 &gt; Host: localhost:8082
+1 &gt; Connection: Keep-Alive
+1 &gt; User-Agent: Apache-HttpClient/4.5.13 (Java/11.0.10)
+1 &gt; Accept-Encoding: gzip,deflate
+
+
+21:22:14.369 response time in milliseconds: 628
+1 &lt; 200
+1 &lt; Vary: [Origin, Access-Control-Request-Method, Access-Control-Request-Headers]
+1 &lt; Content-Disposition: inline;filename=f.txt
+1 &lt; X-Content-Type-Options: nosniff
+1 &lt; X-XSS-Protection: 1; mode=block
+1 &lt; Cache-Control: no-cache, no-store, max-age=0, must-revalidate
+1 &lt; Pragma: no-cache
+1 &lt; Expires: 0
+1 &lt; X-Frame-Options: DENY
+1 &lt; Content-Type: application/json;charset=UTF-8
+1 &lt; Transfer-Encoding: chunked
+1 &lt; Date: Wed, 19 May 2021 02:22:13 GMT
+1 &lt; Keep-Alive: timeout=60
+1 &lt; Connection: keep-alive
+{&quot;estadoAprobado&quot;:&quot;PreAprobado&quot;,&quot;direccion&quot;:&quot;Calle 100 #35-50&quot;,&quot;grupo&quot;:null,&quot;documento&quot;:&quot;1020744973&quot;,&quot;nombre&quot;:&quot;David&quot;,&quot;edad&quot;:22,&quot;infoSesion&quot;:null,&quot;tipoDocumento&quot;:&quot;Cédula de Ciudadanía&quot;,&quot;acudientes&quot;:[],&quot;remitido&quot;:false,&quot;apellido&quot;:&quot;Herrera&quot;,&quot;tipoUsuario&quot;:&quot;Paciente&quot;,&quot;estrato&quot;:4,&quot;id&quot;:&quot;BD7XzKpVG1gyBcwMQrrXcXJWn2q1&quot;,&quot;telefono&quot;:&quot;3204581037&quot;,&quot;email&quot;:&quot;david18hc@gmail.com&quot;,&quot;supervisor&quot;:null}
+</div>   
+
+  
+
+</div>
+</div>
+          <div><div>
+  
+
+  
+
+  <div class="step-row">
+    <div class="step-container" id="0.14">
+      <div class="step-ref passed">14</div>
+      
+      <div class="step-cell passed">
+        <span>Then</span>&nbsp;<span>status 200</span>
+      </div>
+    </div>
+    <div class="time-cell passed">0</div>
+  </div>
+
+   
+  
+  
+
+  
+
+     
+
+  
+
+</div>
+</div>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>
+

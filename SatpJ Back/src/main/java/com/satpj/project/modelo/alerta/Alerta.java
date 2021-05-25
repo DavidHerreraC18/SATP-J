@@ -14,28 +14,36 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 /**
- * Clase Alerta
- * Son los tipos de notificaciones que tiene la plataforma  
+ * Entidad Alerta
+ * Son los tipos de notificaciones que tiene la plataforma
  */
 @Getter
 @Setter
 @Entity
 @Table(name = "alerta")
 public class Alerta {
-    
-    @Id
+
+	/**
+     * Corresponde al id de la alerta. Es generado de forma automática. 
+     */
+	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "alerta_id")
 	private Long id;
-    
-	/*Relación con la tabla intermedia generada por la relación muchos a muchos */ 
+	
+	/* Relación con la tabla intermedia generada por la relación muchos a muchos */
 	@OneToMany(mappedBy = "alerta")
-	List<AlertaUsuario> alertasUsuario;
+	@JsonIgnore
+	private List<AlertaUsuario> alertasUsuario;
 
-    @NotNull(message="El Tipo de la Alarma es obligatorio")
+	/**
+     * Corresponde al tipo de alerta la cual es notificada al usuario. 
+     */
+	@NotNull(message = "El Tipo de la Alarma es obligatorio")
 	@Column(name = "tipo", nullable = false)
-    private String tipo;
+	private String tipo;
 
 }
